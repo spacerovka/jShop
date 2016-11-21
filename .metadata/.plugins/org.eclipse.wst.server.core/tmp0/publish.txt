@@ -1,0 +1,4 @@
+#Tomcat publish data
+#Mon Nov 21 17:54:06 EET 2016
+org.eclipse.jst.jee.server\:JShop=/home/mbrunarskiy/myprograms/sts-bundle/pivotal-tc-server-developer-3.2.0.RELEASE/base-instance/wtpwebapps/JShop
+org.eclipse.jst.jee.server\:/binary\:/home/mbrunarskiy/.m2/repository/org/springframework/spring-web/4.3.3.RELEASE/spring-web-4.3.3.RELEASE.jar=/home/mbrunarskiy/myprograms/sts-bundle/pivotal-tc-server-developer-3.2.0.RELEASE/base-instance/wtpwebapps/JShop/WEB-INF/lib/spring-web-4.3.3.RELEASE.jar
