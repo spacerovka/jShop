@@ -4,6 +4,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -93,9 +95,9 @@ public class AppContextConfig extends WebMvcConfigurerAdapter {
 //		return new StandardServletMultipartResolver();
 //	}
 //
-//	@Bean
-//	public ResourceLoader resourceLoader() {
-//		return new DefaultResourceLoader();
-//	}
+	@Bean
+	public ResourceLoader resourceLoader() {
+		return new DefaultResourceLoader();
+	}
 
 }
