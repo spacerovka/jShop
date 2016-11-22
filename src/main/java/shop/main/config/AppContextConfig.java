@@ -22,7 +22,6 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @Configuration
 @ComponentScan({ "shop.main.*" })
 @Import({SecurityConfig.class})
-//@Import({CompositeSecurityConfig.class})
 public class AppContextConfig extends WebMvcConfigurerAdapter {
 
 	@Override
