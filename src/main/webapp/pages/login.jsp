@@ -8,9 +8,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 </head>
-<body onload='document.loginForm.username.focus();'
+<body>
+<!--  onload='document.loginForm.username.focus();'
 style="background-image:url('http://i.imgur.com/OMtgtDj.jpg');
-background-size:cover;">
+background-size:cover;"> -->
 <c:if test="${not empty error}"><div>${error}</div></c:if>
 	<c:if test="${not empty message}"><div>${message}</div></c:if>
 

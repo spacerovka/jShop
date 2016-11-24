@@ -1,0 +1,10 @@
+INDEX VERSION 1.3+/home/mbrunarskiy/Desktop/Onyschenko_Svitlana/Projects/spring/.metadata/.plugins/org.eclipse.wst.jsdt.core/indexes
+3674435448.index
+1286934138.index
+2020043304.index
+1262868884.index
+3948352508.index
+862120123.index
+1374251454.index
+2681370860.index
+2218960733.index

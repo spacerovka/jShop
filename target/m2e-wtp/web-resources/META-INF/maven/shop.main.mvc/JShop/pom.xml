@@ -45,6 +45,13 @@
 			</exclusions>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-redis</artifactId>
+			<!-- <version>1.8.0.M1</version> -->
+		</dependency>
+
+
 		<!-- Spring Security -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
@@ -60,6 +67,25 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-config</artifactId>
 			<!-- <version>${spring.security.version}</version> -->
+		</dependency>
+
+		<!-- Spring ORM -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<!-- <version>${springframework.version}</version> -->
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-jpa</artifactId>
+			<!-- <version>${spring.jpa.data.version}</version> -->
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<!-- <version>${hibernate.version}</version> -->
 		</dependency>
 
 		<!-- Servlet 3/1 api -->
@@ -82,6 +108,12 @@
 			<artifactId>javax.servlet.jsp-api</artifactId>
 			<!-- <version>${jsp.version}</version> -->
 		</dependency>
+
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+		</dependency>
+
 
 		<!-- Logging -->
 
@@ -108,6 +140,101 @@
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
 			<!-- <version>2.3.4</version> -->
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<!-- <version>${springframework.version}</version> -->
+		</dependency>
+
+		<!-- mysql database driver -->
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<!-- <version>5.1.10</version> -->
+		</dependency>
+
+		<!-- REDIS Drivers -->
+
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+			<!-- <version>${jedis}</version> -->
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.spullara.redis</groupId>
+			<artifactId>client</artifactId>
+			<!-- <version>${srp}</version> -->
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>biz.paluch.redis</groupId>
+			<artifactId>lettuce</artifactId>
+			<!-- <version>${lettuce}</version> -->
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-pool2</artifactId>
+			<!-- <version>2.0</version> -->
+		</dependency>
+
+		<!--Mapper -->
+
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<!-- <version>1.8.8</version> -->
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<!-- <version>${jackson}</version> -->
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+			<!-- <version>${beanutils}</version> -->
+			<optional>true</optional>
+		</dependency>
+
+
+
+		<!-- json processing -->
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<!-- <version>2.2.3</version> -->
+		</dependency>
+
+		<!-- JUnit testing -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<!-- <version>${springframework.version}</version> -->
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<!-- <version>${junit.version}</version> -->
 		</dependency>
 
 	</dependencies>
@@ -142,11 +269,8 @@
 
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
-				<artifactId>tomcat8-maven-plugin</artifactId>
-				<version>3.0-r1655215</version>
-				<configuration>
-					<path>myProject</path>
-				</configuration>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.0</version>
 			</plugin>
 		</plugins>
 	</build>

@@ -8,10 +8,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 </head>
-<body 
-style="background-image:url('http://teenhdgirls.com/wp-content/uploads/11320810/Ass-X-Art-Kaylee-Miu-Perfect-Nude.jpg');
-background-size:cover;">
-<h1 style="position:absolute;top:50%;left:20%;font-size:60px;color:red;">Hello Admin!</h1>
+<body >
+<!-- style="background-image:url('http://teenhdgirls.com/wp-content/uploads/11320810/Ass-X-Art-Kaylee-Miu-Perfect-Nude.jpg');
+background-size:cover;"> -->
+<h1 style="top:50%;left:20%;font-size:60px;color:red;">Hello Admin!</h1>
 <security:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_USER')">
   <b>You are logged in as: </b><security:authentication property="principal.username"/>
   with the role of <security:authentication property="principal.authorities"/>
