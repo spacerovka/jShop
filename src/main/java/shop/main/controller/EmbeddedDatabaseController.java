@@ -48,7 +48,7 @@ public class EmbeddedDatabaseController {
 			data.add("username: "+ user.get("username"));
 			LOGGER.debug("username: "+ user.get("username"));
 		}
-		return new ModelAndView("embeded_db_test", "users", data);
+		return new ModelAndView("db_test/embeded_db_test", "users", data);
 	}
 	
 }

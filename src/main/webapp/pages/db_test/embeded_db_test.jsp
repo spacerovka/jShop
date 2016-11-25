@@ -8,7 +8,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<%@include file="template_parts/resources.jsp"%>
+<%@include file="../template_parts/resources.jsp"%>
 </head>
 <body
 	style="background-image: url('resources/img/main.jpg'); background-size: cover;">
@@ -34,6 +34,6 @@ background-size:cover;"> -->
 		Hello! <a href="${pageContext.request.contextPath}/login" style="font-size: 30px;">Login</a>
 	</h1>
 	
-	<%@include file="template_parts/footer.jsp"%>
+	<%@include file="../template_parts/footer.jsp"%>
 </body>
 </html>

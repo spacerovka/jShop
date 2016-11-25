@@ -10,9 +10,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-<core:if test="${not empty students}">
-			<core:forEach var="user" items="${students}">
-				<p><core:out value="${students}"/></p>
+<core:if test="${not empty orders}">
+			<core:forEach var="order" items="${orders}">
+				<p><core:out value="${order}"/></p>
 			</core:forEach>
 		</core:if>
 </body>
