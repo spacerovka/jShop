@@ -1,9 +1,11 @@
 package shop.main.data.mongo;
 
 import java.math.BigDecimal;
+import java.util.Map;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Document(collection = "orders")
 public class Order {
@@ -12,8 +14,8 @@ public class Order {
 	private String orderId;
 	private int number;
 	private BigDecimal summ;
-	private String product_name;
-	private int product_quantity;
+	@Field("sub")
+	private Map<String, OrderProduct> product_list;
 
 	public String getOrderId() {
 		return orderId;
@@ -39,23 +41,24 @@ public class Order {
 		this.summ = summ;
 	}
 
-	public String getProduct_name() {
-		return product_name;
+	public Map<String, OrderProduct> getProduct_list() {
+		return product_list;
 	}
 
-	public void setProduct_name(String product_name) {
-		this.product_name = product_name;
+	public void setProduct_list(Map<String, OrderProduct> product_list) {
+		this.product_list = product_list;
 	}
 
-	public int getProduct_quantity() {
-		return product_quantity;
+	@Override
+	public String toString() {
+		StringBuilder products = new StringBuilder("[");
+		for(Map.Entry<String, OrderProduct> product : product_list.entrySet()) {
+			products.append("<"+product.getValue().toString()+">");
+		}
+		products.append("]");
+		return "Order [orderId=" + orderId + ", number=" + number + ", summ=" + summ + ", product_list=" + products
+				+ "]";
 	}
-
-	public void setProduct_quantity(int product_quantity) {
-		this.product_quantity = product_quantity;
-	}
-
-	
 
 	@Override
 	public int hashCode() {
@@ -63,8 +66,6 @@ public class Order {
 		int result = 1;
 		result = prime * result + number;
 		result = prime * result + ((orderId == null) ? 0 : orderId.hashCode());
-		result = prime * result + ((product_name == null) ? 0 : product_name.hashCode());
-		result = prime * result + product_quantity;
 		result = prime * result + ((summ == null) ? 0 : summ.hashCode());
 		return result;
 	}
@@ -85,13 +86,6 @@ public class Order {
 				return false;
 		} else if (!orderId.equals(other.orderId))
 			return false;
-		if (product_name == null) {
-			if (other.product_name != null)
-				return false;
-		} else if (!product_name.equals(other.product_name))
-			return false;
-		if (product_quantity != other.product_quantity)
-			return false;
 		if (summ == null) {
 			if (other.summ != null)
 				return false;
@@ -100,10 +94,6 @@ public class Order {
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		return "Order [number=" + number + ", summ=" + summ + ", product_name=" + product_name + ", product_quantity="
-				+ product_quantity + "]";
-	}
+	
 
 }

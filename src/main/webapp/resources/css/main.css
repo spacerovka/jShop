@@ -24,7 +24,7 @@ body {
 .text-muted {
 	margin: 20px 0;
 }
-/* Main page styles styles
+/* Main styles
 -------------------------------------------------- */
 .hero-spacer {
 	margin-top: 50px;
@@ -32,6 +32,25 @@ body {
 
 .hero-feature {
 	margin-bottom: 30px;
+}
+
+.box {
+    margin-bottom: 20px;
+    padding: 30px 15px;
+    background: #fff;
+    background: rgba(255,255,255,0.9);
+}
+
+.intro-text {
+    text-transform: uppercase;
+    font-size: 1.25em;
+    font-weight: 400;
+    letter-spacing: 1px;
+}
+
+.underline {
+    max-width: 400px;
+    border-color: #999999;
 }
 
 /* Custom colors

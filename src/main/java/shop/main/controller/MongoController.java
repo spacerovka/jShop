@@ -3,6 +3,7 @@ package shop.main.controller;
 import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import shop.main.data.mongo.Order;
+import shop.main.data.mongo.OrderProduct;
 import shop.main.data.mongo.OrderRepository;
 
 @Controller
@@ -23,23 +25,25 @@ public class MongoController {
 
 	@RequestMapping(value = "/mongo")
 	public ModelAndView displayUsers(Principal principal) {
-		// embedded database
-		/*Order order = new Order();
+
+		orderRepository.deleteAll();
+
+		Order order = new Order();	
 		
-		order.setProduct_name("Lovely thing");
-		order.setProduct_quantity(3);
-		order.setSumm(new BigDecimal(100.66));
+		order.setSumm(new BigDecimal(335+395));
 		order.setNumber(order.hashCode());
 		
-		Order order2 = new Order();
-		
-		order2.setProduct_name("Pink thing");
-		order2.setProduct_quantity(6);
-		order2.setSumm(new BigDecimal(17.99));
-		order2.setNumber(order2.hashCode());
+		OrderProduct prod1= new OrderProduct("Lovely thing", new BigDecimal(33.5), 10);
+		prod1.setProductId("00987654");
+		OrderProduct prod2= new OrderProduct("Pink thing", new BigDecimal(39.5), 10);
+		prod2.setProductId("8765490");
+
+		Map<String, OrderProduct> products = new HashMap<String, OrderProduct>();
+		products.put(prod1.getProductId(), prod1);
+		products.put(prod2.getProductId(), prod2);
+		order.setProduct_list(products);		
 		
         orderRepository.save(order);
-        orderRepository.save(order2);*/
         List<Order> data = orderRepository.findAll();        
 				
 		return new ModelAndView("db_test/order_test", "orders", data);
