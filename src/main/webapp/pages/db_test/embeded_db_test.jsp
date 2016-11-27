@@ -10,11 +10,10 @@
 <title>Insert title here</title>
 <%@include file="../template_parts/resources.jsp"%>
 </head>
-<body
-	style="background-image: url('resources/img/main.jpg'); background-size: cover;">
+<body>
 	<!-- style="background-image:url('http://s57.radikal.ru/i156/1410/ba/c69a205d33d5.jpg');
 background-size:cover;"> -->
-
+<%@include file="../template_parts/navbar.jsp"%>
 
 	<div class="container"
 	style="background: rgb(255, 255, 255) none repeat scroll 0% 0%; padding: 30px; opacity: 0.8;">
