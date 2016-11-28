@@ -29,7 +29,7 @@ public class ProductOption {
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="optiongroup_id", nullable=false)	
-	private OptionGroup optiongroup;
+	private OptionGroup optionGroup;
 	
 	@JsonIgnore
 	@ManyToOne
@@ -53,11 +53,11 @@ public class ProductOption {
 	}
 
 	public OptionGroup getOptiongroup() {
-		return optiongroup;
+		return optionGroup;
 	}
 
 	public void setOptiongroup(OptionGroup optiongroup) {
-		this.optiongroup = optiongroup;
+		this.optionGroup = optiongroup;
 	}
 
 	public Product getProduct() {
@@ -70,7 +70,7 @@ public class ProductOption {
 
 	@Override
 	public String toString() {
-		return "ProductOption [id=" + id + ", option_id=" + option_id + ", optiongroup=" + optiongroup + ", product="
+		return "ProductOption [id=" + id + ", option_id=" + option_id + ", optiongroup=" + optionGroup + ", product="
 				+ product + "]";
 	}
 	

@@ -10,9 +10,7 @@
 <title>Insert title here</title>
 <%@include file="template_parts/resources.jsp"%>
 </head>
-<body>
-	<!-- style="background-image:url('http://s57.radikal.ru/i156/1410/ba/c69a205d33d5.jpg');
-background-size:cover;"> -->
+<body>	
 <%@include file="template_parts/navbar.jsp"%>
 
 	<div class="container">

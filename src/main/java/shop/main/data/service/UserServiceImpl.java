@@ -13,7 +13,7 @@ import shop.main.data.objects.Category;
 import shop.main.data.objects.Product;
 import shop.main.data.objects.User;
 
-@Service("productService")
+@Service("userService")
 public class UserServiceImpl implements UserService{
 	
 	

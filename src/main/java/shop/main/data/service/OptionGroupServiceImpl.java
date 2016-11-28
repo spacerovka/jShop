@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import shop.main.data.DAO.OptionGroupDAO;
 import shop.main.data.objects.OptionGroup;
 
-@Service("productService")
+@Service("optionGroupService")
 public class OptionGroupServiceImpl implements OptionGroupService{
 	
 	

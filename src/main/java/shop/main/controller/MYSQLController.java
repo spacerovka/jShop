@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -52,5 +53,13 @@ public class MYSQLController {
 	public ModelAndView displayCategory(Principal principal) {
 		List<Product> data = productService.listAll();
 		return new ModelAndView("category", "products", data);
+	}
+	
+	@RequestMapping(value = "/product")
+	public String displayProduct(Model model) {
+		Product data = productService.fingProductById(0L);
+		System.out.println(data.toString());
+		model.addAttribute("product",data);
+		return "product";
 	}
 }

@@ -7,8 +7,16 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import shop.main.data.service.CategoryService;
 import shop.main.data.service.CategoryServiceImpl;
+import shop.main.data.service.OptionGroupService;
+import shop.main.data.service.OptionGroupServiceImpl;
+import shop.main.data.service.OptionService;
+import shop.main.data.service.OptionServiceImpl;
+import shop.main.data.service.ProductOptionService;
+import shop.main.data.service.ProductOptionServiceImpl;
 import shop.main.data.service.ProductService;
 import shop.main.data.service.ProductServiceImpl;
+import shop.main.data.service.UserService;
+import shop.main.data.service.UserServiceImpl;
 
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.core.env.Environment;
@@ -129,5 +137,25 @@ public class DataConfig<DatabasePopulator> {
 	@Bean
 	public CategoryService categoryService() {
 		return new CategoryServiceImpl();
+	}
+	
+	@Bean
+	public UserService userService() {
+		return new UserServiceImpl();
+	}
+	
+	@Bean
+	public OptionService optionService() {
+		return new OptionServiceImpl();
+	}
+	
+	@Bean
+	public ProductOptionService productOptionService() {
+		return new ProductOptionServiceImpl();
+	}
+	
+	@Bean
+	public OptionGroupService optionGroupService() {
+		return new OptionGroupServiceImpl();
 	}
 }

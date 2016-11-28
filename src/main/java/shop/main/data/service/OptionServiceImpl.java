@@ -15,7 +15,7 @@ import shop.main.data.objects.Option;
 import shop.main.data.objects.Product;
 import shop.main.data.objects.User;
 
-@Service("productService")
+@Service("optionService")
 public class OptionServiceImpl implements OptionService{
 	
 	

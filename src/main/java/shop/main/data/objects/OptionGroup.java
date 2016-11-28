@@ -27,10 +27,10 @@ public class OptionGroup {
 	@Column(name = "optionGroupName", nullable = false, length=50)
 	private String optionGroupName;
 	
-	@OneToMany(mappedBy="optionGroup", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="optionGroup", fetch=FetchType.LAZY)
 	private List<Option> options;
 	
-	@OneToMany(mappedBy="optionGroup", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="optionGroup", fetch=FetchType.LAZY)
 	private List<ProductOption> productOptions;
 
 	public Long getId() {
