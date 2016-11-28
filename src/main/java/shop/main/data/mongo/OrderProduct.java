@@ -13,6 +13,9 @@ public class OrderProduct {
 	private BigDecimal price;
 	private String product_name;
 	private int product_quantity;
+	private String product_SKU;
+	private String cartDesc;
+	private String thumb;
 	
 	public OrderProduct() {
 		
@@ -48,17 +51,28 @@ public class OrderProduct {
 	}
 	public void setProduct_quantity(int product_quantity) {
 		this.product_quantity = product_quantity;
+	}	
+
+	public String getProduct_SKU() {
+		return product_SKU;
 	}
+
+	public void setProduct_SKU(String product_SKU) {
+		this.product_SKU = product_SKU;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((price == null) ? 0 : price.hashCode());
 		result = prime * result + ((productId == null) ? 0 : productId.hashCode());
+		result = prime * result + ((product_SKU == null) ? 0 : product_SKU.hashCode());
 		result = prime * result + ((product_name == null) ? 0 : product_name.hashCode());
 		result = prime * result + product_quantity;
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -78,6 +92,11 @@ public class OrderProduct {
 				return false;
 		} else if (!productId.equals(other.productId))
 			return false;
+		if (product_SKU == null) {
+			if (other.product_SKU != null)
+				return false;
+		} else if (!product_SKU.equals(other.product_SKU))
+			return false;
 		if (product_name == null) {
 			if (other.product_name != null)
 				return false;
@@ -87,12 +106,29 @@ public class OrderProduct {
 			return false;
 		return true;
 	}
+
+	public String getCartDesc() {
+		return cartDesc;
+	}
+
+	public void setCartDesc(String cartDesc) {
+		this.cartDesc = cartDesc;
+	}
+
+	public String getThumb() {
+		return thumb;
+	}
+
+	public void setThumb(String thumb) {
+		this.thumb = thumb;
+	}
+
 	@Override
 	public String toString() {
 		return "OrderProduct [productId=" + productId + ", price=" + price + ", product_name=" + product_name
-				+ ", product_quantity=" + product_quantity + "]";
+				+ ", product_quantity=" + product_quantity + ", product_SKU=" + product_SKU + ", cartDesc=" + cartDesc
+				+ ", thumb=" + thumb + "]";
 	}
-	
-	
+		
 	
 }

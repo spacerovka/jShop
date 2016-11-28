@@ -7,7 +7,8 @@ import org.springframework.data.repository.CrudRepository;
 import shop.main.data.objects.Category;
 import shop.main.data.objects.Product;
 
-public interface ProductDAO extends CrudRepository<Product, Long>{
-	List<Product> findAll();	
-	List<Product> findAllProductByCategory(Category category);
+public interface CategoryDAO extends CrudRepository<Category, Long>{
+	List<Category> findAll();
+	
+	//List<BlogPost> findAllBlogPostByUserAndTitleContaining(User user, String title);
 }

@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import shop.main.data.service.CategoryService;
+import shop.main.data.service.CategoryServiceImpl;
 import shop.main.data.service.ProductService;
 import shop.main.data.service.ProductServiceImpl;
 
@@ -106,12 +108,7 @@ public class DataConfig<DatabasePopulator> {
 		entityManagerFactory.setJpaProperties(jpaProperties);
 		return entityManagerFactory;
 	}
-	
-	@Bean
-	public ProductService productService() {
-		return new ProductServiceImpl();
-	}
-	
+			
 	//database populator
 	
 	private ResourceDatabasePopulator databasePopulator() {
@@ -122,5 +119,15 @@ public class DataConfig<DatabasePopulator> {
 		System.out.println("Populated database");
 		return databasePopulator;
 		
+	}
+	
+	@Bean
+	public ProductService productService() {
+		return new ProductServiceImpl();
+	}
+	
+	@Bean
+	public CategoryService categoryService() {
+		return new CategoryServiceImpl();
 	}
 }

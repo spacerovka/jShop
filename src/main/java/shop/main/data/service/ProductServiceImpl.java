@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import shop.main.data.DAO.ProductDAO;
+import shop.main.data.objects.Category;
 import shop.main.data.objects.Product;
 
 @Service("productService")
@@ -44,6 +45,12 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ProductServiceImpl.
 	public List<Product> listAll() {
 		// TODO Auto-generated method stub
 		return productDAO.findAll();
+	}
+
+	@Override
+	public List<Product> findAllProductByCategory(Category category) {
+		// TODO Auto-generated method stub
+		return productDAO.findAllProductByCategory(category);
 	}
 
 }

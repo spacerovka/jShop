@@ -1,44 +1,72 @@
 package shop.main.data.objects;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name="product")
+@Table(name = "product")
 public class Product {
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="id", unique=true, nullable=false)
-	private Long id;
-	
-	@Column(name="shop_code", nullable=false)
-	private String shop_code;
-	
-	@Column(name="name", nullable=false)
-	private String name;
-	
-	@Column(name="quantity_available", nullable=true)
-	private int quantity_available;
-	
-	@Column(name="price", nullable=false)
-	private BigDecimal price;
 
-	/*@JsonIgnore
-	@ManyToOne
-	@JoinColumn(name="category_id", nullable=false)
-	private Category category_id;*/
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id", unique = true, nullable = false)
+	private Long id;
+
+	@Column(name = "SKU", nullable = false, length=50)
+	private String SKU;
+
+	@Column(name = "name", nullable = false, length=100)
+	private String name;
+
+	@Column(name = "instock", nullable = true)
+	private int instock;
+
+	@Column(name = "price", nullable = false, precision=12, scale=2)
+	private BigDecimal price;
 	
+	@Column(name = "cartDesc", nullable = true, length=250)
+	private String cartDesc;
+	
+	@Column(name = "shortDesc", nullable = true, length=1000)
+	private String shortDesc;
+	
+	@Column(name = "longDesc", nullable = true)
+	private String longDesc;
+	
+	@Column(name = "thumb", nullable = true, length=100)
+	private String thumb;
+	
+	@Column(name = "image", nullable = true, length=100)
+	private String image;
+	
+	@Column(name = "active", nullable = false)
+	private boolean active;
+	
+	@Column(name = "location", nullable = true, length=250)
+	private String location;
+
+	@JsonIgnore
+	@ManyToOne
+	@JoinColumn(name="category_id", nullable=false) 
+	private Category category;
+	 
+	@OneToMany(mappedBy="product", fetch=FetchType.EAGER)
+	private List<ProductOption> productOptions;
+	 
+
 	public Long getId() {
 		return id;
 	}
@@ -47,12 +75,12 @@ public class Product {
 		this.id = id;
 	}
 
-	public String getShop_code() {
-		return shop_code;
+	public String getSKU() {
+		return SKU;
 	}
 
-	public void setShop_code(String shop_code) {
-		this.shop_code = shop_code;
+	public void setSKU(String SKU) {
+		this.SKU = SKU;
 	}
 
 	public String getName() {
@@ -63,12 +91,12 @@ public class Product {
 		this.name = name;
 	}
 
-	public int getQuantity_available() {
-		return quantity_available;
+	public int getinstock() {
+		return instock;
 	}
 
-	public void setQuantity_available(int quantity_available) {
-		this.quantity_available = quantity_available;
+	public void setinstock(int instock) {
+		this.instock = instock;
 	}
 
 	public BigDecimal getPrice() {
@@ -78,7 +106,87 @@ public class Product {
 	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
+
+	public int getInstock() {
+		return instock;
+	}
+
+	public void setInstock(int instock) {
+		this.instock = instock;
+	}
+
+	public String getCartDesc() {
+		return cartDesc;
+	}
+
+	public void setCartDesc(String cartDesc) {
+		this.cartDesc = cartDesc;
+	}
+
+	public String getShortDesc() {
+		return shortDesc;
+	}
+
+	public void setShortDesc(String shortDesc) {
+		this.shortDesc = shortDesc;
+	}
+
+	public String getLongDesc() {
+		return longDesc;
+	}
+
+	public void setLongDesc(String longDesc) {
+		this.longDesc = longDesc;
+	}
+
+	public String getThumb() {
+		return thumb;
+	}
+
+	public void setThumb(String thumb) {
+		this.thumb = thumb;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
+	public List<ProductOption> getProductOptions() {
+		return productOptions;
+	}
+
+	public void setProductOptions(List<ProductOption> productOptions) {
+		this.productOptions = productOptions;
+	}
 	
 	
-	
+
 }
