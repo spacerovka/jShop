@@ -7,11 +7,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<%@include file="resources.jsp"%>
 </head>
 <body>
-<!--  onload='document.loginForm.username.focus();'
-style="background-image:url('http://s57.radikal.ru/i156/1410/ba/c69a205d33d5.jpg');
-background-size:cover;"> -->
+<div id="wrapper">
 <h1 style="position:absolute;top:50%;left:20%;font-size:60px;color:red;">Hello World!</h1>
 <c:if test="${not empty error}"><div>${error}</div></c:if>
 	<c:if test="${not empty message}"><div>${message}</div></c:if>
@@ -32,6 +31,7 @@ background-size:cover;"> -->
 		</table>
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 	</form>
-
+</div>
+<%@include file="../template_parts/footer.jsp"%>
 </body>
 </html>

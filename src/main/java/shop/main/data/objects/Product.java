@@ -1,6 +1,7 @@
 package shop.main.data.objects;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -52,8 +53,17 @@ public class Product {
 	@Column(name = "image", nullable = true, length=100)
 	private String image;
 	
+	@Column(name = "url", nullable = true, length=100, unique=true)
+	private String url;
+	
 	@Column(name = "active", nullable = false)
 	private boolean active;
+	
+	@Column(name = "created", nullable = false)
+	private Date created;
+	
+	@Column(name = "edited", nullable = false)
+	private Date edited;
 	
 	@Column(name = "location", nullable = true, length=250)
 	private String location;
@@ -186,7 +196,30 @@ public class Product {
 	public void setProductOptions(List<ProductOption> productOptions) {
 		this.productOptions = productOptions;
 	}
-	
+
+	public Date getCreated() {
+		return created;
+	}
+
+	public void setCreated(Date created) {
+		this.created = created;
+	}
+
+	public Date getEdited() {
+		return edited;
+	}
+
+	public void setEdited(Date edited) {
+		this.edited = edited;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}	
 	
 
 }

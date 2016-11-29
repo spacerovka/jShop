@@ -1,0 +1,26 @@
+.navbar-inverse .navbar-brand, .top-nav > li > a, .navbar-inverse .navbar-nav > li > a{
+	color: #F54C8D;
+}
+
+html {
+	position: relative;
+	min-height: 100%;
+}
+
+body {
+	/* Margin bottom by footer height */
+	margin-bottom: 60px;	
+	/* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+}
+
+.footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	/* Set the fixed height of the footer here */
+	height: 60px;	
+}
+
+.text-muted {
+	margin: 20px 0;
+}

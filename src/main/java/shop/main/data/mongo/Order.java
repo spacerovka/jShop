@@ -25,10 +25,12 @@ public class Order {
 	private String country;
 	private String phone;
 	private String email;
+	private String managerComment;
 	
 	private BigDecimal shippingCost;
 	private Date date;
 	private Boolean shipped;
+	private Boolean confirmed;
 	
 	private String trackNumber;
 	
@@ -167,16 +169,17 @@ public class Order {
 	
 	@Override
 	public String toString() {
+		
 		StringBuilder products = new StringBuilder("[");
 		for(Map.Entry<String, OrderProduct> product : product_list.entrySet()) {
 			products.append("<"+product.getValue().toString()+">");
 		}
 		
-		return "Order [orderId=" + orderId + ", number=" + number + ", summ=" + summ + ", shipName=" + shipName
-				+ ", shipAddress=" + shipAddress + ", city=" + city + ", state=" + state + ", zip=" + zip + ", country="
-				+ country + ", phone=" + phone + ", email=" + email + ", shippingCost=" + shippingCost + ", date="
-				+ date + ", shipped=" + shipped + ", trackNumber=" + trackNumber + ", product_list=" + products
-				+ "]";
+		return "Order [orderId=" + orderId + ", user_id=" + user_id + ", number=" + number + ", summ=" + summ
+				+ ", shipName=" + shipName + ", shipAddress=" + shipAddress + ", city=" + city + ", state=" + state
+				+ ", zip=" + zip + ", country=" + country + ", phone=" + phone + ", email=" + email + ", shippingCost="
+				+ shippingCost + ", date=" + date + ", shipped=" + shipped + ", confirmed=" + confirmed
+				+ ", trackNumber=" + trackNumber + ", comment "+managerComment+", product_list=" + products + "]";
 	}
 
 	@Override
@@ -184,6 +187,7 @@ public class Order {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((city == null) ? 0 : city.hashCode());
+		result = prime * result + ((confirmed == null) ? 0 : confirmed.hashCode());
 		result = prime * result + ((country == null) ? 0 : country.hashCode());
 		result = prime * result + ((date == null) ? 0 : date.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
@@ -198,6 +202,7 @@ public class Order {
 		result = prime * result + ((state == null) ? 0 : state.hashCode());
 		result = prime * result + ((summ == null) ? 0 : summ.hashCode());
 		result = prime * result + ((trackNumber == null) ? 0 : trackNumber.hashCode());
+		result = prime * result + ((user_id == null) ? 0 : user_id.hashCode());
 		result = prime * result + ((zip == null) ? 0 : zip.hashCode());
 		return result;
 	}
@@ -215,6 +220,11 @@ public class Order {
 			if (other.city != null)
 				return false;
 		} else if (!city.equals(other.city))
+			return false;
+		if (confirmed == null) {
+			if (other.confirmed != null)
+				return false;
+		} else if (!confirmed.equals(other.confirmed))
 			return false;
 		if (country == null) {
 			if (other.country != null)
@@ -242,7 +252,12 @@ public class Order {
 			if (other.phone != null)
 				return false;
 		} else if (!phone.equals(other.phone))
-			return false;		
+			return false;
+		if (product_list == null) {
+			if (other.product_list != null)
+				return false;
+		} else if (!product_list.equals(other.product_list))
+			return false;
 		if (shipAddress == null) {
 			if (other.shipAddress != null)
 				return false;
@@ -278,6 +293,11 @@ public class Order {
 				return false;
 		} else if (!trackNumber.equals(other.trackNumber))
 			return false;
+		if (user_id == null) {
+			if (other.user_id != null)
+				return false;
+		} else if (!user_id.equals(other.user_id))
+			return false;
 		if (zip == null) {
 			if (other.zip != null)
 				return false;
@@ -292,6 +312,22 @@ public class Order {
 
 	public void setUser_id(Long user_id) {
 		this.user_id = user_id;
+	}
+
+	public Boolean getConfirmed() {
+		return confirmed;
+	}
+
+	public void setConfirmed(Boolean confirmed) {
+		this.confirmed = confirmed;
+	}
+
+	public String getManagerComment() {
+		return managerComment;
+	}
+
+	public void setManagerComment(String managerComment) {
+		this.managerComment = managerComment;
 	}
 		
 }

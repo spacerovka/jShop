@@ -23,7 +23,7 @@ public class Category {
 	@Column(name = "categoryName", nullable = false, length=50)
 	private String categoryName;
 	
-	@Column(name = "categoryURL", nullable = false, length=100)
+	@Column(name = "categoryURL", nullable = false, length=100, unique=true)
 	private String categoryURL;
 	
 	@OneToMany(mappedBy="category", fetch=FetchType.EAGER)
