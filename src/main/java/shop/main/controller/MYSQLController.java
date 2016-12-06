@@ -63,7 +63,8 @@ public class MYSQLController {
 	@RequestMapping(value = "/product")
 	public String displayProduct(Model model) {
 		Product data = productService.fingProductById(0L);
-		System.out.println(data.toString());
+		//System.out.println(data.toString());
+		addMenuItems(model);
 		model.addAttribute("product",data);
 		return "product";
 	}
@@ -81,6 +82,34 @@ public class MYSQLController {
 		child.setCategoryURL("child");
 		child.setParent(main);
 		categoryService.saveCategory(child);
+		
+		Category child2 = new Category();
+		child.setCategoryName("child2");
+		child.setCategoryURL("child2");
+		child.setParent(main);
+		categoryService.saveCategory(child2);
+		
+		
+		Category child3 = new Category();
+		child.setCategoryName("child3");
+		child.setCategoryURL("child3");
+		child.setParent(child);
+		categoryService.saveCategory(child3);
+		
+		
+		Category child4 = new Category();
+		child.setCategoryName("child4");
+		child.setCategoryURL("child4");
+		child.setParent(child);
+		categoryService.saveCategory(child4);
+		
+		Category child5 = new Category();
+		child.setCategoryName("child5");
+		child.setCategoryURL("child5");
+		child.setParent(child2);
+		categoryService.saveCategory(child5);
+		
+		
 		}catch(Exception e){
 			LOGGER.error(e.toString());
 		}
@@ -89,5 +118,10 @@ public class MYSQLController {
 		
 		model.addAttribute("categories",data);
 		return "db_test/category_tree";
+	}
+	
+	private void addMenuItems(Model model){
+		List<Category> data = categoryService.findAllParentCategories();
+		model.addAttribute("menu",data);
 	}
 }
