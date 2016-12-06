@@ -9,6 +9,6 @@ import shop.main.data.objects.Product;
 
 public interface CategoryDAO extends CrudRepository<Category, Long>{
 	List<Category> findAll();
-	
+	List<Category> findAllCategoryByParentCategory(Category parentCategory);
 	//List<BlogPost> findAllBlogPostByUserAndTitleContaining(User user, String title);
 }

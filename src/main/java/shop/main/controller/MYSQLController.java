@@ -17,7 +17,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import shop.main.data.objects.Category;
 import shop.main.data.objects.Product;
+import shop.main.data.service.CategoryService;
 import shop.main.data.service.ProductService;
 
 @Controller
@@ -33,6 +35,9 @@ public class MYSQLController {
 	
 	@Autowired
 	 private ProductService productService;
+	
+	@Autowired
+	 private CategoryService categoryService;
 
 	@RequestMapping(value = "/displayusersmysql")
 	public ModelAndView displayUsers(Principal principal) {
@@ -61,5 +66,28 @@ public class MYSQLController {
 		System.out.println(data.toString());
 		model.addAttribute("product",data);
 		return "product";
+	}
+	
+	@RequestMapping(value = "/tree")
+	public String displayCategoryTree(Model model) {
+		try{
+		Category main = new Category();
+		main.setCategoryName("main");
+		main.setCategoryURL("main");
+		categoryService.saveCategory(main);
+		
+		Category child = new Category();
+		child.setCategoryName("child");
+		child.setCategoryURL("child");
+		child.setParent(main);
+		categoryService.saveCategory(child);
+		}catch(Exception e){
+			LOGGER.error(e.toString());
+		}
+		
+		List<Category> data = categoryService.findAllParentCategories();
+		
+		model.addAttribute("categories",data);
+		return "db_test/category_tree";
 	}
 }

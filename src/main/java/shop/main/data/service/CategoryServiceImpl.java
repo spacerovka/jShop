@@ -39,4 +39,10 @@ public class CategoryServiceImpl implements CategoryService{
 		return categoryDAO.findOne(id);
 	}
 
+	@Override
+	public List<Category> findAllParentCategories() {
+		// TODO Auto-generated method stub
+		return categoryDAO.findAllCategoryByParentCategory(null);
+	}
+
 }
