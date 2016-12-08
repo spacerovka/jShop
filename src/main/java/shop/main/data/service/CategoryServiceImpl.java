@@ -16,12 +16,8 @@ public class CategoryServiceImpl implements CategoryService{
 	
 	@Override
 	public void saveCategory(Category category) {
-//		if (categoryDAO.findOne(category.getId())==null) {
-			categoryDAO.save(category);
-//		} else {
-//			categoryDAO.update(category);
-//		}		
 		
+			categoryDAO.save(category);		
 	}
 
 	@Override
@@ -44,7 +40,7 @@ public class CategoryServiceImpl implements CategoryService{
 
 	@Override
 	public List<Category> findAllParentCategories() {
-		// TODO Auto-generated method stub
+		
 		return categoryDAO.findAllCategoryByParentCategory(null);
 	}
 
@@ -61,7 +57,7 @@ public class CategoryServiceImpl implements CategoryService{
 
 	@Override
 	public void deleteCategoryById(long id) {
-		// TODO Auto-generated method stub
+		
 		List<Category> list = categoryDAO.findAllCategoryByParentCategory(categoryDAO.findOne(id));
 		for (Category child : list) {
 		    child.setParentCategory(null);
