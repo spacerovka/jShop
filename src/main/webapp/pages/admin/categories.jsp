@@ -20,71 +20,79 @@
 
 				<div class="row">
 					<div class="col-lg-12">
-						<h1 class="page-header">Tables</h1>
+						<h1 class="page-header">Categories</h1>
 						<ol class="breadcrumb">
 							<li><i class="fa fa-dashboard"></i> <a href="index.html">Dashboard</a>
 							</li>
 							<li class="active"><i class="fa fa-table"></i> Tables</li>
 						</ol>
 					</div>
-				</div>
-
+				</div>				
+				<core:if test="${not empty flashMessage}">
+				<div class="alert alert-success">
+                    <strong>Request success!</strong> ${flashMessage}
+                </div>
+                </core:if>
 				<div class="row">
-                    <div class="col-lg-6">
-                        <h2>Basic Table</h2>
+				
+                    <div class="col-lg-8">
+                    <a href="${pageContext.request.contextPath}/a/category/add"><button type="button" class="btn btn-primary">Add new category</button></a>
+                        <h2>List of categories</h2>
                         <div class="table-responsive">
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Page</th>
-                                        <th>Visits</th>
-                                        <th>% New Visits</th>
-                                        <th>Revenue</th>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>URL</th>
+                                        <th>Parent</th>
+                                        <th>Active</th>
+                                        <th>Buttons</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>/index.html</td>
-                                        <td>1265</td>
-                                        <td>32.3%</td>
-                                        <td>$321.33</td>
+                                <core:choose>
+	        						<core:when test="${not empty categoryList}">
+                                	<core:forEach var="category" items="${categoryList}">
+                                	<tr>
+                                        <td>${category.id}</td>
+                                        <td>${category.categoryName}</td>
+                                        <td>${category.categoryURL}</td>
+                                        <td><core:choose>
+	        									<core:when test="${category.parentCategory!=null}">
+	        										${category.parentCategory.categoryName}(id:${category.parentCategory.id})
+	        									</core:when>
+								  				<core:otherwise>
+								  					-
+								  				</core:otherwise>
+								  			</core:choose>
+								  		</td>
+                                        <td>
+                                        	<core:choose>
+	        									<core:when test="${category.status==true}">
+	        										Active
+	        									</core:when>
+								  				<core:otherwise>
+								  					Hidden
+								  				</core:otherwise>
+								  			</core:choose>
+								  		</td>
+								  		<td>
+								  		<a href="${pageContext.request.contextPath}/a/category/${category.id}/update">
+								  		<button type="button" class="btn btn-sm btn-info">Edit</button></a>
+								  		
+								  		<a href="${pageContext.request.contextPath}/a/category/${category.id}/delete">
+								  		<button type="button" class="btn btn-sm btn-danger">Delete</button></a>
+								  		</td>
                                     </tr>
-                                    <tr>
-                                        <td>/about.html</td>
-                                        <td>261</td>
-                                        <td>33.3%</td>
-                                        <td>$234.12</td>
-                                    </tr>
-                                    <tr>
-                                        <td>/sales.html</td>
-                                        <td>665</td>
-                                        <td>21.3%</td>
-                                        <td>$16.34</td>
-                                    </tr>
-                                    <tr>
-                                        <td>/blog.html</td>
-                                        <td>9516</td>
-                                        <td>89.3%</td>
-                                        <td>$1644.43</td>
-                                    </tr>
-                                    <tr>
-                                        <td>/404.html</td>
-                                        <td>23</td>
-                                        <td>34.3%</td>
-                                        <td>$23.52</td>
-                                    </tr>
-                                    <tr>
-                                        <td>/services.html</td>
-                                        <td>421</td>
-                                        <td>60.3%</td>
-                                        <td>$724.32</td>
-                                    </tr>
-                                    <tr>
-                                        <td>/blog/post.html</td>
-                                        <td>1233</td>
-                                        <td>93.2%</td>
-                                        <td>$126.34</td>
-                                    </tr>
+                                	</core:forEach>
+                                </core:when>
+                                <core:otherwise>
+                                <td colspan="5" style="text-align:center">No data found</td>
+                                </core:otherwise>
+                                </core:choose>                      
+                                    
+                                    
                                 </tbody>
                             </table>
                         </div>

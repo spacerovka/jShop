@@ -11,5 +11,7 @@ public interface CategoryService {
 	List<Category> findAllParentCategories();
 //	List<Product> findAllProductByCategory(Category category);
 //	List<Product> listAllProductsByPrice (BigInteger price);
-	Category fingCategoryById(long id);
+	Category findCategoryById(long id);
+	boolean checkUniqueURL(Category category);
+	void deleteCategoryById(long id);
 }

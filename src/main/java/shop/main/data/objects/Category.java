@@ -200,8 +200,12 @@ public class Category {
 	public String toString() {
 		return "Category [id=" + id + ", categoryName=" + categoryName + ", categoryURL=" + categoryURL
 				+ ", description=" + description + ", metaTitle=" + metaTitle + ", metaDescription=" + metaDescription
-				+ ", status=" + status + ", parentCategory=" + parentCategory.getId() + ", children="
-				+ children.size() + "]";
+				+ ", status=" + status + ", parentCategory=" + (parentCategory!=null?parentCategory.getId():null) + ", children="
+				+ (children!=null?children.size():null) + "]";
 	}
+	
+	public boolean isNew() {
+		return (this.id == null);
+		}
 	
 }

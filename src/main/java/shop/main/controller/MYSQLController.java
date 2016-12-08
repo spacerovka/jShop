@@ -80,33 +80,33 @@ public class MYSQLController {
 		Category child = new Category();
 		child.setCategoryName("child");
 		child.setCategoryURL("child");
-		child.setParent(main);
+		child.setParentCategory(main);
 		categoryService.saveCategory(child);
 		
 		Category child2 = new Category();
 		child.setCategoryName("child2");
 		child.setCategoryURL("child2");
-		child.setParent(main);
+		child.setParentCategory(main);
 		categoryService.saveCategory(child2);
 		
 		
 		Category child3 = new Category();
 		child.setCategoryName("child3");
 		child.setCategoryURL("child3");
-		child.setParent(child);
+		child.setParentCategory(child);
 		categoryService.saveCategory(child3);
 		
 		
 		Category child4 = new Category();
 		child.setCategoryName("child4");
 		child.setCategoryURL("child4");
-		child.setParent(child);
+		child.setParentCategory(child);
 		categoryService.saveCategory(child4);
 		
 		Category child5 = new Category();
 		child.setCategoryName("child5");
 		child.setCategoryURL("child5");
-		child.setParent(child2);
+		child.setParentCategory(child2);
 		categoryService.saveCategory(child5);
 		
 		
