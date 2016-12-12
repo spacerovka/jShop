@@ -3,11 +3,12 @@
 <%@ taglib prefix="core" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
+	<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>Admin product</title>
 <%@include file="resources.jsp"%>
 
 </head>
@@ -20,136 +21,124 @@
 
 				<div class="row">
 					<div class="col-lg-12">
-						<h1 class="page-header">Tables</h1>
+						<h1 class="page-header">Edit product</h1>
 						<ol class="breadcrumb">
-							<li><i class="fa fa-dashboard"></i> <a href="index.html">Dashboard</a>
+							<li><i class="fa fa-dashboard"></i> <a href="index.html">Product</a>
 							</li>
-							<li class="active"><i class="fa fa-table"></i> Tables</li>
+							<li class="active"><i class="fa fa-table"></i> Edit</li>
 						</ol>
 					</div>
 				</div>
-
+				<core:if test="${not empty flashMessage}">
+				
+				<div class="alert alert-danger">
+                    <strong>Oh snap!</strong> ${errorMessage}
+                </div>
+				</core:if>
 				<div class="row">
                     <div class="col-lg-6 ">
 
-                        <form role="form">
-
+                        <form:form action="${pageContext.request.contextPath}/a/product" 
+                        method="post" modelAttribute="product">
+							<div class="form-group">
+                                <label>ID</label>                                
+                                <p class="form-control-static">${product.id}</p>
+                            </div>
+                            <form:hidden path="id" />
+                            
                             <div class="form-group">
-                                <label>Text Input</label>
-                                <input class="form-control">
-                                <p class="help-block">Example block-level help text here.</p>
+                                <label>Name</label>
+                                <form:input class="form-control" placeholder="Product name" path="name"/>                                
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>SKU</label>
+                                <form:input class="form-control" placeholder="SKU" path="SKU"/>                                
                             </div>
 
+
+							<div class="form-group input-group ${urlError}">
+                                <span class="input-group-addon">http:/${pageContext.request.contextPath}/</span>
+                                <form:input class="form-control" placeholder="url" type="text" path="url"/>                                
+                            </div>           
+                            
                             <div class="form-group">
-                                <label>Text Input with Placeholder</label>
-                                <input class="form-control" placeholder="Enter text">
+                                <label>Instock amount</label>
+                                <form:input class="form-control" placeholder="0" path="instock" />   
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Price</label>
+                                <form:input class="form-control" placeholder="1.00" path="price" />   
+                            </div> 
+                            
+                            <div class="form-group">
+                                <label>Location</label>
+                                <form:input class="form-control" placeholder="City, State" path="location" />   
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Cart Description</label>
+                                <form:input class="form-control" placeholder="" path="cartDesc" />   
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Short Description</label>
+                                <form:input class="form-control" placeholder="" path="shortDesc" />   
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Long Description</label>
+                                <form:textarea class="form-control" placeholder="" path="longDesc" ></form:textarea>   
+                            </div>                                          
+
+                                                        
+                            <div class="form-group">
+                                <label>META title</label>
+                                <form:input class="form-control" placeholder="Product title" path="metaTitle"/>  
+                                <p class="help-block">Title tags are often used on search engine results pages (SERPs) to display preview snippets for a given page, and are important both for SEO and social sharing. </p>                              
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>META description</label>
+                                <form:input class="form-control" placeholder="Product description" path="metaDescription"/> 
+                                <p class="help-block">The meta description is a ~160 character snippet, a tag in HTML, that summarizes a page's content. Search engines show the meta description in search results mostly when the searched for phrase is contained in the description. Optimizing the meta description is a very important aspect of on-page SEO.</p>                               
                             </div>
 
-                            <div class="form-group">
-                                <label>Static Control</label>
-                                <p class="form-control-static">email@example.com</p>
-                            </div>
-
-                            <div class="form-group">
-                                <label>File input</label>
-                                <input type="file">
-                            </div>
-
-                            <div class="form-group">
-                                <label>Text area</label>
-                                <textarea class="form-control" rows="3"></textarea>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Checkboxes</label>
-                                <div class="checkbox">
-                                    <label>
-                                        <input value="" type="checkbox">Checkbox 1
-                                    </label>
-                                </div>
-                                <div class="checkbox">
-                                    <label>
-                                        <input value="" type="checkbox">Checkbox 2
-                                    </label>
-                                </div>
-                                <div class="checkbox">
-                                    <label>
-                                        <input value="" type="checkbox">Checkbox 3
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Inline Checkboxes</label>
-                                <label class="checkbox-inline">
-                                    <input type="checkbox">1
-                                </label>
-                                <label class="checkbox-inline">
-                                    <input type="checkbox">2
-                                </label>
-                                <label class="checkbox-inline">
-                                    <input type="checkbox">3
-                                </label>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Radio Buttons</label>
+                           <div class="form-group">
+                                <label>Status</label>
                                 <div class="radio">
                                     <label>
-                                        <input name="optionsRadios" id="optionsRadios1" value="option1" checked="" type="radio">Radio 1
+                                    <form:radiobutton path="status" value="true"/>Active
                                     </label>
                                 </div>
                                 <div class="radio">
                                     <label>
-                                        <input name="optionsRadios" id="optionsRadios2" value="option2" type="radio">Radio 2
+                                    	<form:radiobutton path="status" value="false"/>Hidden
                                     </label>
-                                </div>
-                                <div class="radio">
-                                    <label>
-                                        <input name="optionsRadios" id="optionsRadios3" value="option3" type="radio">Radio 3
-                                    </label>
-                                </div>
+                                </div>                                
                             </div>
+                          
 
                             <div class="form-group">
-                                <label>Inline Radio Buttons</label>
-                                <label class="radio-inline">
-                                    <input name="optionsRadiosInline" id="optionsRadiosInline1" value="option1" checked="" type="radio">1
-                                </label>
-                                <label class="radio-inline">
-                                    <input name="optionsRadiosInline" id="optionsRadiosInline2" value="option2" type="radio">2
-                                </label>
-                                <label class="radio-inline">
-                                    <input name="optionsRadiosInline" id="optionsRadiosInline3" value="option3" type="radio">3
-                                </label>
+                                <label>Parent category</label>
+                               
+                                <form:select path="category.id" class="form-control">
+										<option value="-1">Select...</option>
+							            <form:options items="${parentCategoryList}" itemValue="id" itemLabel="categoryName"/>
+									       
+									       <core:forEach items="${parentCategoryList}" var="category">
+									        <option value="${category.id}">${category.categoryName}</option>
+									       </core:forEach>
+								</form:select>
+																	
                             </div>
-
-                            <div class="form-group">
-                                <label>Selects</label>
-                                <select class="form-control">
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Multiple Selects</label>
-                                <select multiple="" class="form-control">
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                </select>
-                            </div>
+                            
 
                             <button type="submit" class="btn btn-default">Submit Button</button>
                             <button type="reset" class="btn btn-default">Reset Button</button>
 
-                        </form>
+                        </form:form>
 
                     </div>
                     

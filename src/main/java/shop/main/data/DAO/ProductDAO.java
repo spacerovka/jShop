@@ -10,4 +10,5 @@ import shop.main.data.objects.Product;
 public interface ProductDAO extends CrudRepository<Product, Long>{
 	List<Product> findAll();	
 	List<Product> findAllProductByCategory(Category category);
+	Product findOneByUrl(String url);
 }

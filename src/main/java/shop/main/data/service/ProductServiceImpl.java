@@ -52,5 +52,23 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ProductServiceImpl.
 		// TODO Auto-generated method stub
 		return productDAO.findAllProductByCategory(category);
 	}
+	
+	@Override
+	public boolean checkUniqueURL(Product product) {
+		Product result = productDAO.findOneByUrl(product.getUrl());
+		if(result == null){
+			return true;
+		}else if(result.getId().equals(product.getId())){
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public void deleteProductById(long id) {
+				
+		productDAO.delete(id);
+		
+	}
 
 }

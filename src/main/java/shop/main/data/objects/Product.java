@@ -1,7 +1,7 @@
 package shop.main.data.objects;
 
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -13,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -26,56 +28,82 @@ public class Product {
 	@Column(name = "id", unique = true, nullable = false)
 	private Long id;
 
-	@Column(name = "SKU", nullable = false, length=50)
+	@Column(name = "SKU", nullable = false, length = 50)
 	private String SKU;
 
-	@Column(name = "name", nullable = false, length=100)
+	@Column(name = "name", nullable = false, length = 100)
 	private String name;
 
+	@Column(name = "url", nullable = true, length = 100, unique = true)
+	private String url;
+	
 	@Column(name = "instock", nullable = true)
 	private int instock;
 
-	@Column(name = "price", nullable = false, precision=12, scale=2)
+	@Column(name = "price", nullable = false, precision = 12, scale = 2)
 	private BigDecimal price;
-	
-	@Column(name = "cartDesc", nullable = true, length=250)
+
+	@Column(name = "cartDesc", nullable = true, length = 250)
 	private String cartDesc;
-	
-	@Column(name = "shortDesc", nullable = true, length=1000)
+
+	@Column(name = "shortDesc", nullable = true, length = 1000)
 	private String shortDesc;
-	
+
 	@Column(name = "longDesc", nullable = true)
 	private String longDesc;
-	
-	@Column(name = "thumb", nullable = true, length=100)
-	private String thumb;
-	
-	@Column(name = "image", nullable = true, length=100)
-	private String image;
-	
-	@Column(name = "url", nullable = true, length=100, unique=true)
-	private String url;
-	
-	@Column(name = "active", nullable = false)
-	private boolean active;
-	
-	@Column(name = "created", nullable = false)
-	private Date created;
-	
-	@Column(name = "edited", nullable = false)
-	private Date edited;
-	
-	@Column(name = "location", nullable = true, length=250)
-	private String location;
 
-	@JsonIgnore
-	@ManyToOne
-	@JoinColumn(name="category_id", nullable=false) 
+	@Column(name = "thumb", nullable = true, length = 100)
+	private String thumb;
+
+	@Column(name = "image", nullable = true, length = 100)
+	private String image;	
+
+	@Column(name = "meta_title", nullable = true)
+	private String metaTitle;
+	
+	@Column(name = "meta_description", nullable = true)
+	private String metaDescription;
+	
+	@Column(name = "status", nullable = false)
+	private boolean status;
+
+	@Column(name = "created", nullable = true)
+	private Date created;
+
+	@Column(name = "edited", nullable = true)
+	private Date edited;
+
+	@Column(name = "location", nullable = true, length = 250)
+	private String location;	
+	
+	@ManyToOne(optional = true, fetch = FetchType.LAZY)	
+	@JoinColumn(columnDefinition="integer", name="category_id", nullable=true)
 	private Category category;
-	 
-	@OneToMany(mappedBy="product", fetch=FetchType.LAZY)
-	private List<ProductOption> productOptions;
-	 
+
+//	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+//	private List<ProductOption> productOptions;
+
+	@PrePersist
+	  protected void onCreate() {
+	    created = new Date();
+	  }
+
+	  @PreUpdate
+	  protected void onUpdate() {
+		edited = new Date();
+	  }
+	
+	public Product(String sKU, String name, BigDecimal price, String url) {
+		super();
+		SKU = sKU;
+		this.name = name;
+		this.price = price;
+		this.url = url;
+	}
+	
+	public Product() {
+		
+	}
 
 	public Long getId() {
 		return id;
@@ -117,14 +145,7 @@ public class Product {
 		this.price = price;
 	}
 
-	public int getInstock() {
-		return instock;
-	}
-
-	public void setInstock(int instock) {
-		this.instock = instock;
-	}
-
+	
 	public String getCartDesc() {
 		return cartDesc;
 	}
@@ -165,14 +186,6 @@ public class Product {
 		this.image = image;
 	}
 
-	public boolean isActive() {
-		return active;
-	}
-
-	public void setActive(boolean active) {
-		this.active = active;
-	}
-
 	public String getLocation() {
 		return location;
 	}
@@ -189,13 +202,13 @@ public class Product {
 		this.category = category;
 	}
 
-	public List<ProductOption> getProductOptions() {
-		return productOptions;
-	}
-
-	public void setProductOptions(List<ProductOption> productOptions) {
-		this.productOptions = productOptions;
-	}
+//	public List<ProductOption> getProductOptions() {
+//		return productOptions;
+//	}
+//
+//	public void setProductOptions(List<ProductOption> productOptions) {
+//		this.productOptions = productOptions;
+//	}
 
 	public Date getCreated() {
 		return created;
@@ -219,7 +232,34 @@ public class Product {
 
 	public void setUrl(String url) {
 		this.url = url;
-	}	
+	}
+
+	public boolean isNew() {
+		return (this.id == null);
+	}
 	
+	public String getMetaTitle() {
+		return metaTitle;
+	}
+
+	public void setMetaTitle(String metaTitle) {
+		this.metaTitle = metaTitle;
+	}
+
+	public String getMetaDescription() {
+		return metaDescription;
+	}
+
+	public void setMetaDescription(String metaDescription) {
+		this.metaDescription = metaDescription;
+	}
+
+	public boolean isStatus() {
+		return status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
 
 }

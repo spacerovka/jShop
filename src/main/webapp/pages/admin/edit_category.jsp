@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>Admin category</title>
 <%@include file="resources.jsp"%>
 
 </head>
@@ -21,18 +21,18 @@
 
 				<div class="row">
 					<div class="col-lg-12">
-						<h1 class="page-header">Tables</h1>
+						<h1 class="page-header">Edit category</h1>
 						<ol class="breadcrumb">
-							<li><i class="fa fa-dashboard"></i> <a href="index.html">Dashboard</a>
+							<li><i class="fa fa-dashboard"></i> <a href="index.html">Categories</a>
 							</li>
-							<li class="active"><i class="fa fa-table"></i> Tables</li>
+							<li class="active"><i class="fa fa-table"></i> Edit</li>
 						</ol>
 					</div>
 				</div>
 				<core:if test="${not empty flashMessage}">
 				
 				<div class="alert alert-danger">
-                    <strong>Oh snap!</strong> ${errorMessage}
+                    <strong>Warning!</strong> ${errorMessage}
                 </div>
 				</core:if>
 				<div class="row">
