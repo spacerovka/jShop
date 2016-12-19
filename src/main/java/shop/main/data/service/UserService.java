@@ -11,4 +11,5 @@ public interface UserService {
 	
 //	List<Product> listAllProductsByPrice (BigInteger price);
 	User fingUserById(long id);
+	User findByUserName(String username);
 }

@@ -49,6 +49,7 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
         boolean isAdmin = false;
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         for (GrantedAuthority grantedAuthority : authorities) {
+        	System.out.println("authority "+grantedAuthority.getAuthority());
             if (grantedAuthority.getAuthority().equals("ROLE_USER")) {
                 isUser = true;
                 break;

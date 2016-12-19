@@ -1,5 +1,7 @@
 package shop.main.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -70,7 +72,7 @@ public class AdminController {
 	
 	@RequestMapping(value = "/a/product", method=RequestMethod.POST) 
 	public String saveProduct(
-			@ModelAttribute("product") Product product,
+			@ModelAttribute("product") @Valid Product product,
 			Model model,
 			BindingResult result,
 			final RedirectAttributes redirectAttributes) {
