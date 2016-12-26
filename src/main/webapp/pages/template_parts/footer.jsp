@@ -28,6 +28,8 @@
 					value="${_csrf.token}" />
 			</form>
 		</security:authorize>
+		<br/>
+		<p style="color:white">© Java Based ecommerce CMS 2016-2017</p>
 		
 	</div>
 </footer>

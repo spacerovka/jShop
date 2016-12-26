@@ -1,4 +1,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <spring:url value="/resources/css/bootstrap.min.css" var="bootstrapCSS" />
 <link href="${bootstrapCSS}" rel="stylesheet" />
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
@@ -9,3 +11,4 @@
 <spring:url value="/resources/css/main.css" var="mainCSS" />
 <link href="${mainCSS}" rel="stylesheet" />
 
+<c:url value="/" var="home" />

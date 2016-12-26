@@ -25,6 +25,7 @@ public class WebAppInitializer implements WebApplicationInitializer {
 //		DelegatingFilterProxy filter = new DelegatingFilterProxy("springSecurityFilterChain");
 		
 		DispatcherServlet dispatcherServlet = new DispatcherServlet(rootContext);
+		dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
 		ServletRegistration.Dynamic registration = container.addServlet("dispatcherServlet", dispatcherServlet);
 //		container.addFilter("springSecurityFilterChain", filter).addMappingForUrlPatterns(null, false, "/*");
 		

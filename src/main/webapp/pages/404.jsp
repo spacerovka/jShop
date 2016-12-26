@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>403-Access denied!</title>
+<title>404 Error</title>
 <%@include file="template_parts/resources.jsp"%>
 </head>
 <body> 
@@ -18,13 +18,11 @@ background-size:cover;"> -->
 
 		<!-- Jumbotron Header -->
 		<header class="jumbotron hero-spacer" style="text-align:center;">
-			<h1 style="color: rgb(228, 88, 162);">Access denied!</h1>
+			<!-- <h1>404</h1> -->
+			
+			<img src="${pageContext.request.contextPath}/resources/img/404-error.png" style="margin:0 auto;width: 80%;" />
 			<br/>
-			<img src="${pageContext.request.contextPath}/resources/img/403.png" style="margin:0 auto;max-width: 80%;huerotate {-webkit-filter: hue-rotate(180deg);filter: hue-rotate(130deg);" />
-			<br/>
-			<br/>
-			<p>You are not authorized to access this page.</p>
-			<br/>
+			<p><core:out value="${message}" /></p>
 			<p>
 				<a class="btn btn-primary btn-large" href="${home}">Return to main page</a>
 			</p>

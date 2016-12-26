@@ -262,6 +262,15 @@ nav.sidebar, .main{
 -------------------------------------------------- */
 .navbar-inverse {
 	background-color: #B82C62;
+	border: none;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color: #ffcff3;
+}
+
+.navbar-inverse .navbar-brand {
+    color: #ffcff3;
 }
 
 body {

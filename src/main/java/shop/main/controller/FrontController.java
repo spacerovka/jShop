@@ -23,9 +23,9 @@ import shop.main.data.service.CategoryService;
 import shop.main.data.service.ProductService;
 
 @Controller
-public class MYSQLController {
+public class FrontController {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(MYSQLController.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(FrontController.class);
 
 	@Autowired
 	@Qualifier("dataSourceMysql")

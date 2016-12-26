@@ -27,7 +27,7 @@ public class AdminController {
 	@Autowired
 	 private CategoryService categoryService;
 	
-	@RequestMapping(value = "/a/welcome")
+	@RequestMapping(value = "/admin/welcome")
 	public String welcome(Model model) {
 //		Product data = productService.fingProductById(0L);
 //		System.out.println(data.toString());
