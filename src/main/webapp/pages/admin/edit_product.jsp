@@ -48,7 +48,7 @@
                             
                             <div class="form-group">
                                 <label>Name</label>
-                                <form:input class="form-control" placeholder="Product name" path="name"/>                                
+                                <form:input class="form-control" placeholder="Product name" path="name" id="nameinput"/>                                
                             </div>
                             
                             <div class="form-group">
@@ -59,7 +59,7 @@
 
 							<div class="form-group input-group ${urlError}">
                                 <span class="input-group-addon">http:/${pageContext.request.contextPath}/</span>
-                                <form:input class="form-control" placeholder="url" type="text" path="url"/>                                
+                                <form:input class="form-control" placeholder="url" type="text" path="url" id="urlinput" />                                
                             </div>           
                             
                             <div class="form-group">

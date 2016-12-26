@@ -7,6 +7,8 @@
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <spring:url value="/resources/js/bootstrap.min.js" var="bootstrapJS" />
 <script src="${bootstrapJS}"></script>
+<spring:url value="/resources/js/ajax.js" var="ajaxJS" />
+<script src="${ajaxJS}"></script>
 
 <footer class="footer">
 	<div class="container">

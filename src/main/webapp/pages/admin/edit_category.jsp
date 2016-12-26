@@ -47,13 +47,13 @@
                             
                             <div class="form-group">
                                 <label>Category name</label>
-                                <form:input class="form-control" placeholder="Category name" path="categoryName"/>                                
+                                <form:input class="form-control" placeholder="Category name" path="categoryName" id="nameinput" />                                
                             </div>
 
 
 							<div class="form-group input-group ${urlError}">
                                 <span class="input-group-addon">http:/${pageContext.request.contextPath}/</span>
-                                <form:input class="form-control" placeholder="url" type="text" path="categoryURL"/>                                
+                                <form:input class="form-control" placeholder="url" type="text" path="categoryURL" id="urlinput"/>                                
                             </div>                                                     
 
                             <div class="form-group">
@@ -126,6 +126,37 @@
 		</div>
 
 	</div>
+	
 	<%@include file="../template_parts/footer.jsp"%>
+	<script>
+	/* $(document).ready(function() {	
+		var focus = 0,
+		blur = 0;
+		$( "#nameinput" ).focusout(function() {
+		    focus++;	    
+		    var data = $( "#nameinput" ).val();
+		    var urlinput = $( "#urlinput" );
+		    $.ajax({
+				type : "POST",
+				contentType : "application/json",
+				url : "${home}a/translit",
+				data : JSON.stringify({ cropName: data }),
+				dataType:'text',
+				timeout : 100000,
+				success : function(data) {
+					console.log("SUCCESS: ", data.d);
+					urlinput.val(data);
+				},
+				error : function(e) {
+					console.log("ERROR: ", e);				
+				},
+				done : function(e) {
+					console.log("DONE");
+				}
+			});
+		  }); 
+		
+	}); */
+	</script>
 </body>
 </html>
