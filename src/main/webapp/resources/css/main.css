@@ -69,7 +69,7 @@ body {
 }
 
 .caption {
-    height: 130px;
+    /* height: 130px; */
     overflow: hidden;
 }
 
