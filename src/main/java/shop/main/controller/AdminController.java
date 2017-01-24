@@ -157,6 +157,7 @@ public class AdminController {
 		model.addAttribute("urlError", "");
 		model.addAttribute("parentCategoryList", categoryService.listAll());
 		model.addAttribute("images", URLUtils.getProductImages(context, id));
+		model.addAttribute("mainImage", URLUtils.getProductImage(context, id));
 		return "admin/edit_product";
 	}
 	

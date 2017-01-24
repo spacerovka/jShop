@@ -45,7 +45,7 @@ public class AjaxAdminController implements ResourceLoaderAware
 			
 	 @RequestMapping(value="/uploadCategoryFiles", method=RequestMethod.POST)
 	    public String handleFileUpload(@RequestParam String prefix, @RequestParam("files") MultipartFile files[]){
-		 		String result = uploadFiles(prefix, files);	       
+		 		String result = uploadFiles(prefix, files, false);	       
 		 		System.out.println(result);
 	            return "redirect:/a/category/"+prefix.substring(prefix.indexOf("/")+1, prefix.length()-1)+"/update";
 	 
@@ -53,12 +53,27 @@ public class AjaxAdminController implements ResourceLoaderAware
 	 
 	 @RequestMapping(value="/uploadProductFiles", method=RequestMethod.POST)
 	    public String handleProductFileUpload(@RequestParam String prefix, @RequestParam("files") MultipartFile files[]){
-		 String result =uploadFiles(prefix, files);
+		 String result =uploadFiles(prefix, files, false);
 		 System.out.println(result);
 		 return "redirect:/a/product/"+prefix.substring(prefix.indexOf("/")+1, prefix.length()-1)+"/update";
 	 }
 	 
-	 private String uploadFiles(String prefix, MultipartFile files[]){
+	 
+	 @RequestMapping(value="/uploadProductMainImage", method=RequestMethod.POST)
+	    public String handleProductMainImageUpload(@RequestParam String prefix, @RequestParam("files") MultipartFile files[]){
+		 String folder = context.getRealPath("/")+ "/resources/uploads/"+prefix;
+		 try{
+		    	File theDir = new File(folder);
+		    	theDir.mkdir();		    	
+		    } 
+		    catch(SecurityException se){		       
+		    }    
+		 String result =uploadFiles(prefix+"main/", files, true);
+		 System.out.println(result);
+		 return "redirect:/a/product/"+prefix.substring(prefix.indexOf("/")+1, prefix.length()-1)+"/update";
+	 }
+	 
+	 private String uploadFiles(String prefix, MultipartFile files[], boolean isMain){
 		 System.out.println("uploading______________________________________"+prefix);
          try {
          	String folder = context.getRealPath("/")+ "/resources/uploads/"+prefix;
@@ -86,7 +101,13 @@ public class AjaxAdminController implements ResourceLoaderAware
                  		 int count = new File(folder).listFiles().length;
                  		 System.out.println("count "+count);
                  		 //create folder if not exists - products and categories, create id folder, count files in folder
-                 		 File destination = new File(folder+count+files[i].getOriginalFilename().substring(files[i].getOriginalFilename().lastIndexOf('.')));//files[i].getOriginalFilename()
+                 		 String path = "";
+                 		 if(isMain){
+                 			path = folder+"main"+files[i].getOriginalFilename().substring(files[i].getOriginalFilename().lastIndexOf('.'));
+                 		 }else{
+                 			path = folder+count+files[i].getOriginalFilename().substring(files[i].getOriginalFilename().lastIndexOf('.'));
+                 		 }
+                 		 File destination = new File(path);//files[i].getOriginalFilename()
                  		 System.out.println("--> "+destination);
                  		 files[i].transferTo(destination);
 
