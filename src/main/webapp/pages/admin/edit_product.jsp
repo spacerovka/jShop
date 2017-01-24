@@ -142,6 +142,41 @@
 
                     </div>
                     
+                    <div class="col-lg-6 ">
+						<div class="form-group">
+							<core:forEach items="${images}" var="img">
+								<img src="${pageContext.request.contextPath}/resources/uploads/products/${product.id}/${img}" width="30%"></img>
+							</core:forEach>
+						</div>
+						<script>
+ 
+							function AddMoreFile(tableID) {
+							    							    
+							    var table = document.getElementById('fuTable');
+							    var colInput = document.createElement("input");
+							    colInput.type = "file";
+							    colInput.name="files";
+							    table.appendChild(colInput);
+							}
+						 
+						</script>
+ 						<div class="form-group">
+							<label>Select files to upload. Click Add More button to add more files.</label>
+							 
+							<form:form method="post" action="${pageContext.request.contextPath}/uploadProductFiles"  enctype="multipart/form-data">
+							 							    
+							 	<input type="hidden" value="products/${product.id}/" name="prefix"/>
+							 	<div id="fuTable">
+							   
+							        <input name="files" type="file">
+							      
+							 	</div>
+							    <br>   
+							    <input  type="button" value="Add More File"  class="btn btn-default" onclick="AddMoreFile('fuTable')">
+							    <input type="submit" value="Upload" class="btn btn-default">
+							</form:form>
+						</div>
+					</div>
                 </div>
 
 
@@ -150,5 +185,36 @@
 
 	</div>
 	<%@include file="../template_parts/footer.jsp"%>
+	<script>
+	$(document).ready(function() {	
+		var focus = 0,
+		blur = 0;
+		$( "#nameinput" ).focusout(function() {
+		    focus++;	    
+		    var data = $( "#nameinput" ).val();
+		    var urlinput = $( "#urlinput" );
+		    $.ajax({
+				type : "POST",
+				contentType : "application/json",
+				url : "${home}a/translit",
+				data : JSON.stringify({ cropName: data }),
+				dataType:'text',
+				timeout : 100000,
+				success : function(data) {
+					console.log("SUCCESS: ", data.d);
+					
+					urlinput.val(data.substring(4));
+				},
+				error : function(e) {
+					console.log("ERROR: ", e);				
+				},
+				done : function(e) {
+					console.log("DONE");
+				}
+			});
+		  }); 
+		
+	});
+	</script>
 </body>
 </html>

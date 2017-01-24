@@ -43,61 +43,73 @@ public class AjaxAdminController implements ResourceLoaderAware
 	}
 	
 			
-	 @RequestMapping(value="/uploadMultipleFiles", method=RequestMethod.POST)
-	    public /*@ResponseBody*/ String handleFileUpload(@RequestParam String prefix, @RequestParam("files") MultipartFile files[]){
-		 System.out.println("here______________________________________"+prefix);
-	            try {
-	            	String folder = context.getRealPath("/")+ "/resources/uploads/"+prefix;
-	                StringBuffer result=new StringBuffer();
-	                byte[] bytes=null;
-	                result.append("Uploading of File(s) ");
-	 
-	                for (int i=0;i<files.length;i++) {
-	                    if (!files[i].isEmpty()) {
-
-	                    	 try {
-	                    		 boolean created = false;
-
-	                    		    try{
-	                    		    	File theDir = new File(folder);
-	                    		    	theDir.mkdir();
-	                    		    	created = true;
-	                    		    } 
-	                    		    catch(SecurityException se){
-	                    		        //handle it
-	                    		    }        
-	                    		    if(created) {    
-	                    		        System.out.println("DIR created");  
-	                    		    }
-	                    		 int count = new File(folder).listFiles().length;
-	                    		 System.out.println("count "+count);
-	                    		 //create folder if not exists - products and categories, create id folder, count files in folder
-	                    		 File destination = new File(folder+count+files[i].getOriginalFilename().substring(files[i].getOriginalFilename().lastIndexOf('.')));//files[i].getOriginalFilename()
-	                    		 System.out.println("--> "+destination);
-	                    		 files[i].transferTo(destination);
-
-	                         } catch (Exception e) {
-	                             throw new RuntimeException("Product Image saving failed", e);
-	                         }
-	 	                       
-	                    }
-	                    else
-	                        result.append( files[i].getOriginalFilename() + " Failed. ");
-	 
-	            }
-	                File[] listOfFiles = new File(folder).listFiles();
-
-            	    for (int f = 0; f < listOfFiles.length; f++) {
-            	      if (listOfFiles[f].isFile()) {
-            	    	  result.append(listOfFiles[f].getName() + " Ok. ") ;
-            	      } 
-            	    }
-	                System.out.println(result.toString());
-	                return "redirect:/a/category/"+prefix.substring(prefix.indexOf("/")+1, prefix.length()-1)+"/update";
-	 
-	            } catch (Exception e) {
-	                return "Error Occured while uploading files." + " => " + e.getMessage();
-	            }
+	 @RequestMapping(value="/uploadCategoryFiles", method=RequestMethod.POST)
+	    public String handleFileUpload(@RequestParam String prefix, @RequestParam("files") MultipartFile files[]){
+		 		String result = uploadFiles(prefix, files);	       
+		 		System.out.println(result);
+	            return "redirect:/a/category/"+prefix.substring(prefix.indexOf("/")+1, prefix.length()-1)+"/update";
 	 
 	    } 
+	 
+	 @RequestMapping(value="/uploadProductFiles", method=RequestMethod.POST)
+	    public String handleProductFileUpload(@RequestParam String prefix, @RequestParam("files") MultipartFile files[]){
+		 String result =uploadFiles(prefix, files);
+		 System.out.println(result);
+		 return "redirect:/a/product/"+prefix.substring(prefix.indexOf("/")+1, prefix.length()-1)+"/update";
+	 }
+	 
+	 private String uploadFiles(String prefix, MultipartFile files[]){
+		 System.out.println("uploading______________________________________"+prefix);
+         try {
+         	String folder = context.getRealPath("/")+ "/resources/uploads/"+prefix;
+             StringBuffer result=new StringBuffer();
+             byte[] bytes=null;
+             result.append("Uploading of File(s) ");
+
+             for (int i=0;i<files.length;i++) {
+                 if (!files[i].isEmpty()) {
+
+                 	 try {
+                 		 boolean created = false;
+
+                 		    try{
+                 		    	File theDir = new File(folder);
+                 		    	theDir.mkdir();
+                 		    	created = true;
+                 		    } 
+                 		    catch(SecurityException se){
+                 		        //handle it
+                 		    }        
+                 		    if(created) {    
+                 		        System.out.println("DIR created");  
+                 		    }
+                 		 int count = new File(folder).listFiles().length;
+                 		 System.out.println("count "+count);
+                 		 //create folder if not exists - products and categories, create id folder, count files in folder
+                 		 File destination = new File(folder+count+files[i].getOriginalFilename().substring(files[i].getOriginalFilename().lastIndexOf('.')));//files[i].getOriginalFilename()
+                 		 System.out.println("--> "+destination);
+                 		 files[i].transferTo(destination);
+
+                      } catch (Exception e) {
+                          throw new RuntimeException("Product Image saving failed", e);
+                      }
+	                       
+                 }
+                 else
+                     result.append( files[i].getOriginalFilename() + " Failed. ");
+
+         }
+             File[] listOfFiles = new File(folder).listFiles();
+
+     	    for (int f = 0; f < listOfFiles.length; f++) {
+     	      if (listOfFiles[f].isFile()) {
+     	    	  result.append(listOfFiles[f].getName() + " Ok. ") ;
+     	      } 
+     	    }
+             return result.toString();             
+
+         } catch (Exception e) {
+             return "Error Occured while uploading files." + " => " + e.getMessage();
+         }
+	 }
 }

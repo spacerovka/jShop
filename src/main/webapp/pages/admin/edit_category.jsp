@@ -153,7 +153,7 @@
  						<div class="form-group">
 							<label>Select files to upload. Click Add More button to add more files.</label>
 							 
-							<form:form method="post" action="${pageContext.request.contextPath}/uploadMultipleFiles"  enctype="multipart/form-data">
+							<form:form method="post" action="${pageContext.request.contextPath}/uploadCategoryFiles"  enctype="multipart/form-data">
 							 							    
 							 	<input type="hidden" value="categories/${category.id}/" name="prefix"/>
 							 	<div id="fuTable">
@@ -178,7 +178,7 @@
 
 	<%@include file="../template_parts/footer.jsp"%>
 	<script>
-	/* $(document).ready(function() {	
+	$(document).ready(function() {	
 		var focus = 0,
 		blur = 0;
 		$( "#nameinput" ).focusout(function() {
@@ -194,7 +194,8 @@
 				timeout : 100000,
 				success : function(data) {
 					console.log("SUCCESS: ", data.d);
-					urlinput.val(data);
+					
+					urlinput.val(data.substring(4));
 				},
 				error : function(e) {
 					console.log("ERROR: ", e);				
@@ -205,7 +206,7 @@
 			});
 		  }); 
 		
-	}); */
+	});
 	</script>
 </body>
 </html>

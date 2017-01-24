@@ -1,6 +1,15 @@
 package shop.main.utils;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.ServletContext;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 public class URLUtils {
+	
 	
 	public static String transliterate(String message){
 		message = message.trim();
@@ -16,4 +25,28 @@ public class URLUtils {
 		return builder.toString().replaceAll("[^_a-zA-Z0-9]|", "").replaceAll("_$", "");
 
 		}
+	
+	public static List<String> getCategoryImages(ServletContext context,Long id){
+		String folder = context.getRealPath("/")+ "/resources/uploads/categories/"+id+"/";
+		return findImages(folder);		
+		
+	}
+	
+	public static List<String> getProductImages(ServletContext context,Long id){
+		String folder = context.getRealPath("/")+ "/resources/uploads/products/"+id+"/";
+		return findImages(folder);		
+		
+	}
+	
+	public static List<String> findImages(String folder){
+		List<String> images = new ArrayList<String>();
+		
+		File[] listOfFiles = new File(folder).listFiles();
+		if(listOfFiles!=null){
+		    for (File f : listOfFiles) {	      
+		    	  images.add(f.getName()) ;		      
+		    }
+		}
+		return images;
+	}
 }

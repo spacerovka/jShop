@@ -21,6 +21,7 @@ import shop.main.data.objects.Category;
 import shop.main.data.objects.Product;
 import shop.main.data.service.CategoryService;
 import shop.main.data.service.ProductService;
+import shop.main.utils.URLUtils;
 
 @Controller
 public class AdminController {
@@ -90,18 +91,9 @@ public class AdminController {
 		
 		model.addAttribute("category",categoryService.findCategoryById(id));
 		model.addAttribute("urlError", "");
-		model.addAttribute("parentCategoryList", categoryService.listAll());
+		model.addAttribute("parentCategoryList", categoryService.listAll());				
 		
-		List<String> images = new ArrayList<String>();
-		String folder = context.getRealPath("/")+ "/resources/uploads/categories/"+id+"/";
-		File[] listOfFiles = new File(folder).listFiles();
-		if(listOfFiles!=null){
-		    for (File f : listOfFiles) {	      
-		    	  images.add(f.getName()) ;
-		      
-		    }
-		}
-	    model.addAttribute("images", images);
+	    model.addAttribute("images", URLUtils.getCategoryImages(context, id));
 		
 		return "admin/edit_category";
 	}
@@ -164,6 +156,7 @@ public class AdminController {
 		model.addAttribute("product",productService.fingProductById(id));
 		model.addAttribute("urlError", "");
 		model.addAttribute("parentCategoryList", categoryService.listAll());
+		model.addAttribute("images", URLUtils.getProductImages(context, id));
 		return "admin/edit_product";
 	}
 	
@@ -174,6 +167,5 @@ public class AdminController {
 		return "redirect:/a/products";
 	}
 	
-	
-	
+		
 }
