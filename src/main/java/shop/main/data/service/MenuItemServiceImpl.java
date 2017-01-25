@@ -17,13 +17,13 @@ public class MenuItemServiceImpl implements MenuItemService{
 	private MenuItemDAO menuDAO;
 	
 	@Override
-	public void saveMenuItem(MenuItem item) {
+	public void save(MenuItem item) {
 		menuDAO.save(item);
 		
 	}
 
 	@Override
-	public void deleteMenuItem(MenuItem item) {
+	public void delete(MenuItem item) {
 		menuDAO.delete(item);
 		
 	}
@@ -34,12 +34,12 @@ public class MenuItemServiceImpl implements MenuItemService{
 	}
 
 	@Override
-	public MenuItem findMenuItemById(long id) {
+	public MenuItem findById(long id) {
 		return menuDAO.findOne(id);
 	}
 
 	@Override
-	public void deleteMenuItemById(long id) {
+	public void deleteById(long id) {
 		menuDAO.delete(id);
 		
 	}

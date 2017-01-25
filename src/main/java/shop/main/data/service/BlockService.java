@@ -8,8 +8,8 @@ public interface BlockService {
 	void saveBlock(Block block);
 	void deleteCategory(Block block);
 	List<Block> listAll();
-	Block findOneByURLAndType(String URL, String type);
-	List<Block> findAllByURL(String URL);
+	Block findOneByBlockURLAndType(String blockURL, String type);
+	List<Block> findAllByBlockURL(String blockURL);
 	Block findBlockById(long id);	
 	void deleteBlockById(long id);
 }

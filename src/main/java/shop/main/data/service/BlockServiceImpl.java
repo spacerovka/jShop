@@ -34,14 +34,14 @@ public class BlockServiceImpl implements BlockService{
 	}
 
 	@Override
-	public Block findOneByURLAndType(String URL, String type) {
+	public Block findOneByBlockURLAndType(String URL, String type) {
 		
-		return blockDAO.findOneByURLAndTypeContaining(URL, type);
+		return blockDAO.findOneByBlockURLAndType(URL, type);
 	}
 
 	@Override
-	public List<Block> findAllByURL(String URL) {
-		return blockDAO.findAllByURL(URL);
+	public List<Block> findAllByBlockURL(String URL) {
+		return blockDAO.findAllByBlockURL(URL);
 	}
 
 	@Override

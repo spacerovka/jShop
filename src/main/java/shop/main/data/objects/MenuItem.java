@@ -24,6 +24,9 @@ public class MenuItem {
 	
 	@Column(name = "status", nullable = false)
 	private boolean status;
+	
+	@Column(name = "type", nullable = false, length=200)
+	private String type;
 
 	public Long getId() {
 		return id;
@@ -56,6 +59,17 @@ public class MenuItem {
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
+	
+	
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	
 
 	@Override
 	public int hashCode() {
@@ -65,6 +79,7 @@ public class MenuItem {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + (status ? 1231 : 1237);
 		result = prime * result + ((text == null) ? 0 : text.hashCode());
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
 
@@ -94,12 +109,21 @@ public class MenuItem {
 				return false;
 		} else if (!text.equals(other.text))
 			return false;
+		if (type == null) {
+			if (other.type != null)
+				return false;
+		} else if (!type.equals(other.type))
+			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
 		return "MenuItem [id=" + id + ", text=" + text + ", URL=" + URL + ", status=" + status + "]";
+	}
+
+	public boolean isNew() {
+		return (this.id == null);
 	}
 	
 	

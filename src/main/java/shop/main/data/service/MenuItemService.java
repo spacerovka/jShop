@@ -2,13 +2,12 @@ package shop.main.data.service;
 
 import java.util.List;
 
-import shop.main.data.objects.Block;
 import shop.main.data.objects.MenuItem;
 
 public interface MenuItemService {
-void saveMenuItem(MenuItem item);
-void deleteMenuItem(MenuItem item);
+void save(MenuItem item);
+void delete(MenuItem item);
 List<MenuItem> listAll();
-MenuItem findMenuItemById(long id);	
-void deleteMenuItemById(long id);
+MenuItem findById(long id);	
+void deleteById(long id);
 }

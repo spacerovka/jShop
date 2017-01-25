@@ -10,6 +10,6 @@ import shop.main.data.objects.Block;
 
 public interface BlockDAO extends CrudRepository<Block, Long> {
 	List<Block> findAll();
-	Block findOneByURLAndTypeContaining(String URL, String type);
-	List<Block> findAllByURL(String URL);
+	Block findOneByBlockURLAndType(String blockURL, String type);
+	List<Block> findAllByBlockURL(String blockURL);
 }

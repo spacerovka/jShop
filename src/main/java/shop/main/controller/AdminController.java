@@ -2,6 +2,7 @@ package shop.main.controller;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -18,9 +19,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import shop.main.data.objects.Category;
+import shop.main.data.objects.MenuItem;
 import shop.main.data.objects.Product;
 import shop.main.data.service.CategoryService;
+import shop.main.data.service.MenuItemService;
 import shop.main.data.service.ProductService;
+import shop.main.utils.Constants;
 import shop.main.utils.URLUtils;
 
 @Controller
@@ -31,6 +35,9 @@ public class AdminController {
 	
 	@Autowired
 	 private CategoryService categoryService;
+	
+	@Autowired
+	 private MenuItemService menuService;
 			
 	@Autowired
     ServletContext context;
@@ -168,5 +175,67 @@ public class AdminController {
 		return "redirect:/a/products";
 	}
 	
+	/*********  Menu Items pages  ***/
+	
+	@RequestMapping(value = "/a/menu")
+	public String menuList(Model model) {
+
+		model.addAttribute("menuItemList",menuService.listAll());
+		return "admin/menu_items";
+	}
+	
+	@RequestMapping(value = "/a/menu", method=RequestMethod.POST) 
+	public String saveMenuItem(
+			@ModelAttribute("menuItem") @Valid MenuItem item,
+			Model model,
+			BindingResult result,
+			final RedirectAttributes redirectAttributes) {
+
+		if (result.hasErrors()) {
+			redirectAttributes.addFlashAttribute("errorMessage", "Error");
+			model.addAttribute("Error", "has-error");
+			return "admin/edit_menu";
+		} else {			
+			if(item.isNew()){
+			  redirectAttributes.addFlashAttribute("flashMessage", "Item added successfully!");
+			}else{
+			  redirectAttributes.addFlashAttribute("flashMessage", "Item updated successfully!");
+			}	
+			
+			menuService.save(item);
+			return "redirect:/a/menu";
+		}
+		
+	}
+	
+	@RequestMapping(value = "/a/menu/add", method=RequestMethod.GET)
+	public String addMenuItem(Model model) {
+		//TODO add menuTypeList
+		model.addAttribute("menuItem",new MenuItem());
+		model.addAttribute("menuTypeList", getMenuTypes());
+		return "admin/edit_menu";
+	}
+	
+	@RequestMapping(value = "/a/menu/{id}/update", method=RequestMethod.GET)
+	public String editMenuIten(@PathVariable("id") long id, Model model) {
+		
+		model.addAttribute("menuItem",menuService.findById(id));
+		model.addAttribute("menuTypeList", getMenuTypes());			    
+		
+		return "admin/edit_menu";
+	}
+	
+	@RequestMapping(value = "/a/menu/{id}/delete", method=RequestMethod.GET)
+	public String deleteMenuItem(@PathVariable("id") long id, Model model, final RedirectAttributes redirectAttributes) {
+		menuService.deleteById(id);
+		redirectAttributes.addFlashAttribute("flashMessage", "Item deleted successfully!");
+		
+		return "redirect:/a/menu";
+	}
+	
+	private String[] getMenuTypes(){
+		
+		return Constants.menuTypes;
+	}
 		
 }
