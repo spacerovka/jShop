@@ -29,10 +29,10 @@
 						</ol>
 					</div>
 				</div>
-				<core:if test="${not empty flashMessage}">
+				<core:if test="${not empty errorSummary}">
 
 					<div class="alert alert-danger">
-						<strong>Oh snap!</strong> ${errorMessage}
+						<strong>Error!</strong> ${errorSummary}
 					</div>
 				</core:if>
 				<div class="row">
@@ -47,13 +47,13 @@
 							<form:hidden path="id" />
 
 							<div class="form-group">
-								<label>Name</label>
+								<label>Name*</label>
 								<form:input class="form-control" placeholder="Product name"
 									path="name" id="nameinput" />
 							</div>
 
-							<div class="form-group">
-								<label>SKU</label>
+							<div class="form-group ${skuError}">
+								<label>SKU*</label>
 								<form:input class="form-control" placeholder="SKU" path="SKU" />
 							</div>
 
@@ -69,8 +69,8 @@
 								<form:input class="form-control" placeholder="0" path="instock" />
 							</div>
 
-							<div class="form-group">
-								<label>Price</label>
+							<div class="form-group ${priceError}">
+								<label>Price*</label>
 								<form:input class="form-control" placeholder="1.00" path="price" />
 							</div>
 

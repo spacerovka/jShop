@@ -125,5 +125,8 @@ public class Block {
 				+ "]";
 	}
 	
+	public boolean isNew() {
+		return (this.id == null);
+		}
 	
 }

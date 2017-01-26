@@ -16,13 +16,13 @@ public class BlockServiceImpl implements BlockService{
 	private BlockDAO blockDAO;
 	
 	@Override
-	public void saveBlock(Block block) {
+	public void save(Block block) {
 		blockDAO.save(block);
 		
 	}
 
 	@Override
-	public void deleteCategory(Block block) {
+	public void delete(Block block) {
 		blockDAO.delete(block);
 		
 	}
@@ -34,24 +34,24 @@ public class BlockServiceImpl implements BlockService{
 	}
 
 	@Override
-	public Block findOneByBlockURLAndType(String URL, String type) {
+	public Block findOneByURLAndType(String URL, String type) {
 		
 		return blockDAO.findOneByBlockURLAndType(URL, type);
 	}
 
 	@Override
-	public List<Block> findAllByBlockURL(String URL) {
+	public List<Block> findAllByURL(String URL) {
 		return blockDAO.findAllByBlockURL(URL);
 	}
 
 	@Override
-	public Block findBlockById(long id) {
+	public Block findById(long id) {
 		
 		return blockDAO.findOne(id);
 	}
 
 	@Override
-	public void deleteBlockById(long id) {
+	public void deleteById(long id) {
 		blockDAO.delete(id);
 		
 	}

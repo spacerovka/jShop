@@ -29,10 +29,10 @@
 						</ol>
 					</div>
 				</div>
-				<core:if test="${not empty flashMessage}">
+				<core:if test="${not empty errorSummary}">
 
 					<div class="alert alert-danger">
-						<strong>Warning!</strong> ${errorMessage}
+						<strong>Warning!</strong> ${errorSummary}
 					</div>
 				</core:if>
 				<div class="row">
@@ -47,7 +47,7 @@
 							<form:hidden path="id" />
 
 							<div class="form-group">
-								<label>Category name</label>
+								<label>Category name*</label>
 								<form:input class="form-control" placeholder="Category name"
 									path="categoryName" id="nameinput" />
 							</div>

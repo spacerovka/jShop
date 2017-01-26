@@ -18,9 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import shop.main.data.objects.Block;
 import shop.main.data.objects.Category;
 import shop.main.data.objects.MenuItem;
 import shop.main.data.objects.Product;
+import shop.main.data.service.BlockService;
 import shop.main.data.service.CategoryService;
 import shop.main.data.service.MenuItemService;
 import shop.main.data.service.ProductService;
@@ -38,6 +40,9 @@ public class AdminController {
 	
 	@Autowired
 	 private MenuItemService menuService;
+	
+	@Autowired
+	 private BlockService blockService;
 			
 	@Autowired
     ServletContext context;
@@ -67,6 +72,7 @@ public class AdminController {
 
 		if (result.hasErrors() || !categoryService.checkUniqueURL(category)) {
 			redirectAttributes.addFlashAttribute("errorMessage", "URL is not unique!");
+			model.addAttribute("errorSummary","URL is not unique!");
 			model.addAttribute("urlError", "has-error");
 			return "admin/edit_category";
 		} else {			
@@ -121,10 +127,27 @@ public class AdminController {
 			Model model,
 			BindingResult result,
 			final RedirectAttributes redirectAttributes) {
-
-		if (result.hasErrors() || !productService.checkUniqueURL(product)) {
-			redirectAttributes.addFlashAttribute("errorMessage", "URL is not unique!");
+		
+		String errorSummary = "";
+		if(!productService.checkUniqueURL(product)){
+			errorSummary+="URL is not unique! ";
 			model.addAttribute("urlError", "has-error");
+		}	
+		if(product.getPrice()==null){			
+			errorSummary+="Price can not be empty! ";		
+			model.addAttribute("priceError", "has-error");
+		}
+		if(product.getSKU()==null || product.getSKU().isEmpty()){			
+			errorSummary+="SKU can not be empty! ";		
+			model.addAttribute("skuError", "has-error");
+		}
+		if(!errorSummary.isEmpty()){
+			model.addAttribute("errorSummary", errorSummary);			
+			return "admin/edit_product";
+		}
+		
+		if (result.hasErrors()) {
+			redirectAttributes.addFlashAttribute("flashMessage", "Errors occured!");			
 			return "admin/edit_product";
 		} else {			
 			if(product.isNew()){
@@ -236,6 +259,68 @@ public class AdminController {
 	private String[] getMenuTypes(){
 		
 		return Constants.menuTypes;
+	}
+	
+	/************* Blocks ***/
+	@RequestMapping(value = "/a/blocks")
+	public String blockList(Model model) {
+
+		model.addAttribute("blockList",blockService.listAll());
+		return "admin/blocks";
+	}
+	
+	@RequestMapping(value = "/a/block", method=RequestMethod.POST) 
+	public String saveBlock(
+			@ModelAttribute("block") @Valid Block block,
+			Model model,
+			BindingResult result,
+			final RedirectAttributes redirectAttributes) {
+
+		if (result.hasErrors()) {
+			redirectAttributes.addFlashAttribute("errorMessage", "Error");
+			model.addAttribute("Error", "has-error");
+			return "admin/edit_menu";
+		} else {			
+			if(block.isNew()){
+			  redirectAttributes.addFlashAttribute("flashMessage", "Item added successfully!");
+			}else{
+			  redirectAttributes.addFlashAttribute("flashMessage", "Item updated successfully!");
+			}	
+			
+			blockService.save(block);
+			return "redirect:/a/blocks";
+		}
+		
+	}
+	
+	@RequestMapping(value = "/a/block/add", method=RequestMethod.GET)
+	public String addBlock(Model model) {
+		//TODO add menuTypeList
+		model.addAttribute("block",new Block());
+		model.addAttribute("blockTypeList", getBlockTypes());
+		return "admin/edit_block";
+	}
+	
+	@RequestMapping(value = "/a/block/{id}/update", method=RequestMethod.GET)
+	public String editBlock(@PathVariable("id") long id, Model model) {
+		
+		model.addAttribute("block",blockService.findById(id));
+		model.addAttribute("blockTypeList", getBlockTypes());			    
+		
+		return "admin/edit_block";
+	}
+	
+	@RequestMapping(value = "/a/block/{id}/delete", method=RequestMethod.GET)
+	public String deleteBlock(@PathVariable("id") long id, Model model, final RedirectAttributes redirectAttributes) {
+		blockService.deleteById(id);
+		redirectAttributes.addFlashAttribute("flashMessage", "Item deleted successfully!");
+		
+		return "redirect:/a/blocks";
+	}
+	
+	private String[] getBlockTypes(){
+		
+		return Constants.blockTypes;
 	}
 		
 }
