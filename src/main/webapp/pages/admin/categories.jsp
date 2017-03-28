@@ -105,6 +105,6 @@
 		</div>
 
 	</div>
-	<%@include file="../template_parts/footer.jsp"%>
+	<%@include file="_footer.jsp"%>
 </body>
 </html>

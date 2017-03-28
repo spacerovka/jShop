@@ -4,13 +4,13 @@
 <link href="${bootstrapCSS}" rel="stylesheet" />
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
-<spring:url value="/resources/css/font-awesome.min.css" var="awesomeCSS" />
+<spring:url value="/resources/default_theme/css/font-awesome.min.css" var="awesomeCSS" />
 <link href="${awesomeCSS}" rel="stylesheet" />
 
-<spring:url value="/resources/css/sb-admin.css" var="sbadminCSS" />
+<spring:url value="/resources/default_theme/css/sb-admin.css" var="sbadminCSS" />
 <link href="${sbadminCSS}" rel="stylesheet" />
 
-<spring:url value="/resources/css/admin.css" var="adminCSS" />
+<spring:url value="/resources/default_theme/css/admin.css" var="adminCSS" />
 <link href="${adminCSS}" rel="stylesheet" />
 
 <c:url value="/" var="home" />

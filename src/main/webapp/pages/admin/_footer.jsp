@@ -5,9 +5,9 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
-<spring:url value="/resources/js/bootstrap.min.js" var="bootstrapJS" />
+<spring:url value="/resources/default_theme/js/bootstrap.min.js" var="bootstrapJS" />
 <script src="${bootstrapJS}"></script>
-<spring:url value="/resources/js/ajax.js" var="ajaxJS" />
+<spring:url value="/resources/default_theme/js/ajax.js" var="ajaxJS" />
 <script src="${ajaxJS}"></script>
 
 <footer class="footer">

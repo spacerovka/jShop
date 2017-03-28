@@ -21,6 +21,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+import shop.main.utils.Properties;
+
 /*
  * this configuration class replaces application-context.xml
  * and dispatcher-servlet.xml
@@ -52,7 +54,7 @@ public class AppContextConfig extends WebMvcConfigurerAdapter {
 	@Bean
 	public InternalResourceViewResolver internalResourceViewResolver() {
 		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-		resolver.setPrefix("/pages/");
+		resolver.setPrefix("/pages/"+Properties.THEME_NAME+"/");
 		resolver.setSuffix(".jsp");
 		return resolver;
 	}

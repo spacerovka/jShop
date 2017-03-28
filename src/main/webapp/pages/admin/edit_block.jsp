@@ -103,7 +103,7 @@
 
 	</div>
 
-	<%@include file="../template_parts/footer.jsp"%>
+	<%@include file="_footer.jsp"%>
 	<script>
 	$(document).ready(function() {	
 		var focus = 0,
