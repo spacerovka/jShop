@@ -66,6 +66,9 @@ public class Product {
 	
 	@Column(name = "status", nullable = false)
 	private boolean status;
+	
+	@Column(name = "featured", nullable = false)
+	private boolean featured;
 
 	@Column(name = "created", nullable = true)
 	private Date created;
@@ -261,5 +264,23 @@ public class Product {
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
+
+	public boolean isFeatured() {
+		return featured;
+	}
+
+	public void setFeatured(boolean featured) {
+		this.featured = featured;
+	}
+
+	public int getInstock() {
+		return instock;
+	}
+
+	public void setInstock(int instock) {
+		this.instock = instock;
+	}
+	
+	
 
 }

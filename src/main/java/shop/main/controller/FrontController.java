@@ -54,10 +54,19 @@ public class FrontController {
 		return new ModelAndView("db_test/embeded_db_test", "users", data);
 	}
 	
+//	@RequestMapping(value = "/category")
+//	public ModelAndView displayCategory(Principal principal) {
+//		List<Product> data = productService.listAll();
+//		List<Category> menu = categoryService.findAllParentCategories();
+//		return new ModelAndView("category", "products", data);
+//	}
+	
 	@RequestMapping(value = "/category")
-	public ModelAndView displayCategory(Principal principal) {
-		List<Product> data = productService.listAll();
-		return new ModelAndView("category", "products", data);
+	public String categoriesList(Model model) {
+
+		model.addAttribute("products",productService.listAll());
+		model.addAttribute("menu", categoryService.findAllParentCategories());
+		return "category";
 	}
 	
 	@RequestMapping(value = "/product")
@@ -71,48 +80,48 @@ public class FrontController {
 	
 	@RequestMapping(value = "/tree")
 	public String displayCategoryTree(Model model) {
-		try{
-		Category main = new Category();
-		main.setCategoryName("main");
-		main.setCategoryURL("main");
-		categoryService.saveCategory(main);
+//		try{
+//		Category main = new Category();
+//		main.setCategoryName("main");
+//		main.setCategoryURL("main");
+//		categoryService.saveCategory(main);
+//		
+//		Category child = new Category();
+//		child.setCategoryName("child");
+//		child.setCategoryURL("child");
+//		child.setParentCategory(main);
+//		categoryService.saveCategory(child);
+//		
+//		Category child2 = new Category();
+//		child.setCategoryName("child2");
+//		child.setCategoryURL("child2");
+//		child.setParentCategory(main);
+//		categoryService.saveCategory(child2);
+//		
+//		
+//		Category child3 = new Category();
+//		child.setCategoryName("child3");
+//		child.setCategoryURL("child3");
+//		child.setParentCategory(child);
+//		categoryService.saveCategory(child3);
+//		
+//		
+//		Category child4 = new Category();
+//		child.setCategoryName("child4");
+//		child.setCategoryURL("child4");
+//		child.setParentCategory(child);
+//		categoryService.saveCategory(child4);
+//		
+//		Category child5 = new Category();
+//		child.setCategoryName("child5");
+//		child.setCategoryURL("child5");
+//		child.setParentCategory(child2);
+//		categoryService.saveCategory(child5);
 		
-		Category child = new Category();
-		child.setCategoryName("child");
-		child.setCategoryURL("child");
-		child.setParentCategory(main);
-		categoryService.saveCategory(child);
 		
-		Category child2 = new Category();
-		child.setCategoryName("child2");
-		child.setCategoryURL("child2");
-		child.setParentCategory(main);
-		categoryService.saveCategory(child2);
-		
-		
-		Category child3 = new Category();
-		child.setCategoryName("child3");
-		child.setCategoryURL("child3");
-		child.setParentCategory(child);
-		categoryService.saveCategory(child3);
-		
-		
-		Category child4 = new Category();
-		child.setCategoryName("child4");
-		child.setCategoryURL("child4");
-		child.setParentCategory(child);
-		categoryService.saveCategory(child4);
-		
-		Category child5 = new Category();
-		child.setCategoryName("child5");
-		child.setCategoryURL("child5");
-		child.setParentCategory(child2);
-		categoryService.saveCategory(child5);
-		
-		
-		}catch(Exception e){
-			LOGGER.error(e.toString());
-		}
+//		}catch(Exception e){
+//			LOGGER.error(e.toString());
+//		}
 		
 		List<Category> data = categoryService.findAllParentCategories();
 		

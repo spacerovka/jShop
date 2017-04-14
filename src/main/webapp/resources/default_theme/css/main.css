@@ -171,9 +171,9 @@ nav.sidebar, .main{
       margin-left: 0px;
     }
 
-    .forAnimate{
+    /* .forAnimate{
       opacity: 0;
-    }
+    } */
   }
   @media (min-width:992px){
   nav.sidebar li {

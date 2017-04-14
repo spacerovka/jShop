@@ -26,7 +26,8 @@
 	        		<core:when test="${not empty level1.children}">
 	        			<li class="dropdown">
           				<a href="${level1.categoryURL}" class="dropdown-toggle" data-toggle="dropdown">${level1.categoryName} 
-          				<!-- <span class="caret"></span><span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-user"></span> -->
+          					<span class="caret"></span>
+          				<!-- <span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-user"></span> -->
           				</a>
           				<ul class="dropdown-menu forAnimate" role="menu">
 	          				<core:forEach var="level2" items="${level1.children}">
