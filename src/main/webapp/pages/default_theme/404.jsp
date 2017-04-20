@@ -20,7 +20,7 @@ background-size:cover;"> -->
 		<header class="jumbotron hero-spacer" style="text-align:center;">
 			<!-- <h1>404</h1> -->
 			
-			<img src="${pageContext.request.contextPath}/resources/img/404-error.png" style="margin:0 auto;width: 80%;" />
+			<img src="${pageContext.request.contextPath}/resources/default_theme/img/404-error.png" style="margin:0 auto;width: 80%;" />
 			<br/>
 			<p><core:out value="${message}" /></p>
 			<p>

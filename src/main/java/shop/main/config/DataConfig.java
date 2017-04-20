@@ -113,6 +113,7 @@ public class DataConfig<DatabasePopulator> {
 		
 		Properties jpaProperties = new Properties();
 		jpaProperties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
+		jpaProperties.setProperty("hibernate.enable_lazy_load_no_trans", "true");
 		entityManagerFactory.setJpaProperties(jpaProperties);
 		return entityManagerFactory;
 	}

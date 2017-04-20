@@ -22,6 +22,32 @@
 			<div class="col-md-9">
 
                 <div class="thumbnail">
+	                <ol class="breadcrumb" itemscope itemtype="http://schema.org/BreadcrumbList">
+	                <li class="breadcrumb-item" itemprop="itemListElement" itemscope
+     					 itemtype="http://schema.org/ListItem">
+      					<a href="/" itemscope itemtype="http://schema.org/Thing"
+      						 itemprop="item"><span itemprop="name">Home</span>
+      						 <meta itemprop="url" content="/" /></a>
+      				</li>
+	                <core:if test="${not empty breadCrumbs}">	                
+		        		<core:forEach var="breadCrumb" items="${breadCrumbs}">
+		        			<li class="breadcrumb-item" itemprop="itemListElement" itemscope
+      							itemtype="http://schema.org/ListItem">
+      							<a href="/${breadCrumb.categoryURL}" itemscope itemtype="http://schema.org/Thing"
+       							itemprop="item"><span itemprop="name">${breadCrumb.categoryName}</span>
+       							<meta itemprop="url" content="/${breadCrumb.categoryURL}" /></a>
+      						</li>
+		        		</core:forEach>	        		
+	        		</core:if>
+	        		<li class="breadcrumb-item" itemprop="itemListElement" itemscope
+      					itemtype="http://schema.org/ListItem">
+      					<span itemscope itemtype="http://schema.org/Thing"
+      					 itemprop="item"><span itemprop="name">${product.name}</span>
+      					 <meta itemprop="url" content="/products/${product.url}" /></span>
+      				</li>
+	        		</ol>
+        		
+                  
                     <img class="img-responsive" src="http://placehold.it/800x300" alt="">
                     <div class="caption-full">
                         <h4 class="pull-right">$24.99</h4>

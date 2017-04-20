@@ -71,4 +71,10 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ProductServiceImpl.
 		
 	}
 
+	@Override
+	public Product fingProductByUrl(String url) {
+
+		return productDAO.findOneByUrl(url);
+	}
+
 }

@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -71,57 +72,34 @@ public class FrontController {
 	
 	@RequestMapping(value = "/product")
 	public String displayProduct(Model model) {
-		Product data = productService.fingProductById(0L);
+		Product product = productService.fingProductById(0L);
 		//System.out.println(data.toString());
+		
 		addMenuItems(model);
-		model.addAttribute("product",data);
+		model.addAttribute("product",product);
+		return "product";
+	}
+	
+	@RequestMapping(value = "/products/{url}")
+	public String displayProductByUrl(@PathVariable("url") String url, Model model) {
+		System.out.println("url is "+url);
+		
+		Product product = productService.fingProductByUrl(url);
+		//System.out.println(data.toString());
+		if(product.getCategory()!= null){
+			System.out.println("add breadcrumbs");
+			List<Category> breadCrumbs = new ArrayList<Category>();
+			addBreadCrumb(product.getCategory(), breadCrumbs);
+			model.addAttribute("breadCrumbs",breadCrumbs);
+		}
+		
+		addMenuItems(model);
+		model.addAttribute("product",product);
 		return "product";
 	}
 	
 	@RequestMapping(value = "/tree")
 	public String displayCategoryTree(Model model) {
-//		try{
-//		Category main = new Category();
-//		main.setCategoryName("main");
-//		main.setCategoryURL("main");
-//		categoryService.saveCategory(main);
-//		
-//		Category child = new Category();
-//		child.setCategoryName("child");
-//		child.setCategoryURL("child");
-//		child.setParentCategory(main);
-//		categoryService.saveCategory(child);
-//		
-//		Category child2 = new Category();
-//		child.setCategoryName("child2");
-//		child.setCategoryURL("child2");
-//		child.setParentCategory(main);
-//		categoryService.saveCategory(child2);
-//		
-//		
-//		Category child3 = new Category();
-//		child.setCategoryName("child3");
-//		child.setCategoryURL("child3");
-//		child.setParentCategory(child);
-//		categoryService.saveCategory(child3);
-//		
-//		
-//		Category child4 = new Category();
-//		child.setCategoryName("child4");
-//		child.setCategoryURL("child4");
-//		child.setParentCategory(child);
-//		categoryService.saveCategory(child4);
-//		
-//		Category child5 = new Category();
-//		child.setCategoryName("child5");
-//		child.setCategoryURL("child5");
-//		child.setParentCategory(child2);
-//		categoryService.saveCategory(child5);
-		
-		
-//		}catch(Exception e){
-//			LOGGER.error(e.toString());
-//		}
 		
 		List<Category> data = categoryService.findAllParentCategories();
 		
@@ -132,5 +110,13 @@ public class FrontController {
 	private void addMenuItems(Model model){
 		List<Category> data = categoryService.findAllParentCategories();
 		model.addAttribute("menu",data);
+	}
+	
+	private void addBreadCrumb(Category category, List<Category> breadcrumbList){
+		breadcrumbList.add(0, category);
+		System.out.println("added category "+category.getCategoryName());
+		if(category.getParentCategory()!=null){
+			addBreadCrumb(category.getParentCategory(), breadcrumbList);
+		}
 	}
 }

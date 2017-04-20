@@ -21,6 +21,10 @@
 				<core:forEach var="level2" items="${category.children}">
 					<br>
 					--<core:out value="${level2.categoryName}" />
+					<core:forEach var="level3" items="${level2.children}">
+					<br>
+					----<core:out value="${level3.categoryName}" />
+				</core:forEach>
 				</core:forEach>
 			</core:if>
 			<br>
