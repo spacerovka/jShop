@@ -17,4 +17,5 @@ public interface ProductService {
 	void deleteProductById(long id);
 	List<Product> findAllActive();
 	List<Product> findAllActiveWithinActiveCategory();
+	List<Product> findAllFeatured();
 }

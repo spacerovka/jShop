@@ -281,3 +281,7 @@ body {
     background-color: #B82C62;
     border-color: #B82C62;
 }
+
+.hero-feature img {
+    height: 150px !important;
+}

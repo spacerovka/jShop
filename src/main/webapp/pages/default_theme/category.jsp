@@ -64,16 +64,14 @@
 						<core:forEach var="product" items="${products}">							
 							<div class="col-sm-4 col-lg-4 col-md-4">
 						<div class="thumbnail">
-							<img src="http://placehold.it/320x150" alt="">
+							<img src="${pageContext.request.contextPath}/resources/uploads/products/${product.id}/main/${product.image}" alt="${product.name}" style="height:150px;">
 							<div class="caption">
 								<h4 class="pull-right">$<core:out value="${product.price}" /></h4>
 								<h4>
 									<a href="/products/${product.url}"><core:out value="${product.name}" /></a>
 								</h4>
 								<p>
-									See more snippets like this online store item at <a
-										target="_blank" href="http://www.bootsnipp.com">Bootsnipp
-										- http://bootsnipp.com</a>.
+									${product.shortDesc}
 								</p>
 							</div>
 							<div class="ratings">

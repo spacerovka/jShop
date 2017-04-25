@@ -66,11 +66,24 @@ public class FrontController {
 //		List<Category> menu = categoryService.findAllParentCategories();
 //		return new ModelAndView("category", "products", data);
 //	}
+	@RequestMapping(value = "/")
+	public String mainPage(Model model) {
+		System.out.println("***************************main page");
+		List<Product> products = productService.findAllFeatured();
+		for(Product p : products){
+			p.setImage(URLUtils.getProductImage(context, p.getId()));
+		}
+		model.addAttribute("products",products);
+		return "index";
+	}
 	
 	@RequestMapping(value = "/category")
 	public String categoriesList(Model model) {
-
-		model.addAttribute("products",productService.findAllActiveWithinActiveCategory());
+		List<Product> products = productService.findAllActiveWithinActiveCategory();
+		for(Product p : products){
+			p.setImage(URLUtils.getProductImage(context, p.getId()));
+		}
+		model.addAttribute("products",products);
 		model.addAttribute("menu", categoryService.findAllParentCategories());
 		return "category";
 	}

@@ -98,11 +98,25 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ProductServiceImpl.
 	@Transactional
 	@Override
 	public List<Product> findAllActiveWithinActiveCategory() {
-		//SessionFactory sessionFactory = entityManager.unwrap(SessionFactory.class);
-		//Session session = sessionFactory.getCurrentSession();
+		
 		Session session =(Session)entityManager.getDelegate();
 		
 		String hql = "from Product product where product.status = true and product.category.status = true";
+		Query query = session.createQuery(hql);
+		System.out.println("*");
+		System.out.println("*");
+		System.out.println("query is "+query.getQueryString());
+		System.out.println("*");
+		System.out.println("*");
+		return query.list();
+	}
+	
+	@Transactional
+	@Override
+	public List<Product> findAllFeatured() {
+		Session session =(Session)entityManager.getDelegate();
+		
+		String hql = "from Product product where product.status = true and product.featured=true and product.category.status = true";
 		Query query = session.createQuery(hql);
 		System.out.println("*");
 		System.out.println("*");

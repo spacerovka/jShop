@@ -38,7 +38,7 @@ public class AppContextConfig extends WebMvcConfigurerAdapter {
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
 
-		registry.addViewController("/").setViewName("index");
+//		registry.addViewController("/").setViewName("index");
 		 registry.addViewController("/user/cabinet").setViewName("user/cabinet");
 		 registry.addViewController("/accessDenied").setViewName("accessDenied");
 		 registry.addViewController("/admin/welcome").setViewName("admin/welcome");
