@@ -3,6 +3,7 @@ package shop.main.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import shop.main.data.service.CategoryService;
@@ -109,7 +110,7 @@ public class DataConfig<DatabasePopulator> {
 		LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
 		entityManagerFactory.setDataSource(dataSourceMysql());
 		entityManagerFactory.setJpaVendorAdapter(jpaVendorAdapter());
-		entityManagerFactory.setPackagesToScan("shop.main.data.objects"); //hera are models of user and log_post
+		entityManagerFactory.setPackagesToScan("shop.main.data.objects");
 		
 		Properties jpaProperties = new Properties();
 		jpaProperties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
@@ -118,6 +119,14 @@ public class DataConfig<DatabasePopulator> {
 		return entityManagerFactory;
 	}
 			
+	@Bean(name = "transactionManager")
+	public PlatformTransactionManager transactionManager(EntityManagerFactory emf,DataSource dataSource) {
+	    JpaTransactionManager tm = 
+	        new JpaTransactionManager();
+	        tm.setEntityManagerFactory(emf);
+	        tm.setDataSource(dataSource);
+	    return tm;
+	}
 	
 	
 

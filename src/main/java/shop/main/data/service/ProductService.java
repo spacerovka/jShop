@@ -15,4 +15,6 @@ public interface ProductService {
 	Product fingProductByUrl(String url);
 	boolean checkUniqueURL(Product product);
 	void deleteProductById(long id);
+	List<Product> findAllActive();
+	List<Product> findAllActiveWithinActiveCategory();
 }

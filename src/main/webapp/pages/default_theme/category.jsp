@@ -61,17 +61,14 @@
 
 				<div class="row">
 					<core:if test="${not empty products}">
-						<core:forEach var="product" items="${products}">
-							<p>
-								<core:out value="${product}" />
-							</p>
+						<core:forEach var="product" items="${products}">							
 							<div class="col-sm-4 col-lg-4 col-md-4">
 						<div class="thumbnail">
 							<img src="http://placehold.it/320x150" alt="">
 							<div class="caption">
 								<h4 class="pull-right">$<core:out value="${product.price}" /></h4>
 								<h4>
-									<a href="#"><core:out value="${product.name}" /></a>
+									<a href="/products/${product.url}"><core:out value="${product.name}" /></a>
 								</h4>
 								<p>
 									See more snippets like this online store item at <a
@@ -97,21 +94,6 @@
 					</core:if>
 
 										
-
-					<div class="col-sm-4 col-lg-4 col-md-4">
-						<h4>
-							<a href="#">Like this template?</a>
-						</h4>
-						<p>
-							If you like this template, then check out <a target="_blank"
-								href="http://maxoffsky.com/code-blog/laravel-shop-tutorial-1-building-a-review-system/">this
-								tutorial</a> on how to build a working review system for your online
-							store!
-						</p>
-						<a class="btn btn-primary" target="_blank"
-							href="http://maxoffsky.com/code-blog/laravel-shop-tutorial-1-building-a-review-system/">View
-							Tutorial</a>
-					</div>
 
 				</div>
 

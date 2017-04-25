@@ -7,7 +7,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+
+<title>${metaTitle}</title>
+<meta name="description" content="${metaDescription}"/>
 <%@include file="template_parts/resources.jsp"%>
 </head>
 <body>
@@ -27,7 +29,7 @@
      					 itemtype="http://schema.org/ListItem">
       					<a href="/" itemscope itemtype="http://schema.org/Thing"
       						 itemprop="item"><span itemprop="name">Home</span>
-      						 <meta itemprop="url" content="/" /></a>
+      						 <meta itemprop="url" content="http:/${pageContext.request.contextPath}/" /></a>
       				</li>
 	                <core:if test="${not empty breadCrumbs}">	                
 		        		<core:forEach var="breadCrumb" items="${breadCrumbs}">
@@ -35,7 +37,7 @@
       							itemtype="http://schema.org/ListItem">
       							<a href="/${breadCrumb.categoryURL}" itemscope itemtype="http://schema.org/Thing"
        							itemprop="item"><span itemprop="name">${breadCrumb.categoryName}</span>
-       							<meta itemprop="url" content="/${breadCrumb.categoryURL}" /></a>
+       							<meta itemprop="url" content="http:/${pageContext.request.contextPath}/${breadCrumb.categoryURL}" /></a>
       						</li>
 		        		</core:forEach>	        		
 	        		</core:if>
@@ -43,22 +45,66 @@
       					itemtype="http://schema.org/ListItem">
       					<span itemscope itemtype="http://schema.org/Thing"
       					 itemprop="item"><span itemprop="name">${product.name}</span>
-      					 <meta itemprop="url" content="/products/${product.url}" /></span>
+      					 <meta itemprop="url" content="http:/${pageContext.request.contextPath}/products/${product.url}" /></span>
       				</li>
 	        		</ol>
         		
+                                    
+                  <noscript>
+			<style>
+				.es-carousel ul{
+					display:block;
+				}
+			</style>
+		</noscript>
+		<script id="img-wrapper-tmpl" type="text/x-jquery-tmpl">	
+			<div class="rg-image-wrapper">
+				{{if itemsCount > 1}}
+					<div class="rg-image-nav">
+						<a href="#" class="rg-image-nav-prev">Previous Image</a>
+						<a href="#" class="rg-image-nav-next">Next Image</a>
+					</div>
+				{{/if}}
+				<div class="rg-image"></div>
+				<div class="rg-loading"></div>
+				<div class="rg-caption-wrapper">
+					<div class="rg-caption" style="display:none;">
+						<p></p>
+					</div>
+				</div>
+			</div>
+		</script>
+                  <div id="rg-gallery" class="rg-gallery">
+					<div class="rg-thumbs">
+						<!-- Elastislide Carousel Thumbnail Viewer -->
+						<div class="es-carousel-wrapper">
+							
+							<div class="es-carousel">
+								<ul>
+								<core:if test="${not empty mainImage}">
+				                    <li><a href="#">
+				                    	<img src="${pageContext.request.contextPath}/resources/uploads/products/${product.id}/main/${mainImage}" data-large="${pageContext.request.contextPath}/resources/uploads/products/${product.id}/main/${mainImage}" alt="${product.name}" data-description="${product.shortDesc}">
+				                 	</a></li>
+				                  </core:if>
+									<core:forEach items="${images}" var="img">
+										<li><a href="#">
+											<img src="${pageContext.request.contextPath}/resources/uploads/products/${product.id}/${img}" data-large="${pageContext.request.contextPath}/resources/uploads/products/${product.id}/${img}" alt="${product.name}" data-description="${product.shortDesc}" />
+										</a></li>
+									</core:forEach>
+								</ul>
+							</div>
+						</div>
+						<!-- End Elastislide Carousel Thumbnail Viewer -->
+					</div><!-- rg-thumbs -->
+				</div><!-- rg-gallery -->
                   
-                    <img class="img-responsive" src="http://placehold.it/800x300" alt="">
+                    
                     <div class="caption-full">
-                        <h4 class="pull-right">$24.99</h4>
-                        <h4><a href="#">Product Name</a>
+                        <h4 class="pull-right">$${product.price}</h4>
+                        <h4><a href="#">${product.name}</a>
                         </h4>
-                        <p>See more snippets like these online store reviews at <a target="_blank" href="http://bootsnipp.com">Bootsnipp - http://bootsnipp.com</a>.</p>
-                        <p>Want to make these reviews work? Check out
-                            <strong><a href="http://maxoffsky.com/code-blog/laravel-shop-tutorial-1-building-a-review-system/">this building a review system tutorial</a>
-                            </strong>over at maxoffsky.com!</p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-                    </div>
+                        ${product.longDesc}
+					</div>
                     <div class="ratings">
                         <p class="pull-right">3 reviews</p>
                         <p>

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.sql.DataSource;
 
 import org.slf4j.Logger;
@@ -22,6 +23,7 @@ import shop.main.data.objects.Category;
 import shop.main.data.objects.Product;
 import shop.main.data.service.CategoryService;
 import shop.main.data.service.ProductService;
+import shop.main.utils.URLUtils;
 
 @Controller
 public class FrontController {
@@ -39,6 +41,9 @@ public class FrontController {
 	
 	@Autowired
 	 private CategoryService categoryService;
+	
+	@Autowired
+    ServletContext context;
 
 	@RequestMapping(value = "/displayusersmysql")
 	public ModelAndView displayUsers(Principal principal) {
@@ -65,7 +70,7 @@ public class FrontController {
 	@RequestMapping(value = "/category")
 	public String categoriesList(Model model) {
 
-		model.addAttribute("products",productService.listAll());
+		model.addAttribute("products",productService.findAllActiveWithinActiveCategory());
 		model.addAttribute("menu", categoryService.findAllParentCategories());
 		return "category";
 	}
@@ -95,6 +100,18 @@ public class FrontController {
 		
 		addMenuItems(model);
 		model.addAttribute("product",product);
+		if(product.getMetaTitle()!=null && !product.getMetaTitle().equals("")){
+			model.addAttribute("metaTitle", product.getMetaTitle());
+		}else{
+			model.addAttribute("metaTitle", "JShop - "+product.getName()+" - "+product.getCategory().getCategoryName());
+		}
+		if(product.getMetaDescription()!=null && !product.getMetaDescription().equals("")){
+			model.addAttribute("metaDescription", product.getMetaDescription());
+		}else{
+			model.addAttribute("metaDescription", "JShop - "+product.getName()+" - "+product.getShortDesc());
+		}
+		model.addAttribute("images", URLUtils.getProductImages(context, product.getId()));
+		model.addAttribute("mainImage", URLUtils.getProductImage(context, product.getId()));
 		return "product";
 	}
 	

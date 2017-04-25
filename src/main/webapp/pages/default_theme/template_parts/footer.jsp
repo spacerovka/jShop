@@ -9,6 +9,18 @@
 <script src="${bootstrapJS}"></script>
 <spring:url value="/resources/default_theme/js/ajax.js" var="ajaxJS" />
 <script src="${ajaxJS}"></script>
+<!-- gallery on product page js https://tympanus.net/codrops/2011/09/20/responsive-image-gallery/-->
+<spring:url value="/resources/default_theme/js/jquery.tmpl.min.js" var="tmpl" />
+<script type="text/javascript" src="${tmpl}"></script>
+
+<spring:url value="/resources/default_theme/js/jquery.easing.1.3.js" var="easing" />
+<script type="text/javascript" src="${easing}"></script>
+		
+<spring:url value="/resources/default_theme/js/jquery.elastislide.js" var="elastislide" />
+<script type="text/javascript" src="${elastislide}"></script>
+		
+<spring:url value="/resources/default_theme/js/gallery.js" var="gallery" />
+<script type="text/javascript" src="${gallery}"></script>
 
 <footer class="footer">
 	<div class="container">

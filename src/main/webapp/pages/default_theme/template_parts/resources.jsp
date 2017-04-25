@@ -11,4 +11,7 @@
 <spring:url value="/resources/default_theme/css/main.css" var="mainCSS" />
 <link href="${mainCSS}" rel="stylesheet" />
 
+<spring:url value="/resources/default_theme/css/gallery.css" var="galleryCSS" />
+<link href="${galleryCSS}" rel="stylesheet" />
+
 <c:url value="/" var="home" />

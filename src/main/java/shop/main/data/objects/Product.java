@@ -49,7 +49,7 @@ public class Product {
 	@Column(name = "shortDesc", nullable = true, length = 1000)
 	private String shortDesc;
 
-	@Column(name = "longDesc", nullable = true)
+	@Column(name = "longDesc", nullable = true, length = 2000)
 	private String longDesc;
 
 	@Column(name = "thumb", nullable = true, length = 100)
@@ -80,7 +80,7 @@ public class Product {
 	private String location;	
 	
 	@ManyToOne(optional = true, fetch = FetchType.LAZY)	
-	@JoinColumn(columnDefinition="integer", name="category_id", nullable=true)
+	@JoinColumn(columnDefinition="integer", name="category", nullable=true)
 	private Category category;
 
 //	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY)

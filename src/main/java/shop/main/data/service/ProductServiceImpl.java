@@ -2,14 +2,23 @@ package shop.main.data.service;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import shop.main.data.DAO.ProductDAO;
 import shop.main.data.objects.Category;
 import shop.main.data.objects.Product;
+import shop.main.utils.HibernateUtil;
 
 @Service("productService")
 public class ProductServiceImpl implements ProductService{
@@ -19,6 +28,9 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ProductServiceImpl.
 	
 	@Autowired
 	private ProductDAO productDAO;
+		
+	@PersistenceContext
+    protected EntityManager entityManager;
 	
 	@Override
 	public void saveProduct(Product product) {
@@ -75,6 +87,29 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ProductServiceImpl.
 	public Product fingProductByUrl(String url) {
 
 		return productDAO.findOneByUrl(url);
+	}
+
+	@Override
+	public List<Product> findAllActive() {
+		
+		return productDAO.findAllProductByStatus(true);
+	}
+	
+	@Transactional
+	@Override
+	public List<Product> findAllActiveWithinActiveCategory() {
+		//SessionFactory sessionFactory = entityManager.unwrap(SessionFactory.class);
+		//Session session = sessionFactory.getCurrentSession();
+		Session session =(Session)entityManager.getDelegate();
+		
+		String hql = "from Product product where product.status = true and product.category.status = true";
+		Query query = session.createQuery(hql);
+		System.out.println("*");
+		System.out.println("*");
+		System.out.println("query is "+query.getQueryString());
+		System.out.println("*");
+		System.out.println("*");
+		return query.list();
 	}
 
 }

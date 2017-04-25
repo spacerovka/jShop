@@ -77,7 +77,7 @@
         		</core:choose>
         	</core:forEach>
         </core:if>
-        <li class="dropdown">
+       <!--  <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Usuarios <span class="caret"></span><span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-user"></span></a>
           <ul class="dropdown-menu forAnimate" role="menu">
             <li><a href="{{URL::to('createusuario')}}">Crear</a></li>
@@ -105,7 +105,7 @@
           </ul>
         </li>          
         <li ><a href="#">Libros<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-th-list"></span></a></li>        
-        <li ><a href="#">Tags<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-tags"></span></a></li>
+        <li ><a href="#">Tags<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-tags"></span></a></li> -->
       </ul>
     </div>
   </div>
