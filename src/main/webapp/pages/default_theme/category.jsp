@@ -3,6 +3,7 @@
 <%@ taglib prefix="core" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>	
 <!DOCTYPE html>
 <html>
 <head>
@@ -68,20 +69,21 @@
 							<div class="caption">
 								<h4 class="pull-right">$<core:out value="${product.price}" /></h4>
 								<h4>
-									<a href="/products/${product.url}"><core:out value="${product.name}" /></a>
+									<a href="${pageContext.request.contextPath}/products/${product.url}"><core:out value="${product.name}" /></a>
 								</h4>
 								<p>
 									${product.shortDesc}
 								</p>
 							</div>
 							<div class="ratings">
-								<p class="pull-right">15 reviews</p>
+								<p class="pull-right">${fn:length(product.reviews)} reviews</p>
 								<p>
-									<span class="glyphicon glyphicon-star"></span> <span
-										class="glyphicon glyphicon-star"></span> <span
-										class="glyphicon glyphicon-star"></span> <span
-										class="glyphicon glyphicon-star"></span> <span
-										class="glyphicon glyphicon-star"></span>
+									<c:forEach begin="1" end="${product.rating}" varStatus="loop">
+									    <span class="glyphicon glyphicon-star"></span>
+									</c:forEach>
+									<c:forEach begin="${product.rating}" end="4" varStatus="loop">
+									    <span class="glyphicon glyphicon-star-empty"></span>
+									</c:forEach> 
 								</p>
 							</div>
 						</div>

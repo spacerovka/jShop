@@ -22,6 +22,10 @@
 <spring:url value="/resources/default_theme/js/gallery.js" var="gallery" />
 <script type="text/javascript" src="${gallery}"></script>
 
+<spring:url value="/resources/default_theme/js/jquery_mask.js" var="jquery_mask" />
+<script type="text/javascript" src="${jquery_mask}"></script>
+
+
 <footer class="footer">
 	<div class="container">
 		

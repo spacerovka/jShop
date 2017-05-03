@@ -85,10 +85,17 @@ public class Product {
 
 //	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
 //	private List<ProductOption> productOptions;
+	
+	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    private List<Review> reviews;
+	
+	@Column(name="rating", columnDefinition = "int default 0")
+	private int rating;
 
 	@PrePersist
 	  protected void onCreate() {
-	    created = new Date();
+	    created = new Date();	    	
+	    
 	  }
 
 	  @PreUpdate
@@ -279,6 +286,22 @@ public class Product {
 
 	public void setInstock(int instock) {
 		this.instock = instock;
+	}
+
+	public List<Review> getReviews() {
+		return reviews;
+	}
+
+	public void setReviews(List<Review> reviews) {
+		this.reviews = reviews;
+	}
+
+	public int getRating() {
+		return rating;
+	}
+
+	public void setRating(int rating) {
+		this.rating = rating;
 	}
 	
 	

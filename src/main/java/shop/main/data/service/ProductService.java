@@ -18,4 +18,5 @@ public interface ProductService {
 	List<Product> findAllActive();
 	List<Product> findAllActiveWithinActiveCategory();
 	List<Product> findAllFeatured();
+	void updateRating(Long productId);
 }

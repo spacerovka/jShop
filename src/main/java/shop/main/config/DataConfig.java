@@ -16,6 +16,8 @@ import shop.main.data.service.ProductOptionService;
 import shop.main.data.service.ProductOptionServiceImpl;
 import shop.main.data.service.ProductService;
 import shop.main.data.service.ProductServiceImpl;
+import shop.main.data.service.ReviewService;
+import shop.main.data.service.ReviewServiceImpl;
 import shop.main.data.service.UserService;
 import shop.main.data.service.UserServiceImpl;
 
@@ -170,5 +172,10 @@ public class DataConfig<DatabasePopulator> {
 	@Bean
 	public OptionGroupService optionGroupService() {
 		return new OptionGroupServiceImpl();
+	}
+	
+	@Bean
+	public ReviewService reviewService() {
+		return new ReviewServiceImpl();
 	}
 }

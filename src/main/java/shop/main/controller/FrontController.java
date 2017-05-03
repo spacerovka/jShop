@@ -21,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import shop.main.data.objects.Category;
 import shop.main.data.objects.Product;
+import shop.main.data.objects.Review;
 import shop.main.data.service.CategoryService;
 import shop.main.data.service.ProductService;
 import shop.main.utils.URLUtils;
@@ -113,6 +114,10 @@ public class FrontController {
 		
 		addMenuItems(model);
 		model.addAttribute("product",product);
+		Review newReview = new Review();
+		newReview.setProduct(product);
+		newReview.setRating(5);
+		model.addAttribute("review",newReview);
 		if(product.getMetaTitle()!=null && !product.getMetaTitle().equals("")){
 			model.addAttribute("metaTitle", product.getMetaTitle());
 		}else{

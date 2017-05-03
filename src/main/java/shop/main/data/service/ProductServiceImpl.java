@@ -1,6 +1,7 @@
 package shop.main.data.service;
 
 import java.util.List;
+import java.util.OptionalDouble;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import shop.main.data.DAO.ProductDAO;
 import shop.main.data.objects.Category;
 import shop.main.data.objects.Product;
+import shop.main.data.objects.Review;
 import shop.main.utils.HibernateUtil;
 
 @Service("productService")
@@ -124,6 +126,25 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ProductServiceImpl.
 		System.out.println("*");
 		System.out.println("*");
 		return query.list();
+	}
+	
+	@Transactional
+	@Override
+	public void updateRating(Long productId) {
+		Session session =(Session)entityManager.getDelegate();
+		
+		List<Review> reviews = productDAO.findOne(productId).getReviews();
+		OptionalDouble rating = reviews.stream().mapToInt(a -> a.getRating()).average();
+		String hql = "update Product set rating = '"+Math.round(rating.getAsDouble())+"' where id = '"+productId+"'";
+		//UPDATE `test_spring`.`product` SET `rating`='2' WHERE `id`='2';
+		Query query = session.createQuery(hql);
+		System.out.println("*");
+		System.out.println("*");
+		System.out.println("query is "+query.getQueryString());
+		System.out.println("*");
+		System.out.println("*");
+		query.executeUpdate();
+//		return query.list();
 	}
 
 }
