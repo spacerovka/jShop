@@ -48,6 +48,12 @@ public class URLUtils {
 		return findImages(folder);
 
 	}
+	
+	public static List<String> getMinPageImages(ServletContext context) {
+		String folder = context.getRealPath("/") + "/resources/uploads/mainpage/";
+		return findImages(folder);
+
+	}
 
 	public static String getProductImage(ServletContext context,Long id){
 		String folder = context.getRealPath("/")+ "/resources/uploads/products/"+id+"/main/";

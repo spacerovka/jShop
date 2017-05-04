@@ -58,6 +58,13 @@ public class AjaxAdminController implements ResourceLoaderAware
 		 return "redirect:/a/product/"+prefix.substring(prefix.indexOf("/")+1, prefix.length()-1)+"/update";
 	 }
 	 
+	 @RequestMapping(value="/uploadMainPageImages", method=RequestMethod.POST)
+	    public String handleMainPageImagesFileUpload(@RequestParam String prefix, @RequestParam("files") MultipartFile files[]){
+		 String result =uploadFiles(prefix, files, false);
+		 System.out.println(result);
+		 return "redirect:/a/mainpage";
+	 }
+	 
 	 
 	 @RequestMapping(value="/uploadProductMainImage", method=RequestMethod.POST)
 	    public String handleProductMainImageUpload(@RequestParam String prefix, @RequestParam("files") MultipartFile files[]){

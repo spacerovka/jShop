@@ -61,12 +61,7 @@ public class FrontController {
 		return new ModelAndView("db_test/embeded_db_test", "users", data);
 	}
 	
-//	@RequestMapping(value = "/category")
-//	public ModelAndView displayCategory(Principal principal) {
-//		List<Product> data = productService.listAll();
-//		List<Category> menu = categoryService.findAllParentCategories();
-//		return new ModelAndView("category", "products", data);
-//	}
+
 	@RequestMapping(value = "/")
 	public String mainPage(Model model) {
 		System.out.println("***************************main page");
@@ -75,6 +70,7 @@ public class FrontController {
 			p.setImage(URLUtils.getProductImage(context, p.getId()));
 		}
 		model.addAttribute("products",products);
+		model.addAttribute("images", URLUtils.getMinPageImages(context));
 		return "index";
 	}
 	

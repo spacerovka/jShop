@@ -322,5 +322,15 @@ public class AdminController {
 		
 		return Constants.blockTypes;
 	}
+	
+	/** Properties **/
+	@RequestMapping(value = "/a/mainpage", method=RequestMethod.GET) 
+	public String editMainPage(Model model) {
+		
+		model.addAttribute("images", URLUtils.getMinPageImages(context));
+		
+		return "../admin/mainpageProperties";
+	}
+	
 		
 }
