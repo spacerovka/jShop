@@ -2,12 +2,17 @@ package shop.main.data.objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -21,19 +26,19 @@ public class ProductOption {
 	private Long id;
 	
 	@JsonIgnore
-	@ManyToOne
-	@JoinColumn(name="option_id", nullable=false)	
-	private Option option_id;
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@JoinColumn(name="option_entity", nullable=false)	
+	private Option option;
 	
 	
 	@JsonIgnore
-	@ManyToOne
-	@JoinColumn(name="optiongroup_id", nullable=false)	
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@JoinColumn(name="optionGroup", nullable=false)	
 	private OptionGroup optionGroup;
 	
 	@JsonIgnore
-	@ManyToOne
-	@JoinColumn(name="product_id", nullable=false)	
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@JoinColumn(name="product", nullable=false)	
 	private Product product;
 
 	public Long getId() {
@@ -44,19 +49,19 @@ public class ProductOption {
 		this.id = id;
 	}
 
-	public Option getOption_id() {
-		return option_id;
+	public Option getOption() {
+		return option;
 	}
 
-	public void setOption_id(Option option_id) {
-		this.option_id = option_id;
+	public void setOption(Option option) {
+		this.option = option;
 	}
 
-	public OptionGroup getOptiongroup() {
+	public OptionGroup getOptionGroup() {
 		return optionGroup;
 	}
 
-	public void setOptiongroup(OptionGroup optiongroup) {
+	public void setOptionGroup(OptionGroup optiongroup) {
 		this.optionGroup = optiongroup;
 	}
 
@@ -68,9 +73,10 @@ public class ProductOption {
 		this.product = product;
 	}
 
+	@Transactional
 	@Override
 	public String toString() {
-		return "ProductOption [id=" + id + ", option_id=" + option_id + ", optiongroup=" + optionGroup + ", product="
+		return "ProductOption [id=" + id + ", option_id=" + option + ", optiongroup=" + optionGroup + ", product="
 				+ product + "]";
 	}
 	

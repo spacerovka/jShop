@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import shop.main.data.service.CategoryOptionService;
+import shop.main.data.service.CategoryOptionServiceImpl;
 import shop.main.data.service.CategoryService;
 import shop.main.data.service.CategoryServiceImpl;
 import shop.main.data.service.OptionGroupService;
@@ -167,6 +169,11 @@ public class DataConfig<DatabasePopulator> {
 	@Bean
 	public ProductOptionService productOptionService() {
 		return new ProductOptionServiceImpl();
+	}
+	
+	@Bean
+	public CategoryOptionService categoryOptionService() {
+		return new CategoryOptionServiceImpl();
 	}
 	
 	@Bean

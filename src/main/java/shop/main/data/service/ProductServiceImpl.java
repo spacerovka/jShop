@@ -2,10 +2,12 @@ package shop.main.data.service;
 
 import java.util.List;
 import java.util.OptionalDouble;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -19,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import shop.main.data.DAO.ProductDAO;
 import shop.main.data.objects.Category;
 import shop.main.data.objects.Product;
+import shop.main.data.objects.ProductOption;
 import shop.main.data.objects.Review;
 import shop.main.utils.HibernateUtil;
 
@@ -33,6 +36,9 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ProductServiceImpl.
 		
 	@PersistenceContext
     protected EntityManager entityManager;
+	
+	@Autowired
+	 private ProductOptionService productOptionService;
 	
 	@Override
 	public void saveProduct(Product product) {
@@ -146,5 +152,39 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ProductServiceImpl.
 		query.executeUpdate();
 //		return query.list();
 	}
+	
+	@Override
+	public List<Product> findFilteredProducts(List<Long> filterIds) {
+		List<ProductOption> options = productOptionService.findProductOptionByOption(filterIds);
+		List<Product> products = options.stream().map(ProductOption::getProduct).collect(Collectors.toList());
+		return products;
+	}
+
+	@Transactional
+	@Override
+	public List<Product> findFilteredProductsInCategory(List<Long> filterIds, List<Long> listOfCategories) {		
+		
+		Session session =(Session)entityManager.getDelegate();
+		String idListString = "(" + StringUtils.join(filterIds, ",") + ")";
+		String categoryListString = "(" + StringUtils.join(listOfCategories, ",") + ")";
+		
+		String hql = "from ProductOption o where o.option.id in "+idListString
+				+" and (o.product.status = true and o.product.category.status = true"
+				+" and o.product.category.id in "+categoryListString+")"
+				+" group by o.product";
+
+		Query query = session.createQuery(hql);
+		System.out.println("*");
+		System.out.println("*");
+		System.out.println("query is "+query.getQueryString());
+		System.out.println("*");
+		System.out.println("*");
+		List<ProductOption> options = (List<ProductOption>) query.list();
+		List<Product> products = options.stream().map(ProductOption::getProduct).collect(Collectors.toList());
+		return products;
+
+	}
+	
+	
 
 }

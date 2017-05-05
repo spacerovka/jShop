@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -25,7 +26,10 @@ public class OptionGroup {
 	private Long id;
 	
 	@Column(name = "optionGroupName", nullable = false, length=50)
-	private String optionGroupName;
+	private String optionGroupName;	
+	
+	@Column(name = "description", nullable = true, length=50)
+	private String description;
 	
 	@OneToMany(mappedBy="optionGroup", fetch=FetchType.LAZY)
 	private List<Option> options;
@@ -63,12 +67,22 @@ public class OptionGroup {
 
 	public void setProductOptions(List<ProductOption> productOptions) {
 		this.productOptions = productOptions;
+	}	
+	
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((optionGroupName == null) ? 0 : optionGroupName.hashCode());
 		return result;
@@ -83,6 +97,11 @@ public class OptionGroup {
 		if (getClass() != obj.getClass())
 			return false;
 		OptionGroup other = (OptionGroup) obj;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
+			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -98,8 +117,10 @@ public class OptionGroup {
 
 	@Override
 	public String toString() {
-		return "OptionGroup [id=" + id + ", optionGroupName=" + optionGroupName + "]";
+		return "OptionGroup [id=" + id + ", optionGroupName=" + optionGroupName 
+				+ ", description=" + description +  "]";
 	}
+
 	
 	
 }

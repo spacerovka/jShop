@@ -16,53 +16,54 @@ import org.springframework.transaction.annotation.Transactional;
 import org.apache.commons.lang3.StringUtils;
 
 import shop.main.data.DAO.OptionDAO;
-import shop.main.data.DAO.ProductDAO;
-import shop.main.data.DAO.ProductOptionDAO;
+import shop.main.data.DAO.CategoryDAO;
+import shop.main.data.DAO.CategoryOptionDAO;
 import shop.main.data.DAO.UserDAO;
 import shop.main.data.objects.Category;
 import shop.main.data.objects.Option;
-import shop.main.data.objects.Product;
-import shop.main.data.objects.ProductOption;
+import shop.main.data.objects.Category;
+import shop.main.data.objects.CategoryOption;
 import shop.main.data.objects.Review;
 import shop.main.data.objects.User;
 
-@Service("productOptionService")
-public class ProductOptionServiceImpl implements ProductOptionService{
+@Service("categoryOptionService")
+public class CategoryOptionServiceImpl implements CategoryOptionService{
 	
 	
-private static final Logger LOGGER = LoggerFactory.getLogger(ProductOptionServiceImpl.class);
+private static final Logger LOGGER = LoggerFactory.getLogger(CategoryOptionServiceImpl.class);
 	
 	@Autowired
-	private ProductOptionDAO productOptionDAO;
+	private CategoryOptionDAO productOptionDAO;
 	
 	@PersistenceContext
     protected EntityManager entityManager;
 
 	@Override
-	public void save(ProductOption option) {
+	public void save(CategoryOption option) {
 		productOptionDAO.save(option);
 		
 	}
 
 	@Override
-	public void delete(ProductOption option) {
+	public void delete(CategoryOption option) {
 		productOptionDAO.delete(option);
 	}
 
 	@Override
-	public List<ProductOption> listAll() {
+	public List<CategoryOption> listAll() {
 		return productOptionDAO.findAll();
 	}
 
 	@Transactional
 	@Override
-	public List<ProductOption> findProductOptionByOption(List<Long> idList) {
+	public List<CategoryOption> findOptionsByCategoryList(List<Long> idList) {
 		Session session =(Session)entityManager.getDelegate();
 		String idListString = "(" + StringUtils.join(idList, ",") + ")";
 		
-		String hql = "from ProductOption o where o.option.id in "+idListString
-				+" and (o.product.status = true and o.product.category.status = true)"
-				+" group by o.product";
+
+		String hql = "from CategoryOption o where o.category.id in "+idListString
+				+" and o.category.status = true"
+				+" group by o.option";
 
 		Query query = session.createQuery(hql);
 		System.out.println("*");
@@ -70,7 +71,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ProductOptionServic
 		System.out.println("query is "+query.getQueryString());
 		System.out.println("*");
 		System.out.println("*");
-		return (List<ProductOption>) query.list();
+		return (List<CategoryOption>) query.list();
 	}
 
 	

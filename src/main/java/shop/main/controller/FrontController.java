@@ -128,15 +128,7 @@ public class FrontController {
 		model.addAttribute("mainImage", URLUtils.getProductImage(context, product.getId()));
 		return "product";
 	}
-	
-	@RequestMapping(value = "/tree")
-	public String displayCategoryTree(Model model) {
 		
-		List<Category> data = categoryService.findAllParentCategories();
-		
-		model.addAttribute("categories",data);
-		return "db_test/category_tree";
-	}
 	
 	private void addMenuItems(Model model){
 		List<Category> data = categoryService.findAllParentCategories();

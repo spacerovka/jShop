@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -50,7 +51,7 @@ public class Category {
 	
 	@OneToMany(mappedBy="parentCategory", fetch=FetchType.EAGER)
     private List<Category> children;
-
+	
 	public Long getId() {
 		return id;
 	}
@@ -130,7 +131,9 @@ public class Category {
 
 	public void setParentCategory(Category parentCategory) {
 		this.parentCategory = parentCategory;
-	}
+	}	
+	
+
 
 	@Override
 	public int hashCode() {
@@ -146,6 +149,8 @@ public class Category {
 		result = prime * result + (status ? 1231 : 1237);
 		return result;
 	}
+	
+	
 
 	@Override
 	public boolean equals(Object obj) {

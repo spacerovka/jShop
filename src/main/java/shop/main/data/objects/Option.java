@@ -1,18 +1,25 @@
 package shop.main.data.objects;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "option")
+@Table(name = "option_entity")
 public class Option {
 	
 	@Id
@@ -21,12 +28,14 @@ public class Option {
 	private Long id;
 	
 	@Column(name = "optionName", nullable = false, length=50)
-	private String optionName;
+	private String optionName;		
 	
-	@JsonIgnore
 	@ManyToOne
-	@JoinColumn(name="optionGroupId", nullable=false)	
+	@JoinColumn(name="optionGroup", nullable=false)	
 	private OptionGroup optionGroup;
+	
+	@OneToMany(mappedBy="optionGroup", fetch=FetchType.LAZY)
+	private List<ProductOption> productOptions;
 
 	public Long getId() {
 		return id;
@@ -51,7 +60,17 @@ public class Option {
 	public void setOptionGroup(OptionGroup optionGroup) {
 		this.optionGroup = optionGroup;
 	}
+	
+	
 
+	public List<ProductOption> getProductOptions() {
+		return productOptions;
+	}
+
+	public void setProductOptions(List<ProductOption> productOptions) {
+		this.productOptions = productOptions;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

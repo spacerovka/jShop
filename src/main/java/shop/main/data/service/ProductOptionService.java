@@ -8,7 +8,6 @@ public interface ProductOptionService {
 	void save(ProductOption option);
 	void delete(ProductOption option);
 	List<ProductOption> listAll();
+	List<ProductOption> findProductOptionByOption(List<Long> idList);
 	
-//	List<Product> listAllProductsByPrice (BigInteger price);
-	ProductOption fingOptionById(long id);
 }
