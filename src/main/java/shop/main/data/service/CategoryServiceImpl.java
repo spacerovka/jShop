@@ -2,6 +2,12 @@ package shop.main.data.service;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.apache.commons.lang3.StringUtils;
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +20,9 @@ public class CategoryServiceImpl implements CategoryService{
 	
 	@Autowired
 	private CategoryDAO categoryDAO;
+	
+	@PersistenceContext
+    protected EntityManager entityManager;
 	
 	@Override
 	public void saveCategory(Category category) {
@@ -66,6 +75,26 @@ public class CategoryServiceImpl implements CategoryService{
 		}		
 		categoryDAO.delete(id);
 		
+	}
+
+	@Transactional
+	@Override
+	public Category fingCategoryByUrl(String url) {
+		Session session =(Session)entityManager.getDelegate();
+		
+		String hql = "from Category c where c.status = true and c.categoryURL = '"+url+"'";
+		Query query = session.createQuery(hql);
+		System.out.println("*");
+		System.out.println("*");
+		System.out.println("query is "+query.getQueryString());
+		System.out.println("*");
+		System.out.println("*");
+		List<Category> found = (List<Category>)query.list();
+		if(found!=null){
+			return found.get(0);
+		}else{
+			return null;
+		}
 	}
 
 }

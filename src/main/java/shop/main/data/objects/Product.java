@@ -83,8 +83,8 @@ public class Product {
 	@JoinColumn(columnDefinition="integer", name="category", nullable=true)
 	private Category category;
 
-//	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
-//	private List<ProductOption> productOptions;
+	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+	private List<ProductOption> productOptions;
 	
 	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
     private List<Review> reviews;
@@ -212,13 +212,13 @@ public class Product {
 		this.category = category;
 	}
 
-//	public List<ProductOption> getProductOptions() {
-//		return productOptions;
-//	}
-//
-//	public void setProductOptions(List<ProductOption> productOptions) {
-//		this.productOptions = productOptions;
-//	}
+	public List<ProductOption> getProductOptions() {
+		return productOptions;
+	}
+
+	public void setProductOptions(List<ProductOption> productOptions) {
+		this.productOptions = productOptions;
+	}
 
 	public Date getCreated() {
 		return created;

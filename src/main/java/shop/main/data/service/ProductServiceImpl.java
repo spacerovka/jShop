@@ -184,6 +184,23 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ProductServiceImpl.
 		return products;
 
 	}
+
+	@Transactional
+	@Override
+	public List<Product> findProductsInCategory(List<Long> listOfCategories) {
+		Session session =(Session)entityManager.getDelegate();
+		String categoryListString = "(" + StringUtils.join(listOfCategories, ",") + ")";
+		
+		String hql = "from Product product where product.status = true and product.category.status = true"
+				+" and product.category.id in "+categoryListString+")";
+		Query query = session.createQuery(hql);
+		System.out.println("*");
+		System.out.println("*");
+		System.out.println("query is "+query.getQueryString());
+		System.out.println("*");
+		System.out.println("*");
+		return query.list();
+	}
 	
 	
 

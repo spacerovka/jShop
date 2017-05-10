@@ -21,4 +21,5 @@ public interface ProductService {
 	void updateRating(Long productId);
 	List<Product> findFilteredProducts(List<Long> filterIds);
 	List<Product> findFilteredProductsInCategory(List<Long> filterIds, List<Long> listOfCategories);
+	List<Product> findProductsInCategory(List<Long> listOfCategories);
 }

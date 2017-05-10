@@ -55,3 +55,6 @@ INSERT INTO categoryOption (option_entity, category) VALUES (3,4);
 INSERT INTO categoryOption (option_entity, category) VALUES (1,6);
 INSERT INTO categoryOption (option_entity, category) VALUES (2,6);
 INSERT INTO categoryOption (option_entity, category) VALUES (3,6);
+INSERT INTO categoryOption (option_entity, category) VALUES (4,5);
+INSERT INTO categoryOption (option_entity, category) VALUES (5,5);
+INSERT INTO categoryOption (option_entity, category) VALUES (6,5);

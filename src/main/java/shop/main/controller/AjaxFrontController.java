@@ -1,6 +1,9 @@
 package shop.main.controller;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletContext;
 
@@ -9,6 +12,7 @@ import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import shop.main.data.objects.Product;
 import shop.main.data.objects.Review;
 import shop.main.data.service.CategoryService;
 import shop.main.data.service.ProductService;
@@ -66,6 +71,22 @@ public class AjaxFrontController implements ResourceLoaderAware
 		}
 	}
 	
+	@RequestMapping(value="/chooseFilter",method=RequestMethod.POST)
+    public String chooseFilter(@RequestParam(value="myArray[]") String[] filters, Model model){
+		 	List<Long> filterList = Arrays.asList(filters[0].split(",")).stream()
+                .map(Long::valueOf)
+                .collect(Collectors.toList());
+		 	
+		 	List<Long> categoryList = Arrays.asList(filters[1].split(",")).stream()
+	                 .map(Long::valueOf)
+	                 .collect(Collectors.toList());
+			
+			List<Product> products = productService.findFilteredProductsInCategory(filterList, categoryList);
+			products.stream().forEach(p -> p.setImage(URLUtils.getProductImage(context, p.getId())));			
+			model.addAttribute("products",products);
+			
+         return "products"; 
+    }	
 			
 	 
 }

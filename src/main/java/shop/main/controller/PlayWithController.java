@@ -1,7 +1,9 @@
 package shop.main.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletContext;
 
@@ -10,7 +12,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import shop.main.data.objects.Category;
 import shop.main.data.objects.CategoryOption;
@@ -20,6 +27,7 @@ import shop.main.data.service.CategoryOptionService;
 import shop.main.data.service.CategoryService;
 import shop.main.data.service.ProductOptionService;
 import shop.main.data.service.ProductService;
+import shop.main.utils.URLUtils;
 
 @Controller
 public class PlayWithController {
@@ -77,4 +85,6 @@ public class PlayWithController {
 				
 		return "db_test/options_tree";
 	}
+	
+	 
 }

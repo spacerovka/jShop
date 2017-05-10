@@ -20,9 +20,9 @@
 	<div class="container">
 
 		<div class="row">
-
+			<div class="col-md-3">
 			<%@include file="template_parts/left-menu.jsp"%>
-
+			</div>
 			<div class="col-md-9">
 
 				<div class="thumbnail">
@@ -33,16 +33,16 @@
 							itemtype="http://schema.org/Thing" itemprop="item"><span
 								itemprop="name">Home</span>
 								<meta itemprop="url"
-									content="http:/${pageContext.request.contextPath}/" /></a></li>
+									content="${pageContext.request.contextPath}/" /></a></li>
 						<core:if test="${not empty breadCrumbs}">
 							<core:forEach var="breadCrumb" items="${breadCrumbs}">
 								<li class="breadcrumb-item" itemprop="itemListElement" itemscope
 									itemtype="http://schema.org/ListItem"><a
-									href="/${breadCrumb.categoryURL}" itemscope
+									href="${pageContext.request.contextPath}/${breadCrumb.categoryURL}" itemscope
 									itemtype="http://schema.org/Thing" itemprop="item"><span
 										itemprop="name">${breadCrumb.categoryName}</span>
 										<meta itemprop="url"
-											content="http:/${pageContext.request.contextPath}/${breadCrumb.categoryURL}" /></a>
+											content="${pageContext.request.contextPath}/${breadCrumb.categoryURL}" /></a>
 								</li>
 							</core:forEach>
 						</core:if>
@@ -51,7 +51,7 @@
 							itemtype="http://schema.org/Thing" itemprop="item"><span
 								itemprop="name">${product.name}</span>
 								<meta itemprop="url"
-									content="http:/${pageContext.request.contextPath}/products/${product.url}" /></span>
+									content="${pageContext.request.contextPath}/products/${product.url}" /></span>
 						</li>
 					</ol>
 
