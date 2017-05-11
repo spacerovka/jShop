@@ -13,9 +13,9 @@ INSERT INTO product (NAME, PRICE, instock, SKU, url, category,status, featured, 
 INSERT INTO product (NAME, PRICE, instock, SKU, url, category,status, featured, longDesc, shortDesc) VALUES ('Lego Star', '9.99', '20', 'PI90899','lego_star', 4,1,1, "<p>See more snippets like these online store reviews at <a target='_blank' href='http://bootsnipp.com'>Bootsnipp - http://bootsnipp.com</a>.</p><p>Want to make these reviews work? Check out <strong><a href='http://maxoffsky.com/code-blog/laravel-shop-tutorial-1-building-a-review-system/'>this building a review system tutorial</a></strong>over at maxoffsky.com!</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>", "Win the battle for the Empire with the awesome Death Star!");
 
 
-INSERT INTO product (NAME, PRICE, instock, SKU, url, category,status, featured) VALUES ('Inactive Product', '9.99', '20', 'PI90899','inactive_product', 4,0,1);
-INSERT INTO product (NAME, PRICE, instock, SKU, url, category,status, featured) VALUES ('Category INACTIVEProduct', '9.99', '20', 'PI90899','categ_inactive_product', 7,1,1);
-INSERT INTO product (NAME, PRICE, instock, SKU, url, category,status, featured) VALUES ('Lego Star 2', '9.99', '20', 'PI90899','lego_star2', 4,1,1);
+INSERT INTO product (NAME, PRICE, instock, SKU, url, category,status, featured) VALUES ('Inactive Product', '9.99', '20', 'PI90891','inactive_product', 4,0,1);
+INSERT INTO product (NAME, PRICE, instock, SKU, url, category,status, featured) VALUES ('Category INACTIVEProduct', '9.99', '20', 'PI90892','categ_inactive_product', 7,1,1);
+INSERT INTO product (NAME, PRICE, instock, SKU, url, category,status, featured) VALUES ('Lego Star 2', '9.99', '20', 'PI90893','lego_star2', 4,1,1);
 
 #REVIEWS
 INSERT INTO review (comment, rating, created, useremail, username, product) VALUES ("Good price", 5, NOW(), "nina@mail.ru", "Nina", 2);

@@ -19,7 +19,7 @@
 	<h3 style="color:white;">${product.name}</h3>
 
 	<p>
-		<b>${product.price}</b>
+		<b>$${product.price}</b>
 	</p>
 </div>
 
