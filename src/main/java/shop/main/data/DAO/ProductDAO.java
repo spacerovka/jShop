@@ -13,4 +13,5 @@ public interface ProductDAO extends CrudRepository<Product, Long>{
 	List<Product> findAllProductByStatus(boolean status);
 	List<Product> findAllProductByFeatured(boolean featured);
 	Product findOneByUrl(String url);
+	Product findOneBySku(String sku);
 }

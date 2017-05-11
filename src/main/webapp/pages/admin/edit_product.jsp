@@ -54,7 +54,7 @@
 
 							<div class="form-group ${skuError}">
 								<label>SKU*</label>
-								<form:input class="form-control" placeholder="SKU" path="SKU" />
+								<form:input class="form-control" placeholder="SKU" path="sku" />
 							</div>
 
 

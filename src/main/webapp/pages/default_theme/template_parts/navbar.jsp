@@ -63,7 +63,9 @@
           <ul class="nav navbar-nav navbar-right">
             <li><a href="../navbar/">Default</a></li>
             <li><a href="../navbar-static-top/">Static top</a></li>
-            <li><a href="./">Fixed top <span class="sr-only">(current)</span></a></li>
+            <li><a href="./">Cart <span id="cart-item-count" class="product-count">(0)</span>
+            	<span class="sr-only">(current)</span></a>            	
+            </li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>

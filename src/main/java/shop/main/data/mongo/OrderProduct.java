@@ -5,11 +5,13 @@ import java.math.BigDecimal;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import shop.main.data.objects.Product;
+
 @Document
 public class OrderProduct {
 
 	@Id
-	private String productId;
+	private Long productId;
 	private BigDecimal price;
 	private String product_name;
 	private int product_quantity;
@@ -18,7 +20,7 @@ public class OrderProduct {
 	private String thumb;
 	
 	public OrderProduct() {
-		
+		this.product_quantity = 1;
 	}
 	
 	public OrderProduct(String name, BigDecimal price, int quantity) {
@@ -27,11 +29,22 @@ public class OrderProduct {
 		this.product_quantity=quantity;
 	}
 	
+	public OrderProduct(Product product) {
+		this.productId = product.getId();
+		this.product_quantity = 1;
+		this.price = product.getPrice();
+		this.product_SKU = product.getSku();
+		this.product_name = product.getName();
+		this.cartDesc = product.getShortDesc();
+		this.thumb=product.getImage();
+		
+	}
 	
-	public String getProductId() {
+	
+	public Long getProductId() {
 		return productId;
 	}
-	public void setProductId(String productId) {
+	public void setProductId(Long productId) {
 		this.productId = productId;
 	}
 	public BigDecimal getPrice() {
@@ -69,7 +82,7 @@ public class OrderProduct {
 		result = prime * result + ((productId == null) ? 0 : productId.hashCode());
 		result = prime * result + ((product_SKU == null) ? 0 : product_SKU.hashCode());
 		result = prime * result + ((product_name == null) ? 0 : product_name.hashCode());
-		result = prime * result + product_quantity;
+		
 		return result;
 	}
 
@@ -102,8 +115,7 @@ public class OrderProduct {
 				return false;
 		} else if (!product_name.equals(other.product_name))
 			return false;
-		if (product_quantity != other.product_quantity)
-			return false;
+		
 		return true;
 	}
 

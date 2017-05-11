@@ -92,8 +92,12 @@
 						<div class="caption">
 							<h3>${product.name}</h3>
 							<p>${product.shortDesc}</p>
-							<p>
-								<a href="#" class="btn btn-primary">Buy Now!</a> <a
+							<p>								
+								<a class="btn btn-primary" data-quantity="1" data-product_sku="" data-product_id="70" 
+											rel="nofollow" href="#"
+											onclick="addItemToCart('${product.sku}');">Buy Now!</a>
+								
+								<a
 									href="${pageContext.request.contextPath}/products/${product.url}"
 									class="btn btn-default">More Info</a>
 							</p>
@@ -119,6 +123,10 @@
 			to Journal</a>
 	</h1>
 
+	<%@include file="template_parts/popup_add_to_cart.jsp"%>
 	<%@include file="template_parts/footer.jsp"%>
+	<%@include file="template_parts/add_to_cart_ajax.jsp"%>
+	
+	
 </body>
 </html>

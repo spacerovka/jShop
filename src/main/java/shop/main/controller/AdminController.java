@@ -137,7 +137,7 @@ public class AdminController {
 			errorSummary+="Price can not be empty! ";		
 			model.addAttribute("priceError", "has-error");
 		}
-		if(product.getSKU()==null || product.getSKU().isEmpty()){			
+		if(product.getSku()==null || product.getSku().isEmpty()){			
 			errorSummary+="SKU can not be empty! ";		
 			model.addAttribute("skuError", "has-error");
 		}

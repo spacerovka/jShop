@@ -13,6 +13,7 @@ public interface ProductService {
 //	List<Product> listAllProductsByPrice (BigInteger price);
 	Product fingProductById(long id);
 	Product fingProductByUrl(String url);
+	Product findProductBySKU(String sku);
 	boolean checkUniqueURL(Product product);
 	void deleteProductById(long id);
 	List<Product> findAllActive();

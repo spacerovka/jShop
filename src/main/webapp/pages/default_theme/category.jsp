@@ -61,46 +61,7 @@
 				</ol>
 
 				<div class="row" id="products">
-					<core:if test="${not empty products}">
-						<core:forEach var="product" items="${products}">
-							<div class="col-sm-4 col-lg-4 col-md-4">
-								<div class="thumbnail">
-									<img
-										src="${pageContext.request.contextPath}/resources/uploads/products/${product.id}/main/${product.image}"
-										alt="${product.name}" style="height: 150px;">
-									<div class="caption">
-										<h4 class="pull-right">
-											$
-											<core:out value="${product.price}" />
-										</h4>
-										<h4>
-											<a
-												href="${pageContext.request.contextPath}/products/${product.url}"><core:out
-													value="${product.name}" /></a>
-										</h4>
-										<p>${product.shortDesc}</p>
-									</div>
-									<div class="ratings">
-										<p class="pull-right">${fn:length(product.reviews)}
-											reviews</p>
-										<p>
-											<c:forEach begin="1" end="${product.rating}" varStatus="loop">
-												<span class="glyphicon glyphicon-star"></span>
-											</c:forEach>
-											<c:forEach begin="${product.rating}" end="4" varStatus="loop">
-												<span class="glyphicon glyphicon-star-empty"></span>
-											</c:forEach>
-										</p>
-									</div>
-								</div>
-							</div>
-
-
-						</core:forEach>
-					</core:if>
-
-
-
+					<%@include file="products.jsp"%>
 				</div>
 
 			</div>
@@ -108,10 +69,11 @@
 		</div>
 
 	</div>
-
-
-	<%@include file="template_parts/footer.jsp"%>
 	
+	<%@include file="template_parts/popup_add_to_cart.jsp"%>
+	<%@include file="template_parts/footer.jsp"%>
+
+
 	<script>
 	function searchAjax() {
 		console.log("Search clicked!");
@@ -144,5 +106,9 @@
 		});
 	}	
 	</script>
+	
+	<%@include file="template_parts/add_to_cart_ajax.jsp"%>	
+	
+	
 </body>
 </html>

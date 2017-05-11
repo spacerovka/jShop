@@ -28,8 +28,8 @@ public class Product {
 	@Column(name = "id", unique = true, nullable = false)
 	private Long id;
 
-	@Column(name = "SKU", nullable = false, length = 50)
-	private String SKU;
+	@Column(name = "sku", nullable = false, length = 50)
+	private String sku;
 
 	@Column(name = "name", nullable = false, length = 100)
 	private String name;
@@ -103,9 +103,9 @@ public class Product {
 		edited = new Date();
 	  }
 	
-	public Product(String sKU, String name, BigDecimal price, String url) {
+	public Product(String sku, String name, BigDecimal price, String url) {
 		super();
-		SKU = sKU;
+		sku = sku;
 		this.name = name;
 		this.price = price;
 		this.url = url;
@@ -123,12 +123,12 @@ public class Product {
 		this.id = id;
 	}
 
-	public String getSKU() {
-		return SKU;
+	public String getSku() {
+		return sku;
 	}
 
-	public void setSKU(String SKU) {
-		this.SKU = SKU;
+	public void setSku(String sku) {
+		this.sku = sku;
 	}
 
 	public String getName() {

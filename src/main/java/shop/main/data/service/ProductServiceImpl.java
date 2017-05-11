@@ -201,6 +201,12 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ProductServiceImpl.
 		System.out.println("*");
 		return query.list();
 	}
+
+	@Override
+	public Product findProductBySKU(String sku) {
+
+		return productDAO.findOneBySku(sku);
+	}
 	
 	
 

@@ -2,11 +2,14 @@ package shop.main.data.mongo;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
+
+import shop.main.data.objects.Product;
 
 @Document(collection = "orders")
 public class Order {
@@ -15,7 +18,7 @@ public class Order {
 	private String orderId;
 	private Long user_id;
 	private int number;
-	private BigDecimal summ;
+	private BigDecimal sum;
 	
 	private String shipName;
 	private String shipAddress;
@@ -37,6 +40,10 @@ public class Order {
 	
 	@Field("sub")
 	private Map<String, OrderProduct> product_list;
+	
+	public Order(){
+		product_list = new HashMap<String, OrderProduct>();
+	}
 
 	public String getOrderId() {
 		return orderId;
@@ -54,12 +61,16 @@ public class Order {
 		this.number = number;
 	}
 
-	public BigDecimal getSumm() {
-		return summ;
+	public BigDecimal getSum() {
+		for(OrderProduct product: product_list.values()){
+			BigDecimal itemCost  = product.getPrice().multiply(new BigDecimal(product.getProduct_quantity()));
+	        sum = sum.add(itemCost);
+		}
+		return sum;
 	}
 
-	public void setSumm(BigDecimal summ) {
-		this.summ = summ;
+	public void setSum(BigDecimal sum) {
+		this.sum = sum;
 	}
 
 	public Map<String, OrderProduct> getProduct_list() {
@@ -175,7 +186,7 @@ public class Order {
 			products.append("<"+product.getValue().toString()+">");
 		}
 		
-		return "Order [orderId=" + orderId + ", user_id=" + user_id + ", number=" + number + ", summ=" + summ
+		return "Order [orderId=" + orderId + ", user_id=" + user_id + ", number=" + number + ", sum=" + sum
 				+ ", shipName=" + shipName + ", shipAddress=" + shipAddress + ", city=" + city + ", state=" + state
 				+ ", zip=" + zip + ", country=" + country + ", phone=" + phone + ", email=" + email + ", shippingCost="
 				+ shippingCost + ", date=" + date + ", shipped=" + shipped + ", confirmed=" + confirmed
@@ -200,7 +211,7 @@ public class Order {
 		result = prime * result + ((shipped == null) ? 0 : shipped.hashCode());
 		result = prime * result + ((shippingCost == null) ? 0 : shippingCost.hashCode());
 		result = prime * result + ((state == null) ? 0 : state.hashCode());
-		result = prime * result + ((summ == null) ? 0 : summ.hashCode());
+		result = prime * result + ((sum == null) ? 0 : sum.hashCode());
 		result = prime * result + ((trackNumber == null) ? 0 : trackNumber.hashCode());
 		result = prime * result + ((user_id == null) ? 0 : user_id.hashCode());
 		result = prime * result + ((zip == null) ? 0 : zip.hashCode());
@@ -283,10 +294,10 @@ public class Order {
 				return false;
 		} else if (!state.equals(other.state))
 			return false;
-		if (summ == null) {
-			if (other.summ != null)
+		if (sum == null) {
+			if (other.sum != null)
 				return false;
-		} else if (!summ.equals(other.summ))
+		} else if (!sum.equals(other.sum))
 			return false;
 		if (trackNumber == null) {
 			if (other.trackNumber != null)
@@ -328,6 +339,38 @@ public class Order {
 
 	public void setManagerComment(String managerComment) {
 		this.managerComment = managerComment;
+	}
+	
+	public int getItemCount(){
+		int sum = 0;
+		for(OrderProduct product: product_list.values()){
+			sum+= product.getProduct_quantity();
+		}
+		return sum;
+	}
+	
+	public void addItem(Product product){
+		if (product_list.containsKey(product.getSku())) {
+		       product_list.get(product.getSku()).setProduct_quantity(product_list.get(product.getSku()).getProduct_quantity()+1);;
+		    } else {
+		    	product_list.put(product.getSku(), new OrderProduct(product));
+		    }
+	}
+	
+	public void addQuantity(String sku){
+		if (product_list.containsKey(sku)) {
+			product_list.get(sku).setProduct_quantity(product_list.get(sku).getProduct_quantity()+1);	    
+		}
+	}
+	
+	public void removeQuantity(String sku){
+		if (product_list.containsKey(sku)) {
+			OrderProduct product = product_list.get(sku);
+			product.setProduct_quantity(product_list.get(sku).getProduct_quantity()-1);	    
+			if (product.getProduct_quantity()==0){
+				product_list.remove(sku);
+			}
+		}
 	}
 		
 }

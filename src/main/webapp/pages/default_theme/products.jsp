@@ -38,6 +38,12 @@
 											</core:forEach>
 										</p>
 									</div>
+									<div style="padding: 1rem;">
+										<a class="btn btn-info" data-quantity="1" data-product_sku="" data-product_id="70" 
+											rel="nofollow" href="#"
+											onclick="addItemToCart('${product.sku}');">Add to cart</a>
+										
+									</div>
 								</div>
 							</div>
 

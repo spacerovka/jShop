@@ -218,9 +218,7 @@ font-size: 20px;">Popup body</p>
 		var="starsrating" />
 	<script type="text/javascript" src="${starsrating}"></script>
 	
-	<spring:url value="/resources/default_theme/js/simple_popup.js"
-		var="simple_popup" />
-	<script type="text/javascript" src="${simple_popup}"></script>
+	
 
 	<script type="text/javascript">
     $(function(){
