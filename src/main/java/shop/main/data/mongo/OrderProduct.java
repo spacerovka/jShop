@@ -5,18 +5,23 @@ import java.math.BigDecimal;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import shop.main.data.objects.Product;
+
 @Document
 public class OrderProduct {
 
 	@Id
-	private String productId;
+	private Long productId;
 	private BigDecimal price;
 	private String product_name;
 	private int product_quantity;
-	private BigDecimal subTotal;
-
+	private BigDecimal subTotal;	
+	private String product_SKU;
+	private String cartDesc;
+	private String thumb;
+	
 	public OrderProduct() {
-
+		this.product_quantity = 1;
 	}
 
 	public OrderProduct(String name, BigDecimal price, int quantity) {
@@ -24,12 +29,23 @@ public class OrderProduct {
 		this.product_name = name;
 		this.product_quantity = quantity;
 	}
-
-	public String getProductId() {
+	
+	public OrderProduct(Product product) {
+		this.productId = product.getId();
+		this.product_quantity = 1;
+		this.price = product.getPrice();
+		this.product_SKU = product.getSku();
+		this.product_name = product.getName();
+		this.cartDesc = product.getShortDesc();
+		this.thumb=product.getImage();
+		
+	}
+	
+	
+	public Long getProductId() {
 		return productId;
 	}
-
-	public void setProductId(String productId) {
+	public void setProductId(Long productId) {
 		this.productId = productId;
 	}
 
@@ -55,6 +71,14 @@ public class OrderProduct {
 
 	public void setProduct_quantity(int product_quantity) {
 		this.product_quantity = product_quantity;
+	}	
+
+	public String getProduct_SKU() {
+		return product_SKU;
+	}
+
+	public void setProduct_SKU(String product_SKU) {
+		this.product_SKU = product_SKU;
 	}
 
 	
@@ -72,8 +96,9 @@ public class OrderProduct {
 		int result = 1;
 		result = prime * result + ((price == null) ? 0 : price.hashCode());
 		result = prime * result + ((productId == null) ? 0 : productId.hashCode());
+		result = prime * result + ((product_SKU == null) ? 0 : product_SKU.hashCode());
 		result = prime * result + ((product_name == null) ? 0 : product_name.hashCode());
-		result = prime * result + product_quantity;
+		
 		return result;
 	}
 
@@ -96,20 +121,42 @@ public class OrderProduct {
 				return false;
 		} else if (!productId.equals(other.productId))
 			return false;
+		if (product_SKU == null) {
+			if (other.product_SKU != null)
+				return false;
+		} else if (!product_SKU.equals(other.product_SKU))
+			return false;
 		if (product_name == null) {
 			if (other.product_name != null)
 				return false;
 		} else if (!product_name.equals(other.product_name))
 			return false;
-		if (product_quantity != other.product_quantity)
-			return false;
+		
 		return true;
+	}
+
+
+	public String getCartDesc() {
+		return cartDesc;
+	}
+
+	public void setCartDesc(String cartDesc) {
+		this.cartDesc = cartDesc;
+	}
+
+	public String getThumb() {
+		return thumb;
+	}
+
+	public void setThumb(String thumb) {
+		this.thumb = thumb;
 	}
 
 	@Override
 	public String toString() {
 		return "OrderProduct [productId=" + productId + ", price=" + price + ", product_name=" + product_name
-				+ ", product_quantity=" + product_quantity + "]";
+				+ ", product_quantity=" + product_quantity + ", product_SKU=" + product_SKU + ", cartDesc=" + cartDesc
+				+ ", thumb=" + thumb + "]";
 	}
 
 }

@@ -3,10 +3,25 @@ package shop.main.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import shop.main.data.service.CategoryOptionService;
+import shop.main.data.service.CategoryOptionServiceImpl;
+import shop.main.data.service.CategoryService;
+import shop.main.data.service.CategoryServiceImpl;
+import shop.main.data.service.OptionGroupService;
+import shop.main.data.service.OptionGroupServiceImpl;
+import shop.main.data.service.OptionService;
+import shop.main.data.service.OptionServiceImpl;
+import shop.main.data.service.ProductOptionService;
+import shop.main.data.service.ProductOptionServiceImpl;
 import shop.main.data.service.ProductService;
 import shop.main.data.service.ProductServiceImpl;
+import shop.main.data.service.ReviewService;
+import shop.main.data.service.ReviewServiceImpl;
+import shop.main.data.service.UserService;
+import shop.main.data.service.UserServiceImpl;
 
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.core.env.Environment;
@@ -99,19 +114,26 @@ public class DataConfig<DatabasePopulator> {
 		LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
 		entityManagerFactory.setDataSource(dataSourceMysql());
 		entityManagerFactory.setJpaVendorAdapter(jpaVendorAdapter());
-		entityManagerFactory.setPackagesToScan("shop.main.data.objects"); //hera are models of user and log_post
+		entityManagerFactory.setPackagesToScan("shop.main.data.objects");
 		
 		Properties jpaProperties = new Properties();
 		jpaProperties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
+		jpaProperties.setProperty("hibernate.enable_lazy_load_no_trans", "true");
 		entityManagerFactory.setJpaProperties(jpaProperties);
 		return entityManagerFactory;
 	}
-	
-	@Bean
-	public ProductService productService() {
-		return new ProductServiceImpl();
+			
+	@Bean(name = "transactionManager")
+	public PlatformTransactionManager transactionManager(EntityManagerFactory emf,DataSource dataSource) {
+	    JpaTransactionManager tm = 
+	        new JpaTransactionManager();
+	        tm.setEntityManagerFactory(emf);
+	        tm.setDataSource(dataSource);
+	    return tm;
 	}
 	
+	
+
 	//database populator
 	
 	private ResourceDatabasePopulator databasePopulator() {
@@ -122,5 +144,45 @@ public class DataConfig<DatabasePopulator> {
 		System.out.println("Populated database");
 		return databasePopulator;
 		
+	}
+	
+	@Bean
+	public ProductService productService() {
+		return new ProductServiceImpl();
+	}
+	
+	@Bean
+	public CategoryService categoryService() {
+		return new CategoryServiceImpl();
+	}
+	
+	@Bean
+	public UserService userService() {
+		return new UserServiceImpl();
+	}
+	
+	@Bean
+	public OptionService optionService() {
+		return new OptionServiceImpl();
+	}
+	
+	@Bean
+	public ProductOptionService productOptionService() {
+		return new ProductOptionServiceImpl();
+	}
+	
+	@Bean
+	public CategoryOptionService categoryOptionService() {
+		return new CategoryOptionServiceImpl();
+	}
+	
+	@Bean
+	public OptionGroupService optionGroupService() {
+		return new OptionGroupServiceImpl();
+	}
+	
+	@Bean
+	public ReviewService reviewService() {
+		return new ReviewServiceImpl();
 	}
 }

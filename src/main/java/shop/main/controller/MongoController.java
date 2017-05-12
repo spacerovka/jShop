@@ -24,23 +24,23 @@ public class MongoController {
 	private OrderRepository orderRepository;
 
 	@RequestMapping(value = "/mongo")
-	public ModelAndView displayUsers(Principal principal) {
+	public ModelAndView displayOrders(Principal principal) {
 
 		orderRepository.deleteAll();
 
 		Order order = new Order();	
 		
-		order.setSumm(new BigDecimal(335+395));
+		order.setSum(new BigDecimal(335+395));
 		order.setNumber(order.hashCode());
 		
 		OrderProduct prod1= new OrderProduct("Lovely thing", new BigDecimal(33.5), 10);
-		prod1.setProductId("00987654");
+		prod1.setProductId(987654L);
 		OrderProduct prod2= new OrderProduct("Pink thing", new BigDecimal(39.5), 10);
-		prod2.setProductId("8765490");
+		prod2.setProductId(8765490L);
 
 		Map<String, OrderProduct> products = new HashMap<String, OrderProduct>();
-		products.put(prod1.getProductId(), prod1);
-		products.put(prod2.getProductId(), prod2);
+		products.put(prod1.getProduct_SKU(), prod1);
+		products.put(prod2.getProduct_SKU(), prod2);
 		order.setProduct_list(products);		
 		
         orderRepository.save(order);

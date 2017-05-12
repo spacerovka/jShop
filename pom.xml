@@ -82,6 +82,11 @@
 			<!-- <version>${hibernate.version}</version> -->
 		</dependency>
 
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+		</dependency>
+
 		<!-- Servlet 3/1 api -->
 
 		<dependency>
@@ -101,7 +106,7 @@
 			<groupId>javax.servlet.jsp</groupId>
 			<artifactId>javax.servlet.jsp-api</artifactId>
 			<!-- <version>${jsp.version}</version> -->
-		</dependency>
+		</dependency> 
 
 		<dependency>
 			<groupId>javax.inject</groupId>
@@ -124,15 +129,15 @@
 		</dependency>
 
 		<!-- Database -->
-		
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
 			<!-- Java Database Connectivity (JDBC) is an application program interface 
-			(API) specification for connecting programs written in Java to the data in 
-			popular databases. The application program interface lets you encode access 
-			request statements in Structured Query Language (SQL) that are then passed 
-			to the program that manages the database. -->
+				(API) specification for connecting programs written in Java to the data in 
+				popular databases. The application program interface lets you encode access 
+				request statements in Structured Query Language (SQL) that are then passed 
+				to the program that manages the database. -->
 		</dependency>
 
 		<dependency>
@@ -181,6 +186,19 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<!-- <version>${junit.version}</version> -->
+		</dependency>
+		
+		<!--File upload -->
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<!-- <version>1.2.1</version> --> <!-- makesure correct version here -->
+		</dependency>
+		
+		<!-- Apache commons -->
+		<dependency>
+		    <groupId>org.apache.commons</groupId> 
+		    <artifactId>commons-lang3</artifactId>
 		</dependency>
 
 	</dependencies>
