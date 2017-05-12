@@ -87,62 +87,6 @@ public class AjaxFrontController implements ResourceLoaderAware
          return "products"; 
     }	
 	
-	/**
-	 * order processing
-	 */
 	
-	@RequestMapping(value="/addtocart", method=RequestMethod.POST)	
-	public String addToCart(@RequestParam String sku, HttpServletRequest request, Model model)
-	{
-		Order order = getOrCreateOrder(request);
-		Product product = productService.findProductBySKU(sku);
-		System.out.println(product.toString());
-		order.addItem(product);
-		product.setImage(URLUtils.getProductImage(context, product.getId()));
-		model.addAttribute("product",product);
-		return "product_added_success";
-	}
-
-	
-	@RequestMapping(value="/updateCartItemCount", method=RequestMethod.GET,produces = "application/json")	
-	public @ResponseBody String getCartItemCount(HttpServletRequest request, Model model)
-	{
-		Order order = getOrCreateOrder(request);
-		int itemCount = order.getItemCount();
-		System.out.println("* * * "+itemCount);
-		return String.valueOf(itemCount);
-		
-	}
-	
-	@RequestMapping(value="/addQuantity", method=RequestMethod.POST)	
-	public String addQuantity(@RequestParam String sku, HttpServletRequest request, Model model)
-	{
-		Order order = getOrCreateOrder(request);		
-		order.addQuantity(sku);
-		
-		return "template_parts/cart";
-	}
-	
-	@RequestMapping(value="/removeQuantity", method=RequestMethod.POST)	
-	public String removeQuantity(@RequestBody String sku, HttpServletRequest request, Model model)
-	{
-		Order order = getOrCreateOrder(request);		
-		order.removeQuantity(sku);
-		
-		return "template_parts/cart";
-	}
-	
-	protected Order getOrCreateOrder(HttpServletRequest request)
-	{
-		System.out.println("* * * getOrCreateOrder");
-		Order order = null;
-		order = (Order) request.getSession().getAttribute("CURRENT_ORDER");
-		if(order == null){
-			order = new Order();
-			request.getSession().setAttribute("CURRENT_ORDER", order);
-		}
-		return order;
-	}
-			
 	 
 }

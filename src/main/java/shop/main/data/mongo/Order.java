@@ -19,7 +19,7 @@ public class Order {
 	private Long user_id;
 	private int number;
 	private BigDecimal sum;
-	
+	private String userName;
 	private String shipName;
 	private String shipAddress;
 	private String city;
@@ -43,6 +43,7 @@ public class Order {
 	
 	public Order(){
 		product_list = new HashMap<String, OrderProduct>();
+		sum=new BigDecimal(0.00);
 	}
 
 	public String getOrderId() {
@@ -52,20 +53,17 @@ public class Order {
 	public void setOrderId(String orderId) {
 		this.orderId = orderId;
 	}
-
-	public int getNumber() {
-		return number;
+	
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setNumber(int number) {
-		this.number = number;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public BigDecimal getSum() {
-		for(OrderProduct product: product_list.values()){
-			BigDecimal itemCost  = product.getPrice().multiply(new BigDecimal(product.getProduct_quantity()));
-	        sum = sum.add(itemCost);
-		}
+		
 		return sum;
 	}
 
@@ -186,12 +184,14 @@ public class Order {
 			products.append("<"+product.getValue().toString()+">");
 		}
 		
-		return "Order [orderId=" + orderId + ", user_id=" + user_id + ", number=" + number + ", sum=" + sum
+		return "Order [orderId=" + orderId + ", user_id=" + user_id + ", userName=" + userName + ", sum=" + sum + ", number=" + number
 				+ ", shipName=" + shipName + ", shipAddress=" + shipAddress + ", city=" + city + ", state=" + state
 				+ ", zip=" + zip + ", country=" + country + ", phone=" + phone + ", email=" + email + ", shippingCost="
 				+ shippingCost + ", date=" + date + ", shipped=" + shipped + ", confirmed=" + confirmed
 				+ ", trackNumber=" + trackNumber + ", comment "+managerComment+", product_list=" + products + "]";
 	}
+
+	
 
 	@Override
 	public int hashCode() {
@@ -202,7 +202,7 @@ public class Order {
 		result = prime * result + ((country == null) ? 0 : country.hashCode());
 		result = prime * result + ((date == null) ? 0 : date.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + number;
+		result = prime * result + ((managerComment == null) ? 0 : managerComment.hashCode());
 		result = prime * result + ((orderId == null) ? 0 : orderId.hashCode());
 		result = prime * result + ((phone == null) ? 0 : phone.hashCode());
 		result = prime * result + ((product_list == null) ? 0 : product_list.hashCode());
@@ -213,6 +213,7 @@ public class Order {
 		result = prime * result + ((state == null) ? 0 : state.hashCode());
 		result = prime * result + ((sum == null) ? 0 : sum.hashCode());
 		result = prime * result + ((trackNumber == null) ? 0 : trackNumber.hashCode());
+		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
 		result = prime * result + ((user_id == null) ? 0 : user_id.hashCode());
 		result = prime * result + ((zip == null) ? 0 : zip.hashCode());
 		return result;
@@ -252,7 +253,10 @@ public class Order {
 				return false;
 		} else if (!email.equals(other.email))
 			return false;
-		if (number != other.number)
+		if (managerComment == null) {
+			if (other.managerComment != null)
+				return false;
+		} else if (!managerComment.equals(other.managerComment))
 			return false;
 		if (orderId == null) {
 			if (other.orderId != null)
@@ -303,6 +307,11 @@ public class Order {
 			if (other.trackNumber != null)
 				return false;
 		} else if (!trackNumber.equals(other.trackNumber))
+			return false;
+		if (userName == null) {
+			if (other.userName != null)
+				return false;
+		} else if (!userName.equals(other.userName))
 			return false;
 		if (user_id == null) {
 			if (other.user_id != null)
@@ -355,22 +364,41 @@ public class Order {
 		    } else {
 		    	product_list.put(product.getSku(), new OrderProduct(product));
 		    }
+		updateSum();
 	}
 	
 	public void addQuantity(String sku){
 		if (product_list.containsKey(sku)) {
 			product_list.get(sku).setProduct_quantity(product_list.get(sku).getProduct_quantity()+1);	    
 		}
+		updateSum();
 	}
 	
 	public void removeQuantity(String sku){
 		if (product_list.containsKey(sku)) {
-			OrderProduct product = product_list.get(sku);
-			product.setProduct_quantity(product_list.get(sku).getProduct_quantity()-1);	    
-			if (product.getProduct_quantity()==0){
+			
+			product_list.get(sku).setProduct_quantity(product_list.get(sku).getProduct_quantity()-1);	    
+			if (product_list.get(sku).getProduct_quantity()==0){
 				product_list.remove(sku);
 			}
 		}
+		
+		updateSum();
+	}
+	
+	private void updateSum() {
+		for(OrderProduct product: product_list.values()){
+			product.setSubTotal(product.getPrice().multiply(new BigDecimal(product.getProduct_quantity())));
+	        sum = sum.add(product.getSubTotal());
+		}
+	}
+
+	public int getNumber() {
+		return number;
+	}
+
+	public void setNumber(int number) {
+		this.number = number;
 	}
 		
 }

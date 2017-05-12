@@ -99,7 +99,7 @@
 								
 								<a
 									href="${pageContext.request.contextPath}/products/${product.url}"
-									class="btn btn-default">More Info</a>
+									class="btn btn-success">More Info</a>
 							</p>
 						</div>
 					</div>
