@@ -13,42 +13,59 @@ public class OrderProduct {
 	private BigDecimal price;
 	private String product_name;
 	private int product_quantity;
-	
+	private BigDecimal subTotal;
+
 	public OrderProduct() {
-		
+
 	}
-	
+
 	public OrderProduct(String name, BigDecimal price, int quantity) {
-		this.price=price;
-		this.product_name=name;
-		this.product_quantity=quantity;
+		this.price = price;
+		this.product_name = name;
+		this.product_quantity = quantity;
 	}
-	
-	
+
 	public String getProductId() {
 		return productId;
 	}
+
 	public void setProductId(String productId) {
 		this.productId = productId;
 	}
+
 	public BigDecimal getPrice() {
 		return price;
 	}
+
 	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
+
 	public String getProduct_name() {
 		return product_name;
 	}
+
 	public void setProduct_name(String product_name) {
 		this.product_name = product_name;
 	}
+
 	public int getProduct_quantity() {
 		return product_quantity;
 	}
+
 	public void setProduct_quantity(int product_quantity) {
 		this.product_quantity = product_quantity;
 	}
+
+	
+	public BigDecimal getSubTotal() {
+		return subTotal;
+	}
+
+	public void setSubTotal(BigDecimal subTotal) {
+		this.subTotal = subTotal;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -59,6 +76,7 @@ public class OrderProduct {
 		result = prime * result + product_quantity;
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -87,12 +105,11 @@ public class OrderProduct {
 			return false;
 		return true;
 	}
+
 	@Override
 	public String toString() {
 		return "OrderProduct [productId=" + productId + ", price=" + price + ", product_name=" + product_name
 				+ ", product_quantity=" + product_quantity + "]";
 	}
-	
-	
-	
+
 }
