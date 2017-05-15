@@ -34,8 +34,11 @@ public class Option {
 	@JoinColumn(name="optionGroup", nullable=false)	
 	private OptionGroup optionGroup;
 	
-	@OneToMany(mappedBy="optionGroup", fetch=FetchType.LAZY)
+	@OneToMany(mappedBy="option", fetch=FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
 	private List<ProductOption> productOptions;
+	
+	@OneToMany(mappedBy="option", fetch=FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
+	private List<CategoryOption> categoryOptions;
 
 	public Long getId() {
 		return id;
@@ -60,8 +63,7 @@ public class Option {
 	public void setOptionGroup(OptionGroup optionGroup) {
 		this.optionGroup = optionGroup;
 	}
-	
-	
+		
 
 	public List<ProductOption> getProductOptions() {
 		return productOptions;
@@ -71,6 +73,16 @@ public class Option {
 		this.productOptions = productOptions;
 	}
 	
+	
+	
+	public List<CategoryOption> getCategoryOptions() {
+		return categoryOptions;
+	}
+
+	public void setCategoryOptions(List<CategoryOption> categoryOptions) {
+		this.categoryOptions = categoryOptions;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -107,7 +119,9 @@ public class Option {
 		return "Option [id=" + id + ", optionName=" + optionName + "]";
 	}
 	
-	
+	public boolean isNew() {
+		return (this.id == null);
+		}
 	
 	
 }

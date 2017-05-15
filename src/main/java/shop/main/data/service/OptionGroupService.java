@@ -7,8 +7,7 @@ import shop.main.data.objects.OptionGroup;
 public interface OptionGroupService {
 	void save(OptionGroup optionGroup);
 	void delete(OptionGroup optionGroup);
-	List<OptionGroup> listAll();
-	
-//	List<Product> listAllProductsByPrice (BigInteger price);
+	List<OptionGroup> listAll();	
+	void deleteById(Long id);
 	OptionGroup fingOptionById(long id);
 }

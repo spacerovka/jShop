@@ -21,10 +21,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import shop.main.data.objects.Block;
 import shop.main.data.objects.Category;
 import shop.main.data.objects.MenuItem;
+import shop.main.data.objects.Option;
+import shop.main.data.objects.OptionGroup;
 import shop.main.data.objects.Product;
 import shop.main.data.service.BlockService;
 import shop.main.data.service.CategoryService;
 import shop.main.data.service.MenuItemService;
+import shop.main.data.service.OptionGroupService;
+import shop.main.data.service.OptionService;
 import shop.main.data.service.ProductService;
 import shop.main.utils.Constants;
 import shop.main.utils.URLUtils;
@@ -43,6 +47,12 @@ public class AdminController {
 	
 	@Autowired
 	 private BlockService blockService;
+	
+	@Autowired
+	 private OptionService optionService;
+	
+	@Autowired
+	 private OptionGroupService optionGroupService;
 			
 	@Autowired
     ServletContext context;
@@ -52,7 +62,7 @@ public class AdminController {
 //		Product data = productService.fingProductById(0L);
 //		System.out.println(data.toString());
 //		model.addAttribute("product",data);
-		return "admin/welcome";
+		return "../admin/welcome";
 	}
 		
 	
@@ -60,7 +70,7 @@ public class AdminController {
 	public String categoriesList(Model model) {
 
 		model.addAttribute("categoryList",categoryService.listAll());
-		return "admin/categories";
+		return "../admin/categories";
 	}
 	
 	@RequestMapping(value = "/a/category", method=RequestMethod.POST) 
@@ -74,7 +84,7 @@ public class AdminController {
 			redirectAttributes.addFlashAttribute("errorMessage", "URL is not unique!");
 			model.addAttribute("errorSummary","URL is not unique!");
 			model.addAttribute("urlError", "has-error");
-			return "admin/edit_category";
+			return "../admin/edit_category";
 		} else {			
 			if(category.isNew()){
 			  redirectAttributes.addFlashAttribute("flashMessage", "Category added successfully!");
@@ -96,7 +106,7 @@ public class AdminController {
 		model.addAttribute("category",new Category());
 		model.addAttribute("urlError", "");
 		model.addAttribute("parentCategoryList", categoryService.listAll());
-		return "admin/edit_category";
+		return "../admin/edit_category";
 	}
 	
 	@RequestMapping(value = "/a/category/{id}/update", method=RequestMethod.GET)
@@ -108,7 +118,7 @@ public class AdminController {
 		
 	    model.addAttribute("images", URLUtils.getCategoryImages(context, id));
 		
-		return "admin/edit_category";
+		return "../admin/edit_category";
 	}
 	
 	@RequestMapping(value = "/a/category/{id}/delete", method=RequestMethod.GET)
@@ -143,12 +153,12 @@ public class AdminController {
 		}
 		if(!errorSummary.isEmpty()){
 			model.addAttribute("errorSummary", errorSummary);			
-			return "admin/edit_product";
+			return "../admin/edit_product";
 		}
 		
 		if (result.hasErrors()) {
 			redirectAttributes.addFlashAttribute("flashMessage", "Errors occured!");			
-			return "admin/edit_product";
+			return "../admin/edit_product";
 		} else {			
 			if(product.isNew()){
 			  redirectAttributes.addFlashAttribute("flashMessage", "Product added successfully!");
@@ -168,7 +178,7 @@ public class AdminController {
 	public String productsList(Model model) {
 
 		model.addAttribute("productList",productService.listAll());
-		return "admin/products";
+		return "../admin/products";
 	}
 	
 	@RequestMapping(value = "/a/product/add", method=RequestMethod.GET)
@@ -177,7 +187,7 @@ public class AdminController {
 		model.addAttribute("product",new Product());
 		model.addAttribute("urlError", "");
 		model.addAttribute("parentCategoryList", categoryService.listAll());
-		return "admin/edit_product";
+		return "../admin/edit_product";
 	}
 	
 	@RequestMapping(value = "/a/product/{id}/update", method=RequestMethod.GET)
@@ -188,7 +198,7 @@ public class AdminController {
 		model.addAttribute("parentCategoryList", categoryService.listAll());
 		model.addAttribute("images", URLUtils.getProductImages(context, id));
 		model.addAttribute("mainImage", URLUtils.getProductImage(context, id));
-		return "admin/edit_product";
+		return "../admin/edit_product";
 	}
 	
 	@RequestMapping(value = "/a/product/{id}/delete", method=RequestMethod.GET)
@@ -204,7 +214,7 @@ public class AdminController {
 	public String menuList(Model model) {
 
 		model.addAttribute("menuItemList",menuService.listAll());
-		return "admin/menu_items";
+		return "../admin/menu_items";
 	}
 	
 	@RequestMapping(value = "/a/menu", method=RequestMethod.POST) 
@@ -217,7 +227,7 @@ public class AdminController {
 		if (result.hasErrors()) {
 			redirectAttributes.addFlashAttribute("errorMessage", "Error");
 			model.addAttribute("Error", "has-error");
-			return "admin/edit_menu";
+			return "../admin/edit_menu";
 		} else {			
 			if(item.isNew()){
 			  redirectAttributes.addFlashAttribute("flashMessage", "Item added successfully!");
@@ -236,7 +246,7 @@ public class AdminController {
 		//TODO add menuTypeList
 		model.addAttribute("menuItem",new MenuItem());
 		model.addAttribute("menuTypeList", getMenuTypes());
-		return "admin/edit_menu";
+		return "../admin/edit_menu";
 	}
 	
 	@RequestMapping(value = "/a/menu/{id}/update", method=RequestMethod.GET)
@@ -245,7 +255,7 @@ public class AdminController {
 		model.addAttribute("menuItem",menuService.findById(id));
 		model.addAttribute("menuTypeList", getMenuTypes());			    
 		
-		return "admin/edit_menu";
+		return "../admin/edit_menu";
 	}
 	
 	@RequestMapping(value = "/a/menu/{id}/delete", method=RequestMethod.GET)
@@ -266,7 +276,7 @@ public class AdminController {
 	public String blockList(Model model) {
 
 		model.addAttribute("blockList",blockService.listAll());
-		return "admin/blocks";
+		return "../admin/blocks";
 	}
 	
 	@RequestMapping(value = "/a/block", method=RequestMethod.POST) 
@@ -279,7 +289,7 @@ public class AdminController {
 		if (result.hasErrors()) {
 			redirectAttributes.addFlashAttribute("errorMessage", "Error");
 			model.addAttribute("Error", "has-error");
-			return "admin/edit_menu";
+			return "../admin/edit_menu";
 		} else {			
 			if(block.isNew()){
 			  redirectAttributes.addFlashAttribute("flashMessage", "Item added successfully!");
@@ -298,7 +308,7 @@ public class AdminController {
 		//TODO add menuTypeList
 		model.addAttribute("block",new Block());
 		model.addAttribute("blockTypeList", getBlockTypes());
-		return "admin/edit_block";
+		return "../admin/edit_block";
 	}
 	
 	@RequestMapping(value = "/a/block/{id}/update", method=RequestMethod.GET)
@@ -307,7 +317,7 @@ public class AdminController {
 		model.addAttribute("block",blockService.findById(id));
 		model.addAttribute("blockTypeList", getBlockTypes());			    
 		
-		return "admin/edit_block";
+		return "../admin/edit_block";
 	}
 	
 	@RequestMapping(value = "/a/block/{id}/delete", method=RequestMethod.GET)
@@ -331,6 +341,112 @@ public class AdminController {
 		
 		return "../admin/mainpageProperties";
 	}
+	
+	/* Options */
+	
+	@RequestMapping(value = "/a/options")
+	public String optionsList(Model model) {
+
+		model.addAttribute("optionList",optionService.listAll());
+		model.addAttribute("optiongroupList",optionGroupService.listAll());
+		return "../admin/options";
+	}
+	
+	@RequestMapping(value = "/a/option", method=RequestMethod.POST) 
+	public String saveOption(
+			@ModelAttribute("option") @Valid Option option,
+			Model model,
+			BindingResult result,
+			final RedirectAttributes redirectAttributes) {
+
+		if (result.hasErrors()) {			
+			return "../admin/edit_option";
+		} else {			
+			if(option.isNew()){
+			  redirectAttributes.addFlashAttribute("flashMessage", "Category added successfully!");
+			}else{
+			  redirectAttributes.addFlashAttribute("flashMessage", "Category updated successfully!");
+			}	
+			if(option.getOptionGroup().getId() == -1){
+				option.setOptionGroup(null);
+			}	
+			optionService.save(option);
+			return "redirect:/a/options";
+		}
+		
+	}
+	
+	@RequestMapping(value = "/a/optiongroup", method=RequestMethod.POST) 
+	public String saveOptionGroup(
+			@ModelAttribute("optiongroup") @Valid OptionGroup optiongroup,
+			Model model,
+			BindingResult result,
+			final RedirectAttributes redirectAttributes) {
+
+		if (result.hasErrors()) {			
+			return "../admin/edit_optionGroup";
+		} else {			
+			if(optiongroup.isNew()){
+			  redirectAttributes.addFlashAttribute("flashMessage", "Category added successfully!");
+			}else{
+			  redirectAttributes.addFlashAttribute("flashMessage", "Category updated successfully!");
+			}	
+				
+			optionGroupService.save(optiongroup);
+			return "redirect:/a/options";
+		}
+		
+	}
+	
+	@RequestMapping(value = "/a/option/add", method=RequestMethod.GET)
+	public String addOption(Model model) {
+
+		model.addAttribute("option",new Option());		
+		model.addAttribute("optiongroupList", optionGroupService.listAll());
+		return "../admin/edit_option";
+	}
+	
+	@RequestMapping(value = "/a/optiongroup/add", method=RequestMethod.GET)
+	public String addOptionGroup(Model model) {
+
+		model.addAttribute("optiongroup",new OptionGroup());		
+		return "../admin/edit_optionGroup";
+	}
+	
+	@RequestMapping(value = "/a/option/{id}/update", method=RequestMethod.GET)
+	public String editOption(@PathVariable("id") long id, Model model) {
+		
+		model.addAttribute("option",optionService.fingOptionById(id));
+		model.addAttribute("optiongroupList", optionGroupService.listAll());
+		
+		return "../admin/edit_option";
+	}
+	
+	@RequestMapping(value = "/a/optiongroup/{id}/update", method=RequestMethod.GET)
+	public String editOptionGroup(@PathVariable("id") long id, Model model) {
+		
+		model.addAttribute("optiongroup",optionGroupService.fingOptionById(id));
+		
+		return "../admin/edit_optionGroup";
+	}
+	
+	@RequestMapping(value = "/a/option/{id}/delete", method=RequestMethod.GET)
+	public String deleteOption(@PathVariable("id") long id, Model model, final RedirectAttributes redirectAttributes) {
+		optionService.deleteById(id);
+		redirectAttributes.addFlashAttribute("flashMessage", "Option deleted successfully!");
+		
+		return "redirect:/a/options";
+	}
+	
+	@RequestMapping(value = "/a/optiongroup/{id}/delete", method=RequestMethod.GET)
+	public String deleteOptionGroup(@PathVariable("id") long id, Model model, final RedirectAttributes redirectAttributes) {
+		
+		optionGroupService.deleteById(id);
+		redirectAttributes.addFlashAttribute("flashMessage", "Option group deleted successfully!");
+		
+		return "redirect:/a/options";
+	}
+	
 	
 		
 }

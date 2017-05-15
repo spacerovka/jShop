@@ -8,7 +8,7 @@ public interface OptionService {
 	void save(Option option);
 	void delete(Option option);
 	List<Option> listAll();
-	
-//	List<Product> listAllProductsByPrice (BigInteger price);
 	Option fingOptionById(long id);
+	List<Option> findOptionByOptionGroup(long id);
+	void deleteById(long id);
 }

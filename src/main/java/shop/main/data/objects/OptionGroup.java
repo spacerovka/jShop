@@ -2,6 +2,7 @@ package shop.main.data.objects;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -31,10 +32,10 @@ public class OptionGroup {
 	@Column(name = "description", nullable = true, length=50)
 	private String description;
 	
-	@OneToMany(mappedBy="optionGroup", fetch=FetchType.LAZY)
+	@OneToMany(mappedBy="optionGroup", fetch=FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
 	private List<Option> options;
 	
-	@OneToMany(mappedBy="optionGroup", fetch=FetchType.LAZY)
+	@OneToMany(mappedBy="optionGroup", fetch=FetchType.LAZY,cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
 	private List<ProductOption> productOptions;
 
 	public Long getId() {
@@ -121,6 +122,8 @@ public class OptionGroup {
 				+ ", description=" + description +  "]";
 	}
 
-	
+	public boolean isNew() {
+		return (this.id == null);
+		}
 	
 }
