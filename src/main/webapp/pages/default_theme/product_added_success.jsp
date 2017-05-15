@@ -29,13 +29,13 @@
 
 <div class="col-xs-6"
 	style="padding-bottom: 2rem; position: absolute; bottom: 0px; left: 0px;">
-	<a href="#" class="btn btn-warning"><i class="fa fa-angle-left"></i>
+	<a href="#" class="btn btn-warning" onclick="$('#popup').hide();"><i class="fa fa-angle-left"></i>
 		Continue Shopping</a>
 </div>
 
 <div class="col-xs-6"
 	style="padding-bottom: 2rem; position: absolute; bottom: 0px; right: 0px;">
-	<a href="#" class="btn btn-success btn-block">Checkout <i
+	<a href="${pageContext.request.contextPath}/cart" class="btn btn-success btn-block">Checkout <i
 		class="fa fa-angle-right"></i></a>
 </div>
 

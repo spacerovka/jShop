@@ -15,6 +15,7 @@ public class OrderProduct {
 	private BigDecimal price;
 	private String product_name;
 	private int product_quantity;
+	private BigDecimal subTotal;	
 	private String product_SKU;
 	private String cartDesc;
 	private String thumb;
@@ -22,11 +23,11 @@ public class OrderProduct {
 	public OrderProduct() {
 		this.product_quantity = 1;
 	}
-	
+
 	public OrderProduct(String name, BigDecimal price, int quantity) {
-		this.price=price;
-		this.product_name=name;
-		this.product_quantity=quantity;
+		this.price = price;
+		this.product_name = name;
+		this.product_quantity = quantity;
 	}
 	
 	public OrderProduct(Product product) {
@@ -47,21 +48,27 @@ public class OrderProduct {
 	public void setProductId(Long productId) {
 		this.productId = productId;
 	}
+
 	public BigDecimal getPrice() {
 		return price;
 	}
+
 	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
+
 	public String getProduct_name() {
 		return product_name;
 	}
+
 	public void setProduct_name(String product_name) {
 		this.product_name = product_name;
 	}
+
 	public int getProduct_quantity() {
 		return product_quantity;
 	}
+
 	public void setProduct_quantity(int product_quantity) {
 		this.product_quantity = product_quantity;
 	}	
@@ -72,6 +79,15 @@ public class OrderProduct {
 
 	public void setProduct_SKU(String product_SKU) {
 		this.product_SKU = product_SKU;
+	}
+
+	
+	public BigDecimal getSubTotal() {
+		return subTotal;
+	}
+
+	public void setSubTotal(BigDecimal subTotal) {
+		this.subTotal = subTotal;
 	}
 
 	@Override
@@ -119,6 +135,7 @@ public class OrderProduct {
 		return true;
 	}
 
+
 	public String getCartDesc() {
 		return cartDesc;
 	}
@@ -141,6 +158,5 @@ public class OrderProduct {
 				+ ", product_quantity=" + product_quantity + ", product_SKU=" + product_SKU + ", cartDesc=" + cartDesc
 				+ ", thumb=" + thumb + "]";
 	}
-		
-	
+
 }
