@@ -26,6 +26,7 @@ import shop.main.data.objects.CategoryOption;
 import shop.main.data.objects.Review;
 import shop.main.data.objects.User;
 
+@Deprecated
 @Service("categoryOptionService")
 public class CategoryOptionServiceImpl implements CategoryOptionService{
 	
@@ -73,6 +74,25 @@ private static final Logger LOGGER = LoggerFactory.getLogger(CategoryOptionServi
 		System.out.println("*");
 		return (List<CategoryOption>) query.list();
 	}
+
+	@Transactional
+	@Override
+	public CategoryOption findCategoryOptionByValues(long categoryId, long optionId) {
+		Session session =(Session)entityManager.getDelegate();
+		
+		String hql = "from CategoryOption o where o.category.id = "+categoryId
+				+" and o.option.id = "+optionId
+				+" limit 1";
+
+		Query query = session.createQuery(hql);
+		System.out.println("*");
+		System.out.println("*");
+		System.out.println("query is "+query.getQueryString());
+		System.out.println("*");
+		System.out.println("*");
+		return (CategoryOption) query.uniqueResult();
+	}
+	
 
 	
 	

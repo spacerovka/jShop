@@ -20,15 +20,19 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import shop.main.data.objects.Block;
 import shop.main.data.objects.Category;
+import shop.main.data.objects.CategoryOption;
 import shop.main.data.objects.MenuItem;
 import shop.main.data.objects.Option;
 import shop.main.data.objects.OptionGroup;
 import shop.main.data.objects.Product;
+import shop.main.data.objects.ProductOption;
 import shop.main.data.service.BlockService;
+import shop.main.data.service.CategoryOptionService;
 import shop.main.data.service.CategoryService;
 import shop.main.data.service.MenuItemService;
 import shop.main.data.service.OptionGroupService;
 import shop.main.data.service.OptionService;
+import shop.main.data.service.ProductOptionService;
 import shop.main.data.service.ProductService;
 import shop.main.utils.Constants;
 import shop.main.utils.URLUtils;
@@ -53,7 +57,11 @@ public class AdminController {
 	
 	@Autowired
 	 private OptionGroupService optionGroupService;
-			
+	
+	@Autowired
+	 private ProductOptionService productOptionService;
+	
+				
 	@Autowired
     ServletContext context;
 	
@@ -139,7 +147,7 @@ public class AdminController {
 			final RedirectAttributes redirectAttributes) {
 		
 		String errorSummary = "";
-		if(!productService.checkUniqueURL(product)){
+		if(product.isNew() && !productService.checkUniqueURL(product)){
 			errorSummary+="URL is not unique! ";
 			model.addAttribute("urlError", "has-error");
 		}	
@@ -169,6 +177,23 @@ public class AdminController {
 				product.setCategory(null);
 			}			
 			productService.saveProduct(product);
+			for (ProductOption po : product.getProductOptions()) {
+				if(po.getProduct()==null){
+					po.setProduct(product);
+				}				
+				if (po.getOption().getId() == -1) {
+					po.setOption(null);
+				}
+				if (po.getOptionGroup().getId() == -1) {
+					po.setOptionGroup(null);
+				} else {
+					po.setOptionGroup(optionGroupService.fingOptionById(po.getOption().getId()));
+				}
+				if(po.getOptionGroup()!=null
+						&& po.getOption() != null){
+					productOptionService.save(po);					
+				}
+			}
 			return "redirect:/a/products";
 		}
 		
@@ -187,6 +212,7 @@ public class AdminController {
 		model.addAttribute("product",new Product());
 		model.addAttribute("urlError", "");
 		model.addAttribute("parentCategoryList", categoryService.listAll());
+		model.addAttribute("optiongroupList", optionGroupService.listAll());
 		return "../admin/edit_product";
 	}
 	
@@ -198,6 +224,7 @@ public class AdminController {
 		model.addAttribute("parentCategoryList", categoryService.listAll());
 		model.addAttribute("images", URLUtils.getProductImages(context, id));
 		model.addAttribute("mainImage", URLUtils.getProductImage(context, id));
+		model.addAttribute("optiongroupList", optionGroupService.listAll());
 		return "../admin/edit_product";
 	}
 	

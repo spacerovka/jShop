@@ -20,6 +20,7 @@ import shop.main.data.DAO.ProductDAO;
 import shop.main.data.DAO.ProductOptionDAO;
 import shop.main.data.DAO.UserDAO;
 import shop.main.data.objects.Category;
+import shop.main.data.objects.CategoryOption;
 import shop.main.data.objects.Option;
 import shop.main.data.objects.Product;
 import shop.main.data.objects.ProductOption;
@@ -63,6 +64,27 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ProductOptionServic
 		String hql = "from ProductOption o where o.option.id in "+idListString
 				+" and (o.product.status = true and o.product.category.status = true)"
 				+" group by o.product";
+
+		Query query = session.createQuery(hql);
+		System.out.println("*");
+		System.out.println("*");
+		System.out.println("query is "+query.getQueryString());
+		System.out.println("*");
+		System.out.println("*");
+		return (List<ProductOption>) query.list();
+	}
+	
+	
+	@Transactional
+	@Override
+	public List<ProductOption> findOptionsByCategoryList(List<Long> idList) {
+		Session session =(Session)entityManager.getDelegate();
+		String idListString = "(" + StringUtils.join(idList, ",") + ")";
+		
+
+		String hql = "from ProductOption o where o.product.category.id in "+idListString
+				+" and o.product.category.status = true"
+				+" group by o.option";
 
 		Query query = session.createQuery(hql);
 		System.out.println("*");

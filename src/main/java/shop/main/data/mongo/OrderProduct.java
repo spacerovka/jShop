@@ -24,10 +24,11 @@ public class OrderProduct {
 		this.product_quantity = 1;
 	}
 
-	public OrderProduct(String name, BigDecimal price, int quantity) {
+	public OrderProduct(String name, BigDecimal price, int quantity, String product_SKU) {
 		this.price = price;
 		this.product_name = name;
 		this.product_quantity = quantity;
+		this.product_SKU = product_SKU;
 	}
 	
 	public OrderProduct(Product product) {

@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+@Deprecated
 @Entity
 @Table(name = "categoryOption")
 public class CategoryOption {

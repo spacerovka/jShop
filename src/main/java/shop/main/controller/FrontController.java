@@ -27,9 +27,11 @@ import shop.main.data.mongo.Order;
 import shop.main.data.objects.Category;
 import shop.main.data.objects.CategoryOption;
 import shop.main.data.objects.Product;
+import shop.main.data.objects.ProductOption;
 import shop.main.data.objects.Review;
 import shop.main.data.service.CategoryOptionService;
 import shop.main.data.service.CategoryService;
+import shop.main.data.service.ProductOptionService;
 import shop.main.data.service.ProductService;
 import shop.main.utils.URLUtils;
 
@@ -52,6 +54,9 @@ public class FrontController {
 	
 	@Autowired
 	 private CategoryOptionService categoryOptionService;
+	
+	@Autowired
+	 private ProductOptionService productOptionService;
 	
 	@Autowired
     ServletContext context;
@@ -165,10 +170,10 @@ public class FrontController {
 			
 			model.addAttribute("menu", categoryService.findAllParentCategories());
 			
-			List<CategoryOption> categoryOptions = categoryOptionService.findOptionsByCategoryList(childCategories);
+			List<ProductOption> categoryOptions = productOptionService.findOptionsByCategoryList(childCategories);
 			if(!categoryOptions.isEmpty()){
 				System.out.println("*** categoryOptions "+categoryOptions.size());
-			Map<String, List<CategoryOption>> categoryOptionsMap = categoryOptions
+			Map<String, List<ProductOption>> categoryOptionsMap = categoryOptions
 																	.stream()
 																	.collect(Collectors.groupingBy(c-> c.getOption().getOptionGroup().getOptionGroupName()));
 			model.addAttribute("categoryOptions",categoryOptionsMap);

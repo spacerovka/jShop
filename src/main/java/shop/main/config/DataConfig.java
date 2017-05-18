@@ -171,11 +171,7 @@ public class DataConfig<DatabasePopulator> {
 		return new ProductOptionServiceImpl();
 	}
 	
-	@Bean
-	public CategoryOptionService categoryOptionService() {
-		return new CategoryOptionServiceImpl();
-	}
-	
+		
 	@Bean
 	public OptionGroupService optionGroupService() {
 		return new OptionGroupServiceImpl();

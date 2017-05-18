@@ -9,5 +9,6 @@ public interface ProductOptionService {
 	void delete(ProductOption option);
 	List<ProductOption> listAll();
 	List<ProductOption> findProductOptionByOption(List<Long> idList);
+	List<ProductOption> findOptionsByCategoryList(List<Long> idList);
 	
 }

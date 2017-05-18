@@ -3,6 +3,7 @@ package shop.main.controller;
 import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,11 +32,15 @@ public class MongoController {
 		Order order = new Order();	
 		
 		order.setSum(new BigDecimal(335+395));
-		order.setNumber(order.hashCode());
+		String orderCount = String.valueOf(orderRepository.findAll().size());
+		if(orderCount.length()<8){
+			orderCount="0"+orderCount;
+		}
+		order.setNumber(Calendar.getInstance().get(Calendar.YEAR)+orderCount);
 		
-		OrderProduct prod1= new OrderProduct("Lovely thing", new BigDecimal(33.5), 10);
-		prod1.setProductId(987654L);
-		OrderProduct prod2= new OrderProduct("Pink thing", new BigDecimal(39.5), 10);
+		OrderProduct prod1= new OrderProduct("Lovely thing", new BigDecimal(33.5), 10, "987654L");
+		prod1.setProductId(987654L);		
+		OrderProduct prod2= new OrderProduct("Pink thing", new BigDecimal(39.5), 10,"8765490L");
 		prod2.setProductId(8765490L);
 
 		Map<String, OrderProduct> products = new HashMap<String, OrderProduct>();
