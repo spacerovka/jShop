@@ -13,75 +13,80 @@
 </head>
 <body>
 	<%@include file="template_parts/navbar.jsp"%>
-<section class="shopping-cart">
-	<div class="container">
-
-		<div class="row cart-row" id="cart">			
-
-			<%@include file="template_parts/cart.jsp"%>
-
+	<section class="shopping-cart">
+		<div class="container">
+			<c:choose>
+				<c:when test="${not empty order}">
+					<div class="row cart-row" id="cart">
+						<%@include file="template_parts/cart.jsp"%>
+					</div>
+				</c:when>
+				
+				<c:otherwise>
+					<header class="jumbotron hero-spacer">
+						<h1>Your cart is empty!</h1>
+					</header>
+				</c:otherwise>
+				
+			</c:choose>
 		</div>
 
-	</div>
-
-</section>
+	</section>
 	<%@include file="template_parts/footer.jsp"%>
-	
+
 	<script>
-		
-	
-	$('.panel-toggle').click(function(e){
-		$(this).toggleClass('active');
-		var $target = $(this).attr('href');
-		$($target).toggleClass('expanded');
-		e.preventDefault();
-	});
-	
-	function addQuantity(sku)
-	{
-		console.log("removeQuantity");
-		$.ajax ({ 
-			url: '${pageContext.request.contextPath}/addQuantity', 
-			type: "POST", 
-			dataType: "text",			
-			data : {sku:sku},
-			complete: function(response){
-				$('#cart').html(response.responseText);
-				updateCartItemCount();
-			}
-		}); 
-	}
-	
-	function removeQuantity(sku)
-	{
-		console.log("removeQuantity");
-		$.ajax ({ 
-			url: '${pageContext.request.contextPath}/removeQuantity', 
-			type: "POST", 
-			dataType: "text",			
-			data : {sku:sku},
-			complete: function(response){
-				$('#cart').html(response.responseText);	
-				updateCartItemCount();
-			}
-		}); 
-	}
-	
-	function updateCartItemCount()
-	{
-		$.ajax ({ 
-			url: '${pageContext.request.contextPath}/updateCartItemCount', 
-			type: 'GET', 
-			dataType: 'text',	
-			contentType: "application/json",
-			complete: function(responseData, status, xhttp){ 				
-				$('#cart-item-count').html('('+responseData.responseText+')');
-			}
+		$('.panel-toggle').click(function(e) {
+			$(this).toggleClass('active');
+			var $target = $(this).attr('href');
+			$($target).toggleClass('expanded');
+			e.preventDefault();
 		});
-	}
-	updateCartItemCount();
-	
-	
+
+		function addQuantity(sku) {
+			console.log("removeQuantity");
+			$.ajax({
+				url : '${pageContext.request.contextPath}/addQuantity',
+				type : "POST",
+				dataType : "text",
+				data : {
+					sku : sku
+				},
+				complete : function(response) {
+					$('#cart').html(response.responseText);
+					updateCartItemCount();
+				}
+			});
+		}
+
+		function removeQuantity(sku) {
+			console.log("removeQuantity");
+			$.ajax({
+				url : '${pageContext.request.contextPath}/removeQuantity',
+				type : "POST",
+				dataType : "text",
+				data : {
+					sku : sku
+				},
+				complete : function(response) {
+					$('#cart').html(response.responseText);
+					updateCartItemCount();
+				}
+			});
+		}
+
+		function updateCartItemCount() {
+			$.ajax({
+				url : '${pageContext.request.contextPath}/updateCartItemCount',
+				type : 'GET',
+				dataType : 'text',
+				contentType : "application/json",
+				complete : function(responseData, status, xhttp) {
+					$('#cart-item-count').html(
+							'(' + responseData.responseText + ')');
+				}
+			});
+		}
+		updateCartItemCount();
 	</script>
 </body>
 </html>

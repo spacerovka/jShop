@@ -73,8 +73,8 @@
 						name="apply-coupon" value="Apply coupon">
 				</div> -->
 
-				<input type="submit" class="btn btn-black btn-block"
-					name="to-checkout" value="Proceed to checkout">
+				<a class="btn btn-black btn-block" href="${pageContext.request.contextPath}/checkout"
+					title="to-checkout">Proceed to checkout</a>
 			</div>
 
 			<a class="panel-toggle" href="#calc-shipping"><h3>Calculate

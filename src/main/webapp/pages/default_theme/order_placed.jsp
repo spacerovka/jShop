@@ -18,55 +18,73 @@ background-size:cover;"> -->
 	<%@include file="template_parts/navbar.jsp"%>
 
 	<div class="container">
-		<core:if test="${not empty orders}">
-			<core:forEach var="order" items="${orders}">
-				<div class="row box">
-					<div class="col-lg-12">
-						<hr class="underline">
-						<h2 class="intro-text text-center">
-							<strong>Summary info</strong>
-						</h2>
-						<hr class="underline">
 
-						<hr class="visible-xs">
+
+		<div class="row box">
+			<div class="col-lg-12">
+				<hr class="underline">
+				<h2 class="intro-text text-center">
+					<strong>Summary info</strong>
+				</h2>
+				<hr class="underline">
+
+				<hr class="visible-xs">
+				<p>
+					Order number is <b><core:out value="${order.number}" /></b>
+				</p>
+				<p>
+					Order sum is <b><core:out value="${order.sum}" /></b>
+				</p>
+
+				<p>
+					Client is <b><core:out value="${order.userName}" /></b>,
+					<core:out value="${order.phone}" />
+				</p>
+
+				<p>
+					Shipping address: <b><core:out value="${order.country}" />, <core:out
+							value="${order.city}" />, <core:out value="${order.shipAddress}" />,
+						<core:out value="${order.zip}" /></b>
+				</p>
+			</div>
+		</div>
+
+
+		<core:forEach items="${order.product_list}" var="product">
+
+			<div class="row box col-xs-12 col-md-6">
+				<div class="col-lg-12">
+					<hr class="underline">
+					<h2 class="intro-text text-center">
+						<strong><core:out value="${product.value.product_name}" /></strong>
+					</h2>
+					<hr class="underline">
+					<div class="col-xs-12 col-sm-6">
 						<p>
-							Order id is <b><core:out value="${order.orderId}" /></b>
+							Id: <b><core:out value="${product.value.productId}" /></b>
+						</p>
+
+						<p>
+							Price: <b><core:out value="${product.value.price}" />$</b>
 						</p>
 						<p>
-							Order number is <b><core:out value="${order.number}" /></b>
+							Quantity: <b><core:out
+									value="${product.value.product_quantity}" /></b>
 						</p>
 						<p>
-							Order sum is <b><core:out value="${order.sum}" />$</b>
+							Product sum: <b><core:out
+									value="${product.value.subTotal}" /></b>
 						</p>
+					</div>
+					<div class="col-xs-12 col-sm-6">
+						<img style="max-width: 90%;"
+							src="${pageContext.request.contextPath}/resources/uploads/products/${product.value.productId}/main/${product.value.thumb}"
+							alt="${product.value.product_name}">
 					</div>
 				</div>
+			</div>
+		</core:forEach>
 
-
-				<core:forEach items="${order.product_list}" var="product">
-
-					<div class="row box">
-						<div class="col-lg-12">
-							<hr class="underline">
-							<h2 class="intro-text text-center">
-								<strong><core:out value="${product.value.product_name}" /></strong>
-							</h2>
-							<hr class="underline">
-							<p>
-								Id: <b><core:out value="${product.value.productId}" /></b>
-							</p>
-
-							<p>
-								Price: <b><core:out value="${product.value.price}" />$</b>
-							</p>
-							<p>
-								Quantity: <b><core:out
-										value="${product.value.product_quantity}" /></b>
-							</p>
-						</div>
-					</div>
-				</core:forEach>
-			</core:forEach>
-		</core:if>
 
 		<hr>
 
