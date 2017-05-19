@@ -8,6 +8,7 @@ import java.util.List;
 import javax.servlet.ServletContext;
 import javax.validation.Valid;
 
+import shop.main.data.mongo.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import shop.main.data.mongo.OrderRepository;
 import shop.main.data.objects.Block;
 import shop.main.data.objects.Category;
 import shop.main.data.objects.CategoryOption;
@@ -61,6 +63,9 @@ public class AdminController {
 	@Autowired
 	 private ProductOptionService productOptionService;
 	
+	
+	@Autowired
+	private OrderRepository orderRepository;
 				
 	@Autowired
     ServletContext context;
@@ -233,6 +238,56 @@ public class AdminController {
 		productService.deleteProductById(id);
 		redirectAttributes.addFlashAttribute("flashMessage", "Product deleted successfully!");
 		return "redirect:/a/products";
+	}
+	/********* Orders ***/
+	
+	@RequestMapping(value = "/a/orders")
+	public String ordersList(Model model) {
+
+		model.addAttribute("orders",orderRepository.findAll());
+		return "../admin/orders/orders";
+	}	
+	
+	
+	@RequestMapping(value = "/a/order/{id}/update", method=RequestMethod.GET)
+	public String editOrder(@PathVariable("id") String id, Model model) {
+		Order order = orderRepository.findOne(id);
+		model.addAttribute("order", order);	
+		
+		return "../admin/orders/edit_order";
+	}
+	
+	@RequestMapping(value = "/a/order/{id}/delete", method=RequestMethod.GET)
+	public String deleteOrder(@PathVariable("id") String id, Model model, final RedirectAttributes redirectAttributes) {
+		orderRepository.delete(id);
+		redirectAttributes.addFlashAttribute("flashMessage", "Order deleted successfully!");
+		return "redirect:/a/orders";
+	}
+	
+	@RequestMapping(value = "/a/order", method=RequestMethod.POST) 
+	public String saveProduct(
+			@ModelAttribute("order") @Valid Order order,
+			Model model,
+			BindingResult result,
+			final RedirectAttributes redirectAttributes) {
+		
+		String errorSummary = "";
+		
+		if(!errorSummary.isEmpty()){
+			model.addAttribute("errorSummary", errorSummary);			
+			return "../admin/orders/edit_order";
+		}
+		
+		if (result.hasErrors()) {
+			redirectAttributes.addFlashAttribute("flashMessage", "Errors occured!");			
+			return "../admin/orders/edit_order";
+		} else {			
+			redirectAttributes.addFlashAttribute("flashMessage", "Product updated successfully!");					
+			orderRepository.save(order);
+			
+			return "redirect:/a/orders";
+		}
+		
 	}
 	
 	/*********  Menu Items pages  ***/
