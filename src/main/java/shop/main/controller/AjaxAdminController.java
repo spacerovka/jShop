@@ -27,6 +27,7 @@ import shop.main.data.objects.ProductOption;
 import shop.main.data.service.CategoryService;
 import shop.main.data.service.OptionGroupService;
 import shop.main.data.service.OptionService;
+import shop.main.data.service.ProductService;
 import shop.main.utils.URLUtils;
 
 @Controller
@@ -44,6 +45,9 @@ public class AjaxAdminController implements ResourceLoaderAware {
 
 	@Autowired
 	private OptionGroupService optionGroupService;
+	
+	@Autowired
+	 private ProductService productService;
 
 	public void setResourceLoader(ResourceLoader resourceLoader) {
 		this.resourceLoader = resourceLoader;
@@ -199,5 +203,12 @@ public class AjaxAdminController implements ResourceLoaderAware {
 		model.addAttribute("parentCategoryList", categoryService.listAll());
 		model.addAttribute("optiongroupList", optionGroupService.listAll());
 		return "../admin/_edit_product_form";
+	}
+	
+	@RequestMapping(value = "/a/findProducts", method = RequestMethod.POST)
+	public String findProducts(@RequestParam String name, @RequestParam String url, Model model) {
+		model.addAttribute("productList", productService.findByNameAndURL(name, url));
+		return "../admin/products/_table";
+
 	}
 }

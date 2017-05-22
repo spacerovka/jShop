@@ -83,7 +83,7 @@ public class AdminController {
 	public String categoriesList(Model model) {
 
 		model.addAttribute("categoryList",categoryService.listAll());
-		return "../admin/categories";
+		return "../admin/categories/categories";
 	}
 	
 	@RequestMapping(value = "/a/category", method=RequestMethod.POST) 
@@ -97,7 +97,7 @@ public class AdminController {
 			redirectAttributes.addFlashAttribute("errorMessage", "URL is not unique!");
 			model.addAttribute("errorSummary","URL is not unique!");
 			model.addAttribute("urlError", "has-error");
-			return "../admin/edit_category";
+			return "../admin/categories/edit_category";
 		} else {			
 			if(category.isNew()){
 			  redirectAttributes.addFlashAttribute("flashMessage", "Category added successfully!");
@@ -119,7 +119,7 @@ public class AdminController {
 		model.addAttribute("category",new Category());
 		model.addAttribute("urlError", "");
 		model.addAttribute("parentCategoryList", categoryService.listAll());
-		return "../admin/edit_category";
+		return "../admin/categories/edit_category";
 	}
 	
 	@RequestMapping(value = "/a/category/{id}/update", method=RequestMethod.GET)
@@ -131,7 +131,7 @@ public class AdminController {
 		
 	    model.addAttribute("images", URLUtils.getCategoryImages(context, id));
 		
-		return "../admin/edit_category";
+		return "../admin/categories/edit_category";
 	}
 	
 	@RequestMapping(value = "/a/category/{id}/delete", method=RequestMethod.GET)
@@ -166,12 +166,12 @@ public class AdminController {
 		}
 		if(!errorSummary.isEmpty()){
 			model.addAttribute("errorSummary", errorSummary);			
-			return "../admin/edit_product";
+			return "../admin/products/edit_product";
 		}
 		
 		if (result.hasErrors()) {
 			redirectAttributes.addFlashAttribute("flashMessage", "Errors occured!");			
-			return "../admin/edit_product";
+			return "../admin/products/edit_product";
 		} else {			
 			if(product.isNew()){
 			  redirectAttributes.addFlashAttribute("flashMessage", "Product added successfully!");
@@ -208,7 +208,7 @@ public class AdminController {
 	public String productsList(Model model) {
 
 		model.addAttribute("productList",productService.listAll());
-		return "../admin/products";
+		return "../admin/products/products";
 	}
 	
 	@RequestMapping(value = "/a/product/add", method=RequestMethod.GET)
@@ -218,7 +218,7 @@ public class AdminController {
 		model.addAttribute("urlError", "");
 		model.addAttribute("parentCategoryList", categoryService.listAll());
 		model.addAttribute("optiongroupList", optionGroupService.listAll());
-		return "../admin/edit_product";
+		return "../admin/products/edit_product";
 	}
 	
 	@RequestMapping(value = "/a/product/{id}/update", method=RequestMethod.GET)
@@ -230,7 +230,7 @@ public class AdminController {
 		model.addAttribute("images", URLUtils.getProductImages(context, id));
 		model.addAttribute("mainImage", URLUtils.getProductImage(context, id));
 		model.addAttribute("optiongroupList", optionGroupService.listAll());
-		return "../admin/edit_product";
+		return "../admin/products/edit_product";
 	}
 	
 	@RequestMapping(value = "/a/product/{id}/delete", method=RequestMethod.GET)
@@ -296,7 +296,7 @@ public class AdminController {
 	public String menuList(Model model) {
 
 		model.addAttribute("menuItemList",menuService.listAll());
-		return "../admin/menu_items";
+		return "../admin/menu/menu_items";
 	}
 	
 	@RequestMapping(value = "/a/menu", method=RequestMethod.POST) 
@@ -309,7 +309,7 @@ public class AdminController {
 		if (result.hasErrors()) {
 			redirectAttributes.addFlashAttribute("errorMessage", "Error");
 			model.addAttribute("Error", "has-error");
-			return "../admin/edit_menu";
+			return "../admin/menu/edit_menu";
 		} else {			
 			if(item.isNew()){
 			  redirectAttributes.addFlashAttribute("flashMessage", "Item added successfully!");
@@ -328,7 +328,7 @@ public class AdminController {
 		//TODO add menuTypeList
 		model.addAttribute("menuItem",new MenuItem());
 		model.addAttribute("menuTypeList", getMenuTypes());
-		return "../admin/edit_menu";
+		return "../admin/menu/edit_menu";
 	}
 	
 	@RequestMapping(value = "/a/menu/{id}/update", method=RequestMethod.GET)
@@ -337,7 +337,7 @@ public class AdminController {
 		model.addAttribute("menuItem",menuService.findById(id));
 		model.addAttribute("menuTypeList", getMenuTypes());			    
 		
-		return "../admin/edit_menu";
+		return "../admin/menu/edit_menu";
 	}
 	
 	@RequestMapping(value = "/a/menu/{id}/delete", method=RequestMethod.GET)
@@ -358,7 +358,7 @@ public class AdminController {
 	public String blockList(Model model) {
 
 		model.addAttribute("blockList",blockService.listAll());
-		return "../admin/blocks";
+		return "../admin/blocks/blocks";
 	}
 	
 	@RequestMapping(value = "/a/block", method=RequestMethod.POST) 
@@ -371,7 +371,7 @@ public class AdminController {
 		if (result.hasErrors()) {
 			redirectAttributes.addFlashAttribute("errorMessage", "Error");
 			model.addAttribute("Error", "has-error");
-			return "../admin/edit_menu";
+			return "../admin/blocks/edit_block";
 		} else {			
 			if(block.isNew()){
 			  redirectAttributes.addFlashAttribute("flashMessage", "Item added successfully!");
@@ -390,7 +390,7 @@ public class AdminController {
 		//TODO add menuTypeList
 		model.addAttribute("block",new Block());
 		model.addAttribute("blockTypeList", getBlockTypes());
-		return "../admin/edit_block";
+		return "../admin/blocks/edit_block";
 	}
 	
 	@RequestMapping(value = "/a/block/{id}/update", method=RequestMethod.GET)
@@ -399,7 +399,7 @@ public class AdminController {
 		model.addAttribute("block",blockService.findById(id));
 		model.addAttribute("blockTypeList", getBlockTypes());			    
 		
-		return "../admin/edit_block";
+		return "../admin/blocks/edit_block";
 	}
 	
 	@RequestMapping(value = "/a/block/{id}/delete", method=RequestMethod.GET)
@@ -431,7 +431,7 @@ public class AdminController {
 
 		model.addAttribute("optionList",optionService.listAll());
 		model.addAttribute("optiongroupList",optionGroupService.listAll());
-		return "../admin/options";
+		return "../admin/options/options";
 	}
 	
 	@RequestMapping(value = "/a/option", method=RequestMethod.POST) 
@@ -442,7 +442,7 @@ public class AdminController {
 			final RedirectAttributes redirectAttributes) {
 
 		if (result.hasErrors()) {			
-			return "../admin/edit_option";
+			return "../admin/options/edit_option";
 		} else {			
 			if(option.isNew()){
 			  redirectAttributes.addFlashAttribute("flashMessage", "Category added successfully!");
@@ -466,7 +466,7 @@ public class AdminController {
 			final RedirectAttributes redirectAttributes) {
 
 		if (result.hasErrors()) {			
-			return "../admin/edit_optionGroup";
+			return "../admin/options/edit_optionGroup";
 		} else {			
 			if(optiongroup.isNew()){
 			  redirectAttributes.addFlashAttribute("flashMessage", "Category added successfully!");
@@ -485,14 +485,14 @@ public class AdminController {
 
 		model.addAttribute("option",new Option());		
 		model.addAttribute("optiongroupList", optionGroupService.listAll());
-		return "../admin/edit_option";
+		return "../admin/options/edit_option";
 	}
 	
 	@RequestMapping(value = "/a/optiongroup/add", method=RequestMethod.GET)
 	public String addOptionGroup(Model model) {
 
 		model.addAttribute("optiongroup",new OptionGroup());		
-		return "../admin/edit_optionGroup";
+		return "../admin/options/edit_optionGroup";
 	}
 	
 	@RequestMapping(value = "/a/option/{id}/update", method=RequestMethod.GET)
@@ -501,7 +501,7 @@ public class AdminController {
 		model.addAttribute("option",optionService.fingOptionById(id));
 		model.addAttribute("optiongroupList", optionGroupService.listAll());
 		
-		return "../admin/edit_option";
+		return "../admin/options/edit_option";
 	}
 	
 	@RequestMapping(value = "/a/optiongroup/{id}/update", method=RequestMethod.GET)
@@ -509,7 +509,7 @@ public class AdminController {
 		
 		model.addAttribute("optiongroup",optionGroupService.fingOptionById(id));
 		
-		return "../admin/edit_optionGroup";
+		return "../admin/options/edit_optionGroup";
 	}
 	
 	@RequestMapping(value = "/a/option/{id}/delete", method=RequestMethod.GET)

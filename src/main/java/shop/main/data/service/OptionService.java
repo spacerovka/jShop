@@ -11,4 +11,5 @@ public interface OptionService {
 	Option fingOptionById(long id);
 	List<Option> findOptionByOptionGroup(long id);
 	void deleteById(long id);
+	List<Option> findAllByName(String name);
 }

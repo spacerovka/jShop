@@ -7,6 +7,6 @@ import shop.main.data.objects.OptionGroup;
 
 public interface OptionGroupDAO extends CrudRepository<OptionGroup, Long>{
 	List<OptionGroup> findAll();
+	List<OptionGroup> findByOptionGroupNameContaining(String name);
 	
-	//List<BlogPost> findAllBlogPostByUserAndTitleContaining(User user, String title);
 }

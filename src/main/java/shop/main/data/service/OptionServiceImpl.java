@@ -76,6 +76,12 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OptionServiceImpl.c
 		System.out.println("*");
 		return (List<Option>) query.list();
 	}
+
+	@Override
+	public List<Option> findAllByName(String name) {
+		
+		return optionDAO.findByOptionNameContaining(name);
+	}
 	
 	
 

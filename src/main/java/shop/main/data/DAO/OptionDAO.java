@@ -8,5 +8,5 @@ import shop.main.data.objects.Option;
 public interface OptionDAO extends CrudRepository<Option, Long>{
 	List<Option> findAll();
 	
-	//List<BlogPost> findAllBlogPostByUserAndTitleContaining(User user, String title);
+	List<Option> findByOptionNameContaining(String name);
 }

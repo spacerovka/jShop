@@ -10,4 +10,5 @@ public interface OptionGroupService {
 	List<OptionGroup> listAll();	
 	void deleteById(Long id);
 	OptionGroup fingOptionById(long id);
+	List<OptionGroup> findOptionGroupByName(String name);
 }

@@ -45,6 +45,12 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OptionGroupServiceI
 		optionGroupDAO.delete(id);
 		
 	}
+
+	@Override
+	public List<OptionGroup> findOptionGroupByName(String name) {
+		
+		return optionGroupDAO.findByOptionGroupNameContaining(name);
+	}
 	
 	
 
