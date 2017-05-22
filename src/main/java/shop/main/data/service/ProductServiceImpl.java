@@ -207,6 +207,22 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ProductServiceImpl.
 
 		return productDAO.findOneBySku(sku);
 	}
+
+	@Transactional
+	@Override
+	public List<Product> findByNameAndURL(String name, String url) {
+		Session session =(Session)entityManager.getDelegate();
+				
+		String hql = "from Product product where product.name like '%"+name+"%'"
+				+" and product.url like '%"+url+"%'";
+		Query query = session.createQuery(hql);
+		System.out.println("*");
+		System.out.println("*");
+		System.out.println("query is "+query.getQueryString());
+		System.out.println("*");
+		System.out.println("*");
+		return query.list();
+	}
 	
 	
 

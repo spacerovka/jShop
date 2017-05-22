@@ -41,8 +41,9 @@
                                
                     
                         <h2>List of orders</h2>
-                        <div class="table-responsive">
-                            <table class="table table-hover">
+                        <div class="table-responsive" id="table">
+                        	<%@include file="_table.jsp"%>
+                            <table class="table table-hover" >
                                 <thead>
                                     <tr>
                                         <th>Number</th>

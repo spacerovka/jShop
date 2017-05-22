@@ -97,4 +97,20 @@ public class CategoryServiceImpl implements CategoryService{
 		}
 	}
 
+	@Transactional
+	@Override
+	public List<Category> findByNameAndURL(String name, String url) {
+		Session session =(Session)entityManager.getDelegate();
+		
+		String hql = "from Category c where c.categoryName like '%"+name+"%'"
+				+" and c.categoryURL like '%"+url+"%'";
+		Query query = session.createQuery(hql);
+		System.out.println("*");
+		System.out.println("*");
+		System.out.println("query is "+query.getQueryString());
+		System.out.println("*");
+		System.out.println("*");
+		return query.list();
+	}
+
 }

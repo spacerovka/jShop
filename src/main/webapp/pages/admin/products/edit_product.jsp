@@ -9,12 +9,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Admin product</title>
-<%@include file="resources.jsp"%>
+<%@include file="../resources.jsp"%>
 
 </head>
 <body>
 	<div id="wrapper">
-		<%@include file="_topnav.jsp"%>
+		<%@include file="../_topnav.jsp"%>
 		<div id="page-wrapper">
 
 			<div class="container-fluid">
@@ -134,7 +134,7 @@
 		</div>
 
 	</div>
-	<%@include file="_footer.jsp"%>
+	<%@include file="../_footer.jsp"%>
 	<script>
 		$(document).ready(function() {
 			var focus = 0, blur = 0;

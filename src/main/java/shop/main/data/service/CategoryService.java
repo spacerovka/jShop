@@ -14,4 +14,5 @@ public interface CategoryService {
 	Category findCategoryById(long id);
 	boolean checkUniqueURL(Category category);
 	void deleteCategoryById(long id);
+	List<Category> findByNameAndURL(String name, String url);
 }

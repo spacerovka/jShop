@@ -23,4 +23,5 @@ public interface ProductService {
 	List<Product> findFilteredProducts(List<Long> filterIds);
 	List<Product> findFilteredProductsInCategory(List<Long> filterIds, List<Long> listOfCategories);
 	List<Product> findProductsInCategory(List<Long> listOfCategories);
+	List<Product> findByNameAndURL(String name, String url);
 }
