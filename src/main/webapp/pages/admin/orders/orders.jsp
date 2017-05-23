@@ -27,64 +27,47 @@
 							<li class="active"><i class="fa fa-table"></i> List All</li>
 						</ol>
 					</div>
-				</div>				
+				</div>
 				<core:if test="${not empty flashMessage}">
-				<div class="alert alert-success">
-                    <strong>Request success!</strong> ${flashMessage}
-                </div>
-                </core:if>
+					<div class="alert alert-success">
+						<strong>Request success!</strong> ${flashMessage}
+					</div>
+				</core:if>
 				<div class="row">
-				
-                    <div class="col-lg-12">
-                    <%-- <a href="${pageContext.request.contextPath}/a/order/add">
+
+					<div class="col-lg-12">
+						<%-- <a href="${pageContext.request.contextPath}/a/order/add">
                     <button type="button" class="btn btn-primary">Add new option group</button></a> --%>
-                               
-                    
-                        <h2>List of orders</h2>
-                        <div class="table-responsive" id="table">
-                        	<%@include file="_table.jsp"%>
-                            <table class="table table-hover" >
-                                <thead>
-                                    <tr>
-                                        <th>Number</th>
-                                        <th>Client Name</th>
-                                        <th>Sum</th>                                        
-                                        <th>Date</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                <core:choose>
-	        						<core:when test="${not empty orders}">
-                                	<core:forEach var="order" items="${orders}">
-                                	<tr>
-                                        <td>${order.number}</td>
-                                        <td>${order.userName}</td>
-                                        <td>${order.sum}</td>
-                                        <td>${order.date}</td>                                       
-								  		<td>
-								  		<a href="${pageContext.request.contextPath}/a/order/${order.orderId}/update">
-								  		<button type="button" class="btn btn-sm btn-info">Edit</button></a>
-								  		
-								  		<a href="${pageContext.request.contextPath}/a/order/${order.orderId}/delete">
-								  		<button type="button" class="btn btn-sm btn-danger">Delete</button></a>
-								  		</td>
-                                    </tr>
-                                	</core:forEach>
-                                </core:when>
-                                <core:otherwise>
-                                <td colspan="5" style="text-align:center">No data found</td>
-                                </core:otherwise>
-                                </core:choose>                      
-                                    
-                                    
-                                </tbody>
-                            </table>
-                        </div>
-                        
-                        
-                    </div>
-                    
-                </div>
+						<div class="form-group col-xs-3">
+							<label>Client name</label> <input class="form-control"
+								type="text" id="searchUsername" />
+						</div>
+						<div class="form-group col-xs-3">
+							<label>Client Phone</label> <input class="form-control"
+								type="text" id="searchPhone" />
+						</div>
+						<div class="form-group col-xs-3">
+							<label>Client Email</label> <input class="form-control"
+								type="text" id="searchEmail" />
+						</div>
+						<div class="form-group col-xs-3">
+							<a class="btn btn-default" href="#" style="display: block;margin-top: 2.4rem;"
+								onclick="searchButtonClick();">Search</a>
+						</div>
+
+						<div class="form-group col-xs-12">
+							<h2>List of orders</h2>
+						</div>
+						<div class="form-group col-xs-12">
+							<div class="table-responsive" id="table">
+								<%@include file="_table.jsp"%>
+
+							</div>
+						</div>
+
+					</div>
+
+				</div>
 
 
 			</div>
@@ -92,5 +75,22 @@
 
 	</div>
 	<%@include file="../_footer.jsp"%>
+
+	<script>
+	function searchButtonClick()
+	{
+		var username = $('#searchUsername').val();
+		var phone = $('#searchPhone').val();	
+		var email = $('#searchEmail').val();
+		$.ajax ({ 
+			url: '${pageContext.request.contextPath}/a/findOrder', 
+			type: "POST", 						
+			data : {username:username, phone:phone, email:email},
+			complete: function(response){
+				$('#table').html(response.responseText);
+			}
+		}); 
+	}
+	</script>
 </body>
 </html>

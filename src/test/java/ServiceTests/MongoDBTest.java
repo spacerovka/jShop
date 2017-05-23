@@ -21,9 +21,9 @@ import shop.main.data.service.CategoryService;
 @WebAppConfiguration
 public class MongoDBTest {
 	
-	private final String NAME = "";
-	private final String EMAIL = "e";
-	private final String PHONE = "";
+	private final String NAME = "ni";
+	private final String EMAIL = "so";
+	private final String PHONE = "33";
 	
 	@Autowired
 	@Qualifier("orderRepository")	

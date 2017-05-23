@@ -5,6 +5,7 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -158,6 +159,7 @@ public class CartController implements ResourceLoaderAware {
 			}
 			currentOrder.setNumber(
 					Calendar.getInstance().get(Calendar.YEAR) + orderCount + currentOrder.getSum().intValue());
+			currentOrder.setDate(new Date());
 			orderRepository.save(currentOrder);
 			request.getSession().setAttribute("CURRENT_ORDER", null);
 			model.addAttribute("order", currentOrder);

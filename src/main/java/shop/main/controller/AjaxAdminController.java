@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import shop.main.data.mongo.Order;
+import shop.main.data.mongo.OrderRepository;
 import shop.main.data.objects.Option;
 import shop.main.data.objects.OptionGroup;
 import shop.main.data.objects.Product;
@@ -48,6 +49,9 @@ public class AjaxAdminController implements ResourceLoaderAware {
 	
 	@Autowired
 	 private ProductService productService;
+	
+	@Autowired
+	private OrderRepository orderRepository;
 
 	public void setResourceLoader(ResourceLoader resourceLoader) {
 		this.resourceLoader = resourceLoader;
@@ -209,6 +213,34 @@ public class AjaxAdminController implements ResourceLoaderAware {
 	public String findProducts(@RequestParam String name, @RequestParam String url, Model model) {
 		model.addAttribute("productList", productService.findByNameAndURL(name, url));
 		return "../admin/products/_table";
+
+	}
+	
+	@RequestMapping(value = "/a/findCategories", method = RequestMethod.POST)
+	public String findCategories(@RequestParam String name, @RequestParam String url, Model model) {
+		model.addAttribute("categoryList", categoryService.findByNameAndURL(name, url));
+		return "../admin/categories/_table";
+
+	}
+	
+	@RequestMapping(value = "/a/findOption", method = RequestMethod.POST)
+	public String findOption(@RequestParam String name, Model model) {
+		model.addAttribute("optionList", optionService.findAllByName(name));
+		return "../admin/options/_options_table";
+
+	}
+	
+	@RequestMapping(value = "/a/findGroup", method = RequestMethod.POST)
+	public String findGroup(@RequestParam String name, Model model) {
+		model.addAttribute("optiongroupList", optionGroupService.findOptionGroupByName(name));
+		return "../admin/options/_groups_table";
+
+	}
+	
+	@RequestMapping(value = "/a/findOrder", method = RequestMethod.POST)
+	public String findOrder(@RequestParam String username, @RequestParam String phone, @RequestParam String email, Model model) {
+		model.addAttribute("orders", orderRepository.findByUserNameLikeAndPhoneLikeAndEmailLike(username, phone, email));
+		return "../admin/orders/_table";
 
 	}
 }

@@ -27,42 +27,45 @@
 							<li class="active"><i class="fa fa-table"></i> List All</li>
 						</ol>
 					</div>
-				</div>				
+				</div>
 				<core:if test="${not empty flashMessage}">
-				<div class="alert alert-success">
-                    <strong>Request success!</strong> ${flashMessage}
-                </div>
-                </core:if>
+					<div class="alert alert-success">
+						<strong>Request success!</strong> ${flashMessage}
+					</div>
+				</core:if>
 				<div class="row">
-				
-                    <div class="col-lg-12">
-                    <div class="form-group col-xs-12">
-                    <a href="${pageContext.request.contextPath}/a/product/add">
-                    <button type="button" class="btn btn-primary">Add new product</button></a>
-                    </div>
-                    <div class="form-group col-xs-4">
-                        	<label>Product name</label>
-                        	<input class="form-control" type="text" id="searchName"/>
-                        </div>
-                        <div class="form-group col-xs-4">
-                        	<label>Product url</label>
-                        	<input class="form-control" type="text" id="searchUrl"/>
-                        </div>
-                        <div class="form-group col-xs-4">
-                        	<a class="btn btn-default" href="#" onclick="findProduct();">Search</a>
-                        </div>
-                        <div class="form-group col-xs-12">
-                        <h2>List of products</h2>
-                        </div>
-                         <div class="form-group col-xs-12">
-                        <div class="table-responsive" id="table">
-                        	<%@include file="_table.jsp"%>
-                            
-                        </div>
-                        </div>
-                    </div>
-                    
-                </div>
+
+					<div class="col-lg-12">
+						<div class="form-group col-xs-12">
+							<a href="${pageContext.request.contextPath}/a/product/add">
+								<button type="button" class="btn btn-primary">Add new
+									product</button>
+							</a>
+						</div>
+						<div class="form-group col-xs-4">
+							<label>Product name</label> <input class="form-control"
+								type="text" id="searchName" />
+						</div>
+						<div class="form-group col-xs-4">
+							<label>Product url</label> <input class="form-control"
+								type="text" id="searchUrl" />
+						</div>
+						<div class="form-group col-xs-4">
+							<a class="btn btn-default" href="#" style="display: block;margin-top: 2.4rem;"
+								onclick="searchButtonClick();">Search</a>
+						</div>
+						<div class="form-group col-xs-12">
+							<h2>List of products</h2>
+						</div>
+						<div class="form-group col-xs-12">
+							<div class="table-responsive" id="table">
+								<%@include file="_table.jsp"%>
+
+							</div>
+						</div>
+					</div>
+
+				</div>
 
 
 			</div>
@@ -70,9 +73,9 @@
 
 	</div>
 	<%@include file="../_footer.jsp"%>
-	
+
 	<script>
-	function findProduct()
+	function searchButtonClick()
 	{
 		var url = $('#searchUrl').val();
 		var name = $('#searchName').val();
