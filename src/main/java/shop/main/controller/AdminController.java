@@ -1,7 +1,5 @@
 package shop.main.controller;
 
-import java.util.ArrayList;
-
 import javax.servlet.ServletContext;
 import javax.validation.Valid;
 
@@ -25,7 +23,7 @@ import shop.main.data.objects.OptionGroup;
 import shop.main.data.objects.Product;
 import shop.main.data.objects.ProductOption;
 import shop.main.data.objects.SitePropertiesWrapper;
-import shop.main.data.objects.SiteProperty;
+import shop.main.data.objects.StaticPage;
 import shop.main.data.service.BlockService;
 import shop.main.data.service.CategoryService;
 import shop.main.data.service.MenuItemService;
@@ -34,6 +32,7 @@ import shop.main.data.service.OptionService;
 import shop.main.data.service.ProductOptionService;
 import shop.main.data.service.ProductService;
 import shop.main.data.service.SitePropertyService;
+import shop.main.data.service.StaticPageService;
 import shop.main.utils.Constants;
 import shop.main.utils.URLUtils;
 
@@ -67,6 +66,9 @@ public class AdminController {
 	
 	@Autowired
 	 private SitePropertyService sitePropertyService;
+	
+	@Autowired
+	 private StaticPageService staticPageService;
 				
 	@Autowired
     ServletContext context;
@@ -561,6 +563,63 @@ public class AdminController {
 				sitePropertyService.save(p);});
 			return "redirect:/a/properties";
 		}		
+	}
+	
+	/* **********************Static pages ****** */
+	@RequestMapping(value = "/a/pages")
+	public String pagesList(Model model) {
+
+		model.addAttribute("pagesList",staticPageService.listAll());
+		return "../admin/staticPages/pages";
+	}
+	
+	@RequestMapping(value = "/a/page", method=RequestMethod.POST) 
+	public String saveCategory(
+			@ModelAttribute("page") @Valid StaticPage page,
+			Model model,
+			BindingResult result,
+			final RedirectAttributes redirectAttributes) {
+
+		if (result.hasErrors() || !staticPageService.checkUniqueURL(page)) {
+			redirectAttributes.addFlashAttribute("errorMessage", "URL is not unique!");
+			model.addAttribute("errorSummary","URL is not unique!");
+			model.addAttribute("urlError", "has-error");
+			return "../admin/categories/edit_category";
+		} else {			
+			if(page.isNew()){
+			  redirectAttributes.addFlashAttribute("flashMessage", "Category added successfully!");
+			}else{
+			  redirectAttributes.addFlashAttribute("flashMessage", "Category updated successfully!");
+			}	
+			
+			staticPageService.save(page);
+			return "redirect:/a/pages";
+		}
+		
+	}
+	
+	@RequestMapping(value = "/a/page/add", method=RequestMethod.GET)
+	public String addPage(Model model) {
+
+		model.addAttribute("page",new StaticPage());
+		model.addAttribute("urlError", "");
+		return "../admin/staticPages/edit_page";
+	}
+	
+	@RequestMapping(value = "/a/page/{id}/update", method=RequestMethod.GET)
+	public String editPage(@PathVariable("id") long id, Model model) {
+		
+		model.addAttribute("page",staticPageService.findById(id));
+		model.addAttribute("urlError", "");
+		
+		return "../admin/staticPages/edit_page";
+	}
+	
+	@RequestMapping(value = "/a/page/{id}/delete", method=RequestMethod.GET)
+	public String deletePage(@PathVariable("id") long id, Model model, final RedirectAttributes redirectAttributes) {
+		staticPageService.deleteById(id);
+		redirectAttributes.addFlashAttribute("flashMessage", "Category deleted successfully!");
+		return "redirect:/a/pages";
 	}
 		
 }

@@ -28,11 +28,13 @@ import shop.main.data.objects.MenuItem;
 import shop.main.data.objects.Product;
 import shop.main.data.objects.ProductOption;
 import shop.main.data.objects.Review;
+import shop.main.data.objects.StaticPage;
 import shop.main.data.service.CategoryService;
 import shop.main.data.service.MenuItemService;
 import shop.main.data.service.ProductOptionService;
 import shop.main.data.service.ProductService;
 import shop.main.data.service.SitePropertyService;
+import shop.main.data.service.StaticPageService;
 import shop.main.utils.Constants;
 import shop.main.utils.URLUtils;
 
@@ -61,6 +63,9 @@ public class FrontController {
 	
 	@Autowired
 	 private MenuItemService menuItemService;
+	
+	@Autowired
+	 private StaticPageService staticPageService;
 	
 	@Autowired
     ServletContext context;
@@ -167,11 +172,27 @@ public class FrontController {
 	}
 	
 	@RequestMapping(value = "/{url}")
-	public String displayCategoryByUrl(@PathVariable("url") String url, Model model) {
+	public String displayPageByUrl(@PathVariable("url") String url, Model model) {
 		System.out.println("url is "+url);
-		//check if category exists
 		Category category = categoryService.fingCategoryByUrl(url);
+		StaticPage page = staticPageService.findOneByURL(url);
 		if(category!=null){
+			displayCategoryByUrl(category, model);
+			return "category";
+		}else if(page!=null){
+			model.addAttribute("page", page);
+			return "staticPage";
+		}else{
+			return "redirect:/";
+		}
+	
+	}
+	
+	
+	public void displayCategoryByUrl(Category category, Model model) {
+				
+		//Category category = categoryService.fingCategoryByUrl(url);
+		//if(category!=null){
 			
 			List<Category> breadCrumbs = new ArrayList<Category>();
 			addBreadCrumb(category, breadCrumbs);
@@ -196,12 +217,9 @@ public class FrontController {
 																	.stream()
 																	.collect(Collectors.groupingBy(c-> c.getOption().getOptionGroup().getOptionGroupName()));
 			model.addAttribute("categoryOptions",categoryOptionsMap);
-			}
+			}		
 			
-			return "category";
-		}else{
-			return "redirect:/";
-		}
+		//}
 		
 	}	
 	

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import shop.main.data.DAO.StaticPageDAO;
+import shop.main.data.objects.Category;
 import shop.main.data.objects.StaticPage;
 
 @Service("staticPageService")
@@ -59,6 +60,17 @@ public class StaticPageServiceImpl implements StaticPageService{
 	@Override
 	public List<StaticPage> findAllByName(String name) {
 		return staticPageDAO.findAllByNameContaining(name);
+	}
+	
+	@Override
+	public boolean checkUniqueURL(StaticPage page) {
+		StaticPage result = staticPageDAO.findOneByUrl(page.getUrl());
+		if(result == null){
+			return true;
+		}else if(result.getId().equals(page.getId())){
+			return true;
+		}
+		return false;
 	}
 
 }

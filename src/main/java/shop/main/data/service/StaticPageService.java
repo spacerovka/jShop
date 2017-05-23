@@ -2,7 +2,6 @@ package shop.main.data.service;
 
 import java.util.List;
 
-import shop.main.data.objects.Block;
 import shop.main.data.objects.StaticPage;
 
 public interface StaticPageService {
@@ -14,4 +13,5 @@ public interface StaticPageService {
 	List<StaticPage> findAllByName(String name);
 	StaticPage findById(long id);	
 	void deleteById(long id);
+	boolean checkUniqueURL(StaticPage page);
 }

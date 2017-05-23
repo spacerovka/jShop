@@ -90,7 +90,8 @@ public class CategoryServiceImpl implements CategoryService{
 		System.out.println("*");
 		System.out.println("*");
 		List<Category> found = (List<Category>)query.list();
-		if(found!=null){
+		if(found!=null
+				&& !found.isEmpty()){
 			return found.get(0);
 		}else{
 			return null;

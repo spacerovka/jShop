@@ -62,6 +62,10 @@ INSERT INTO categoryOption (option_entity, category) VALUES (6,5);
 INSERT INTO siteproperty (name, content) VALUES ("siteName", "JShop");
 
 INSERT INTO menu (text, URL, status, menu_type) VALUES ("Home", "/", true, "LEFT");
-INSERT INTO menu (text, URL, status, menu_type) VALUES ("About", "/about", true, "LEFT");
-INSERT INTO menu (text, URL, status, menu_type) VALUES ("Contacts", "/contacts", true, "LEFT");
-INSERT INTO menu (text, URL, status, menu_type) VALUES ("Delivery", "/delivery", true, "RIGHT");
+INSERT INTO menu (text, URL, status, menu_type) VALUES ("About", "about", true, "LEFT");
+INSERT INTO menu (text, URL, status, menu_type) VALUES ("Contacts", "contacts", true, "LEFT");
+INSERT INTO menu (text, URL, status, menu_type) VALUES ("Delivery", "delivery", true, "RIGHT");
+
+INSERT INTO staticPage (name, url, status, content) VALUES ("Delivery", "delivery", true, "<b>content of the page</b>");
+INSERT INTO staticPage (name, url, status, content) VALUES ("About", "about", true, "<b>content of the page</b>");
+INSERT INTO staticPage (name, url, status, content) VALUES ("Contacts", "contacts", true, "<b>content of the page</b>");

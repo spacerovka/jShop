@@ -1,13 +1,30 @@
 package shop.main.config;
 
+import java.util.Properties;
+
+import javax.persistence.EntityManagerFactory;
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.JpaVendorAdapter;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.Database;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import shop.main.data.service.CategoryOptionService;
-import shop.main.data.service.CategoryOptionServiceImpl;
 import shop.main.data.service.CategoryService;
 import shop.main.data.service.CategoryServiceImpl;
 import shop.main.data.service.OptionGroupService;
@@ -22,28 +39,10 @@ import shop.main.data.service.ReviewService;
 import shop.main.data.service.ReviewServiceImpl;
 import shop.main.data.service.SitePropertyService;
 import shop.main.data.service.SitePropertyServiceImpl;
+import shop.main.data.service.StaticPageService;
+import shop.main.data.service.StaticPageServiceImpl;
 import shop.main.data.service.UserService;
 import shop.main.data.service.UserServiceImpl;
-
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.core.env.Environment;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
-import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
-import org.springframework.orm.jpa.JpaTransactionManager;
-import org.springframework.orm.jpa.JpaVendorAdapter;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.orm.jpa.vendor.Database;
-import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
-
-import java.util.Properties;
-
-import javax.persistence.EntityManagerFactory;
-import javax.sql.DataSource;
 
 @EnableJpaRepositories(basePackages= {"shop.main.data.DAO"})
 @EnableTransactionManagement
@@ -187,5 +186,10 @@ public class DataConfig<DatabasePopulator> {
 	@Bean
 	public SitePropertyService sitePropertyService() {
 		return new SitePropertyServiceImpl();
+	}
+	
+	@Bean
+	public StaticPageService staticPageService() {
+		return new StaticPageServiceImpl();
 	}
 }

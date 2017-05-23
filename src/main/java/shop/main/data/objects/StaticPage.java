@@ -206,6 +206,8 @@ public class StaticPage {
 		return true;
 	}
 	
-	
+	public boolean isNew() {
+		return (this.id == null);
+		}
 
 }
