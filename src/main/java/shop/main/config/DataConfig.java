@@ -20,6 +20,8 @@ import shop.main.data.service.ProductService;
 import shop.main.data.service.ProductServiceImpl;
 import shop.main.data.service.ReviewService;
 import shop.main.data.service.ReviewServiceImpl;
+import shop.main.data.service.SitePropertyService;
+import shop.main.data.service.SitePropertyServiceImpl;
 import shop.main.data.service.UserService;
 import shop.main.data.service.UserServiceImpl;
 
@@ -180,5 +182,10 @@ public class DataConfig<DatabasePopulator> {
 	@Bean
 	public ReviewService reviewService() {
 		return new ReviewServiceImpl();
+	}
+	
+	@Bean
+	public SitePropertyService sitePropertyService() {
+		return new SitePropertyServiceImpl();
 	}
 }

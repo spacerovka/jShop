@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 
 import org.apache.commons.lang3.StringUtils;
@@ -19,20 +18,22 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import shop.main.data.mongo.Order;
 import shop.main.data.objects.Category;
-import shop.main.data.objects.CategoryOption;
+import shop.main.data.objects.MenuItem;
 import shop.main.data.objects.Product;
 import shop.main.data.objects.ProductOption;
 import shop.main.data.objects.Review;
-import shop.main.data.service.CategoryOptionService;
 import shop.main.data.service.CategoryService;
+import shop.main.data.service.MenuItemService;
 import shop.main.data.service.ProductOptionService;
 import shop.main.data.service.ProductService;
+import shop.main.data.service.SitePropertyService;
+import shop.main.utils.Constants;
 import shop.main.utils.URLUtils;
 
 @Controller
@@ -51,15 +52,33 @@ public class FrontController {
 	
 	@Autowired
 	 private CategoryService categoryService;
-	
-	@Autowired
-	 private CategoryOptionService categoryOptionService;
-	
+		
 	@Autowired
 	 private ProductOptionService productOptionService;
 	
 	@Autowired
+	 private SitePropertyService sitePropertyService;
+	
+	@Autowired
+	 private MenuItemService menuItemService;
+	
+	@Autowired
     ServletContext context;
+	
+	@ModelAttribute("SITE_NAME")
+    public String getSiteName() {
+        return this.sitePropertyService.findOneByName(Constants.SITE_NAME).getContent();
+    }
+	
+	@ModelAttribute("MENU_LEFT")
+    public List<MenuItem> getLeftMenu() {
+        return this.menuItemService.findLeftMenu();
+    }
+	
+	@ModelAttribute("MENU_RIGHT")
+    public List<MenuItem> getRightMenu() {
+        return this.menuItemService.findRightMenu();
+    }
 
 	@RequestMapping(value = "/displayusersmysql")
 	public ModelAndView displayUsers(Principal principal) {
@@ -213,12 +232,12 @@ public class FrontController {
 			
 			model.addAttribute("menu", categoryService.findAllParentCategories());
 			
-			List<CategoryOption> categoryOptions = categoryOptionService.findOptionsByCategoryList(childCategories);
+			List<ProductOption> categoryOptions = productOptionService.findOptionsByCategoryList(childCategories);
 			if(!categoryOptions.isEmpty()){
 				System.out.println("*** categoryOptions "+categoryOptions.size());
-			Map<String, List<CategoryOption>> categoryOptionsMap = categoryOptions
-																	.stream()
-																	.collect(Collectors.groupingBy(c-> c.getOption().getOptionGroup().getOptionGroupName()));
+				Map<String, List<ProductOption>> categoryOptionsMap = categoryOptions
+						.stream()
+						.collect(Collectors.groupingBy(c-> c.getOption().getOptionGroup().getOptionGroupName()));
 			model.addAttribute("categoryOptions",categoryOptionsMap);
 			}
 			

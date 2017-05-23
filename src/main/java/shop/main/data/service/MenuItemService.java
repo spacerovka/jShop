@@ -10,4 +10,6 @@ void delete(MenuItem item);
 List<MenuItem> listAll();
 MenuItem findById(long id);	
 void deleteById(long id);
+List<MenuItem> findLeftMenu();
+List<MenuItem> findRightMenu();
 }

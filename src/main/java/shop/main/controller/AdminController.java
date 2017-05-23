@@ -1,14 +1,10 @@
 package shop.main.controller;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.validation.Valid;
 
-import shop.main.data.mongo.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,23 +15,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import shop.main.data.mongo.Order;
 import shop.main.data.mongo.OrderRepository;
 import shop.main.data.objects.Block;
 import shop.main.data.objects.Category;
-import shop.main.data.objects.CategoryOption;
 import shop.main.data.objects.MenuItem;
 import shop.main.data.objects.Option;
 import shop.main.data.objects.OptionGroup;
 import shop.main.data.objects.Product;
 import shop.main.data.objects.ProductOption;
+import shop.main.data.objects.SitePropertiesWrapper;
+import shop.main.data.objects.SiteProperty;
 import shop.main.data.service.BlockService;
-import shop.main.data.service.CategoryOptionService;
 import shop.main.data.service.CategoryService;
 import shop.main.data.service.MenuItemService;
 import shop.main.data.service.OptionGroupService;
 import shop.main.data.service.OptionService;
 import shop.main.data.service.ProductOptionService;
 import shop.main.data.service.ProductService;
+import shop.main.data.service.SitePropertyService;
 import shop.main.utils.Constants;
 import shop.main.utils.URLUtils;
 
@@ -66,6 +64,9 @@ public class AdminController {
 	
 	@Autowired
 	private OrderRepository orderRepository;
+	
+	@Autowired
+	 private SitePropertyService sitePropertyService;
 				
 	@Autowired
     ServletContext context;
@@ -529,6 +530,37 @@ public class AdminController {
 		return "redirect:/a/options";
 	}
 	
+	@RequestMapping(value = "/a/properties", method=RequestMethod.GET)
+	public String propertiesList(Model model) {
+
+		model.addAttribute("propertyWrapper", new SitePropertiesWrapper(sitePropertyService.listAll()));
+		return "../admin/properties";
+	}
 	
+	@RequestMapping(value = "/a/properties", method=RequestMethod.POST)
+	public String propertiesSave(@ModelAttribute("propertyWrapper") SitePropertiesWrapper propertyWrapper,
+			Model model,
+			BindingResult result,
+			final RedirectAttributes redirectAttributes) {
+		
+		System.out.println("*");
+		System.out.println("*");
+		System.out.println(propertyWrapper.getPropertyList().size());
+		System.out.println("*");
+		
+		if (result.hasErrors()) {			
+			model.addAttribute("propertyList",sitePropertyService.listAll());
+			return "../admin/properties";
+		} else {				
+			redirectAttributes.addFlashAttribute("flashMessage", "Properties updated successfully!");							
+			propertyWrapper.getPropertyList().stream().forEach(p-> {
+				System.out.println("*");
+				System.out.println("*");
+				System.out.println(p.getName()+" "+p.getContent()+" "+p.getId());
+				System.out.println("*");
+				sitePropertyService.save(p);});
+			return "redirect:/a/properties";
+		}		
+	}
 		
 }
