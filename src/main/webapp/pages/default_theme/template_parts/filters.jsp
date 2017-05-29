@@ -6,7 +6,7 @@
 <%@ taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
 
-	<p class="lead hidden-sm">Shop Name</p>
+	<p class="lead hidden-sm">Filters</p>
 	
 	<nav class="navbar navbar-default sidebar" role="filters" id="filters">
 		<div class="container-fluid">

@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 
 import org.apache.commons.lang3.StringUtils;
@@ -23,12 +24,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import shop.main.data.objects.Block;
 import shop.main.data.objects.Category;
 import shop.main.data.objects.MenuItem;
 import shop.main.data.objects.Product;
 import shop.main.data.objects.ProductOption;
 import shop.main.data.objects.Review;
 import shop.main.data.objects.StaticPage;
+import shop.main.data.service.BlockService;
 import shop.main.data.service.CategoryService;
 import shop.main.data.service.MenuItemService;
 import shop.main.data.service.ProductOptionService;
@@ -68,6 +71,9 @@ public class FrontController {
 	 private StaticPageService staticPageService;
 	
 	@Autowired
+	 private BlockService blockService;
+	
+	@Autowired
     ServletContext context;
 	
 	@ModelAttribute("SITE_NAME")
@@ -83,6 +89,42 @@ public class FrontController {
 	@ModelAttribute("MENU_RIGHT")
     public List<MenuItem> getRightMenu() {
         return this.menuItemService.findRightMenu();
+    }
+	
+	@ModelAttribute("TOP_BLOCKS")
+    public List<Block> getTopBlocks(HttpServletRequest request) {
+        return this.blockService.findByPositionAndBlockURL(Constants.BlockType.TOP.name(), request.getServletPath());
+    }	
+
+	
+	@ModelAttribute("LEFT_TOP_BLOCKS")
+    public List<Block> getTopLeftBlocks(HttpServletRequest request) {
+        return this.blockService.findByPositionAndBlockURL(Constants.BlockType.LEFT_TOP.name(), request.getServletPath());
+    }
+	
+	@ModelAttribute("LEFT_BOTTOM_BLOCKS")
+    public List<Block> getBottomLeftBlocks(HttpServletRequest request) {
+        return this.blockService.findByPositionAndBlockURL(Constants.BlockType.LEFT_BOTTOM.name(), request.getServletPath());
+    }
+	
+	@ModelAttribute("FOOTER_COL_LEFT_BLOCKS")
+    public List<Block> getFooterColumnLeftBlocks(HttpServletRequest request) {
+        return this.blockService.findByPositionAndBlockURL(Constants.BlockType.FOOTER_COL_LEFT.name(), request.getServletPath());
+    }
+	
+	@ModelAttribute("FOOTER_COL_CENTER_BLOCKS")
+    public List<Block> getVCenterBlocks(HttpServletRequest request) {
+        return this.blockService.findByPositionAndBlockURL(Constants.BlockType.FOOTER_COL_CENTER.name(), request.getServletPath());
+    }
+	
+	@ModelAttribute("FOOTER_COL_RIGHT_BLOCKS")
+    public List<Block> getFooterColumnRightBlocks(HttpServletRequest request) {
+        return this.blockService.findByPositionAndBlockURL(Constants.BlockType.FOOTER_COL_RIGHT.name(), request.getServletPath());
+    }
+	
+	@ModelAttribute("BOTTOM_BLOCKS")
+    public List<Block> getBottomBlocks(HttpServletRequest request) {
+        return this.blockService.findByPositionAndBlockURL(Constants.BlockType.BOTTOM.name(), request.getServletPath());
     }
 
 	@RequestMapping(value = "/displayusersmysql")

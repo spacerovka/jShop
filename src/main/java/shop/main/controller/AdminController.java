@@ -1,5 +1,8 @@
 package shop.main.controller;
 
+import java.util.Arrays;
+import java.util.stream.Stream;
+
 import javax.servlet.ServletContext;
 import javax.validation.Valid;
 
@@ -415,7 +418,9 @@ public class AdminController {
 	
 	private String[] getBlockTypes(){
 		
-		return Constants.blockTypes;
+//		return Constants.blockTypes;
+		return Stream.of(Constants.BlockType.values()).map(Constants.BlockType::name).toArray(String[]::new);
+				
 	}
 	
 	/** Properties **/

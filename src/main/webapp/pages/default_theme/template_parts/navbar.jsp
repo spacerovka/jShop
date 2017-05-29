@@ -34,6 +34,9 @@
 
 
 <nav class="navbar navbar-inverse navbar-fixed-top">
+<core:forEach var="block" items="${TOP_BLOCKS}">
+						<div style="width:100%">${block.content}</div>
+</core:forEach>
 	<div class="container">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle collapsed"

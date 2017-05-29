@@ -21,8 +21,8 @@ public class Block {
 	@Column(name = "content", nullable = true)
 	private String content;
 	
-	@Column(name = "type", nullable = false, length=50)
-	private String type;
+	@Column(name = "position", nullable = false, length=50)
+	private String position;
 	
 	/**
 	 * @param blockURL is used to display block on particular page
@@ -49,12 +49,12 @@ public class Block {
 		this.content = content;
 	}
 
-	public String getType() {
-		return type;
+	public String getPosition() {
+		return position;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setPosition(String position) {
+		this.position = position;
 	}
 
 	public String getBlockURL() {
@@ -81,7 +81,7 @@ public class Block {
 		result = prime * result + ((content == null) ? 0 : content.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + (status ? 1231 : 1237);
-		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		result = prime * result + ((position == null) ? 0 : position.hashCode());
 		return result;
 	}
 
@@ -111,17 +111,17 @@ public class Block {
 			return false;
 		if (status != other.status)
 			return false;
-		if (type == null) {
-			if (other.type != null)
+		if (position == null) {
+			if (other.position != null)
 				return false;
-		} else if (!type.equals(other.type))
+		} else if (!position.equals(other.position))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Blocks [id=" + id + ", content=" + content + ", type=" + type + ", blockURL=" + blockURL + ", status=" + status
+		return "Blocks [id=" + id + ", content=" + content + ", position=" + position + ", blockURL=" + blockURL + ", status=" + status
 				+ "]";
 	}
 	

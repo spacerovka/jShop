@@ -216,6 +216,26 @@ public class AjaxAdminController implements ResourceLoaderAware {
 
 	}
 	
+	@RequestMapping(value = "/a/addToFeatured", method = RequestMethod.POST)
+	public String addToFeatured(@RequestParam long id, @RequestParam String name, @RequestParam String url,Model model) {
+		Product product = productService.fingProductById(id);
+		product.setFeatured(true);
+		productService.saveProduct(product);
+		model.addAttribute("productList", productService.findByNameAndURL(name, url));
+		return "../admin/products/_table";
+
+	}
+	
+	@RequestMapping(value = "/a/removeFromFeatured", method = RequestMethod.POST)
+	public String removeFromFeatured(@RequestParam long id,@RequestParam String name, @RequestParam String url, Model model) {
+		Product product = productService.fingProductById(id);
+		product.setFeatured(false);
+		productService.saveProduct(product);
+		model.addAttribute("productList", productService.findByNameAndURL(name, url));
+		return "../admin/products/_table";
+
+	}
+	
 	@RequestMapping(value = "/a/findCategories", method = RequestMethod.POST)
 	public String findCategories(@RequestParam String name, @RequestParam String url, Model model) {
 		model.addAttribute("categoryList", categoryService.findByNameAndURL(name, url));

@@ -89,6 +89,36 @@
 			}
 		}); 
 	}
+	
+	function addToFeatured(id)
+	{
+		var url = $('#searchUrl').val();
+		var name = $('#searchName').val();
+		console.log("updateProductOption");
+		$.ajax ({ 
+			url: '${pageContext.request.contextPath}/a/addToFeatured', 
+			type: "POST", 						
+			data : {id:id, name:name, url:url},
+			complete: function(response){
+				$('#table').html(response.responseText);
+			}
+		}); 
+	}
+	
+	function removeFromFeatured(id)
+	{
+		var url = $('#searchUrl').val();
+		var name = $('#searchName').val();
+		console.log("updateProductOption");
+		$.ajax ({ 
+			url: '${pageContext.request.contextPath}/a/removeFromFeatured', 
+			type: "POST", 						
+			data : {id:id, name:name, url:url},
+			complete: function(response){
+				$('#table').html(response.responseText);
+			}
+		}); 
+	}
 	</script>
 </body>
 </html>
