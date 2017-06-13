@@ -19,10 +19,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import shop.main.data.DAO.ProductDAO;
-import shop.main.data.objects.Category;
-import shop.main.data.objects.Product;
-import shop.main.data.objects.ProductOption;
-import shop.main.data.objects.Review;
+import shop.main.data.entity.Category;
+import shop.main.data.entity.Product;
+import shop.main.data.entity.ProductOption;
+import shop.main.data.entity.Review;
 import shop.main.utils.HibernateUtil;
 
 @Service("productService")

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import shop.main.data.DAO.MenuItemDAO;
-import shop.main.data.objects.MenuItem;
+import shop.main.data.entity.MenuItem;
 import shop.main.utils.Constants;
 
 @Service("menuItemService")

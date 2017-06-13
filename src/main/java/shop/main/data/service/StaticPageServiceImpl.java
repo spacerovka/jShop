@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import shop.main.data.DAO.StaticPageDAO;
-import shop.main.data.objects.Category;
-import shop.main.data.objects.StaticPage;
+import shop.main.data.entity.Category;
+import shop.main.data.entity.StaticPage;
 
 @Service("staticPageService")
 public class StaticPageServiceImpl implements StaticPageService{

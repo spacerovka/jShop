@@ -2,7 +2,7 @@ package shop.main.data.service;
 
 import java.util.List;
 
-import shop.main.data.objects.StaticPage;
+import shop.main.data.entity.StaticPage;
 
 public interface StaticPageService {
 	void save(StaticPage block);

@@ -19,10 +19,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import shop.main.data.objects.Category;
-import shop.main.data.objects.CategoryOption;
-import shop.main.data.objects.Product;
-import shop.main.data.objects.ProductOption;
+import shop.main.data.entity.Category;
+import shop.main.data.entity.CategoryOption;
+import shop.main.data.entity.Product;
+import shop.main.data.entity.ProductOption;
 import shop.main.data.service.CategoryOptionService;
 import shop.main.data.service.CategoryService;
 import shop.main.data.service.ProductOptionService;

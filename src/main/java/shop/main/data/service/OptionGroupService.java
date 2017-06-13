@@ -2,7 +2,7 @@ package shop.main.data.service;
 
 import java.util.List;
 
-import shop.main.data.objects.OptionGroup;
+import shop.main.data.entity.OptionGroup;
 
 public interface OptionGroupService {
 	void save(OptionGroup optionGroup);

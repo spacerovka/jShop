@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 
-import shop.main.data.objects.Block;
-import shop.main.data.objects.StaticPage;
+import shop.main.data.entity.Block;
+import shop.main.data.entity.StaticPage;
 
 
 

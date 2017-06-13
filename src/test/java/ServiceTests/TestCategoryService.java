@@ -10,7 +10,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import shop.main.config.AppContextConfig;
-import shop.main.data.objects.Category;
+import shop.main.data.entity.Category;
 import shop.main.data.service.CategoryService;
 
 @RunWith(SpringJUnit4ClassRunner.class)

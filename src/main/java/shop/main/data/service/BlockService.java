@@ -3,7 +3,7 @@ package shop.main.data.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import shop.main.data.objects.Block;
+import shop.main.data.entity.Block;
 
 public interface BlockService {
 	void save(Block block);

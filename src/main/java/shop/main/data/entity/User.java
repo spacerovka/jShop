@@ -1,75 +1,79 @@
-package shop.main.data.objects;
+package shop.main.data.entity;
 
-import java.sql.Date;
-import java.util.HashSet;
+import java.time.LocalDate;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "user")
 public class User {
-	
-	
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", unique = true, nullable = false)
+
+	@Column(name = "id")
 	private Long id;
-	
-	@Column(name = "email", nullable = true, length=500)
+
+	@Column(name = "email", nullable = true, length = 500)
 	private String email;
-	
+
 	@Id
-	@Column(name="username", unique = true,	nullable = false, length = 45)
+	@Column(name = "username", unique = true, nullable = false, length = 45)
 	private String userName;
-	
-	@Column(name="password", nullable = false, length = 60)
+
+	@Column(name = "password", nullable = false, length = 60)
 	private String password;
-	
-	@Column(name="enabled", nullable=false)
-	private Boolean enabled;
-	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-	private Set<UserRole> userRole = new HashSet<UserRole>(0);
-		
-	@Column(name = "firstName", nullable = true, length=50)
+
+	@Column(name = "enabled", nullable = false)
+	private boolean enabled;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+	private Set<UserRole> userRole;
+
+	@Column(name = "firstName", nullable = true, length = 50)
 	private String firstName;
-	
-	@Column(name = "lastName", nullable = true, length=50)
+
+	@Column(name = "lastName", nullable = true, length = 50)
 	private String lastName;
-	
-	@Column(name = "city", nullable = true, length=90)
+
+	@Column(name = "city", nullable = true, length = 90)
 	private String city;
-	
-	@Column(name = "state", nullable = true, length=50)
+
+	@Column(name = "state", nullable = true, length = 50)
 	private String state;
-	
-	@Column(name = "zip", nullable = true, length=20)
+
+	@Column(name = "zip", nullable = true, length = 20)
 	private String zip;
-	
+
 	@Column(name = "emailVerified", nullable = false)
-	private Boolean emailVerified;
-	
-	@Column(name = "registerDate", nullable = true, length=50)
-	private Date registerDate;
-	
-	@Column(name = "verification_code", nullable = true, length=20)
+	private boolean emailVerified;
+
+	@Column(name = "registerDate", nullable = true)
+	private LocalDate registerDate;
+
+	@Column(name = "verification_code", nullable = true, length = 20)
 	private String verification_code;
-	
-	@Column(name = "ip", nullable = true, length=50)
+
+	@Column(name = "ip", nullable = true, length = 50)
 	private String ip;
-	
-	@Column(name = "phone", nullable = true, length=20)
+
+	@Column(name = "phone", nullable = true, length = 20)
 	private String phone;
-	
-	@Column(name = "address", nullable = true, length=100)
+
+	@Column(name = "address", nullable = true, length = 100)
 	private String address;
+
+	@PrePersist
+	protected void onCreate() {
+
+		registerDate = LocalDate.now();
+
+	}
 
 	public Long getId() {
 		return id;
@@ -103,11 +107,11 @@ public class User {
 		this.password = password;
 	}
 
-	public Boolean getEnabled() {
+	public boolean getEnabled() {
 		return enabled;
 	}
 
-	public void setEnabled(Boolean enabled) {
+	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
 
@@ -159,19 +163,19 @@ public class User {
 		this.zip = zip;
 	}
 
-	public Boolean isEmailVerified() {
+	public boolean isEmailVerified() {
 		return emailVerified;
 	}
 
-	public void setEmailVerified(Boolean emailVerified) {
+	public void setEmailVerified(boolean emailVerified) {
 		this.emailVerified = emailVerified;
 	}
 
-	public Date getRegisterDate() {
+	public LocalDate getRegisterDate() {
 		return registerDate;
 	}
 
-	public void setRegisterDate(Date registerDate) {
+	public void setRegisterDate(LocalDate registerDate) {
 		this.registerDate = registerDate;
 	}
 
@@ -215,7 +219,7 @@ public class User {
 		result = prime * result + ((city == null) ? 0 : city.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + (emailVerified ? 1231 : 1237);
-		result = prime * result + ((enabled == null) ? 0 : enabled.hashCode());
+		result = prime * result + (enabled ? 1231 : 1237);
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((ip == null) ? 0 : ip.hashCode());
@@ -225,7 +229,6 @@ public class User {
 		result = prime * result + ((registerDate == null) ? 0 : registerDate.hashCode());
 		result = prime * result + ((state == null) ? 0 : state.hashCode());
 		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
-		result = prime * result + ((userRole == null) ? 0 : userRole.hashCode());
 		result = prime * result + ((verification_code == null) ? 0 : verification_code.hashCode());
 		result = prime * result + ((zip == null) ? 0 : zip.hashCode());
 		return result;
@@ -240,32 +243,11 @@ public class User {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		if (address == null) {
-			if (other.address != null)
-				return false;
-		} else if (!address.equals(other.address))
-			return false;
-		if (city == null) {
-			if (other.city != null)
-				return false;
-		} else if (!city.equals(other.city))
-			return false;
+
 		if (email == null) {
 			if (other.email != null)
 				return false;
 		} else if (!email.equals(other.email))
-			return false;
-		if (emailVerified != other.emailVerified)
-			return false;
-		if (enabled == null) {
-			if (other.enabled != null)
-				return false;
-		} else if (!enabled.equals(other.enabled))
-			return false;
-		if (firstName == null) {
-			if (other.firstName != null)
-				return false;
-		} else if (!firstName.equals(other.firstName))
 			return false;
 		if (id == null) {
 			if (other.id != null)
@@ -307,11 +289,6 @@ public class User {
 				return false;
 		} else if (!userName.equals(other.userName))
 			return false;
-		if (userRole == null) {
-			if (other.userRole != null)
-				return false;
-		} else if (!userRole.equals(other.userRole))
-			return false;
 		if (verification_code == null) {
 			if (other.verification_code != null)
 				return false;
@@ -333,7 +310,9 @@ public class User {
 				+ ", registerDate=" + registerDate + ", verification_code=" + verification_code + ", ip=" + ip
 				+ ", phone=" + phone + ", address=" + address + "]";
 	}
-	
-		
-	
+
+	public boolean isNew() {
+		return (this.id == null);
+	}
+
 }

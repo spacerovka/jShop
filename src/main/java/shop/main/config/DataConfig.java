@@ -41,6 +41,8 @@ import shop.main.data.service.SitePropertyService;
 import shop.main.data.service.SitePropertyServiceImpl;
 import shop.main.data.service.StaticPageService;
 import shop.main.data.service.StaticPageServiceImpl;
+import shop.main.data.service.UserRoleService;
+import shop.main.data.service.UserRoleServiceImpl;
 import shop.main.data.service.UserService;
 import shop.main.data.service.UserServiceImpl;
 
@@ -115,7 +117,7 @@ public class DataConfig<DatabasePopulator> {
 		LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
 		entityManagerFactory.setDataSource(dataSourceMysql());
 		entityManagerFactory.setJpaVendorAdapter(jpaVendorAdapter());
-		entityManagerFactory.setPackagesToScan("shop.main.data.objects");
+		entityManagerFactory.setPackagesToScan("shop.main.data.entity");
 		
 		Properties jpaProperties = new Properties();
 		jpaProperties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
@@ -163,6 +165,11 @@ public class DataConfig<DatabasePopulator> {
 	}
 	
 	@Bean
+	public UserRoleService userRoleService() {
+		return new UserRoleServiceImpl();
+	}
+	
+	@Bean
 	public OptionService optionService() {
 		return new OptionServiceImpl();
 	}
@@ -192,4 +199,7 @@ public class DataConfig<DatabasePopulator> {
 	public StaticPageService staticPageService() {
 		return new StaticPageServiceImpl();
 	}
+		
+	
+	
 }

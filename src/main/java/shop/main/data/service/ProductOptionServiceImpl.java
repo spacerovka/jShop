@@ -19,13 +19,13 @@ import shop.main.data.DAO.OptionDAO;
 import shop.main.data.DAO.ProductDAO;
 import shop.main.data.DAO.ProductOptionDAO;
 import shop.main.data.DAO.UserDAO;
-import shop.main.data.objects.Category;
-import shop.main.data.objects.CategoryOption;
-import shop.main.data.objects.Option;
-import shop.main.data.objects.Product;
-import shop.main.data.objects.ProductOption;
-import shop.main.data.objects.Review;
-import shop.main.data.objects.User;
+import shop.main.data.entity.Category;
+import shop.main.data.entity.CategoryOption;
+import shop.main.data.entity.Option;
+import shop.main.data.entity.Product;
+import shop.main.data.entity.ProductOption;
+import shop.main.data.entity.Review;
+import shop.main.data.entity.User;
 
 @Service("productOptionService")
 public class ProductOptionServiceImpl implements ProductOptionService{

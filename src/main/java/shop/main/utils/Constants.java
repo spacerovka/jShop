@@ -9,6 +9,9 @@ public class Constants {
 	public static enum BlockType{
 		TOP, LEFT_TOP, LEFT_BOTTOM, BOTTOM, FOOTER_COL_LEFT, FOOTER_COL_CENTER, FOOTER_COL_RIGHT
 	}
+	public static enum RoleType{
+		USER, ADMIN, MANAGER
+	}
 
     
 }

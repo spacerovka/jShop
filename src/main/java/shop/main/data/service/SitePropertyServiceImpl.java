@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import shop.main.data.DAO.BlockDAO;
 import shop.main.data.DAO.SitePropertyDAO;
-import shop.main.data.objects.SiteProperty;
+import shop.main.data.entity.SiteProperty;
 
 @Service("sitePropertyService")
 public class SitePropertyServiceImpl implements SitePropertyService {

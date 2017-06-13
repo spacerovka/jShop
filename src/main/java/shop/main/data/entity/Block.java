@@ -1,4 +1,4 @@
-package shop.main.data.objects;
+package shop.main.data.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

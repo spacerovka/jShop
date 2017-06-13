@@ -2,8 +2,8 @@ package shop.main.data.service;
 
 import java.util.List;
 
-import shop.main.data.objects.Category;
-import shop.main.data.objects.Product;
+import shop.main.data.entity.Category;
+import shop.main.data.entity.Product;
 
 public interface CategoryService {
 	void saveCategory(Category category);

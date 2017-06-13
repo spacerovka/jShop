@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import shop.main.data.DAO.CategoryDAO;
-import shop.main.data.objects.Category;
+import shop.main.data.entity.Category;
 
 @Service("categoryService")
 public class CategoryServiceImpl implements CategoryService{

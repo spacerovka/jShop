@@ -11,7 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import shop.main.config.AppContextConfig;
-import shop.main.data.objects.Block;
+import shop.main.data.entity.Block;
 import shop.main.data.service.BlockService;
 import shop.main.utils.Constants;
 

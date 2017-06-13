@@ -2,7 +2,7 @@ package shop.main.data.service;
 
 import java.util.List;
 
-import shop.main.data.objects.MenuItem;
+import shop.main.data.entity.MenuItem;
 
 public interface MenuItemService {
 void save(MenuItem item);

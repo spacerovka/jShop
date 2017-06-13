@@ -2,8 +2,8 @@ package shop.main.data.service;
 
 import java.util.List;
 
-import shop.main.data.objects.Block;
-import shop.main.data.objects.SiteProperty;
+import shop.main.data.entity.Block;
+import shop.main.data.entity.SiteProperty;
 
 public interface SitePropertyService {
 	void save(SiteProperty property);

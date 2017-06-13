@@ -12,7 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import shop.main.config.AppContextConfig;
-import shop.main.data.objects.SiteProperty;
+import shop.main.data.entity.SiteProperty;
 import shop.main.data.service.SitePropertyService;
 
 @RunWith(SpringJUnit4ClassRunner.class)

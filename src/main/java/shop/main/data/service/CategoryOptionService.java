@@ -2,8 +2,8 @@ package shop.main.data.service;
 
 import java.util.List;
 
-import shop.main.data.objects.CategoryOption;
-import shop.main.data.objects.ProductOption;
+import shop.main.data.entity.CategoryOption;
+import shop.main.data.entity.ProductOption;
 
 @Deprecated
 public interface CategoryOptionService {

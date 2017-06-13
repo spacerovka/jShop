@@ -9,7 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import shop.main.data.objects.Product;
+import shop.main.data.entity.Product;
 
 @Document(collection = "orders")
 public class Order {

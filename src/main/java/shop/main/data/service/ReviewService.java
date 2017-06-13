@@ -2,9 +2,9 @@ package shop.main.data.service;
 
 import java.util.List;
 
-import shop.main.data.objects.Category;
-import shop.main.data.objects.Product;
-import shop.main.data.objects.Review;
+import shop.main.data.entity.Category;
+import shop.main.data.entity.Product;
+import shop.main.data.entity.Review;
 
 public interface ReviewService {
 	void save(Review review);

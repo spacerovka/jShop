@@ -14,8 +14,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import shop.main.data.entity.UserRole;
 import shop.main.data.service.UserService;
-import shop.main.data.objects.UserRole;
 
 @Service("authenticationDetailsService")
 public class AuthenticationDetailsService implements UserDetailsService{
@@ -28,7 +28,7 @@ public class AuthenticationDetailsService implements UserDetailsService{
 		public UserDetails loadUserByUsername(final String username)
 			throws UsernameNotFoundException {
 
-			shop.main.data.objects.User user = userService.findByUserName(username);
+			shop.main.data.entity.User user = userService.findByUserName(username);
 			if(user == null){
 				throw new UsernameNotFoundException("Can not find user: "+username);
 			}
@@ -41,7 +41,7 @@ public class AuthenticationDetailsService implements UserDetailsService{
 
 		// Converts shop.main.data.objects.User user to
 		// org.springframework.security.core.userdetails.User
-		private User buildUserForAuthentication(shop.main.data.objects.User user,
+		private User buildUserForAuthentication(shop.main.data.entity.User user,
 			List<GrantedAuthority> authorities) {
 			return new User(user.getUserName(), user.getPassword(),
 				user.getEnabled(), true, true, true, authorities);

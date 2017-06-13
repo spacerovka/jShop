@@ -13,8 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import shop.main.data.DAO.BlockDAO;
-import shop.main.data.objects.Block;
-import shop.main.data.objects.Category;
+import shop.main.data.entity.Block;
+import shop.main.data.entity.Category;
 
 @Service("blockService")
 public class BlockServiceImpl implements BlockService{
