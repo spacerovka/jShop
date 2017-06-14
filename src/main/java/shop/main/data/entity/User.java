@@ -11,6 +11,12 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
+import shop.main.validation.ValidEmail;
+import shop.main.validation.ValidPassword;
 
 @Entity
 @Table(name = "user")
@@ -19,13 +25,21 @@ public class User {
 	@Column(name = "id")
 	private Long id;
 
-	@Column(name = "email", nullable = true, length = 500)
+	@NotNull
+	@NotEmpty
+	@ValidEmail
+	@Column(name = "email", nullable = true, length = 500, unique = true)
 	private String email;
 
 	@Id
+	@NotNull
+	@NotEmpty
 	@Column(name = "username", unique = true, nullable = false, length = 45)
 	private String userName;
 
+	@NotNull
+	@NotEmpty
+	@ValidPassword
 	@Column(name = "password", nullable = false, length = 60)
 	private String password;
 

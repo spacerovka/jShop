@@ -78,6 +78,11 @@
 							href="${pageContext.request.contextPath}/${menuItem.URL}">${menuItem.text}</a></li>
 					</core:forEach>
 				</core:if>
+				
+				
+				
+				<li ${currentPage == '/registration' ? ' class="active"' : ''}><a
+							href="${pageContext.request.contextPath}/registration">Register</a></li>
 				<li><a href="./">Cart <span id="cart-item-count"
 						class="product-count">(0)</span> <span class="sr-only">(current)</span></a>
 				</li>

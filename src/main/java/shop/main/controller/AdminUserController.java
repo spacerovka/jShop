@@ -26,7 +26,7 @@ import shop.main.data.service.UserService;
 import shop.main.utils.Constants;
 
 @Controller
-public class UserController {
+public class AdminUserController {
 
 	@Autowired
 	ServletContext context;
