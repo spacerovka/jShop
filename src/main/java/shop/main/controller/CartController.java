@@ -1,42 +1,41 @@
 package shop.main.controller;
 
-import java.math.BigDecimal;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Set;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.groups.Default;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
+import shop.main.data.entity.OrderUserWrapper;
+import shop.main.data.entity.Product;
+import shop.main.data.entity.User;
 import shop.main.data.mongo.Order;
-import shop.main.data.mongo.OrderProduct;
 import shop.main.data.mongo.OrderRepository;
-import shop.main.data.objects.Product;
-import shop.main.data.objects.Review;
 import shop.main.data.service.ProductService;
-import shop.main.data.service.ReviewService;
 import shop.main.utils.URLUtils;
+import shop.main.validation.EmailExistsException;
 
 @Controller
-public class CartController implements ResourceLoaderAware {
+public class CartController extends FrontController implements ResourceLoaderAware {
 	private ResourceLoader resourceLoader;
 
 	@Autowired
@@ -61,7 +60,7 @@ public class CartController implements ResourceLoaderAware {
 		Order currentOrder = getOrCreateOrder(request);
 		if (currentOrder.getSum().intValue() != 0) {
 			model.addAttribute("order", getOrCreateOrder(request));
-		} 
+		}
 		return "cart";
 	}
 
@@ -69,7 +68,16 @@ public class CartController implements ResourceLoaderAware {
 	public String checkoutPage(Model model, HttpServletRequest request) {
 		Order currentOrder = getOrCreateOrder(request);
 		if (currentOrder.getSum().intValue() != 0) {
-			model.addAttribute("order", currentOrder);
+			OrderUserWrapper wrapper = new OrderUserWrapper(currentOrder, new User());
+			User authorizeduser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			if (authorizeduser != null) {
+				String username = authorizeduser.getUsername();
+				shop.main.data.entity.User savedUser = userService.findByUsername(username);
+				if (savedUser != null) {
+					wrapper.setUser(savedUser);
+				}
+			}
+			model.addAttribute("orderUserWrapper", wrapper);
 			model.addAttribute("countryList", getCountryList());
 			return "checkout";
 		} else {
@@ -135,43 +143,73 @@ public class CartController implements ResourceLoaderAware {
 		return order;
 	}
 
-	@RequestMapping(value = "/orderPlaced", method=RequestMethod.POST) // , method=RequestMethod.POST
-	public String orderPlaced(Order orderPlaced, HttpServletRequest request, Model model) {
-		// create order from session
-		// save order
-		// add order in model
-		// if order!=null return success page
-		// if order is null redirect to cart page
+	@RequestMapping(value = "/orderPlaced", method = RequestMethod.POST)
+	public String orderPlaced(OrderUserWrapper orderUserWrapper, HttpServletRequest request, Model model) {
+
+		if (orderUserWrapper.isCreateUser()) {
+			orderUserWrapper.getUser().setEnabled(true);
+			ArrayList<String> errors = new ArrayList<String>();
+			// validate username and email
+			Set<ConstraintViolation<User>> results = Validation.buildDefaultValidatorFactory().getValidator()
+					.validate(orderUserWrapper.getUser(), Default.class);
+			for (ConstraintViolation<User> error : results) {
+				System.out.println("+ + +" + error.getMessage() + " " + error.getInvalidValue());
+				errors.add(error.getMessage());
+			}
+			User registered = null;
+			if (errors.isEmpty()) {
+				registered = createUserAccount(orderUserWrapper.getUser());
+			}
+			if (registered == null) {
+				model.addAttribute("orderUserWrapper", orderUserWrapper);
+				model.addAttribute("countryList", getCountryList());
+				if (errors.isEmpty()) {
+					errors.add("User with this email is already registered!");
+				}
+				model.addAttribute("errorSummary", errors);
+				return "checkout";
+			}
+		} else {
+			User authorizeduser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			if (authorizeduser != null) {
+				orderUserWrapper.setUsername(authorizeduser.getUsername());
+			}
+		}
+
 		Order currentOrder = getOrCreateOrder(request);
 		if (currentOrder.getSum().intValue() != 0) {
-			currentOrder.setUserName(orderPlaced.getUserName());
-			currentOrder.setCountry(orderPlaced.getCountry());
-			currentOrder.setState(orderPlaced.getState());
-			currentOrder.setCity(orderPlaced.getCity());
-			currentOrder.setShipAddress(orderPlaced.getShipAddress());
-			currentOrder.setZip(orderPlaced.getZip());
-			currentOrder.setPhone(orderPlaced.getPhone());
-			currentOrder.setEmail(orderPlaced.getEmail());
+			Order.getDataFromWrapper(currentOrder, orderUserWrapper);
 			String orderCount = String.valueOf(orderRepository.findAll().size());
 			if (orderCount.length() < 8) {
 				orderCount = "0" + orderCount;
 			}
 			currentOrder.setNumber(
 					Calendar.getInstance().get(Calendar.YEAR) + orderCount + currentOrder.getSum().intValue());
+			currentOrder.setDate(new Date());
 			orderRepository.save(currentOrder);
 			request.getSession().setAttribute("CURRENT_ORDER", null);
 			model.addAttribute("order", currentOrder);
+
 			return "order_placed";
 		} else {
 			return "redirect:/cart";
 		}
 	}
-	
-	@RequestMapping(value = "/orderPlaced", method=RequestMethod.GET)
-	public String orderPlacedRedirect(){
-			return "redirect:/cart";
-		
+
+	private User createUserAccount(User accountDto) {
+		User registered = null;
+		try {
+			registered = userService.registerNewUserAccount(accountDto);
+		} catch (EmailExistsException e) {
+			return null;
+		}
+		return registered;
 	}
-	
+
+	@RequestMapping(value = "/orderPlaced", method = RequestMethod.GET)
+	public String orderPlacedRedirect() {
+		return "redirect:/cart";
+
+	}
 
 }

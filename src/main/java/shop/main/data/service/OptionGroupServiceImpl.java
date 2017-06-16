@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import shop.main.data.DAO.OptionGroupDAO;
-import shop.main.data.objects.OptionGroup;
+import shop.main.data.entity.OptionGroup;
 
 @Service("optionGroupService")
 public class OptionGroupServiceImpl implements OptionGroupService{

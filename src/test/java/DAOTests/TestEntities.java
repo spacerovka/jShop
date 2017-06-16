@@ -9,7 +9,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import shop.main.config.AppContextConfig;
-import shop.main.data.objects.OptionGroup;
+import shop.main.data.entity.OptionGroup;
 import shop.main.data.service.OptionGroupService;
 
 @RunWith(SpringJUnit4ClassRunner.class)

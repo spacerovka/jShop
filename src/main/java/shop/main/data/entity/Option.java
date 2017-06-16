@@ -1,4 +1,4 @@
-package shop.main.data.objects;
+package shop.main.data.entity;
 
 import java.util.List;
 
@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -18,25 +19,26 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "optionGroup")
-public class OptionGroup {
+@Table(name = "option_entity")
+public class Option {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", unique = true, nullable = false)
 	private Long id;
 	
-	@Column(name = "optionGroupName", nullable = false, length=50)
-	private String optionGroupName;	
+	@Column(name = "optionName", nullable = false, length=50)
+	private String optionName;		
 	
-	@Column(name = "description", nullable = true, length=50)
-	private String description;
+	@ManyToOne
+	@JoinColumn(name="optionGroup", nullable=false)	
+	private OptionGroup optionGroup;
 	
-	@OneToMany(mappedBy="optionGroup", fetch=FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
-	private List<Option> options;
-	
-	@OneToMany(mappedBy="optionGroup", fetch=FetchType.LAZY,cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
+	@OneToMany(mappedBy="option", fetch=FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
 	private List<ProductOption> productOptions;
+	
+	@OneToMany(mappedBy="option", fetch=FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
+	private List<CategoryOption> categoryOptions;
 
 	public Long getId() {
 		return id;
@@ -46,21 +48,22 @@ public class OptionGroup {
 		this.id = id;
 	}
 
-	public String getOptionGroupName() {
-		return optionGroupName;
+	public String getOptionName() {
+		return optionName;
 	}
 
-	public void setOptionGroupName(String optionGroupName) {
-		this.optionGroupName = optionGroupName;
+	public void setOptionName(String optionName) {
+		this.optionName = optionName;
 	}
 
-	public List<Option> getOptions() {
-		return options;
+	public OptionGroup getOptionGroup() {
+		return optionGroup;
 	}
 
-	public void setOptions(List<Option> options) {
-		this.options = options;
+	public void setOptionGroup(OptionGroup optionGroup) {
+		this.optionGroup = optionGroup;
 	}
+		
 
 	public List<ProductOption> getProductOptions() {
 		return productOptions;
@@ -68,24 +71,24 @@ public class OptionGroup {
 
 	public void setProductOptions(List<ProductOption> productOptions) {
 		this.productOptions = productOptions;
-	}	
+	}
 	
-
-	public String getDescription() {
-		return description;
+	
+	
+	public List<CategoryOption> getCategoryOptions() {
+		return categoryOptions;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setCategoryOptions(List<CategoryOption> categoryOptions) {
+		this.categoryOptions = categoryOptions;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((optionGroupName == null) ? 0 : optionGroupName.hashCode());
+		result = prime * result + ((optionName == null) ? 0 : optionName.hashCode());
 		return result;
 	}
 
@@ -97,33 +100,28 @@ public class OptionGroup {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		OptionGroup other = (OptionGroup) obj;
-		if (description == null) {
-			if (other.description != null)
-				return false;
-		} else if (!description.equals(other.description))
-			return false;
+		Option other = (Option) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (optionGroupName == null) {
-			if (other.optionGroupName != null)
+		if (optionName == null) {
+			if (other.optionName != null)
 				return false;
-		} else if (!optionGroupName.equals(other.optionGroupName))
+		} else if (!optionName.equals(other.optionName))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "OptionGroup [id=" + id + ", optionGroupName=" + optionGroupName 
-				+ ", description=" + description +  "]";
+		return "Option [id=" + id + ", optionName=" + optionName + "]";
 	}
-
+	
 	public boolean isNew() {
 		return (this.id == null);
 		}
+	
 	
 }

@@ -19,12 +19,11 @@ import shop.main.data.DAO.OptionDAO;
 import shop.main.data.DAO.CategoryDAO;
 import shop.main.data.DAO.CategoryOptionDAO;
 import shop.main.data.DAO.UserDAO;
-import shop.main.data.objects.Category;
-import shop.main.data.objects.Option;
-import shop.main.data.objects.Category;
-import shop.main.data.objects.CategoryOption;
-import shop.main.data.objects.Review;
-import shop.main.data.objects.User;
+import shop.main.data.entity.Category;
+import shop.main.data.entity.CategoryOption;
+import shop.main.data.entity.Option;
+import shop.main.data.entity.Review;
+import shop.main.data.entity.User;
 
 @Deprecated
 @Service("categoryOptionService")

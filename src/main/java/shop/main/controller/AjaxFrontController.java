@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import shop.main.data.entity.Product;
+import shop.main.data.entity.Review;
 import shop.main.data.mongo.Order;
-import shop.main.data.objects.Product;
-import shop.main.data.objects.Review;
 import shop.main.data.service.ProductService;
 import shop.main.data.service.ReviewService;
 import shop.main.utils.URLUtils;

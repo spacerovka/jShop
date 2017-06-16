@@ -3,7 +3,8 @@ package shop.main.data.DAO;
 import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
-import shop.main.data.objects.ProductOption;
+
+import shop.main.data.entity.ProductOption;
 
 public interface ProductOptionDAO extends CrudRepository<ProductOption, Long>{
 	List<ProductOption> findAll();

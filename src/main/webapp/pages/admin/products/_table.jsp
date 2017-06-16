@@ -45,6 +45,20 @@
 								  			</core:choose>
 								  		</td>
 								  		<td>
+                                        	<core:choose>
+	        									<core:when test="${product.featured==true}">	        										
+	        										<a style="display: inline-block;" href="#"
+													onclick="removeFromFeatured(${product.id});" 
+													class="btn btn-warning">Remove from Featured</a>
+	        									</core:when>
+								  				<core:otherwise>
+								  					<a style="display: inline-block;" href="#"
+													onclick="addToFeatured(${product.id});" 
+													class="btn btn-success">Add to Featured</a>
+								  				</core:otherwise>
+								  			</core:choose>
+								  		</td>
+								  		<td>
 								  		<a href="${pageContext.request.contextPath}/a/product/${product.id}/update">
 								  		<button type="button" class="btn btn-sm btn-info">Edit</button></a>
 								  		

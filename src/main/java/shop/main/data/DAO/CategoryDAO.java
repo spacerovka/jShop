@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 
-import shop.main.data.objects.Category;
+import shop.main.data.entity.Category;
 
 public interface CategoryDAO extends CrudRepository<Category, Long>{
 	List<Category> findAll();

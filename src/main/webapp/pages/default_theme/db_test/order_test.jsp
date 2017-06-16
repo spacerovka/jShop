@@ -33,6 +33,9 @@ background-size:cover;"> -->
 							Order id is <b><core:out value="${order.orderId}" /></b>
 						</p>
 						<p>
+							User is <b>${order.username}</b>
+						</p>
+						<p>
 							Order number is <b><core:out value="${order.number}" /></b>
 						</p>
 						<p>

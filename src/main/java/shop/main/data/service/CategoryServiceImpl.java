@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import shop.main.data.DAO.CategoryDAO;
-import shop.main.data.objects.Category;
+import shop.main.data.entity.Category;
 
 @Service("categoryService")
 public class CategoryServiceImpl implements CategoryService{
@@ -90,7 +90,8 @@ public class CategoryServiceImpl implements CategoryService{
 		System.out.println("*");
 		System.out.println("*");
 		List<Category> found = (List<Category>)query.list();
-		if(found!=null){
+		if(found!=null
+				&& !found.isEmpty()){
 			return found.get(0);
 		}else{
 			return null;

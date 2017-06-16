@@ -1,4 +1,4 @@
-package shop.main.data.objects;
+package shop.main.data.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,7 +25,7 @@ public class MenuItem {
 	@Column(name = "status", nullable = false)
 	private boolean status;
 	
-	@Column(name = "type", nullable = false, length=200)
+	@Column(name = "menu_type", nullable = false, length=200)
 	private String type;
 
 	public Long getId() {

@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,11 +18,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import shop.main.data.mongo.Order;
-import shop.main.data.objects.Option;
-import shop.main.data.objects.OptionGroup;
-import shop.main.data.objects.Product;
-import shop.main.data.objects.ProductOption;
+import shop.main.data.entity.Option;
+import shop.main.data.entity.OptionGroup;
+import shop.main.data.entity.Product;
+import shop.main.data.entity.ProductOption;
+import shop.main.data.mongo.OrderRepository;
 import shop.main.data.service.CategoryService;
 import shop.main.data.service.OptionGroupService;
 import shop.main.data.service.OptionService;
@@ -45,9 +44,12 @@ public class AjaxAdminController implements ResourceLoaderAware {
 
 	@Autowired
 	private OptionGroupService optionGroupService;
-	
+
 	@Autowired
-	 private ProductService productService;
+	private ProductService productService;
+
+	@Autowired
+	private OrderRepository orderRepository;
 
 	public void setResourceLoader(ResourceLoader resourceLoader) {
 		this.resourceLoader = resourceLoader;
@@ -172,7 +174,7 @@ public class AjaxAdminController implements ResourceLoaderAware {
 			}
 			if (po.getOptionGroup().getId() == -1) {
 				po.setOptionGroup(null);
-			}else {
+			} else {
 				po.setOptionGroup(optionGroupService.fingOptionById(po.getOptionGroup().getId()));
 			}
 		}
@@ -204,11 +206,63 @@ public class AjaxAdminController implements ResourceLoaderAware {
 		model.addAttribute("optiongroupList", optionGroupService.listAll());
 		return "../admin/_edit_product_form";
 	}
-	
+
 	@RequestMapping(value = "/a/findProducts", method = RequestMethod.POST)
 	public String findProducts(@RequestParam String name, @RequestParam String url, Model model) {
 		model.addAttribute("productList", productService.findByNameAndURL(name, url));
 		return "../admin/products/_table";
+
+	}
+
+	@RequestMapping(value = "/a/addToFeatured", method = RequestMethod.POST)
+	public String addToFeatured(@RequestParam long id, @RequestParam String name, @RequestParam String url,
+			Model model) {
+		Product product = productService.fingProductById(id);
+		product.setFeatured(true);
+		productService.saveProduct(product);
+		model.addAttribute("productList", productService.findByNameAndURL(name, url));
+		return "../admin/products/_table";
+
+	}
+
+	@RequestMapping(value = "/a/removeFromFeatured", method = RequestMethod.POST)
+	public String removeFromFeatured(@RequestParam long id, @RequestParam String name, @RequestParam String url,
+			Model model) {
+		Product product = productService.fingProductById(id);
+		product.setFeatured(false);
+		productService.saveProduct(product);
+		model.addAttribute("productList", productService.findByNameAndURL(name, url));
+		return "../admin/products/_table";
+
+	}
+
+	@RequestMapping(value = "/a/findCategories", method = RequestMethod.POST)
+	public String findCategories(@RequestParam String name, @RequestParam String url, Model model) {
+		model.addAttribute("categoryList", categoryService.findByNameAndURL(name, url));
+		return "../admin/categories/_table";
+
+	}
+
+	@RequestMapping(value = "/a/findOption", method = RequestMethod.POST)
+	public String findOption(@RequestParam String name, Model model) {
+		model.addAttribute("optionList", optionService.findAllByName(name));
+		return "../admin/options/_options_table";
+
+	}
+
+	@RequestMapping(value = "/a/findGroup", method = RequestMethod.POST)
+	public String findGroup(@RequestParam String name, Model model) {
+		model.addAttribute("optiongroupList", optionGroupService.findOptionGroupByName(name));
+		return "../admin/options/_groups_table";
+
+	}
+
+	@RequestMapping(value = "/a/findOrder", method = RequestMethod.POST)
+	public String findOrder(@RequestParam String fullname, @RequestParam String phone, @RequestParam String email,
+			Model model) {
+		model.addAttribute("orders",
+				orderRepository.findByFullNameLikeAndPhoneLikeAndEmailLike(fullname, phone, email));
+		return "../admin/orders/_table";
 
 	}
 }

@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 
-import shop.main.data.objects.Category;
-import shop.main.data.objects.Product;
-import shop.main.data.objects.Review;
+import shop.main.data.entity.Category;
+import shop.main.data.entity.Product;
+import shop.main.data.entity.Review;
 
 public interface ReviewDAO extends CrudRepository<Review, Long>{
 	List<Review> findAll();		

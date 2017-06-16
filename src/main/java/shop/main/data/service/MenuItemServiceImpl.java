@@ -2,19 +2,27 @@ package shop.main.data.service;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import shop.main.data.DAO.CategoryDAO;
 import shop.main.data.DAO.MenuItemDAO;
-import shop.main.data.objects.Block;
-import shop.main.data.objects.MenuItem;
+import shop.main.data.entity.MenuItem;
+import shop.main.utils.Constants;
 
 @Service("menuItemService")
 public class MenuItemServiceImpl implements MenuItemService{
 
 	@Autowired
 	private MenuItemDAO menuDAO;
+	
+	@PersistenceContext
+    protected EntityManager entityManager;
 	
 	@Override
 	public void save(MenuItem item) {
@@ -43,5 +51,27 @@ public class MenuItemServiceImpl implements MenuItemService{
 		menuDAO.delete(id);
 		
 	}
+
+	@Transactional
+	@Override
+	public List<MenuItem> findLeftMenu() {
+		Session session =(Session)entityManager.getDelegate();		
+		String hql = "from MenuItem m where m.status = true "
+				+" and m.type ='"+Constants.LEFT+"'";
+		Query query = session.createQuery(hql);		
+		return query.list();
+	}
+
+	@Transactional
+	@Override
+	public List<MenuItem> findRightMenu() {
+		Session session =(Session)entityManager.getDelegate();		
+		String hql = "from MenuItem m where m.status = true "
+				+" and m.type ='"+Constants.RIGHT+"'";
+		Query query = session.createQuery(hql);		
+		return query.list();
+	}
+	
+
 
 }

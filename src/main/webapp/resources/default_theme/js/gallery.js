@@ -66,7 +66,7 @@ $(function() {
 			init			= function() {
 				
 				// (not necessary) preloading the images here...
-				$items.add('<img src="images/ajax-loader.gif"/>').imagesLoaded( function() {
+				$items.add('').imagesLoaded( function() {
 					// add options
 					_addViewModes();
 					

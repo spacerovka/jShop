@@ -1,7 +1,7 @@
 package shop.main.data.mongo;
 
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,17 +9,18 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import shop.main.data.objects.Product;
+import shop.main.data.entity.OrderUserWrapper;
+import shop.main.data.entity.Product;
 
 @Document(collection = "orders")
 public class Order {
 
 	@Id
 	private String orderId;
-	private Long user_id;
 	private String number;
 	private BigDecimal sum;
-	private String userName;
+	private String username;
+	private String fullName;
 	private String shipName;
 	private String shipAddress;
 	private String city;
@@ -29,21 +30,20 @@ public class Order {
 	private String phone;
 	private String email;
 	private String managerComment;
-	
+
 	private BigDecimal shippingCost;
 	private Date date;
 	private Boolean shipped;
 	private Boolean confirmed;
-	
+
 	private String trackNumber;
-	
-	
+
 	@Field("sub")
 	private Map<String, OrderProduct> product_list;
-	
-	public Order(){
+
+	public Order() {
 		product_list = new HashMap<String, OrderProduct>();
-		sum=new BigDecimal(0.00);
+		sum = new BigDecimal(0.00);
 	}
 
 	public String getOrderId() {
@@ -53,17 +53,17 @@ public class Order {
 	public void setOrderId(String orderId) {
 		this.orderId = orderId;
 	}
-	
-	public String getUserName() {
-		return userName;
+
+	public String getUsername() {
+		return username;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public BigDecimal getSum() {
-		
+
 		return sum;
 	}
 
@@ -78,7 +78,7 @@ public class Order {
 	public void setProduct_list(Map<String, OrderProduct> product_list) {
 		this.product_list = product_list;
 	}
-	
+
 	public String getShipName() {
 		return shipName;
 	}
@@ -174,24 +174,21 @@ public class Order {
 	public void setTrackNumber(String trackNumber) {
 		this.trackNumber = trackNumber;
 	}
-	
-	
+
 	@Override
 	public String toString() {
-		
+
 		StringBuilder products = new StringBuilder("[");
-		for(Map.Entry<String, OrderProduct> product : product_list.entrySet()) {
-			products.append("<"+product.getValue().toString()+">");
+		for (Map.Entry<String, OrderProduct> product : product_list.entrySet()) {
+			products.append("<" + product.getValue().toString() + ">");
 		}
-		
-		return "Order [orderId=" + orderId + ", user_id=" + user_id + ", userName=" + userName + ", sum=" + sum + ", number=" + number
+
+		return "Order [orderId=" + orderId + ", userName=" + username + ", sum=" + sum + ", number=" + number
 				+ ", shipName=" + shipName + ", shipAddress=" + shipAddress + ", city=" + city + ", state=" + state
 				+ ", zip=" + zip + ", country=" + country + ", phone=" + phone + ", email=" + email + ", shippingCost="
 				+ shippingCost + ", date=" + date + ", shipped=" + shipped + ", confirmed=" + confirmed
-				+ ", trackNumber=" + trackNumber + ", comment "+managerComment+", product_list=" + products + "]";
+				+ ", trackNumber=" + trackNumber + ", comment " + managerComment + ", product_list=" + products + "]";
 	}
-
-	
 
 	@Override
 	public int hashCode() {
@@ -213,8 +210,7 @@ public class Order {
 		result = prime * result + ((state == null) ? 0 : state.hashCode());
 		result = prime * result + ((sum == null) ? 0 : sum.hashCode());
 		result = prime * result + ((trackNumber == null) ? 0 : trackNumber.hashCode());
-		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
-		result = prime * result + ((user_id == null) ? 0 : user_id.hashCode());
+		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		result = prime * result + ((zip == null) ? 0 : zip.hashCode());
 		return result;
 	}
@@ -308,30 +304,18 @@ public class Order {
 				return false;
 		} else if (!trackNumber.equals(other.trackNumber))
 			return false;
-		if (userName == null) {
-			if (other.userName != null)
+		if (username == null) {
+			if (other.username != null)
 				return false;
-		} else if (!userName.equals(other.userName))
+		} else if (!username.equals(other.username))
 			return false;
-		if (user_id == null) {
-			if (other.user_id != null)
-				return false;
-		} else if (!user_id.equals(other.user_id))
-			return false;
+
 		if (zip == null) {
 			if (other.zip != null)
 				return false;
 		} else if (!zip.equals(other.zip))
 			return false;
 		return true;
-	}
-
-	public Long getUser_id() {
-		return user_id;
-	}
-
-	public void setUser_id(Long user_id) {
-		this.user_id = user_id;
 	}
 
 	public Boolean getConfirmed() {
@@ -349,47 +333,49 @@ public class Order {
 	public void setManagerComment(String managerComment) {
 		this.managerComment = managerComment;
 	}
-	
-	public int getItemCount(){
+
+	public int getItemCount() {
 		int sum = 0;
-		for(OrderProduct product: product_list.values()){
-			sum+= product.getProduct_quantity();
+		for (OrderProduct product : product_list.values()) {
+			sum += product.getProduct_quantity();
 		}
 		return sum;
 	}
-	
-	public void addItem(Product product){
+
+	public void addItem(Product product) {
 		if (product_list.containsKey(product.getSku())) {
-		       product_list.get(product.getSku()).setProduct_quantity(product_list.get(product.getSku()).getProduct_quantity()+1);;
-		    } else {
-		    	product_list.put(product.getSku(), new OrderProduct(product));
-		    }
-		updateSum();
-	}
-	
-	public void addQuantity(String sku){
-		if (product_list.containsKey(sku)) {
-			product_list.get(sku).setProduct_quantity(product_list.get(sku).getProduct_quantity()+1);	    
+			product_list.get(product.getSku())
+					.setProduct_quantity(product_list.get(product.getSku()).getProduct_quantity() + 1);
+			;
+		} else {
+			product_list.put(product.getSku(), new OrderProduct(product));
 		}
 		updateSum();
 	}
-	
-	public void removeQuantity(String sku){
+
+	public void addQuantity(String sku) {
 		if (product_list.containsKey(sku)) {
-			
-			product_list.get(sku).setProduct_quantity(product_list.get(sku).getProduct_quantity()-1);	    
-			if (product_list.get(sku).getProduct_quantity()==0){
+			product_list.get(sku).setProduct_quantity(product_list.get(sku).getProduct_quantity() + 1);
+		}
+		updateSum();
+	}
+
+	public void removeQuantity(String sku) {
+		if (product_list.containsKey(sku)) {
+
+			product_list.get(sku).setProduct_quantity(product_list.get(sku).getProduct_quantity() - 1);
+			if (product_list.get(sku).getProduct_quantity() == 0) {
 				product_list.remove(sku);
 			}
 		}
-		
+
 		updateSum();
 	}
-	
+
 	private void updateSum() {
-		for(OrderProduct product: product_list.values()){
+		for (OrderProduct product : product_list.values()) {
 			product.setSubTotal(product.getPrice().multiply(new BigDecimal(product.getProduct_quantity())));
-	        sum = sum.add(product.getSubTotal());
+			sum = sum.add(product.getSubTotal());
 		}
 	}
 
@@ -400,5 +386,25 @@ public class Order {
 	public void setNumber(String number) {
 		this.number = number;
 	}
-		
+
+	public String getFullName() {
+		return fullName;
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+
+	public static void getDataFromWrapper(Order currentOrder, OrderUserWrapper orderUserWrapper) {
+		currentOrder.setUsername(orderUserWrapper.getOrder().getUsername());
+		currentOrder.setFullName(orderUserWrapper.getOrder().getFullName());
+		currentOrder.setCountry(orderUserWrapper.getOrder().getCountry());
+		currentOrder.setState(orderUserWrapper.getOrder().getState());
+		currentOrder.setCity(orderUserWrapper.getOrder().getCity());
+		currentOrder.setShipAddress(orderUserWrapper.getOrder().getShipAddress());
+		currentOrder.setZip(orderUserWrapper.getOrder().getZip());
+		currentOrder.setPhone(orderUserWrapper.getOrder().getPhone());
+		currentOrder.setEmail(orderUserWrapper.getOrder().getEmail());
+	}
+
 }

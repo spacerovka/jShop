@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import shop.main.data.objects.Product;
+import shop.main.data.entity.Product;
 
 @Document
 public class OrderProduct {

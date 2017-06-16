@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 
-import shop.main.data.objects.Category;
-import shop.main.data.objects.Product;
+import shop.main.data.entity.Category;
+import shop.main.data.entity.Product;
 
 public interface ProductDAO extends CrudRepository<Product, Long>{
 	List<Product> findAll();	

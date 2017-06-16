@@ -8,10 +8,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class LoginController {
-		
+
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public ModelAndView loginPage(@RequestParam(value = "error",required = false) String error,
-	@RequestParam(value = "logout",	required = false) String logout) {
+	public ModelAndView loginPage(@RequestParam(value = "error", required = false) String error,
+			@RequestParam(value = "logout", required = false) String logout) {
 
 		ModelAndView model = new ModelAndView();
 		if (error != null) {
@@ -19,28 +19,27 @@ public class LoginController {
 		}
 
 		if (logout != null) {
-			model.addObject("message", "Logged out from JournalDEV successfully.");
+			model.addObject("message", "Logged out from JShop successfully.");
 		}
 
 		model.setViewName("login");
 		return model;
 	}
-	
-		
+
 	@RequestMapping(value = "/loginadmin", method = RequestMethod.GET)
-	public ModelAndView loginAdminPage(@RequestParam(value = "error",required = false) String error,
-	@RequestParam(value = "logout",	required = false) String logout) {
-		
+	public ModelAndView loginAdminPage(@RequestParam(value = "error", required = false) String error,
+			@RequestParam(value = "logout", required = false) String logout) {
+
 		ModelAndView model = new ModelAndView();
 		if (error != null) {
 			model.addObject("error", "Invalid Credentials provided.");
 		}
 
 		if (logout != null) {
-			model.addObject("message", "Logged out from JournalDEV successfully.");
+			model.addObject("message", "Logged out from JShop successfully.");
 		}
 
-		model.setViewName("admin/login");
+		model.setViewName("../admin/login");
 		return model;
 	}
 

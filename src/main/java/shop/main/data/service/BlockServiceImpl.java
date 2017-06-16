@@ -1,12 +1,20 @@
 package shop.main.data.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import shop.main.data.DAO.BlockDAO;
-import shop.main.data.objects.Block;
+import shop.main.data.entity.Block;
+import shop.main.data.entity.Category;
 
 @Service("blockService")
 public class BlockServiceImpl implements BlockService{
@@ -14,6 +22,9 @@ public class BlockServiceImpl implements BlockService{
 	
 	@Autowired
 	private BlockDAO blockDAO;
+	
+	@PersistenceContext
+    protected EntityManager entityManager;
 	
 	@Override
 	public void save(Block block) {
@@ -33,12 +44,7 @@ public class BlockServiceImpl implements BlockService{
 		return blockDAO.findAll();
 	}
 
-	@Override
-	public Block findOneByURLAndType(String URL, String type) {
-		
-		return blockDAO.findOneByBlockURLAndType(URL, type);
-	}
-
+	
 	@Override
 	public List<Block> findAllByURL(String URL) {
 		return blockDAO.findAllByBlockURL(URL);
@@ -53,6 +59,25 @@ public class BlockServiceImpl implements BlockService{
 	@Override
 	public void deleteById(long id) {
 		blockDAO.delete(id);
+		
+	}
+
+	@Transactional
+	@Override
+	public ArrayList<Block> findByPositionAndBlockURL(String position, String url) {
+		
+			Session session =(Session)entityManager.getDelegate();
+			
+			String hql = "from Block block where block.status = true and "
+					+ "( block.blockURL = '"+url+"' or block.blockURL is null or block.blockURL='' )"
+					+" and block.position = '"+position+"'";
+			Query query = session.createQuery(hql);
+			System.out.println("*");
+			System.out.println("*");
+			System.out.println("query is "+query.getQueryString());
+			System.out.println("*");
+			System.out.println("*");			
+			return (ArrayList<Block>)query.list();
 		
 	}
 

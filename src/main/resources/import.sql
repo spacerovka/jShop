@@ -1,3 +1,11 @@
+#USERS
+INSERT INTO user (username, id, enabled, password, email, emailVerified) VALUES ("admin", 1, true, "$2a$10$YAE7dNpvBNMBM7TvTUjnn.N0lsUt9v2jd/4Zf9vgv2lTaVFYUnXzy", "admin@admin", true);
+INSERT INTO user (username, id, enabled, password, email, emailVerified) VALUES ("default", 2, true, "$2a$10$nrOeQ8DX22NStYUuCeIvMeYA6fWfTczFvuynZVTq.7k0bkqGxPpyW", "default@gmail.com", false)
+
+#ROLES
+INSERT INTO user_roles (username, role) VALUES ("admin", "ADMIN");
+INSERT INTO user_roles (username, role) VALUES ("default", "USER");
+
 #CATEGORY
 INSERT INTO category (categoryName, categoryURL, status) VALUES ('Dolls', 'dolls', true); #1
 INSERT INTO category (categoryName, categoryURL, status) VALUES ('Construction', 'construction', true); #2
@@ -15,7 +23,7 @@ INSERT INTO product (NAME, PRICE, instock, SKU, url, category,status, featured, 
 
 INSERT INTO product (NAME, PRICE, instock, SKU, url, category,status, featured) VALUES ('Inactive Product', '9.99', '20', 'PI90891','inactive_product', 4,0,1);
 INSERT INTO product (NAME, PRICE, instock, SKU, url, category,status, featured) VALUES ('Category INACTIVEProduct', '9.99', '20', 'PI90892','categ_inactive_product', 7,1,1);
-INSERT INTO product (NAME, PRICE, instock, SKU, url, category,status, featured) VALUES ('Lego Star 2', '9.99', '20', 'PI90893','lego_star2', 4,1,1);
+INSERT INTO product (NAME, PRICE, instock, SKU, url, category,status, featured) VALUES ('Lego Star 2', '9.99', '20', 'PI90893','lego_star2', 4,1,0);
 
 #REVIEWS
 INSERT INTO review (comment, rating, created, useremail, username, product) VALUES ("Good price", 5, NOW(), "nina@mail.ru", "Nina", 2);
@@ -58,3 +66,23 @@ INSERT INTO categoryOption (option_entity, category) VALUES (3,6);
 INSERT INTO categoryOption (option_entity, category) VALUES (4,5);
 INSERT INTO categoryOption (option_entity, category) VALUES (5,5);
 INSERT INTO categoryOption (option_entity, category) VALUES (6,5);
+
+INSERT INTO siteproperty (name, content) VALUES ("siteName", "JShop");
+
+INSERT INTO menu (text, URL, status, menu_type) VALUES ("Home", "/", true, "LEFT");
+INSERT INTO menu (text, URL, status, menu_type) VALUES ("About", "about", true, "LEFT");
+INSERT INTO menu (text, URL, status, menu_type) VALUES ("Contacts", "contacts", true, "LEFT");
+INSERT INTO menu (text, URL, status, menu_type) VALUES ("Delivery", "delivery", true, "RIGHT");
+
+INSERT INTO staticPage (name, url, status, content) VALUES ("Delivery", "delivery", true, "<b>content of the page</b>");
+INSERT INTO staticPage (name, url, status, content) VALUES ("About", "about", true, "<b>content of the page</b>");
+INSERT INTO staticPage (name, url, status, content) VALUES ("Contacts", "contacts", true, "<b>content of the page</b>");
+
+
+INSERT INTO block(position, content, blockURL, status) VALUES("TOP", '<div style="color: white; background: pink none repeat scroll 0% 0%; padding: 2rem;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>', null, 1);
+INSERT INTO block(position, content, blockURL, status) VALUES("LEFT_TOP",  '<div style="color: white; background: pink none repeat scroll 0% 0%; padding: 2rem;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>',"", 1);
+INSERT INTO block(position, content, blockURL, status) VALUES("LEFT_BOTTOM",  '<div style="color: white; background: pink none repeat scroll 0% 0%; padding: 2rem;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>',"", 1);
+INSERT INTO block(position, content, blockURL, status) VALUES("BOTTOM",  '<div style="color: white; background: pink none repeat scroll 0% 0%; padding: 2rem;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>',"", 1);
+INSERT INTO block(position, content, blockURL, status) VALUES("FOOTER_COL_LEFT",  '<div style="color: white; background: pink none repeat scroll 0% 0%; padding: 2rem;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>',"", 1);
+INSERT INTO block(position, content, blockURL, status) VALUES("FOOTER_COL_CENTER",  '<div style="color: white; background: pink none repeat scroll 0% 0%; padding: 2rem;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>',"", 1);
+INSERT INTO block(position, content, blockURL, status) VALUES("FOOTER_COL_RIGHT",  '<div style="color: white; background: pink none repeat scroll 0% 0%; padding: 2rem;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>',"", 1);

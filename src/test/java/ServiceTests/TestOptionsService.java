@@ -10,8 +10,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import shop.main.config.AppContextConfig;
-import shop.main.data.objects.Option;
-import shop.main.data.objects.OptionGroup;
+import shop.main.data.entity.Option;
+import shop.main.data.entity.OptionGroup;
 import shop.main.data.service.OptionGroupService;
 import shop.main.data.service.OptionService;
 
