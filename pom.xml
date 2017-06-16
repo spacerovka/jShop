@@ -63,6 +63,12 @@
 			<!-- <version>${spring.security.version}</version> -->
 		</dependency>
 
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<!-- <version>17.0</version> -->
+		</dependency>
+
 		<!-- Spring ORM -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -106,7 +112,7 @@
 			<groupId>javax.servlet.jsp</groupId>
 			<artifactId>javax.servlet.jsp-api</artifactId>
 			<!-- <version>${jsp.version}</version> -->
-		</dependency> 
+		</dependency>
 
 		<dependency>
 			<groupId>javax.inject</groupId>
@@ -166,6 +172,17 @@
 			<!-- <version>5.1.10</version> -->
 		</dependency>
 
+		<!-- Apache HttpClient -->
+
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpcore</artifactId>
+		</dependency>
 
 		<!-- JSON processing -->
 
@@ -187,29 +204,29 @@
 			<artifactId>junit</artifactId>
 			<!-- <version>${junit.version}</version> -->
 		</dependency>
-		
+
 		<!--File upload -->
 		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
 			<!-- <version>1.2.1</version> --> <!-- makesure correct version here -->
 		</dependency>
-		
+
 		<!-- Apache commons -->
 		<dependency>
-		    <groupId>org.apache.commons</groupId> 
-		    <artifactId>commons-lang3</artifactId>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
 		</dependency>
-		
+
 		<dependency>
-		   <groupId>javax.el</groupId>
-		   <artifactId>javax.el-api</artifactId>
-		   
+			<groupId>javax.el</groupId>
+			<artifactId>javax.el-api</artifactId>
+
 		</dependency>
 		<dependency>
-		   <groupId>org.glassfish.web</groupId>
-		   <artifactId>javax.el</artifactId>
-		   <version>2.2.4</version>
+			<groupId>org.glassfish.web</groupId>
+			<artifactId>javax.el</artifactId>
+			<version>2.2.4</version>
 		</dependency>
 
 	</dependencies>

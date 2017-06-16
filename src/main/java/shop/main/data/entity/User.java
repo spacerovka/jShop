@@ -12,9 +12,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.groups.Default;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import shop.main.auth.FormValidationGroup;
 import shop.main.validation.ValidEmail;
 import shop.main.validation.ValidPassword;
 
@@ -25,21 +27,21 @@ public class User {
 	@Column(name = "id")
 	private Long id;
 
-	@NotNull
-	@NotEmpty
-	@ValidEmail
+	@NotNull(groups = { Default.class, FormValidationGroup.class })
+	@NotEmpty(groups = { Default.class, FormValidationGroup.class })
+	@ValidEmail(groups = { Default.class, FormValidationGroup.class })
 	@Column(name = "email", nullable = true, length = 500, unique = true)
 	private String email;
 
 	@Id
-	@NotNull
-	@NotEmpty
+	@NotNull(groups = { Default.class, FormValidationGroup.class })
+	@NotEmpty(groups = { Default.class, FormValidationGroup.class })
 	@Column(name = "username", unique = true, nullable = false, length = 45)
 	private String userName;
 
-	@NotNull
-	@NotEmpty
-	@ValidPassword
+	@NotNull(groups = { Default.class, FormValidationGroup.class })
+	@NotEmpty(groups = { Default.class, FormValidationGroup.class })
+	@ValidPassword(groups = FormValidationGroup.class)
 	@Column(name = "password", nullable = false, length = 60)
 	private String password;
 
@@ -54,6 +56,9 @@ public class User {
 
 	@Column(name = "lastName", nullable = true, length = 50)
 	private String lastName;
+
+	@Column(name = "country", nullable = true, length = 90)
+	private String country;
 
 	@Column(name = "city", nullable = true, length = 90)
 	private String city;
@@ -225,26 +230,21 @@ public class User {
 		this.address = address;
 	}
 
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((address == null) ? 0 : address.hashCode());
-		result = prime * result + ((city == null) ? 0 : city.hashCode());
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + (emailVerified ? 1231 : 1237);
-		result = prime * result + (enabled ? 1231 : 1237);
-		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((ip == null) ? 0 : ip.hashCode());
-		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
-		result = prime * result + ((phone == null) ? 0 : phone.hashCode());
-		result = prime * result + ((registerDate == null) ? 0 : registerDate.hashCode());
-		result = prime * result + ((state == null) ? 0 : state.hashCode());
 		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
-		result = prime * result + ((verification_code == null) ? 0 : verification_code.hashCode());
-		result = prime * result + ((zip == null) ? 0 : zip.hashCode());
+		result = prime * result + ((userRole == null) ? 0 : userRole.hashCode());
 		return result;
 	}
 
@@ -257,61 +257,20 @@ public class User {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-
-		if (email == null) {
-			if (other.email != null)
-				return false;
-		} else if (!email.equals(other.email))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (ip == null) {
-			if (other.ip != null)
-				return false;
-		} else if (!ip.equals(other.ip))
-			return false;
-		if (lastName == null) {
-			if (other.lastName != null)
-				return false;
-		} else if (!lastName.equals(other.lastName))
-			return false;
 		if (password == null) {
 			if (other.password != null)
 				return false;
 		} else if (!password.equals(other.password))
-			return false;
-		if (phone == null) {
-			if (other.phone != null)
-				return false;
-		} else if (!phone.equals(other.phone))
-			return false;
-		if (registerDate == null) {
-			if (other.registerDate != null)
-				return false;
-		} else if (!registerDate.equals(other.registerDate))
-			return false;
-		if (state == null) {
-			if (other.state != null)
-				return false;
-		} else if (!state.equals(other.state))
 			return false;
 		if (userName == null) {
 			if (other.userName != null)
 				return false;
 		} else if (!userName.equals(other.userName))
 			return false;
-		if (verification_code == null) {
-			if (other.verification_code != null)
+		if (userRole == null) {
+			if (other.userRole != null)
 				return false;
-		} else if (!verification_code.equals(other.verification_code))
-			return false;
-		if (zip == null) {
-			if (other.zip != null)
-				return false;
-		} else if (!zip.equals(other.zip))
+		} else if (!userRole.equals(other.userRole))
 			return false;
 		return true;
 	}
@@ -320,9 +279,9 @@ public class User {
 	public String toString() {
 		return "User [id=" + id + ", email=" + email + ", userName=" + userName + ", password=" + password
 				+ ", enabled=" + enabled + ", userRole=" + userRole + ", firstName=" + firstName + ", lastName="
-				+ lastName + ", city=" + city + ", state=" + state + ", zip=" + zip + ", emailVerified=" + emailVerified
-				+ ", registerDate=" + registerDate + ", verification_code=" + verification_code + ", ip=" + ip
-				+ ", phone=" + phone + ", address=" + address + "]";
+				+ lastName + ", country=" + country + ", city=" + city + ", state=" + state + ", zip=" + zip
+				+ ", emailVerified=" + emailVerified + ", registerDate=" + registerDate + ", verification_code="
+				+ verification_code + ", ip=" + ip + ", phone=" + phone + ", address=" + address + "]";
 	}
 
 	public boolean isNew() {

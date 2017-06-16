@@ -49,6 +49,11 @@
 			<label>Password*</label>
 			<form:input class="form-control" path="password" id="password" />
 		</div>
+		
+		<div class="g-recaptcha col-sm-5"
+          data-sitekey="${CAPTCHA_SITE}"></div>
+        <span id="captchaError" class="alert alert-danger col-sm-4"
+          style="display:none"></span>
 
 		<div class="form-group text-center col-xs-12">
 			<button type="submit" class="btn btn-success">Register</button>

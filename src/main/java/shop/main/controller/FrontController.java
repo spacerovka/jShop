@@ -10,10 +10,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import shop.main.captcha.CaptchaSettings;
+import shop.main.captcha.ReCaptchaService;
 import shop.main.data.entity.Block;
 import shop.main.data.entity.MenuItem;
 import shop.main.data.service.BlockService;
@@ -23,6 +26,7 @@ import shop.main.data.service.ProductOptionService;
 import shop.main.data.service.ProductService;
 import shop.main.data.service.SitePropertyService;
 import shop.main.data.service.StaticPageService;
+import shop.main.data.service.UserService;
 import shop.main.utils.Constants;
 
 @Controller
@@ -58,7 +62,21 @@ public class FrontController {
 	private BlockService blockService;
 
 	@Autowired
+	protected UserService userService;
+
+	@Autowired
 	protected ServletContext context;
+
+	@Autowired
+	protected CaptchaSettings captchaSettings;
+
+	@Autowired
+	protected ReCaptchaService reCaptchaService;
+
+	@ModelAttribute("CAPTCHA_SITE")
+	public String getCaptchaSite(@Value("${google.recaptcha.key.site}") String recaptchaSiteKey) {
+		return recaptchaSiteKey;
+	}
 
 	@ModelAttribute("SITE_NAME")
 	public String getSiteName() {

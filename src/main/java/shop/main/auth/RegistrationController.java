@@ -2,13 +2,14 @@ package shop.main.auth;
 
 import java.util.stream.Collectors;
 
-import javax.validation.Valid;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,7 +18,6 @@ import org.springframework.web.context.request.WebRequest;
 import shop.main.controller.FrontController;
 import shop.main.data.entity.User;
 import shop.main.data.service.UserRoleService;
-import shop.main.data.service.UserService;
 import shop.main.validation.EmailExistsException;
 
 @Controller
@@ -25,9 +25,6 @@ public class RegistrationController extends FrontController {
 
 	@Autowired
 	PasswordEncoder passwordEncoder;
-
-	@Autowired
-	private UserService userService;
 
 	@Autowired
 	private UserRoleService userRoleService;
@@ -40,13 +37,24 @@ public class RegistrationController extends FrontController {
 	}
 
 	@RequestMapping(value = "/registeruser", method = RequestMethod.POST)
-	public String registerUser(@ModelAttribute("user") @Valid User user, BindingResult result, Model model) {
+	public String registerUser(@ModelAttribute("user") @Validated(FormValidationGroup.class) User user,
+			BindingResult result, Model model, HttpServletRequest request) {
+
 		if (result.hasErrors()) {
 			model.addAttribute("errorSummary", result.getFieldErrors().stream()
 					.map(e -> e.getField() + " error - " + e.getDefaultMessage() + " ").collect(Collectors.toList()));
 			model.addAttribute("user", user);
 
 		} else {
+			String response = request.getParameter("g-recaptcha-response");
+			System.out.println("response " + response);
+			// try {
+			// reCaptchaService.processResponse(response);
+			// } catch (Exception e) {
+			// model.addAttribute("errorSummary", "Captcha exception!");
+			// model.addAttribute("user", user);
+			// return "registration";
+			// }
 			User registered = null;
 			registered = createUserAccount(user, result);
 
