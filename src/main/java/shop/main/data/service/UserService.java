@@ -16,7 +16,7 @@ public interface UserService {
 
 	User fingUserById(long id);
 
-	User findByUserName(String username);
+	User findByUsername(String username);
 
 	User registerNewUserAccount(User accountDto) throws EmailExistsException;
 }

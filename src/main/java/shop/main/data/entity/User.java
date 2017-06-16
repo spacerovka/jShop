@@ -16,7 +16,7 @@ import javax.validation.groups.Default;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import shop.main.auth.FormValidationGroup;
+import shop.main.validation.FormValidationGroup;
 import shop.main.validation.ValidEmail;
 import shop.main.validation.ValidPassword;
 
@@ -37,7 +37,7 @@ public class User {
 	@NotNull(groups = { Default.class, FormValidationGroup.class })
 	@NotEmpty(groups = { Default.class, FormValidationGroup.class })
 	@Column(name = "username", unique = true, nullable = false, length = 45)
-	private String userName;
+	private String username;
 
 	@NotNull(groups = { Default.class, FormValidationGroup.class })
 	@NotEmpty(groups = { Default.class, FormValidationGroup.class })
@@ -110,12 +110,12 @@ public class User {
 		this.email = email;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUsername(String userName) {
+		this.username = userName;
 	}
 
 	public String getPassword() {
@@ -243,7 +243,7 @@ public class User {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
-		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
+		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		result = prime * result + ((userRole == null) ? 0 : userRole.hashCode());
 		return result;
 	}
@@ -262,10 +262,10 @@ public class User {
 				return false;
 		} else if (!password.equals(other.password))
 			return false;
-		if (userName == null) {
-			if (other.userName != null)
+		if (username == null) {
+			if (other.username != null)
 				return false;
-		} else if (!userName.equals(other.userName))
+		} else if (!username.equals(other.username))
 			return false;
 		if (userRole == null) {
 			if (other.userRole != null)
@@ -277,7 +277,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", email=" + email + ", userName=" + userName + ", password=" + password
+		return "User [id=" + id + ", email=" + email + ", userName=" + username + ", password=" + password
 				+ ", enabled=" + enabled + ", userRole=" + userRole + ", firstName=" + firstName + ", lastName="
 				+ lastName + ", country=" + country + ", city=" + city + ", state=" + state + ", zip=" + zip
 				+ ", emailVerified=" + emailVerified + ", registerDate=" + registerDate + ", verification_code="

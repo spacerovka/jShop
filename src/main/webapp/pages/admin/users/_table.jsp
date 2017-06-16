@@ -22,7 +22,7 @@
                                 	<tr>
                                         <td>${user.id}</td>
                                         <td><core:forEach items="${user.userRole}" var="role">${role.role} </core:forEach></td>
-                                        <td>${user.userName}</td>                                        
+                                        <td>${user.username}</td>                                        
                                         <td>${user.email}</td>
                                         <td>
                                         	<core:choose>

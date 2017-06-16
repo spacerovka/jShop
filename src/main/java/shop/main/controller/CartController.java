@@ -11,13 +11,13 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
-import javax.validation.Validator;
 import javax.validation.groups.Default;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -68,7 +68,16 @@ public class CartController extends FrontController implements ResourceLoaderAwa
 	public String checkoutPage(Model model, HttpServletRequest request) {
 		Order currentOrder = getOrCreateOrder(request);
 		if (currentOrder.getSum().intValue() != 0) {
-			model.addAttribute("orderUserWrapper", new OrderUserWrapper(currentOrder, new User()));
+			OrderUserWrapper wrapper = new OrderUserWrapper(currentOrder, new User());
+			User authorizeduser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			if (authorizeduser != null) {
+				String username = authorizeduser.getUsername();
+				shop.main.data.entity.User savedUser = userService.findByUsername(username);
+				if (savedUser != null) {
+					wrapper.setUser(savedUser);
+				}
+			}
+			model.addAttribute("orderUserWrapper", wrapper);
 			model.addAttribute("countryList", getCountryList());
 			return "checkout";
 		} else {
@@ -134,26 +143,42 @@ public class CartController extends FrontController implements ResourceLoaderAwa
 		return order;
 	}
 
-	@Autowired
-	private Validator validator;
-
 	@RequestMapping(value = "/orderPlaced", method = RequestMethod.POST)
 	public String orderPlaced(OrderUserWrapper orderUserWrapper, HttpServletRequest request, Model model) {
-		// create order from session
-		// save order
-		// add order in model
-		// if order!=null return success page
-		// if order is null redirect to cart page
+
+		if (orderUserWrapper.isCreateUser()) {
+			orderUserWrapper.getUser().setEnabled(true);
+			ArrayList<String> errors = new ArrayList<String>();
+			// validate username and email
+			Set<ConstraintViolation<User>> results = Validation.buildDefaultValidatorFactory().getValidator()
+					.validate(orderUserWrapper.getUser(), Default.class);
+			for (ConstraintViolation<User> error : results) {
+				System.out.println("+ + +" + error.getMessage() + " " + error.getInvalidValue());
+				errors.add(error.getMessage());
+			}
+			User registered = null;
+			if (errors.isEmpty()) {
+				registered = createUserAccount(orderUserWrapper.getUser());
+			}
+			if (registered == null) {
+				model.addAttribute("orderUserWrapper", orderUserWrapper);
+				model.addAttribute("countryList", getCountryList());
+				if (errors.isEmpty()) {
+					errors.add("User with this email is already registered!");
+				}
+				model.addAttribute("errorSummary", errors);
+				return "checkout";
+			}
+		} else {
+			User authorizeduser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			if (authorizeduser != null) {
+				orderUserWrapper.setUsername(authorizeduser.getUsername());
+			}
+		}
+
 		Order currentOrder = getOrCreateOrder(request);
 		if (currentOrder.getSum().intValue() != 0) {
-			currentOrder.setUserName(orderUserWrapper.getOrder().getUserName());
-			currentOrder.setCountry(orderUserWrapper.getOrder().getCountry());
-			currentOrder.setState(orderUserWrapper.getOrder().getState());
-			currentOrder.setCity(orderUserWrapper.getOrder().getCity());
-			currentOrder.setShipAddress(orderUserWrapper.getOrder().getShipAddress());
-			currentOrder.setZip(orderUserWrapper.getOrder().getZip());
-			currentOrder.setPhone(orderUserWrapper.getOrder().getPhone());
-			currentOrder.setEmail(orderUserWrapper.getOrder().getEmail());
+			Order.getDataFromWrapper(currentOrder, orderUserWrapper);
 			String orderCount = String.valueOf(orderRepository.findAll().size());
 			if (orderCount.length() < 8) {
 				orderCount = "0" + orderCount;
@@ -164,31 +189,6 @@ public class CartController extends FrontController implements ResourceLoaderAwa
 			orderRepository.save(currentOrder);
 			request.getSession().setAttribute("CURRENT_ORDER", null);
 			model.addAttribute("order", currentOrder);
-
-			if (orderUserWrapper.isCreateUser()) {
-				orderUserWrapper.getUser().setEnabled(true);
-				ArrayList<String> errors = new ArrayList<String>();
-				// validate username and email
-				Set<ConstraintViolation<User>> results = Validation.buildDefaultValidatorFactory().getValidator()
-						.validate(orderUserWrapper.getUser(), Default.class);
-				for (ConstraintViolation<User> error : results) {
-					System.out.println("+ + +" + error.getMessage() + " " + error.getInvalidValue());
-					errors.add(error.getMessage());
-				}
-				User registered = null;
-				if (errors.isEmpty()) {
-					registered = createUserAccount(orderUserWrapper.getUser());
-				}
-				if (registered == null) {
-					model.addAttribute("orderUserWrapper", orderUserWrapper);
-					model.addAttribute("countryList", getCountryList());
-					if (errors.isEmpty()) {
-						errors.add("User with this email is already registered!");
-					}
-					model.addAttribute("errorSummary", errors);
-					return "checkout";
-				}
-			}
 
 			return "order_placed";
 		} else {

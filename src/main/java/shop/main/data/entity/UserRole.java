@@ -69,7 +69,7 @@ public class UserRole {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((role == null) ? 0 : role.hashCode());
-		result = prime * result + ((user == null) ? 0 : user.getUserName().hashCode());
+		result = prime * result + ((user == null) ? 0 : user.getUsername().hashCode());
 		result = prime * result + ((userRoleId == null) ? 0 : userRoleId.hashCode());
 		return result;
 	}
@@ -91,7 +91,7 @@ public class UserRole {
 		if (user == null) {
 			if (other.user != null)
 				return false;
-		} else if (!user.getUserName().equals(other.user.getUserName()))
+		} else if (!user.getUsername().equals(other.user.getUsername()))
 			return false;
 		if (userRoleId == null) {
 			if (other.userRoleId != null)
@@ -103,7 +103,8 @@ public class UserRole {
 
 	@Override
 	public String toString() {
-		return "UserRole [userRoleId=" + userRoleId + ", user=" + user.getUserName() + ", role=" + role + "]";
+		return "UserRole [userRoleId=" + userRoleId + ", user=" + (user == null ? "null" : user.getUsername())
+				+ ", role=" + role + "]";
 	}
 
 }

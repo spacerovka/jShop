@@ -66,9 +66,9 @@ public class UserServiceImpl implements UserService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public User findByUserName(String username) {
+	public User findByUsername(String username) {
 
-		return userDAO.findOneByUserName(username);
+		return userDAO.findUserByUsername(username);
 
 	}
 

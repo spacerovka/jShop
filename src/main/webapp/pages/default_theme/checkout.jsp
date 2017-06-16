@@ -103,7 +103,7 @@
 						<div class="form-group  col-xs-12 col-md-6">
 							<label>Username/login*</label>
 							<form:input class="form-control" placeholder="John R Smith"
-								path="user.userName" />
+								path="user.username" />
 						</div>
 
 						<div class="form-group col-xs-12 col-md-6">

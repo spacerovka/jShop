@@ -1,6 +1,7 @@
 package shop.main.controller;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -53,6 +54,7 @@ public class PagesController extends FrontController {
 		}
 		model.addAttribute("products", products);
 		model.addAttribute("images", URLUtils.getMinPageImages(context));
+		System.out.println("end***************************main page" + LocalDateTime.now());
 		return "index";
 	}
 
@@ -111,7 +113,8 @@ public class PagesController extends FrontController {
 	}
 
 	@RequestMapping(value = "/{url}")
-	public String displayPageByUrl(@PathVariable("url") String url, Model model) {
+	public String displayPageByUrl(@PathVariable("url") String url, Model model) throws Exception {
+
 		System.out.println("url is " + url);
 		Category category = categoryService.fingCategoryByUrl(url);
 		StaticPage page = staticPageService.findOneByURL(url);
@@ -122,7 +125,8 @@ public class PagesController extends FrontController {
 			model.addAttribute("page", page);
 			return "staticPage";
 		} else {
-			return "redirect:/";
+			// return "redirect:/";
+			throw new Exception("Ты дурак!");
 		}
 
 	}

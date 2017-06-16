@@ -9,7 +9,7 @@
 
 <!--Items List-->
 <div class="col-xs-12 col-md-6">
-	<form:form action="${pageContext.request.contextPath}/registeruser"
+	<form:form action="${pageContext.request.contextPath}/registration"
 		method="post" modelAttribute="user">
 
 
@@ -38,11 +38,11 @@
 			<label>Last Name</label>
 			<form:input class="form-control" path="lastName" id="lastName" />
 		</div>
-
+	<h4>Pick a username and a password for your account</h4>
 		<div class="form-group  col-xs-12 col-md-6">
 			<label>Username/login*</label>
 			<form:input class="form-control" placeholder="John R Smith"
-				path="userName" id="userName" />
+				path="username" id="userName" />
 		</div>
 
 		<div class="form-group col-xs-12 col-md-6">

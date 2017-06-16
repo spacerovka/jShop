@@ -79,13 +79,13 @@
 	<script>
 	function searchButtonClick()
 	{
-		var username = $('#searchUsername').val();
+		var fullname = $('#searchUsername').val();
 		var phone = $('#searchPhone').val();	
 		var email = $('#searchEmail').val();
 		$.ajax ({ 
 			url: '${pageContext.request.contextPath}/a/findOrder', 
 			type: "POST", 						
-			data : {username:username, phone:phone, email:email},
+			data : {fullname:fullname, phone:phone, email:email},
 			complete: function(response){
 				$('#table').html(response.responseText);
 			}

@@ -17,6 +17,7 @@ public class OrderUserWrapper {
 	private String country;
 	private String phone;
 	private String email;
+	private String username;
 
 	public OrderUserWrapper() {
 		order = new Order();
@@ -34,6 +35,15 @@ public class OrderUserWrapper {
 
 	public void setUser(User user) {
 		this.user = user;
+		this.getOrder().setUsername(user.getUsername());
+		this.getOrder().setFullName(user.getFirstName() + " " + user.getLastName());
+		this.getOrder().setCountry(user.getCountry());
+		this.getOrder().setState(user.getState());
+		this.getOrder().setCity(user.getCity());
+		this.getOrder().setShipAddress(user.getAddress());
+		this.getOrder().setZip(user.getZip());
+		this.getOrder().setPhone(user.getPhone());
+		this.getOrder().setEmail(user.getEmail());
 	}
 
 	public Order getOrder() {
@@ -59,7 +69,7 @@ public class OrderUserWrapper {
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 		user.setFirstName(firstName);
-		order.setUserName(this.firstName + " " + this.lastName);
+		order.setFullName(this.firstName + " " + this.lastName);
 	}
 
 	public String getLastName() {
@@ -69,7 +79,7 @@ public class OrderUserWrapper {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 		user.setLastName(lastName);
-		order.setUserName(this.firstName + " " + this.lastName);
+		order.setFullName(this.firstName + " " + this.lastName);
 	}
 
 	public String getShipAddress() {
@@ -142,6 +152,16 @@ public class OrderUserWrapper {
 		this.email = email;
 		user.setEmail(email);
 		order.setEmail(email);
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+		order.setUsername(username);
+		user.setUsername(username);
 	}
 
 }

@@ -51,7 +51,7 @@
 							<div class="form-group">
 								<label>Username(login)*</label>
 								<form:input class="form-control"
-									placeholder="Username for login" path="userName" id="userName" />
+									placeholder="Username for login" path="username" id="userName" />
 							</div>
 
 							<div class="form-group">

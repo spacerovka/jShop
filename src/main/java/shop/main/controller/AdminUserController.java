@@ -6,13 +6,13 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.servlet.ServletContext;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +24,7 @@ import shop.main.data.entity.UserRole;
 import shop.main.data.service.UserRoleService;
 import shop.main.data.service.UserService;
 import shop.main.utils.Constants;
+import shop.main.validation.FormValidationGroup;
 
 @Controller
 public class AdminUserController {
@@ -48,8 +49,8 @@ public class AdminUserController {
 	}
 
 	@RequestMapping(value = "/a/user", method = RequestMethod.POST)
-	public String saveUser(@ModelAttribute("user") @Valid User user, Model model, BindingResult result,
-			final RedirectAttributes redirectAttributes) {
+	public String saveUser(@ModelAttribute("user") @Validated(FormValidationGroup.class) User user, Model model,
+			BindingResult result, final RedirectAttributes redirectAttributes) {
 
 		if (result.hasErrors()
 				|| (user.getId() == null && (user.getPassword() == null || user.getPassword().isEmpty()))) {

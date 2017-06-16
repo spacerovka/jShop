@@ -8,7 +8,7 @@ import shop.main.data.entity.User;
 
 public interface UserDAO extends CrudRepository<User, Long> {
 
-	User findUserByUserName(String username);
+	User findUserByUsername(String username);
 
 	User findUserById(Long id);
 
@@ -16,6 +16,6 @@ public interface UserDAO extends CrudRepository<User, Long> {
 
 	User findByEmail(String email);
 
-	User findOneByUserName(String username);
+	User findOneByUsername(String username);
 
 }

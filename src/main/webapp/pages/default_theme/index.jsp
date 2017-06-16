@@ -119,8 +119,7 @@
 
 	<h1
 		style="top: 50%; left: 20%; font-size: 60px; color: red; background: rgb(255, 255, 255) none repeat scroll 0% 0%; padding: 30px; opacity: 0.8;">
-		Hello World! <a href="${pageContext.request.contextPath}/login">Login
-			to Journal</a>
+		Hello World! <a href="${pageContext.request.contextPath}/login">Login</a>
 	</h1>
 
 	<%@include file="template_parts/popup_add_to_cart.jsp"%>

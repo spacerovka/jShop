@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,47 +19,43 @@ import shop.main.data.entity.UserRole;
 import shop.main.data.service.UserService;
 
 @Service("authenticationDetailsService")
-public class AuthenticationDetailsService implements UserDetailsService{
+public class AuthenticationDetailsService implements UserDetailsService {
 
-		@Autowired
-		private UserService userService;
+	@Autowired
+	private UserService userService;
 
-		@Transactional(readOnly=true)
-		@Override
-		public UserDetails loadUserByUsername(final String username)
-			throws UsernameNotFoundException {
+	@Transactional(readOnly = true)
+	@Override
+	public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
 
-			shop.main.data.entity.User user = userService.findByUserName(username);
-			if(user == null){
-				throw new UsernameNotFoundException("Can not find user: "+username);
-			}
-			List<GrantedAuthority> authorities =
-	                                      buildUserAuthority(user.getUserRole());
+		shop.main.data.entity.User user = userService.findByUsername(username);
+		if (user == null) {
+			throw new UsernameNotFoundException("Can not find user: " + username);
+		}
+		List<GrantedAuthority> authorities = buildUserAuthority(user.getUserRole());
 
-			return buildUserForAuthentication(user, authorities);
+		return buildUserForAuthentication(user, authorities);
 
+	}
+
+	// Converts shop.main.data.objects.User user to
+	// org.springframework.security.core.userdetails.User
+	private User buildUserForAuthentication(shop.main.data.entity.User user, List<GrantedAuthority> authorities) {
+		return new User(user.getUsername(), user.getPassword(), user.getEnabled(), true, true, true, authorities);
+	}
+
+	private List<GrantedAuthority> buildUserAuthority(Set<UserRole> userRoles) {
+
+		Set<GrantedAuthority> setAuths = new HashSet<GrantedAuthority>();
+
+		// Build user's authorities
+		for (UserRole userRole : userRoles) {
+			setAuths.add(new SimpleGrantedAuthority(userRole.getRole()));
 		}
 
-		// Converts shop.main.data.objects.User user to
-		// org.springframework.security.core.userdetails.User
-		private User buildUserForAuthentication(shop.main.data.entity.User user,
-			List<GrantedAuthority> authorities) {
-			return new User(user.getUserName(), user.getPassword(),
-				user.getEnabled(), true, true, true, authorities);
-		}
+		List<GrantedAuthority> Result = new ArrayList<GrantedAuthority>(setAuths);
 
-		private List<GrantedAuthority> buildUserAuthority(Set<UserRole> userRoles) {
-
-			Set<GrantedAuthority> setAuths = new HashSet<GrantedAuthority>();
-
-			// Build user's authorities
-			for (UserRole userRole : userRoles) {
-				setAuths.add(new SimpleGrantedAuthority(userRole.getRole()));
-			}
-
-			List<GrantedAuthority> Result = new ArrayList<GrantedAuthority>(setAuths);
-
-			return Result;
-		}
+		return Result;
+	}
 
 }

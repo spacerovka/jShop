@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +20,7 @@ import shop.main.controller.FrontController;
 import shop.main.data.entity.User;
 import shop.main.data.service.UserRoleService;
 import shop.main.validation.EmailExistsException;
+import shop.main.validation.FormValidationGroup;
 
 @Controller
 public class RegistrationController extends FrontController {
@@ -29,6 +31,11 @@ public class RegistrationController extends FrontController {
 	@Autowired
 	private UserRoleService userRoleService;
 
+	@ModelAttribute("CAPTCHA_SITE")
+	public String getCaptchaSite(@Value("${google.recaptcha.key.site}") String recaptchaSiteKey) {
+		return recaptchaSiteKey;
+	}
+
 	@RequestMapping(value = "/registration", method = RequestMethod.GET)
 	public String showRegistrationForm(WebRequest request, Model model) {
 		User user = new User();
@@ -36,7 +43,7 @@ public class RegistrationController extends FrontController {
 		return "registration";
 	}
 
-	@RequestMapping(value = "/registeruser", method = RequestMethod.POST)
+	@RequestMapping(value = "/registration", method = RequestMethod.POST)
 	public String registerUser(@ModelAttribute("user") @Validated(FormValidationGroup.class) User user,
 			BindingResult result, Model model, HttpServletRequest request) {
 
