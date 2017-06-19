@@ -2,8 +2,11 @@ package shop.main.data.service;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -16,8 +19,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import shop.main.data.DAO.UserDAO;
+import shop.main.data.DAO.VerificationTokenDAO;
 import shop.main.data.entity.User;
 import shop.main.data.entity.UserRole;
+import shop.main.data.entity.VerificationToken;
 import shop.main.utils.Constants;
 import shop.main.validation.EmailExistsException;
 
@@ -30,10 +35,17 @@ public class UserServiceImpl implements UserService {
 	private UserDAO userDAO;
 
 	@Autowired
+	private VerificationTokenDAO verificationTokenDAO;
+
+	@Autowired
 	PasswordEncoder passwordEncoder;
 
 	@PersistenceContext
 	protected EntityManager entityManager;
+
+	public static final String TOKEN_INVALID = "invalidToken";
+	public static final String TOKEN_EXPIRED = "expired";
+	public static final String TOKEN_VALID = "valid";
 
 	@Transactional
 	@Override
@@ -103,6 +115,52 @@ public class UserServiceImpl implements UserService {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public void createVerificationTokenForUser(User user, String token) {
+		VerificationToken myToken = new VerificationToken(token, user);
+		verificationTokenDAO.save(myToken);
+	}
+
+	@Override
+	public VerificationToken getVerificationToken(String VerificationToken) {
+
+		return verificationTokenDAO.findByToken(VerificationToken);
+	}
+
+	@Override
+	public VerificationToken generateNewVerificationToken(final String existingVerificationToken) {
+		VerificationToken vToken = verificationTokenDAO.findByToken(existingVerificationToken);
+		vToken.updateToken(UUID.randomUUID().toString());
+		vToken = verificationTokenDAO.save(vToken);
+		return vToken;
+	}
+
+	@Override
+	public String validateVerificationToken(String token) {
+		final VerificationToken verificationToken = verificationTokenDAO.findByToken(token);
+		if (verificationToken == null) {
+			return TOKEN_INVALID;
+		}
+
+		final User user = verificationToken.getUser();
+		final LocalDateTime tooday = LocalDateTime.now();
+		if (Duration.between(verificationToken.getExpiryDate(), tooday).toMillis() <= 0) {
+			verificationTokenDAO.delete(verificationToken);
+			return TOKEN_EXPIRED;
+		}
+
+		user.setEnabled(true);
+		// tokenRepository.delete(verificationToken);
+		save(user);
+		return TOKEN_VALID;
+	}
+
+	@Override
+	public User getUserByToken(String verificationToken) {
+		User user = verificationTokenDAO.findByToken(verificationToken).getUser();
+		return user;
 	}
 
 }

@@ -45,6 +45,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	MyAuthenticationSuccessHandler successHandler;
 
+	@Autowired
+	MyAuthenticationFailureHandler failureHandle;
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
@@ -54,9 +57,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.access("hasAuthority('" + Constants.RoleType.ADMIN.name() + "')").and().formLogin().loginPage("/login")
 				.defaultSuccessUrl("/user/cabinet")
 				// .loginSuccessHandler(logoutSuccessHandler)
-				.failureUrl("/accessDenied").successHandler(successHandler).usernameParameter("username")
-				.passwordParameter("password").and().exceptionHandling().accessDeniedPage("/accessdenied").and()
-				.logout()
+				.failureUrl("/accessDenied").successHandler(successHandler).failureHandler(failureHandle)
+				.usernameParameter("username").passwordParameter("password").and().exceptionHandling()
+				.accessDeniedPage("/accessdenied").and().logout()
 				// .logoutSuccessUrl("/login?logout")
 				.logoutSuccessUrl("/");
 

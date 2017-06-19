@@ -1,11 +1,15 @@
 package shop.main.auth;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,11 +18,12 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
 
 import shop.main.controller.FrontController;
 import shop.main.data.entity.User;
-import shop.main.data.service.UserRoleService;
+import shop.main.data.entity.VerificationToken;
 import shop.main.validation.EmailExistsException;
 import shop.main.validation.FormValidationGroup;
 
@@ -27,7 +32,7 @@ public class RegistrationController extends FrontController {
 
 	@Autowired
 	PasswordEncoder passwordEncoder;
-	
+
 	@Autowired
 	ApplicationEventPublisher eventPublisher;
 
@@ -70,22 +75,50 @@ public class RegistrationController extends FrontController {
 				model.addAttribute("user", user);
 				return "registration";
 			}
-			//TODO Generate the VerificationToken for the User and persist it
-			//TODO Send out the email message for account confirmation – which includes a confirmation link with the VerificationToken’s value
-			
+			// TODO Generate the VerificationToken for the User and persist it
+			// TODO Send out the email message for account confirmation – which
+			// includes a confirmation link with the VerificationToken’s value
+
 			try {
-		        String appUrl = request.getContextPath();
-		        eventPublisher.publishEvent(new OnRegistrationCompleteEvent
-		          (registered, request.getLocale(), appUrl));
-		    } catch (Exception me) {
-		    	model.addAttribute("errorSummary", "Validation token error!"+me);
+				String appUrl = request.getContextPath();
+				eventPublisher.publishEvent(new OnRegistrationCompleteEvent(registered, request.getLocale(), appUrl));
+			} catch (Exception me) {
+				model.addAttribute("errorSummary", "Validation token error!" + me);
 				model.addAttribute("user", user);
-				return "registration";		    }
-			
+				return "registration";
+			}
+
 			model.addAttribute("flashMessage", "User registered successfully!");
 		}
 
 		return "registration";
+	}
+
+	@RequestMapping(value = "/regitrationConfirm", method = RequestMethod.GET)
+	public String confirmRegistration(WebRequest request, Model model, @RequestParam("token") String token) {
+
+		Locale locale = request.getLocale();
+
+		VerificationToken verificationToken = userService.getVerificationToken(token);
+		if (verificationToken == null) {
+			String message = "Invalid Token";
+			// = messages.getMessage("auth.message.invalidToken", null, locale);
+			model.addAttribute("message", message);
+			return "redirect:/badUser";
+		}
+
+		User user = verificationToken.getUser();
+		LocalDateTime tooday = LocalDateTime.now();
+		if (Duration.between(verificationToken.getExpiryDate(), tooday).toMillis() <= 0) {
+			String messageValue = "Token expired!";
+			// messages.getMessage("auth.message.expired", null, locale)
+			model.addAttribute("message", messageValue);
+			return "redirect:/badUser";
+		}
+
+		user.setEnabled(true);
+		userService.save(user);
+		return "redirect:/login";
 	}
 
 	private User createUserAccount(User accountDto, BindingResult result) {

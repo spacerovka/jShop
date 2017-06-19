@@ -20,28 +20,30 @@ public interface UserService {
 	User findByUsername(String username);
 
 	User registerNewUserAccount(User accountDto) throws EmailExistsException;
-	
-	//email validation
+
+	// email validation
 	void createVerificationTokenForUser(User user, String token);
 
-    VerificationToken getVerificationToken(String VerificationToken);
+	VerificationToken getVerificationToken(String VerificationToken);
 
-    VerificationToken generateNewVerificationToken(String token);
+	VerificationToken generateNewVerificationToken(String token);
 
-    void createPasswordResetTokenForUser(User user, String token);
+	String validateVerificationToken(String token);
 
-    User findUserByEmail(String email);
-    String validateVerificationToken(String token);
-    
-    //reset password
+	User getUserByToken(String verificationToken);
 
-//    PasswordResetToken getPasswordResetToken(String token);
-//
-//    User getUserByPasswordResetToken(String token);
-//
-//    void changeUserPassword(User user, String password);
-//
-//    boolean checkIfValidOldPassword(User user, String password);
+	// reset password
 
-    
+	// User findUserByEmail(String email);
+
+	// void createPasswordResetTokenForUser(User user, String token);
+
+	// PasswordResetToken getPasswordResetToken(String token);
+	//
+	// User getUserByPasswordResetToken(String token);
+	//
+	// void changeUserPassword(User user, String password);
+	//
+	// boolean checkIfValidOldPassword(User user, String password);
+
 }
