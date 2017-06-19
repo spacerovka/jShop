@@ -169,6 +169,9 @@ public class CartController extends FrontController implements ResourceLoaderAwa
 				model.addAttribute("errorSummary", errors);
 				return "checkout";
 			}
+			//TODO Generate the VerificationToken for the User and persist it
+			//TODO Send out the email message for account confirmation – which includes a confirmation link with the VerificationToken’s value
+			
 		} else {
 			User authorizeduser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			if (authorizeduser != null) {

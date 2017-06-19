@@ -37,8 +37,8 @@ public class Option {
 	@OneToMany(mappedBy="option", fetch=FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
 	private List<ProductOption> productOptions;
 	
-	@OneToMany(mappedBy="option", fetch=FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
-	private List<CategoryOption> categoryOptions;
+//	@OneToMany(mappedBy="option", fetch=FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
+//	private List<CategoryOption> categoryOptions;
 
 	public Long getId() {
 		return id;
@@ -74,15 +74,6 @@ public class Option {
 	}
 	
 	
-	
-	public List<CategoryOption> getCategoryOptions() {
-		return categoryOptions;
-	}
-
-	public void setCategoryOptions(List<CategoryOption> categoryOptions) {
-		this.categoryOptions = categoryOptions;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;

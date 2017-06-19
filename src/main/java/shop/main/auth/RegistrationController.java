@@ -27,9 +27,9 @@ public class RegistrationController extends FrontController {
 
 	@Autowired
 	PasswordEncoder passwordEncoder;
-
+	
 	@Autowired
-	private UserRoleService userRoleService;
+	ApplicationEventPublisher eventPublisher;
 
 	@ModelAttribute("CAPTCHA_SITE")
 	public String getCaptchaSite(@Value("${google.recaptcha.key.site}") String recaptchaSiteKey) {
@@ -70,6 +70,18 @@ public class RegistrationController extends FrontController {
 				model.addAttribute("user", user);
 				return "registration";
 			}
+			//TODO Generate the VerificationToken for the User and persist it
+			//TODO Send out the email message for account confirmation – which includes a confirmation link with the VerificationToken’s value
+			
+			try {
+		        String appUrl = request.getContextPath();
+		        eventPublisher.publishEvent(new OnRegistrationCompleteEvent
+		          (registered, request.getLocale(), appUrl));
+		    } catch (Exception me) {
+		    	model.addAttribute("errorSummary", "Validation token error!"+me);
+				model.addAttribute("user", user);
+				return "registration";		    }
+			
 			model.addAttribute("flashMessage", "User registered successfully!");
 		}
 

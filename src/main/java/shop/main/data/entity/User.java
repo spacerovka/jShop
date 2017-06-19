@@ -75,9 +75,6 @@ public class User {
 	@Column(name = "registerDate", nullable = true)
 	private LocalDate registerDate;
 
-	@Column(name = "verification_code", nullable = true, length = 20)
-	private String verification_code;
-
 	@Column(name = "ip", nullable = true, length = 50)
 	private String ip;
 
@@ -198,13 +195,6 @@ public class User {
 		this.registerDate = registerDate;
 	}
 
-	public String getVerification_code() {
-		return verification_code;
-	}
-
-	public void setVerification_code(String verification_code) {
-		this.verification_code = verification_code;
-	}
 
 	public String getIp() {
 		return ip;
@@ -280,8 +270,7 @@ public class User {
 		return "User [id=" + id + ", email=" + email + ", userName=" + username + ", password=" + password
 				+ ", enabled=" + enabled + ", userRole=" + userRole + ", firstName=" + firstName + ", lastName="
 				+ lastName + ", country=" + country + ", city=" + city + ", state=" + state + ", zip=" + zip
-				+ ", emailVerified=" + emailVerified + ", registerDate=" + registerDate + ", verification_code="
-				+ verification_code + ", ip=" + ip + ", phone=" + phone + ", address=" + address + "]";
+				+ ", emailVerified=" + emailVerified + ", registerDate=" + registerDate+ ", ip=" + ip + ", phone=" + phone + ", address=" + address + "]";
 	}
 
 	public boolean isNew() {

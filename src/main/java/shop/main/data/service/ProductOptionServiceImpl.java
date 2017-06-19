@@ -20,7 +20,6 @@ import shop.main.data.DAO.ProductDAO;
 import shop.main.data.DAO.ProductOptionDAO;
 import shop.main.data.DAO.UserDAO;
 import shop.main.data.entity.Category;
-import shop.main.data.entity.CategoryOption;
 import shop.main.data.entity.Option;
 import shop.main.data.entity.Product;
 import shop.main.data.entity.ProductOption;
