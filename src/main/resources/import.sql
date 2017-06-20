@@ -1,7 +1,7 @@
 #USERS
 INSERT INTO user (username, id, enabled, password, email, emailVerified) VALUES ("admin", 1, true, "$2a$10$YAE7dNpvBNMBM7TvTUjnn.N0lsUt9v2jd/4Zf9vgv2lTaVFYUnXzy", "admin@admin", true);
 INSERT INTO user (username, id, enabled, password, email, emailVerified) VALUES ("default", 2, true, "$2a$10$nrOeQ8DX22NStYUuCeIvMeYA6fWfTczFvuynZVTq.7k0bkqGxPpyW", "default@gmail.com", false)
-
+#default Default9
 #ROLES
 INSERT INTO user_roles (username, role) VALUES ("admin", "ADMIN");
 INSERT INTO user_roles (username, role) VALUES ("default", "USER");

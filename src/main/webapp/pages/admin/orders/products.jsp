@@ -8,7 +8,7 @@
 
 
 	<!--Items List-->
-	<div class="col-lg-9 col-md-9">
+	<div class="col-xs-12">
 		<h2 class="title">Products</h2>
 		<table class="items-list">
 			<tbody>
@@ -23,7 +23,7 @@
 				<core:forEach items="${order.product_list}" var="product">
 				<tr class="item first">
 					<td class="thumb"><a href="shop-single-item-v1.html"><img
-					style="max-width: 90%;"
+					style="max-width: 150px;"
 							src="${pageContext.request.contextPath}/resources/uploads/products/${product.value.productId}/main/${product.value.thumb}" 
 							alt="${product.value.product_name}"></a></td>
 					<td class="name"><a href="shop-single-item-v1.html">${product.value.product_name}</a></td>
@@ -41,8 +41,9 @@
 	</div>
 
 	<!--Sidebar-->
-	<div class="col-lg-3 col-md-3">
-		<h3>Cart totals</h3>
+	<div class="col-xs-12">
+	<hr/>
+		<h3>Totals</h3>
 		<form class="cart-sidebar" method="post">
 			<div class="cart-totals">
 				<table>

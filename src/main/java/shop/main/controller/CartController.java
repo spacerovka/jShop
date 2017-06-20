@@ -1,10 +1,8 @@
 package shop.main.controller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 import javax.servlet.ServletContext;
@@ -31,6 +29,7 @@ import shop.main.data.entity.User;
 import shop.main.data.mongo.Order;
 import shop.main.data.mongo.OrderRepository;
 import shop.main.data.service.ProductService;
+import shop.main.utils.Constants;
 import shop.main.utils.URLUtils;
 import shop.main.validation.EmailExistsException;
 
@@ -78,17 +77,12 @@ public class CartController extends FrontController implements ResourceLoaderAwa
 				}
 			}
 			model.addAttribute("orderUserWrapper", wrapper);
-			model.addAttribute("countryList", getCountryList());
+			model.addAttribute("countryList", Constants.getCountryList());
 			return "checkout";
 		} else {
 			return "redirect:/cart";
 		}
 
-	}
-
-	private List<String> getCountryList() {
-
-		return new ArrayList<String>(Arrays.asList("Spain", "USA", "Australia"));
 	}
 
 	/**
@@ -162,16 +156,17 @@ public class CartController extends FrontController implements ResourceLoaderAwa
 			}
 			if (registered == null) {
 				model.addAttribute("orderUserWrapper", orderUserWrapper);
-				model.addAttribute("countryList", getCountryList());
+				model.addAttribute("countryList", Constants.getCountryList());
 				if (errors.isEmpty()) {
 					errors.add("User with this email is already registered!");
 				}
 				model.addAttribute("errorSummary", errors);
 				return "checkout";
 			}
-			//TODO Generate the VerificationToken for the User and persist it
-			//TODO Send out the email message for account confirmation – which includes a confirmation link with the VerificationToken’s value
-			
+			// TODO Generate the VerificationToken for the User and persist it
+			// TODO Send out the email message for account confirmation – which
+			// includes a confirmation link with the VerificationToken’s value
+
 		} else {
 			User authorizeduser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			if (authorizeduser != null) {

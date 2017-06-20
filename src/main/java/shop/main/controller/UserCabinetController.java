@@ -1,13 +1,12 @@
 package shop.main.controller;
 
 import java.util.ArrayList;
-import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -17,12 +16,12 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import shop.main.data.entity.User;
 import shop.main.data.mongo.OrderRepository;
 import shop.main.validation.CabinetValidationGroup;
-import shop.main.validation.FormValidationGroup;
 
 @Controller
 public class UserCabinetController extends FrontController {
@@ -51,7 +50,7 @@ public class UserCabinetController extends FrontController {
 		return "accessDenied";
 	}
 
-	@RequestMapping(value = "/updateUser", method = RequestMethod.POST)
+	@RequestMapping(value = "/user/updateUser", method = RequestMethod.POST)
 	public String updateUser(@ModelAttribute("user") @Validated(CabinetValidationGroup.class) User user, Model model,
 			BindingResult result, final RedirectAttributes redirectAttributes) {
 
@@ -63,23 +62,7 @@ public class UserCabinetController extends FrontController {
 			User originalUser = userService.findByUsername(user.getUsername());
 			ArrayList<String> errors = new ArrayList<String>();
 
-			if (user.getPassword() != null || user.getPassword().equals("")) {
-				Set<ConstraintViolation<User>> results = Validation.buildDefaultValidatorFactory().getValidator()
-						.validate(user, FormValidationGroup.class);
-				if (!results.isEmpty()) {
-					for (ConstraintViolation<User> error : results) {
-						System.out.println("+ + +" + error.getMessage() + " " + error.getInvalidValue());
-						errors.add(error.getMessage());
-					}
-					redirectAttributes.addFlashAttribute("errorSummary", errors);
-					return "redirect:/user/cabinet";
-				} else {
-					user.setPassword(passwordEncoder.encode(user.getPassword()));
-				}
-
-			} else {
-				user.setPassword(originalUser.getPassword());
-			}
+			user.setPassword(originalUser.getPassword());
 			user.setEmailVerified(originalUser.isEmailVerified());
 			user.setRegisterDate(originalUser.getRegisterDate());
 			userService.save(user);
@@ -87,6 +70,19 @@ public class UserCabinetController extends FrontController {
 		}
 
 		return "redirect:/user/cabinet";
+	}
+
+	@RequestMapping(value = "/user/updatePassword", method = RequestMethod.POST)
+	@PreAuthorize("hasRole('USER')")
+	public String updatePassword(@RequestParam("password") String password,
+			@RequestParam("oldpassword") String oldPassword, HttpServletRequest request, Model model) {
+		User user = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+
+		if (!userService.checkIfValidOldPassword(user, oldPassword)) {
+			return "<div class=\"alert alert-danger\">" + "<strong>Warning!</strong> Invalid old password" + "</div>";
+		}
+		userService.changeUserPassword(user, password);
+		return "<div class=\"alert alert-success\">" + "<strong>Request success!</strong> Password updated." + "</div>";
 	}
 
 }

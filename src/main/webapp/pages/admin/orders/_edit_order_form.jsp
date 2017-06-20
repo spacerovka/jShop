@@ -8,20 +8,29 @@
 
 <form:form action="${pageContext.request.contextPath}/a/order"
 	method="post" modelAttribute="order">
-
+	<form:hidden path="orderId"/>
+	<form:hidden path="number"/>
+	<form:hidden path="sum"/>
+	
+	<div class="form-group col-xs-12 col-md-6">
+		<label>User</label>
+		<form:input class="form-control" placeholder="John R Smith"
+			path="username" id="username" />
+	</div>
+	
 	<div class="form-group col-xs-12 col-md-6">
 		<label>Full Name*</label>
 		<form:input class="form-control" placeholder="John R Smith"
-			path="userName" id="userName" />
+			path="fullName" id="fullName" />
 	</div>
 	<h3 class="col-xs-12">Shiping address</h3>
 	<div class="form-group col-xs-12 col-md-6">
 		<label>Country*</label>
-		<form:select path="country" class="form-control">
-			<option value="-1">Select...</option>
+		<form:select path="country" class="form-control" items="${countryList}">
+			<%-- <option value="Unselected">Select...</option>
 			<core:forEach items="${countryList}" var="country">
 				<option value="${country}">${country}</option>
-			</core:forEach>
+			</core:forEach> --%>
 		</form:select>
 
 	</div>
@@ -58,7 +67,33 @@
 		<label>Email*</label>
 		<form:input class="form-control" path="email" id="email" />
 	</div>
+	<h3 class="col-xs-12">Shipping details</h3>
+	<div class="form-group col-xs-12 col-md-6">
+		<label>Shipping Type</label>
+		<form:input class="form-control" path="shipName" id="shipName" />
+	</div>
 	
+	<div class="form-group col-xs-12 col-md-6">
+		<label>Shipping Cost</label>
+		<form:input class="form-control" path="shippingCost" id="shippingCost" />
+	</div>
+	
+	<div class="form-group col-xs-12 col-md-6">
+		<label>Tracking Number</label>
+		<form:input class="form-control" path="trackNumber" id="trackNumber" />
+	</div>		
+	<h3 class="col-xs-12">Additional info</h3>
+	<div class="form-group col-xs-12">
+		<label>Manager Comment</label>
+		<form:textarea class="form-control" path="managerComment" id="managerComment" />
+	</div>
+	
+	<div class="form-group col-xs-12 col-md-6">
+		<form:checkbox path="shipped"/>Shipped
+	</div>
+	<div class="form-group col-xs-12 col-md-6">
+	<form:checkbox path="confirmed"/>Confirmed
+	</div>
 
 	<div class="form-group text-center col-xs-12">
 		<button type="submit" class="btn btn-success">Update</button>

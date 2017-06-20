@@ -2,6 +2,7 @@ package shop.main.data.service;
 
 import java.util.List;
 
+import shop.main.data.entity.PasswordResetToken;
 import shop.main.data.entity.User;
 import shop.main.data.entity.VerificationToken;
 import shop.main.validation.EmailExistsException;
@@ -21,7 +22,12 @@ public interface UserService {
 
 	User registerNewUserAccount(User accountDto) throws EmailExistsException;
 
-	// email validation
+	/**
+	 * email validation
+	 * 
+	 * @param user
+	 * @param token
+	 */
 	void createVerificationTokenForUser(User user, String token);
 
 	VerificationToken getVerificationToken(String VerificationToken);
@@ -34,16 +40,18 @@ public interface UserService {
 
 	// reset password
 
-	// User findUserByEmail(String email);
+	User findUserByEmail(String email);
 
-	// void createPasswordResetTokenForUser(User user, String token);
+	void createPasswordResetTokenForUser(User user, String token);
 
-	// PasswordResetToken getPasswordResetToken(String token);
-	//
-	// User getUserByPasswordResetToken(String token);
-	//
-	// void changeUserPassword(User user, String password);
-	//
-	// boolean checkIfValidOldPassword(User user, String password);
+	PasswordResetToken getPasswordResetToken(String token);
+
+	User getUserByPasswordResetToken(String token);
+
+	void changeUserPassword(User user, String password);
+
+	boolean checkIfValidOldPassword(User user, String password);
+
+	String validatePasswordResetToken(long id, String token);
 
 }

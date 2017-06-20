@@ -5,61 +5,91 @@
 <%@ taglib prefix="core" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>	
+<div >
+	<core:if test="${not empty orders}">
+		<core:forEach var="order" items="${orders}">
+			<div class="row box">
+				<hr class="underline">
+				<h2 class="intro-text text-center">
+				
+					<strong>Order № ${order.number} placed <fmt:formatDate value="${order.date}" pattern="yyyy-MM-dd HH:mm" /></strong>
+				</h2>
+				<hr class="underline">
+				<div class="col-md-3 col-xs-12">
+					<h2 class="title">Sum: <b><core:out value="${order.sum}" />$</b></h2>
+					
+					<p>
+						Date: <b><fmt:formatDate value="${order.date}" pattern="yyyy-MM-dd HH:mm" /></b>
+					</p>
+					
+					<p>
+						Delivery address : <b>${order.country}, 
+						<core:if test="${not empty order.state}">${order.state},</core:if>
+						${order.city},
+						${order.shipAddress},
+						${order.zip}</b>
+					</p>
 
-<div class="container">
-		<core:if test="${not empty orders}">
-			<core:forEach var="order" items="${orders}">
-				<div class="row box">
-					<div class="col-lg-12">
-						<hr class="underline">
-						<h2 class="intro-text text-center">
-							<strong>Summary info</strong>
-						</h2>
-						<hr class="underline">
+					<p>
+						Status:
+						<core:choose>
+							<core:when test="${order.confirmed}">
+								<b>Confirmed</b>
+							</core:when>
+							<core:when test="${order.shipped}">
+								<b>Shipped</b>
+							</core:when>
+							<core:otherwise>
+								<b>Processing by manager</b>
+							</core:otherwise>
+						</core:choose>
+						
+					</p>
 
-						<hr class="visible-xs">
-						<p>
-							Order id is <b><core:out value="${order.orderId}" /></b>
-						</p>
-						<p>
-							User is <b>${order.username}</b>
-						</p>
-						<p>
-							Order number is <b><core:out value="${order.number}" /></b>
-						</p>
-						<p>
-							Order sum is <b><core:out value="${order.sum}" />$</b>
-						</p>
-					</div>
+					<p>
+						Tracking Number: <b><core:out value="${order.trackNumber}" /></b>
+					</p>
+					
+					<hr class="visible-xs">
 				</div>
 
 
-				<core:forEach items="${order.product_list}" var="product">
 
-					<div class="row box">
-						<div class="col-lg-12">
-							<hr class="underline">
-							<h2 class="intro-text text-center">
-								<strong><core:out value="${product.value.product_name}" /></strong>
-							</h2>
-							<hr class="underline">
-							<p>
-								Id: <b><core:out value="${product.value.productId}" /></b>
-							</p>
+				<div class="col-md-9 col-xs-12">
+					
+					<table class="items-list" style="width: 100%;">
+						<tbody>
+							<tr>
+								<th>&nbsp;</th>
+								<th>Product name</th>
+								<th>Product price</th>
+								<th>Quantity</th>
+								<th>Total</th>
+							</tr>
+							<!--Item-->
+							<core:forEach items="${order.product_list}" var="product">
+								<tr class="item first">
+									<td class="thumb"><a href="shop-single-item-v1.html"><img
+											style="max-width: 200px;"
+											src="${pageContext.request.contextPath}/resources/uploads/products/${product.value.productId}/main/${product.value.thumb}"
+											alt="${product.value.product_name}"></a></td>
+									<td class="name"><a href="shop-single-item-v1.html">${product.value.product_name}</a></td>
+									<td class="price">${product.value.price}$</td>
+									<td class="qnt-count">${product.value.product_quantity}"</td>
+									<td class="total">${product.value.subTotal}$</td>
+									<td class="delete"><i class="icon-delete"></i></td>
+								</tr>
+							</core:forEach>
 
-							<p>
-								Price: <b><core:out value="${product.value.price}" />$</b>
-							</p>
-							<p>
-								Quantity: <b><core:out
-										value="${product.value.product_quantity}" /></b>
-							</p>
-						</div>
-					</div>
-				</core:forEach>
-			</core:forEach>
-		</core:if>
+						</tbody>
+					</table>
+				</div>
+				<hr class="underline">
+			</div>
+		</core:forEach>
+	</core:if>
 
-		<hr>
+	<hr>
 
-	</div>
+</div>

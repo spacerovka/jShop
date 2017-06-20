@@ -37,11 +37,8 @@
 					<h3 class="col-xs-12">Shiping address</h3>
 					<div class="form-group col-xs-12 col-md-6">
 						<label>Country*</label>
-						<form:select path="country" class="form-control">
-							<option value="-1">Select...</option>
-							<core:forEach items="${countryList}" var="country">
-								<option value="${country}">${country}</option>
-							</core:forEach>
+						<form:select path="country" class="form-control" items="${countryList}">
+							
 						</form:select>
 
 					</div>

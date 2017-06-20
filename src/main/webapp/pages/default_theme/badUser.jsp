@@ -11,6 +11,34 @@
 </head>
 <body>
 
-	<h1>${message}</h1>
-	<a href="/registration.html" >signup</a>
+	<h1 id="message">${message}</h1>
+	<a href="/registration.html" >Signup</a>
+
+
+ <c:if test=${not empty token}>
+
+<h1>Resend email verification</h1>
+<button onclick="resendToken()">Resend</button>
+  
+</c:if>
+
+<%@include file="template_parts/footer.jsp"%>
+<script type="text/javascript">
+ 
+var serverContext = [[@{/}]];
+ 
+function resendToken(){
+        
+    $.ajax ({ 
+		url: '${pageContext.request.contextPath}/user/resendRegistrationToken', 
+		type: 'POST', 
+		dataType: 'text',	
+		data : {token: ${token}},								
+		complete: function(responseData, status, xhttp){ 				
+			$("#message").html('('+responseData.responseText+')');
+		}
+	});
+}
+</script>
+
 </body>

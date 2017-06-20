@@ -19,7 +19,7 @@ public class VerificationToken {
 	private static final int EXPIRATION = 60 * 24;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(name = "token", nullable = false)

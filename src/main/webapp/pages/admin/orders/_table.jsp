@@ -21,7 +21,7 @@
                                 	<core:forEach var="order" items="${orders}">
                                 	<tr>
                                         <td>${order.number}</td>
-                                        <td>${order.userName}</td>
+                                        <td>${order.fullName}</td>
                                         <td>${order.phone}</td>
                                         <td>${order.email}</td>
                                         <td>${order.sum}</td>

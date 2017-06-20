@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
@@ -14,12 +15,18 @@ import javax.persistence.PersistenceContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import shop.main.data.DAO.PasswordResetTokenDAO;
 import shop.main.data.DAO.UserDAO;
 import shop.main.data.DAO.VerificationTokenDAO;
+import shop.main.data.entity.PasswordResetToken;
 import shop.main.data.entity.User;
 import shop.main.data.entity.UserRole;
 import shop.main.data.entity.VerificationToken;
@@ -33,6 +40,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserDAO userDAO;
+
+	@Autowired
+	private PasswordResetTokenDAO passwordTokenDAO;
 
 	@Autowired
 	private VerificationTokenDAO verificationTokenDAO;
@@ -152,8 +162,8 @@ public class UserServiceImpl implements UserService {
 		}
 
 		user.setEnabled(true);
-		// tokenRepository.delete(verificationToken);
 		save(user);
+		verificationTokenDAO.delete(verificationToken);
 		return TOKEN_VALID;
 	}
 
@@ -161,6 +171,59 @@ public class UserServiceImpl implements UserService {
 	public User getUserByToken(String verificationToken) {
 		User user = verificationTokenDAO.findByToken(verificationToken).getUser();
 		return user;
+	}
+
+	@Override
+	public void changeUserPassword(User user, String password) {
+		user.setPassword(passwordEncoder.encode(password));
+		save(user);
+
+	}
+
+	@Override
+	public boolean checkIfValidOldPassword(User user, String oldPassword) {
+		return passwordEncoder.matches(oldPassword, user.getPassword());
+	}
+
+	@Override
+	public void createPasswordResetTokenForUser(final User user, final String token) {
+		final PasswordResetToken myToken = new PasswordResetToken(token, user);
+		passwordTokenDAO.save(myToken);
+	}
+
+	@Override
+	public User findUserByEmail(final String email) {
+		return userDAO.findByEmail(email);
+	}
+
+	@Override
+	public PasswordResetToken getPasswordResetToken(final String token) {
+		return passwordTokenDAO.findByToken(token);
+	}
+
+	@Override
+	public User getUserByPasswordResetToken(final String token) {
+		return passwordTokenDAO.findByToken(token).getUser();
+	}
+
+	@Override
+	public String validatePasswordResetToken(long id, String token) {
+		final PasswordResetToken passToken = passwordTokenDAO.findByToken(token);
+		if ((passToken == null) || (passToken.getUser().getId() != id)) {
+			return "invalidToken";
+		}
+
+		final LocalDateTime tooday = LocalDateTime.now();
+		if (Duration.between(passToken.getExpiryDate(), tooday).toMillis() <= 0) {
+			passwordTokenDAO.delete(passToken);
+			return TOKEN_EXPIRED;
+		}
+
+		final User user = passToken.getUser();
+		final Authentication auth = new UsernamePasswordAuthenticationToken(user, null,
+				Arrays.asList(new SimpleGrantedAuthority("CHANGE_PASSWORD_PRIVILEGE")));
+		SecurityContextHolder.getContext().setAuthentication(auth);
+		return null;
 	}
 
 }

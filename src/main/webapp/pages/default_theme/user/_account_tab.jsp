@@ -7,7 +7,7 @@
 
 <div class="container-fluid">
 
-	
+
 	<core:if test="${not empty errorMessage}">
 
 		<div class="alert alert-danger">
@@ -16,17 +16,38 @@
 	</core:if>
 	<div class="row">
 		<div class="col-lg-6 ">
+			
+				<div id="errormsg" style="display: none"></div>
 
-			<form:form action="${pageContext.request.contextPath}/updateUser"
+			<div class="form-group">
+			<label>Old Password</label>
+				<input id="oldpass" name="oldpassword" type="password"
+					class="form-control" placeholder="Old Password" />
+			</div>
+			<div class="form-group">
+			<label>New Password</label>
+				<input id="pass" name="password" type="password"
+					class="form-control" placeholder="New Password" />
+			</div>
+			<div class="form-group">
+			<label>Conform new Password</label>
+				<input id="passConfirm" type="password" class="form-control"
+					placeholder="Conform new Password" /> <span id="error"
+					style="display: none">Password mismatch</span>
+
+			</div>
+			<button class="btn btn-success" onclick="savePass()">Change
+				Password</button>
+			<hr class="underline" />
+		</div>
+		<div class="col-lg-6 ">
+
+			<form:form
+				action="${pageContext.request.contextPath}/user/updateUser"
 				method="post" modelAttribute="user">
-				
+
 				<form:hidden path="id" />
 
-				<div class="form-group">
-					<label>Username(login): ${user.username}</label>
-					
-				</div>
-				
 				<form:hidden path="username" />
 
 				<div class="form-group">
@@ -35,12 +56,7 @@
 						path="email" id="email" />
 				</div>
 
-				<div class="form-group">
-					<label>New Password</label>
-					<form:input class="form-control"
-						path="password" id="password" />
-				</div>
-				
+
 				<div class="form-group">
 					<label>First Name</label>
 					<form:input class="form-control" path="firstName" id="firstName" />
@@ -68,7 +84,7 @@
 					<form:input class="form-control" path="zip" id="zip" />
 				</div>
 
-				
+
 				<div class="form-group">
 					<label>Phone</label>
 					<form:input class="form-control" path="phone" id="phone" />

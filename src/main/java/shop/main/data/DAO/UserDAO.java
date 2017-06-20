@@ -2,11 +2,11 @@ package shop.main.data.DAO;
 
 import java.util.List;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import shop.main.data.entity.User;
 
-public interface UserDAO extends CrudRepository<User, Long> {
+public interface UserDAO extends JpaRepository<User, Long> {
 
 	User findUserByUsername(String username);
 

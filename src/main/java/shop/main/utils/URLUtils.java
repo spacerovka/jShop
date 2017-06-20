@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
+public final class URLUtils {
 
-public class URLUtils {
+	private URLUtils() {
+	}
 
 	public static String transliterate(String message) {
 		message = message.trim();
@@ -48,22 +50,22 @@ public class URLUtils {
 		return findImages(folder);
 
 	}
-	
+
 	public static List<String> getMinPageImages(ServletContext context) {
 		String folder = context.getRealPath("/") + "/resources/uploads/mainpage/";
 		return findImages(folder);
 
 	}
 
-	public static String getProductImage(ServletContext context,Long id){
-		String folder = context.getRealPath("/")+ "/resources/uploads/products/"+id+"/main/";
+	public static String getProductImage(ServletContext context, Long id) {
+		String folder = context.getRealPath("/") + "/resources/uploads/products/" + id + "/main/";
 		List<String> images = findImages(folder);
-		if(images.isEmpty()){
+		if (images.isEmpty()) {
 			return null;
-		}else{
-			return images.get(0);		
+		} else {
+			return images.get(0);
 		}
-		
+
 	}
 
 	public static List<String> findImages(String folder) {
@@ -72,11 +74,15 @@ public class URLUtils {
 		File[] listOfFiles = new File(folder).listFiles();
 		if (listOfFiles != null) {
 			for (File f : listOfFiles) {
-				if(f.isFile()){
-				images.add(f.getName());
+				if (f.isFile()) {
+					images.add(f.getName());
 				}
 			}
 		}
 		return images;
+	}
+
+	public static String getAppUrl(HttpServletRequest request) {
+		return "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
 	}
 }
