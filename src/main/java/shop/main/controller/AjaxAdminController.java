@@ -104,6 +104,16 @@ public class AjaxAdminController implements ResourceLoaderAware {
 		return "redirect:/a/product/" + prefix.substring(prefix.indexOf("/") + 1, prefix.length() - 1) + "/update";
 	}
 
+	@RequestMapping(value = "/a/images", method = RequestMethod.POST)
+	@ResponseBody
+	public String handleTinyMCEUpload(@RequestParam String prefix, @RequestParam("files") MultipartFile files[]) {
+		String result = uploadFiles("tinyMCE", files, false);
+		System.out.println(result);
+		String filePath = context.getRealPath("/") + "/resources/uploads/tinyMCE/" + files[0].getOriginalFilename();
+		return "{\"location\":" + filePath + "}";
+
+	}
+
 	private String uploadFiles(String prefix, MultipartFile files[], boolean isMain) {
 		System.out.println("uploading______________________________________" + prefix);
 		try {

@@ -14,22 +14,24 @@ public class Block {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", unique = true, nullable = false)
 	private Long id;
-	
+
 	/**
-	 * @param content is html wth data you need to display
+	 * @param content
+	 *            is html wth data you need to display
 	 */
-	@Column(name = "content", nullable = true)
+	@Column(name = "content", nullable = true, columnDefinition = "TEXT")
 	private String content;
-	
-	@Column(name = "position", nullable = false, length=50)
+
+	@Column(name = "position", nullable = false, length = 50)
 	private String position;
-	
+
 	/**
-	 * @param blockURL is used to display block on particular page
+	 * @param blockURL
+	 *            is used to display block on particular page
 	 */
-	@Column(name = "blockURL", nullable = true, length=200)
+	@Column(name = "blockURL", nullable = true, length = 200)
 	private String blockURL;
-	
+
 	@Column(name = "status", nullable = false)
 	private boolean status;
 
@@ -121,12 +123,12 @@ public class Block {
 
 	@Override
 	public String toString() {
-		return "Blocks [id=" + id + ", content=" + content + ", position=" + position + ", blockURL=" + blockURL + ", status=" + status
-				+ "]";
+		return "Blocks [id=" + id + ", content=" + content + ", position=" + position + ", blockURL=" + blockURL
+				+ ", status=" + status + "]";
 	}
-	
+
 	public boolean isNew() {
 		return (this.id == null);
-		}
-	
+	}
+
 }

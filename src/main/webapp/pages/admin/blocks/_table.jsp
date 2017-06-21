@@ -21,7 +21,7 @@
                                 	<core:forEach var="block" items="${blockList}">
                                 	<tr>
                                         <td>${block.id}</td>
-                                        <td>${block.type}</td>                                                                              
+                                        <td>${block.position}</td>                                                                              
                                         <td>
                                         	<core:choose>
 	        									<core:when test="${empty block.blockURL}">
@@ -33,7 +33,7 @@
 								  			</core:choose>
                                         
                                         </td>
-                                        <td>${block.content}</td>
+                                        <td><core:out value="${block.content}" /></td>
                                         <td>
                                         	<core:choose>
 	        									<core:when test="${block.status==true}">
