@@ -1,6 +1,7 @@
 package shop.main.controller;
 
 import java.io.File;
+import java.util.Random;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -106,11 +107,16 @@ public class AjaxAdminController implements ResourceLoaderAware {
 
 	@RequestMapping(value = "/a/images", method = RequestMethod.POST)
 	@ResponseBody
-	public String handleTinyMCEUpload(@RequestParam String prefix, @RequestParam("files") MultipartFile files[]) {
-		String result = uploadFiles("tinyMCE", files, false);
+	public String handleTinyMCEUpload(@RequestParam("files") MultipartFile files[]) {
+		System.out.println("uploading______________________________________MultipartFile " + files.length);
+		Random r = new Random();
+		int Low = 10;
+		int High = 100;
+		String prefix = "tinyMCE/" + String.valueOf(r.nextInt(High - Low) + Low);
+		String filePath = "/resources/uploads/" + prefix + files[0].getOriginalFilename();
+		String result = uploadFilesFromTinyMCE("prefix", files, false);
 		System.out.println(result);
-		String filePath = context.getRealPath("/") + "/resources/uploads/tinyMCE/" + files[0].getOriginalFilename();
-		return "{\"location\":" + filePath + "}";
+		return "{\"location\":\"" + filePath + "\"}";
 
 	}
 
@@ -169,6 +175,52 @@ public class AjaxAdminController implements ResourceLoaderAware {
 					result.append(listOfFiles[f].getName() + " Ok. ");
 				}
 			}
+			return result.toString();
+
+		} catch (Exception e) {
+			return "Error Occured while uploading files." + " => " + e.getMessage();
+		}
+	}
+
+	private String uploadFilesFromTinyMCE(String prefix, MultipartFile files[], boolean isMain) {
+		System.out.println("uploading______________________________________" + prefix);
+		try {
+			String folder = context.getRealPath("/") + "/resources/uploads/" + prefix;
+			StringBuffer result = new StringBuffer();
+			byte[] bytes = null;
+			result.append("Uploading of File(s) ");
+
+			for (int i = 0; i < files.length; i++) {
+				if (!files[i].isEmpty()) {
+
+					try {
+						boolean created = false;
+
+						try {
+							File theDir = new File(folder);
+							theDir.mkdir();
+							created = true;
+						} catch (SecurityException se) {
+							se.printStackTrace();
+						}
+						if (created) {
+							System.out.println("DIR created");
+						}
+						String path = "";
+						path = folder + files[i].getOriginalFilename();
+						File destination = new File(path);
+						System.out.println("--> " + destination);
+						files[i].transferTo(destination);
+						result.append(files[i].getOriginalFilename() + " Succsess. ");
+					} catch (Exception e) {
+						throw new RuntimeException("Product Image saving failed", e);
+					}
+
+				} else
+					result.append(files[i].getOriginalFilename() + " Failed. ");
+
+			}
+
 			return result.toString();
 
 		} catch (Exception e) {

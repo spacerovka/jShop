@@ -135,6 +135,7 @@
 
 	</div>
 	<%@include file="../_footer.jsp"%>
+	<%@include file="../_tinyMCE.jsp"%>
 	<script>
 		$(document).ready(function() {
 			var focus = 0, blur = 0;

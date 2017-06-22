@@ -17,8 +17,6 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
 @Table(name = "product")
 public class Product {
@@ -36,7 +34,7 @@ public class Product {
 
 	@Column(name = "url", nullable = true, length = 100, unique = true)
 	private String url;
-	
+
 	@Column(name = "instock", nullable = true)
 	private int instock;
 
@@ -49,24 +47,24 @@ public class Product {
 	@Column(name = "shortDesc", nullable = true, length = 1000)
 	private String shortDesc;
 
-	@Column(name = "longDesc", nullable = true, length = 2000)
+	@Column(name = "longDesc", nullable = true, columnDefinition = "TEXT")
 	private String longDesc;
 
 	@Column(name = "thumb", nullable = true, length = 100)
 	private String thumb;
 
 	@Column(name = "image", nullable = true, length = 100)
-	private String image;	
+	private String image;
 
 	@Column(name = "meta_title", nullable = true)
 	private String metaTitle;
-	
+
 	@Column(name = "meta_description", nullable = true)
 	private String metaDescription;
-	
+
 	@Column(name = "status", nullable = false)
 	private boolean status;
-	
+
 	@Column(name = "featured", nullable = false)
 	private boolean featured;
 
@@ -77,32 +75,32 @@ public class Product {
 	private Date edited;
 
 	@Column(name = "location", nullable = true, length = 250)
-	private String location;	
-	
-	@ManyToOne(optional = true, fetch = FetchType.LAZY)	
-	@JoinColumn(columnDefinition="integer", name="category", nullable=true)
+	private String location;
+
+	@ManyToOne(optional = true, fetch = FetchType.LAZY)
+	@JoinColumn(columnDefinition = "integer", name = "category", nullable = true)
 	private Category category;
 
 	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
 	private List<ProductOption> productOptions;
-	
+
 	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
-    private List<Review> reviews;
-	
-	@Column(name="rating", columnDefinition = "int default 0")
+	private List<Review> reviews;
+
+	@Column(name = "rating", columnDefinition = "int default 0")
 	private int rating;
 
 	@PrePersist
-	  protected void onCreate() {
-	    created = new Date();	    	
-	    
-	  }
+	protected void onCreate() {
+		created = new Date();
 
-	  @PreUpdate
-	  protected void onUpdate() {
+	}
+
+	@PreUpdate
+	protected void onUpdate() {
 		edited = new Date();
-	  }
-	
+	}
+
 	public Product(String sku, String name, BigDecimal price, String url) {
 		super();
 		sku = sku;
@@ -110,9 +108,9 @@ public class Product {
 		this.price = price;
 		this.url = url;
 	}
-	
+
 	public Product() {
-		
+
 	}
 
 	public Long getId() {
@@ -155,7 +153,6 @@ public class Product {
 		this.price = price;
 	}
 
-	
 	public String getCartDesc() {
 		return cartDesc;
 	}
@@ -247,7 +244,7 @@ public class Product {
 	public boolean isNew() {
 		return (this.id == null);
 	}
-	
+
 	public String getMetaTitle() {
 		return metaTitle;
 	}
@@ -303,7 +300,5 @@ public class Product {
 	public void setRating(int rating) {
 		this.rating = rating;
 	}
-	
-	
 
 }

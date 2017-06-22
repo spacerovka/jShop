@@ -1,23 +1,15 @@
 package shop.main.data.entity;
 
-import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "staticPage")
@@ -27,42 +19,41 @@ public class StaticPage {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", unique = true, nullable = false)
 	private Long id;
-	
+
 	@Column(name = "name", nullable = false, length = 100)
 	private String name;
 
 	@Column(name = "url", nullable = true, length = 100, unique = true)
 	private String url;
-	
-	@Column(name = "content", nullable = true)
+
+	@Column(name = "content", nullable = true, columnDefinition = "TEXT")
 	private String content;
-	
+
 	@Column(name = "meta_title", nullable = true)
 	private String metaTitle;
-	
+
 	@Column(name = "meta_description", nullable = true)
 	private String metaDescription;
-	
+
 	@Column(name = "status", nullable = false)
 	private boolean status;
-		
+
 	@Column(name = "created", nullable = true)
 	private Date created;
 
 	@Column(name = "edited", nullable = true)
 	private Date edited;
 
-
 	@PrePersist
-	  protected void onCreate() {
-	    created = new Date();	    	
-	    
-	  }
+	protected void onCreate() {
+		created = new Date();
 
-	  @PreUpdate
-	  protected void onUpdate() {
+	}
+
+	@PreUpdate
+	protected void onUpdate() {
 		edited = new Date();
-	  }
+	}
 
 	public Long getId() {
 		return id;
@@ -205,9 +196,9 @@ public class StaticPage {
 			return false;
 		return true;
 	}
-	
+
 	public boolean isNew() {
 		return (this.id == null);
-		}
+	}
 
 }
