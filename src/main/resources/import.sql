@@ -68,6 +68,7 @@ INSERT INTO categoryOption (option_entity, category) VALUES (5,5);
 INSERT INTO categoryOption (option_entity, category) VALUES (6,5);
 
 INSERT INTO siteproperty (name, content) VALUES ("siteName", "JShop");
+INSERT INTO siteproperty (name, content) VALUES ("theme", "default_theme");
 
 INSERT INTO menu (text, URL, status, menu_type) VALUES ("Home", "/", true, "LEFT");
 INSERT INTO menu (text, URL, status, menu_type) VALUES ("About", "about", true, "LEFT");
