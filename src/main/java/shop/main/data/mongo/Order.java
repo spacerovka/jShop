@@ -38,6 +38,9 @@ public class Order {
 
 	private String trackNumber;
 
+	private byte discount;
+	private String discountName;
+
 	@Field("sub")
 	private Map<String, OrderProduct> product_list;
 
@@ -372,11 +375,17 @@ public class Order {
 		updateSum();
 	}
 
+	public void removeProduct(String sku) {
+		product_list.remove(sku);
+		updateSum();
+	}
+
 	private void updateSum() {
 		for (OrderProduct product : product_list.values()) {
 			product.setSubTotal(product.getPrice().multiply(new BigDecimal(product.getProduct_quantity())));
 			sum = sum.add(product.getSubTotal());
 		}
+		sum = sum.multiply(new BigDecimal((100 - this.discount) / 100));
 	}
 
 	public String getNumber() {
@@ -405,6 +414,28 @@ public class Order {
 		currentOrder.setZip(orderUserWrapper.getOrder().getZip());
 		currentOrder.setPhone(orderUserWrapper.getOrder().getPhone());
 		currentOrder.setEmail(orderUserWrapper.getOrder().getEmail());
+	}
+
+	public void addCoupon(byte discount, String discountName) {
+		this.setDiscount(discount);
+		this.setDiscountName(discountName);
+		updateSum();
+	}
+
+	public byte getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(byte discount) {
+		this.discount = discount;
+	}
+
+	public String getDiscountName() {
+		return discountName;
+	}
+
+	public void setDiscountName(String discountName) {
+		this.discountName = discountName;
 	}
 
 }

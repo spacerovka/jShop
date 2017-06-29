@@ -73,6 +73,22 @@
 				}
 			});
 		}
+		
+		function removeProduct(sku) {
+			console.log("removeQuantity");
+			$.ajax({
+				url : '${pageContext.request.contextPath}/removeProduct',
+				type : "POST",
+				dataType : "text",
+				data : {
+					sku : sku
+				},
+				complete : function(response) {
+					$('#cart').html(response.responseText);
+					updateCartItemCount();
+				}
+			});
+		}
 
 		function updateCartItemCount() {
 			$.ajax({
@@ -83,6 +99,23 @@
 				complete : function(responseData, status, xhttp) {
 					$('#cart-item-count').html(
 							'(' + responseData.responseText + ')');
+				}
+			});
+		}
+		
+		function addCoupon() {
+			console.log("addCoupon");
+			var code = $("#coupon-code").val();
+			$.ajax({
+				url : '${pageContext.request.contextPath}/addCoupon',
+				type : "POST",
+				dataType : "text",
+				data : {
+					code : code
+				},
+				complete : function(response) {
+					$('#cart').html(response.responseText);
+					updateCartItemCount();
 				}
 			});
 		}

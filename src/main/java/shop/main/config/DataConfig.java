@@ -30,6 +30,8 @@ import shop.main.captcha.ReCaptchaService;
 import shop.main.captcha.ReCaptchaServiceImpl;
 import shop.main.data.service.CategoryService;
 import shop.main.data.service.CategoryServiceImpl;
+import shop.main.data.service.DiscountService;
+import shop.main.data.service.DiscountServiceImpl;
 import shop.main.data.service.OptionGroupService;
 import shop.main.data.service.OptionGroupServiceImpl;
 import shop.main.data.service.OptionService;
@@ -203,6 +205,11 @@ public class DataConfig<DatabasePopulator> {
 	@Bean
 	public javax.validation.Validator localValidatorFactoryBean() {
 		return new LocalValidatorFactoryBean();
+	}
+
+	@Bean
+	public DiscountService discountService() {
+		return new DiscountServiceImpl();
 	}
 
 }

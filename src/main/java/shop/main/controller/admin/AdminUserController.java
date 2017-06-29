@@ -1,4 +1,4 @@
-package shop.main.controller;
+package shop.main.controller.admin;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -23,11 +23,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import shop.main.data.entity.Discount;
 import shop.main.data.entity.OrderUserWrapper;
 import shop.main.data.entity.Product;
 import shop.main.data.entity.User;
 import shop.main.data.mongo.Order;
 import shop.main.data.mongo.OrderRepository;
+import shop.main.data.service.DiscountService;
 import shop.main.data.service.ProductService;
 import shop.main.utils.Constants;
 import shop.main.utils.URLUtils;
@@ -53,6 +55,9 @@ public class CartController extends FrontController implements ResourceLoaderAwa
 
 	@Autowired
 	private OrderRepository orderRepository;
+
+	@Autowired
+	private DiscountService discountService;
 
 	@RequestMapping(value = "/cart")
 	public String cartPage(Model model, HttpServletRequest request) {
@@ -122,6 +127,31 @@ public class CartController extends FrontController implements ResourceLoaderAwa
 	public String removeQuantity(@RequestParam String sku, HttpServletRequest request, Model model) {
 		Order order = getOrCreateOrder(request);
 		order.removeQuantity(sku);
+		model.addAttribute("order", order);
+		return "template_parts/cart";
+	}
+
+	@RequestMapping(value = "/removeProduct", method = RequestMethod.POST)
+	public String removeProduct(@RequestParam String sku, HttpServletRequest request, Model model) {
+		Order order = getOrCreateOrder(request);
+		order.removeProduct(sku);
+		model.addAttribute("order", order);
+		return "template_parts/cart";
+	}
+
+	@RequestMapping(value = "/addCoupon", method = RequestMethod.POST)
+	public String addCoupon(@RequestParam String code, HttpServletRequest request, Model model) {
+		Order order = getOrCreateOrder(request);
+		if (order.getDiscount() <= 0) {
+			Discount discount = discountService.findByCoupon(code);
+			if (discount != null) {
+				order.addCoupon(discount.getDiscount(), discount.getSalename());
+			} else {
+				model.addAttribute("couponError", "Discount not found - " + order.getDiscountName());
+			}
+		} else {
+			model.addAttribute("couponError", "This order already has a discount - " + order.getDiscountName());
+		}
 		model.addAttribute("order", order);
 		return "template_parts/cart";
 	}

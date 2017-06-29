@@ -1,4 +1,4 @@
-package shop.main.controller;
+package shop.main.controller.admin;
 
 import java.util.Date;
 import java.util.stream.Stream;
