@@ -30,15 +30,18 @@
 					</div>
 				</div>
 				<core:if test="${not empty errorSummary}">
+					<core:forEach var="error" items="${errorSummary}">
+						<div class="alert alert-danger">
 
-					<div class="alert alert-danger">
-						<strong>Warning!</strong> ${errorSummary}
-					</div>
+							<strong>Error!</strong> ${error}
+
+						</div>
+					</core:forEach>
 				</core:if>
 				<div class="row">
 					<div class="col-lg-6 ">
 
-						<form:form action="${pageContext.request.contextPath}/a/category"
+						<form:form action="${pageContext.request.contextPath}${URL_PREFIX}category"
 							method="post" modelAttribute="category">
 							<div class="form-group">
 								<label>ID</label>
@@ -188,7 +191,7 @@
 		    $.ajax({
 				type : "POST",
 				contentType : "application/json",
-				url : "${home}a/translit",
+				url : "${home}ajax/translit",
 				data : JSON.stringify({ cropName: data }),
 				dataType:'text',
 				timeout : 100000,

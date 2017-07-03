@@ -43,10 +43,10 @@
 								  			</core:choose>
 								  		</td>
 								  		<td>
-								  		<a href="${pageContext.request.contextPath}/a/category/${category.id}/update">
+								  		<a href="${pageContext.request.contextPath}${URL_PREFIX}category/${category.id}/update">
 								  		<button type="button" class="btn btn-sm btn-info">Edit</button></a>
 								  		
-								  		<a href="${pageContext.request.contextPath}/a/category/${category.id}/delete">
+								  		<a href="${pageContext.request.contextPath}${URL_PREFIX}category/${category.id}/delete">
 								  		<button type="button" class="btn btn-sm btn-danger">Delete</button></a>
 								  		</td>
                                     </tr>

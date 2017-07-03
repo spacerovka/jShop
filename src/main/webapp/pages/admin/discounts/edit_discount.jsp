@@ -41,7 +41,7 @@
 				<div class="row">
 					<div class="col-lg-6 ">
 
-						<form:form action="${pageContext.request.contextPath}/a/discount"
+						<form:form action="${pageContext.request.contextPath}${URL_PREFIX}discount"
 							method="post" modelAttribute="discount">
 							<div class="form-group">
 								<label>ID</label>

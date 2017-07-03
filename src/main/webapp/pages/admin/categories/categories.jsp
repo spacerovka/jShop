@@ -37,7 +37,7 @@
 
 					<div class="col-lg-12">
 						<div class="form-group col-xs-12">
-							<a href="${pageContext.request.contextPath}/a/category/add"><button
+							<a href="${pageContext.request.contextPath}${URL_PREFIX}category/add"><button
 									type="button" class="btn btn-primary">Add new category</button></a>
 						</div>
 						<div class="form-group col-xs-4">
@@ -77,7 +77,7 @@
 		var url = $('#searchUrl').val();
 		var name = $('#searchName').val();		
 		$.ajax ({ 
-			url: '${pageContext.request.contextPath}/a/findCategories', 
+			url: '${pageContext.request.contextPath}/ajax/findCategories', 
 			type: "POST", 						
 			data : {name:name, url:url},
 			complete: function(response){

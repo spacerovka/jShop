@@ -37,7 +37,7 @@
 
 					<div class="col-lg-12">
 						<div class="form-group col-xs-12">
-							<a href="${pageContext.request.contextPath}/a/product/add">
+							<a href="${pageContext.request.contextPath}${URL_PREFIX}product/add">
 								<button type="button" class="btn btn-primary">Add new
 									product</button>
 							</a>
@@ -81,7 +81,7 @@
 		var name = $('#searchName').val();
 		console.log("updateProductOption");
 		$.ajax ({ 
-			url: '${pageContext.request.contextPath}/a/findProducts', 
+			url: '${pageContext.request.contextPath}/ajax/findProducts', 
 			type: "POST", 						
 			data : {name:name, url:url},
 			complete: function(response){
@@ -96,7 +96,7 @@
 		var name = $('#searchName').val();
 		console.log("updateProductOption");
 		$.ajax ({ 
-			url: '${pageContext.request.contextPath}/a/addToFeatured', 
+			url: '${pageContext.request.contextPath}/ajax/addToFeatured', 
 			type: "POST", 						
 			data : {id:id, name:name, url:url},
 			complete: function(response){
@@ -111,7 +111,7 @@
 		var name = $('#searchName').val();
 		console.log("updateProductOption");
 		$.ajax ({ 
-			url: '${pageContext.request.contextPath}/a/removeFromFeatured', 
+			url: '${pageContext.request.contextPath}/ajax/removeFromFeatured', 
 			type: "POST", 						
 			data : {id:id, name:name, url:url},
 			complete: function(response){

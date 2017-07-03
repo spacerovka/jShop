@@ -37,8 +37,8 @@
 
 					<div class="col-lg-12">
 						<div class="form-group col-xs-12">
-							<a href="${pageContext.request.contextPath}/a/category/add"><button
-									type="button" class="btn btn-primary">Add new category</button></a>
+							<a href="${pageContext.request.contextPath}${URL_PREFIX}discount/add"><button
+									type="button" class="btn btn-primary">Add new discount coupon</button></a>
 						</div>
 						<div class="form-group col-xs-4">
 							<label>Discount name</label> <input class="form-control"
@@ -81,7 +81,7 @@
 		var status = $('#searchStatus').val();
 		var name = $('#searchName').val();		
 		$.ajax ({ 
-			url: '${pageContext.request.contextPath}/a/findDiscounts', 
+			url: '${pageContext.request.contextPath}${URL_PREFIX}findDiscounts', 
 			type: "POST", 						
 			data : {name:name, status:status},
 			complete: function(response){

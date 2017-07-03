@@ -83,7 +83,7 @@
 		var phone = $('#searchPhone').val();	
 		var email = $('#searchEmail').val();
 		$.ajax ({ 
-			url: '${pageContext.request.contextPath}/a/findOrder', 
+			url: '${pageContext.request.contextPath}/ajax/findOrder', 
 			type: "POST", 						
 			data : {fullname:fullname, phone:phone, email:email},
 			complete: function(response){

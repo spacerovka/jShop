@@ -37,10 +37,10 @@
 
 					<div class="col-lg-12">
 						<div class="form-group col-xs-12">
-							<a href="${pageContext.request.contextPath}/a/optiongroup/add">
+							<a href="${pageContext.request.contextPath}${URL_PREFIX}optiongroup/add">
 								<button type="button" class="btn btn-primary">Add new
 									option group</button>
-							</a> <a href="${pageContext.request.contextPath}/a/option/add">
+							</a> <a href="${pageContext.request.contextPath}${URL_PREFIX}option/add">
 								<button type="button" class="btn btn-primary">Add new
 									option</button>
 							</a>
@@ -97,7 +97,7 @@
 		function searchOption() {
 			var name = $('#searchName_option').val();
 			$.ajax({
-				url : '${pageContext.request.contextPath}/a/findOption',
+				url : '${pageContext.request.contextPath}/ajax/findOption',
 				type : "POST",
 				data : {
 					name : name
@@ -113,7 +113,7 @@
 		function searchGroup() {
 			var name = $('#searchName_group').val();
 			$.ajax({
-				url : '${pageContext.request.contextPath}/a/findGroup',
+				url : '${pageContext.request.contextPath}/ajax/findGroup',
 				type : "POST",
 				data : {
 					name : name

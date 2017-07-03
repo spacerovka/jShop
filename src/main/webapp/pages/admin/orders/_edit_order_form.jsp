@@ -6,7 +6,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
-<form:form action="${pageContext.request.contextPath}/a/order"
+<form:form action="${pageContext.request.contextPath}${URL_PREFIX}order"
 	method="post" modelAttribute="order">
 	<form:hidden path="orderId"/>
 	<form:hidden path="number"/>

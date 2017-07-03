@@ -51,11 +51,15 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
 	protected String determineTargetUrl(Authentication authentication) {
 		boolean isUser = false;
 		boolean isAdmin = false;
+		boolean isManager = false;
 		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 		for (GrantedAuthority grantedAuthority : authorities) {
 			System.out.println("authority " + grantedAuthority.getAuthority());
 			if (grantedAuthority.getAuthority().equals(Constants.RoleType.USER.name())) {
 				isUser = true;
+				break;
+			} else if (grantedAuthority.getAuthority().equals(Constants.RoleType.MANAGER.name())) {
+				isManager = true;
 				break;
 			} else if (grantedAuthority.getAuthority().equals(Constants.RoleType.ADMIN.name())) {
 				isAdmin = true;
@@ -67,6 +71,8 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
 			return "/user/cabinet";
 		} else if (isAdmin) {
 			return "/admin/welcome";
+		} else if (isManager) {
+			return "/manager/welcome";
 		} else {
 			return "/login";
 		}

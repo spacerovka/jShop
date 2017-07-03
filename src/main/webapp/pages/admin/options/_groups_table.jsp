@@ -22,10 +22,10 @@
                                         <td>${optiongroup.optionGroupName}</td>
                                         <td>${optiongroup.description}</td>                                       
 								  		<td>
-								  		<a href="${pageContext.request.contextPath}/a/optiongroup/${optiongroup.id}/update">
+								  		<a href="${pageContext.request.contextPath}${URL_PREFIX}optiongroup/${optiongroup.id}/update">
 								  		<button type="button" class="btn btn-sm btn-info">Edit</button></a>
 								  		
-								  		<a href="${pageContext.request.contextPath}/a/optiongroup/${optiongroup.id}/delete">
+								  		<a href="${pageContext.request.contextPath}${URL_PREFIX}optiongroup/${optiongroup.id}/delete">
 								  		<button type="button" class="btn btn-sm btn-danger">Delete</button></a>
 								  		</td>
                                     </tr>

@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Admin option</title>
+<title>Admin category</title>
 <%@include file="../resources.jsp"%>
 
 </head>
@@ -21,11 +21,11 @@
 
 				<div class="row">
 					<div class="col-lg-12">
-						<h1 class="page-header">Edit option</h1>
+						<h1 class="page-header">Edit parcel size</h1>
 						<ol class="breadcrumb">
-							<li><i class="fa fa-dashboard"></i> <a href="index.html">Options</a>
+							<li><i class="fa fa-dashboard"></i> <a href="index.html">Parcel sizes</a>
 							</li>
-							<li class="active"><i class="fa fa-table"></i> Edit option</li>
+							<li class="active"><i class="fa fa-table"></i> Edit</li>
 						</ol>
 					</div>
 				</div>
@@ -41,34 +41,28 @@
 				<div class="row">
 					<div class="col-lg-6 ">
 
-						<form:form action="${pageContext.request.contextPath}${URL_PREFIX}option"
-							method="post" modelAttribute="option">
+						<form:form action="${pageContext.request.contextPath}${URL_PREFIX}size"
+							method="post" modelAttribute="size">
 							<div class="form-group">
 								<label>ID</label>
-								<p class="form-control-static">${option.id}</p>
+								<p class="form-control-static">${size.id}</p>
 							</div>
 							<form:hidden path="id" />
 
 							<div class="form-group">
-								<label>Option value*</label>
-								<form:input class="form-control" placeholder="Product name"
-									path="optionName" id="nameinput" />
-							</div>							
-
-							<div class="form-group">
-								<label>Option group</label>
-
-								<form:select path="optionGroup.id" class="form-control">
-									<option value="-1">Select...</option>									
-
-									<core:forEach items="${optiongroupList}" var="optiongroup">
-										<option value="${optiongroup.id}">${optiongroup.optionGroupName}</option>
-									</core:forEach>
-								</form:select>
-
+								<label>Size name</label>
+								<form:input class="form-control"
+									path="name" id="nameinput" />
 							</div>
 
 
+							<div class="form-group">
+								<label>Description</label>
+								<form:input class="form-control"
+									path="description" id="description" />
+							</div>
+				
+							
 							<button type="submit" class="btn btn-default">Submit
 								Button</button>
 							<button type="reset" class="btn btn-default">Reset
@@ -78,10 +72,7 @@
 
 					</div>
 
-					<div class="col-lg-6 ">
-						
-
-					</div>
+					
 				</div>
 
 
@@ -89,6 +80,7 @@
 		</div>
 
 	</div>
+
 	<%@include file="../_footer.jsp"%>
 	
 </body>

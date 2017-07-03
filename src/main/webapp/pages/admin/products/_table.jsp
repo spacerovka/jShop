@@ -59,10 +59,10 @@
 								  			</core:choose>
 								  		</td>
 								  		<td>
-								  		<a href="${pageContext.request.contextPath}/a/product/${product.id}/update">
+								  		<a href="${pageContext.request.contextPath}${URL_PREFIX}product/${product.id}/update">
 								  		<button type="button" class="btn btn-sm btn-info">Edit</button></a>
 								  		
-								  		<a href="${pageContext.request.contextPath}/a/product/${product.id}/delete">
+								  		<a href="${pageContext.request.contextPath}${URL_PREFIX}product/${product.id}/delete">
 								  		<button type="button" class="btn btn-sm btn-danger">Delete</button></a>
 								  		</td>
                                     </tr>

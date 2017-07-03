@@ -42,7 +42,7 @@
 				  data.append('files', input.files[0]);
 
 				  $.ajax({
-				    url: '${pageContext.request.contextPath}/a/images',
+				    url: '${pageContext.request.contextPath}/ajax/images',
 				    type: 'POST',
 				    data: data,
 				    enctype: 'multipart/form-data',

@@ -6,7 +6,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
-<form:form action="${pageContext.request.contextPath}/a/product"
+<form:form action="${pageContext.request.contextPath}${URL_PREFIX}product"
 	method="post" modelAttribute="product" id="productForm">
 	<div class="form-group">
 		<label>ID</label>

@@ -29,11 +29,14 @@
 						</ol>
 					</div>
 				</div>
-				<core:if test="${not empty flashMessage}">
+				<core:if test="${not empty errorSummary}">
+					<core:forEach var="error" items="${errorSummary}">
+						<div class="alert alert-danger">
 
-					<div class="alert alert-danger">
-						<strong>Warning!</strong> ${errorMessage}
-					</div>
+							<strong>Error!</strong> ${error}
+
+						</div>
+					</core:forEach>
 				</core:if>
 				<div class="row">
 					<div class="col-lg-6 ">

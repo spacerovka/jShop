@@ -2,9 +2,12 @@
 INSERT INTO user (username, id, enabled, password, email, emailVerified) VALUES ("admin", 1, true, "$2a$10$YAE7dNpvBNMBM7TvTUjnn.N0lsUt9v2jd/4Zf9vgv2lTaVFYUnXzy", "admin@admin", true);
 INSERT INTO user (username, id, enabled, password, email, emailVerified) VALUES ("default", 2, true, "$2a$10$nrOeQ8DX22NStYUuCeIvMeYA6fWfTczFvuynZVTq.7k0bkqGxPpyW", "default@gmail.com", false)
 #default Default9
+INSERT INTO user (username, id, enabled, password, email, emailVerified) VALUES ("manager", 3, true, "$2a$10$YAE7dNpvBNMBM7TvTUjnn.N0lsUt9v2jd/4Zf9vgv2lTaVFYUnXzy", "manager@shop.com", true);
+
 #ROLES
 INSERT INTO user_roles (username, role) VALUES ("admin", "ADMIN");
 INSERT INTO user_roles (username, role) VALUES ("default", "USER");
+INSERT INTO user_roles (username, role) VALUES ("manager", "MANAGER");
 
 #CATEGORY
 INSERT INTO category (categoryName, categoryURL, status) VALUES ('Dolls', 'dolls', true); #1
@@ -89,3 +92,7 @@ INSERT INTO block(position, content, blockURL, status) VALUES("FOOTER_COL_CENTER
 INSERT INTO block(position, content, blockURL, status) VALUES("FOOTER_COL_RIGHT",  '<div style="color: white; background: pink none repeat scroll 0% 0%; padding: 2rem;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>',"", true);
 
 INSERT INTO discount(id, status, salename, discount, coupon ) VALUES (1, true, "Spring 20% Sale", 20, "getMySpring");
+
+INSERT INTO country(id, name, basetarif) VALUES (1, "USA", 30.00);
+INSERT INTO parcel_size(id, name, description) VALUES (1, "Regular parcel 30x30 cm", "Regular");
+INSERT INTO parcel_cost(id, country, size, cost) VALUES (1, 1,1, 10.00);

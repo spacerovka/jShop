@@ -7,30 +7,26 @@
 <table class="table table-hover" >
                                 <thead>
                                     <tr>
-                                        <th>Number</th>
-                                        <th>Client Name</th>
-                                        <th>Client Phone</th>
-                                        <th>Client Email</th>
-                                        <th>Sum</th>                                        
-                                        <th>Date</th>
+                                        <th>ID</th>                                        
+                                        <th>Name</th>
+                                        <th>Base Tarif</th>                                        
+                                        <th>Buttons</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 <core:choose>
-	        						<core:when test="${not empty orders}">
-                                	<core:forEach var="order" items="${orders}">
+	        						<core:when test="${not empty list}">
+                                	<core:forEach var="item" items="${list}">
                                 	<tr>
-                                        <td>${order.number}</td>
-                                        <td>${order.fullName}</td>
-                                        <td>${order.phone}</td>
-                                        <td>${order.email}</td>
-                                        <td>${order.sum}</td>
-                                        <td>${order.date}</td>                                       
+                                        <td>${item.id}</td>
+                                        <td>${item.name}</td>
+                                        <td>${item.basetarif}$</td>                                        
+                                       
 								  		<td>
-								  		<a href="${pageContext.request.contextPath}${URL_PREFIX}order/${order.orderId}/update">
+								  		<a href="${pageContext.request.contextPath}${URL_PREFIX}country/${item.id}/update">
 								  		<button type="button" class="btn btn-sm btn-info">Edit</button></a>
 								  		
-								  		<a href="${pageContext.request.contextPath}${URL_PREFIX}order/${order.orderId}/delete">
+								  		<a href="${pageContext.request.contextPath}${URL_PREFIX}country/${item.id}/delete">
 								  		<button type="button" class="btn btn-sm btn-danger">Delete</button></a>
 								  		</td>
                                     </tr>

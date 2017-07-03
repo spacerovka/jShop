@@ -60,7 +60,7 @@ public class AjaxAdminController implements ResourceLoaderAware {
 		return resourceLoader.getResource(location);
 	}
 
-	@RequestMapping(value = "a/translit")
+	@RequestMapping(value = "ajax/translit")
 	public @ResponseBody String getTranslitURL(@RequestBody String name) {
 		System.out.println("request is " + name);
 		String result = URLUtils.transliterate(name.substring(6));
@@ -105,7 +105,7 @@ public class AjaxAdminController implements ResourceLoaderAware {
 		return "redirect:/a/product/" + prefix.substring(prefix.indexOf("/") + 1, prefix.length() - 1) + "/update";
 	}
 
-	@RequestMapping(value = "/a/images", method = RequestMethod.POST)
+	@RequestMapping(value = "/ajax/images", method = RequestMethod.POST)
 	@ResponseBody
 	public String handleTinyMCEUpload(@RequestParam("files") MultipartFile files[]) {
 		System.out.println("uploading______________________________________MultipartFile " + files.length);
@@ -228,7 +228,7 @@ public class AjaxAdminController implements ResourceLoaderAware {
 		}
 	}
 
-	@RequestMapping(value = "a/addProductOption", method = RequestMethod.POST, consumes = "application/x-www-form-urlencoded;charset=UTF-8")
+	@RequestMapping(value = "ajax/addProductOption", method = RequestMethod.POST, consumes = "application/x-www-form-urlencoded;charset=UTF-8")
 	public String addProductOption(Product product, HttpServletRequest request, Model model) {
 		for (ProductOption po : product.getProductOptions()) {
 			if (po.getOption().getId() == -1) {
@@ -251,7 +251,7 @@ public class AjaxAdminController implements ResourceLoaderAware {
 		return "../admin/_edit_product_form";
 	}
 
-	@RequestMapping(value = "a/updateProductOption", method = RequestMethod.POST, consumes = "application/x-www-form-urlencoded;charset=UTF-8")
+	@RequestMapping(value = "ajax/updateProductOption", method = RequestMethod.POST, consumes = "application/x-www-form-urlencoded;charset=UTF-8")
 	public String updateProductOption(Product product, HttpServletRequest request, Model model) {
 		for (ProductOption po : product.getProductOptions()) {
 			if (po.getOption().getId() == -1) {
@@ -269,14 +269,14 @@ public class AjaxAdminController implements ResourceLoaderAware {
 		return "../admin/_edit_product_form";
 	}
 
-	@RequestMapping(value = "/a/findProducts", method = RequestMethod.POST)
+	@RequestMapping(value = "/ajax/findProducts", method = RequestMethod.POST)
 	public String findProducts(@RequestParam String name, @RequestParam String url, Model model) {
 		model.addAttribute("productList", productService.findByNameAndURL(name, url));
 		return "../admin/products/_table";
 
 	}
 
-	@RequestMapping(value = "/a/addToFeatured", method = RequestMethod.POST)
+	@RequestMapping(value = "/ajax/addToFeatured", method = RequestMethod.POST)
 	public String addToFeatured(@RequestParam long id, @RequestParam String name, @RequestParam String url,
 			Model model) {
 		Product product = productService.fingProductById(id);
@@ -287,7 +287,7 @@ public class AjaxAdminController implements ResourceLoaderAware {
 
 	}
 
-	@RequestMapping(value = "/a/removeFromFeatured", method = RequestMethod.POST)
+	@RequestMapping(value = "/ajax/removeFromFeatured", method = RequestMethod.POST)
 	public String removeFromFeatured(@RequestParam long id, @RequestParam String name, @RequestParam String url,
 			Model model) {
 		Product product = productService.fingProductById(id);
@@ -298,28 +298,28 @@ public class AjaxAdminController implements ResourceLoaderAware {
 
 	}
 
-	@RequestMapping(value = "/a/findCategories", method = RequestMethod.POST)
+	@RequestMapping(value = "/ajax/findCategories", method = RequestMethod.POST)
 	public String findCategories(@RequestParam String name, @RequestParam String url, Model model) {
 		model.addAttribute("categoryList", categoryService.findByNameAndURL(name, url));
 		return "../admin/categories/_table";
 
 	}
 
-	@RequestMapping(value = "/a/findOption", method = RequestMethod.POST)
+	@RequestMapping(value = "/ajax/findOption", method = RequestMethod.POST)
 	public String findOption(@RequestParam String name, Model model) {
 		model.addAttribute("optionList", optionService.findAllByName(name));
 		return "../admin/options/_options_table";
 
 	}
 
-	@RequestMapping(value = "/a/findGroup", method = RequestMethod.POST)
+	@RequestMapping(value = "/ajax/findGroup", method = RequestMethod.POST)
 	public String findGroup(@RequestParam String name, Model model) {
 		model.addAttribute("optiongroupList", optionGroupService.findOptionGroupByName(name));
 		return "../admin/options/_groups_table";
 
 	}
 
-	@RequestMapping(value = "/a/findOrder", method = RequestMethod.POST)
+	@RequestMapping(value = "/ajax/findOrder", method = RequestMethod.POST)
 	public String findOrder(@RequestParam String fullname, @RequestParam String phone, @RequestParam String email,
 			Model model) {
 		model.addAttribute("orders",

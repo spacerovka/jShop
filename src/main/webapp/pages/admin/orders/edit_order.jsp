@@ -30,10 +30,13 @@
 					</div>
 				</div>
 				<core:if test="${not empty errorSummary}">
+					<core:forEach var="error" items="${errorSummary}">
+						<div class="alert alert-danger">
 
-					<div class="alert alert-danger">
-						<strong>Error!</strong> ${errorSummary}
-					</div>
+							<strong>Error!</strong> ${error}
+
+						</div>
+					</core:forEach>
 				</core:if>
 				<div class="row">
 					<div class="col-lg-6 " id="updateForm">
@@ -65,7 +68,7 @@
 	{
 		console.log("addProductOption");
 		$.ajax ({ 
-			url: '${pageContext.request.contextPath}/a/addProductToOrder', 
+			url: '${pageContext.request.contextPath}/ajax/addProductToOrder', 
 			type: "POST", 						
 			data : $('#productForm').serialize(),
 			complete: function(response){

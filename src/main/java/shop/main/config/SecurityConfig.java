@@ -52,10 +52,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 
 		http.csrf().disable().authorizeRequests().antMatchers("/resources/**").permitAll().antMatchers("/user/**")
-				// hasRole
-				.access("hasAuthority('" + Constants.RoleType.USER.name() + "')").antMatchers("/admin/**")
-				.access("hasAuthority('" + Constants.RoleType.ADMIN.name() + "')").and().formLogin().loginPage("/login")
-				.defaultSuccessUrl("/user/cabinet")
+				.access("hasAuthority('" + Constants.RoleType.USER.name() + "')")// hasRole
+				.antMatchers("/admin/**").access("hasAuthority('" + Constants.RoleType.ADMIN.name() + "')")
+				.antMatchers("/manager/**").access("hasAuthority('" + Constants.RoleType.MANAGER.name() + "')").and()
+				.formLogin().loginPage("/login").defaultSuccessUrl("/user/cabinet")
 				// .loginSuccessHandler(logoutSuccessHandler)
 				.failureUrl("/accessDenied").successHandler(successHandler).failureHandler(failureHandle)
 				.usernameParameter("username").passwordParameter("password").and().exceptionHandling()

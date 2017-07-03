@@ -2,6 +2,7 @@ package shop.main.controller.admin;
 
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,20 +20,21 @@ import shop.main.data.entity.Discount;
 import shop.main.data.service.DiscountService;
 
 @Controller
-public class DiscountController {
+@RequestMapping(value = { "/a", "/manager" })
+public class DiscountController extends AdminController {
 	@Autowired
 	DiscountService discountService;
 
-	@RequestMapping(value = "/a/discounts")
+	@RequestMapping(value = "/discounts")
 	public String discountsList(Model model) {
 
 		model.addAttribute("discountList", discountService.listAll());
 		return "../admin/discounts/discounts";
 	}
 
-	@RequestMapping(value = "/a/discount", method = RequestMethod.POST)
+	@RequestMapping(value = "/discount", method = RequestMethod.POST)
 	public String saveDiscount(@ModelAttribute("discount") @Valid Discount discount, Model model, BindingResult result,
-			final RedirectAttributes redirectAttributes) {
+			final RedirectAttributes redirectAttributes, HttpServletRequest request) {
 
 		if (result.hasErrors()) {
 			model.addAttribute("errorSummary", result.getFieldErrors().stream()
@@ -46,12 +48,12 @@ public class DiscountController {
 			}
 
 			discountService.save(discount);
-			return "redirect:/a/discounts";
+			return "redirect:" + getUrlPrefix(request) + "discounts";
 		}
 
 	}
 
-	@RequestMapping(value = "/a/discount/add", method = RequestMethod.GET)
+	@RequestMapping(value = "/discount/add", method = RequestMethod.GET)
 	public String addDiscount(Model model) {
 
 		model.addAttribute("discount", new Discount());
@@ -60,7 +62,7 @@ public class DiscountController {
 		return "../admin/discounts/edit_discount";
 	}
 
-	@RequestMapping(value = "/a/discount/{id}/update", method = RequestMethod.GET)
+	@RequestMapping(value = "/discount/{id}/update", method = RequestMethod.GET)
 	public String editDiscount(@PathVariable("id") long id, Model model) {
 
 		model.addAttribute("discount", discountService.findById(id));
@@ -68,15 +70,15 @@ public class DiscountController {
 		return "../admin/discounts/edit_discount";
 	}
 
-	@RequestMapping(value = "/a/discount/{id}/delete", method = RequestMethod.GET)
-	public String deleteDiscount(@PathVariable("id") long id, Model model,
-			final RedirectAttributes redirectAttributes) {
+	@RequestMapping(value = "/discount/{id}/delete", method = RequestMethod.GET)
+	public String deleteDiscount(@PathVariable("id") long id, Model model, final RedirectAttributes redirectAttributes,
+			HttpServletRequest request) {
 		discountService.deleteById(id);
 		redirectAttributes.addFlashAttribute("flashMessage", "Discount deleted successfully!");
-		return "redirect:/a/discounts";
+		return "redirect:" + getUrlPrefix(request) + "discounts";
 	}
 
-	@RequestMapping(value = "/a/findDiscounts", method = RequestMethod.POST)
+	@RequestMapping(value = "/findDiscounts", method = RequestMethod.POST)
 	public String findDiscounts(@RequestParam String name, @RequestParam String status, Model model) {
 
 		model.addAttribute("categoryList", discountService.findByNameAndStatus(name, status));
