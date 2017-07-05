@@ -90,6 +90,10 @@ public class Product {
 	@Column(name = "rating", columnDefinition = "int default 0")
 	private int rating;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "size", nullable = true)
+	private ParcelSize size;
+
 	@PrePersist
 	protected void onCreate() {
 		created = new Date();
@@ -299,6 +303,14 @@ public class Product {
 
 	public void setRating(int rating) {
 		this.rating = rating;
+	}
+
+	public ParcelSize getSize() {
+		return size;
+	}
+
+	public void setSize(ParcelSize size) {
+		this.size = size;
 	}
 
 }

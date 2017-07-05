@@ -58,7 +58,12 @@
 					</core:if>					
 					<tr class="devider">
 						<td>Shipping</td>
-						<td class="align-r">Free shipping</td>
+						<td class="align-r">
+						<core:choose>
+						<core:when test="${order.shippingCost > 0}">
+						</core:when>
+						<core:otherwise>Free shipping</core:otherwise>
+						</core:choose></td>
 					</tr>
 					<tr>
 						<td>Order total</td>
@@ -93,29 +98,13 @@
 		</a>
 		<div class="hidden-panel calc-shipping" id="calc-shipping">
 			<div class="form-group">
-				<div class="select-style">
-					<select name="country">
-						<option>Australia</option>
-						<option>Belgium</option>
-						<option>Germany</option>
-						<option>United Kingdom</option>
-						<option>Switzerland</option>
-						<option>USA</option>
+				<div class="select-style">					
+					<select name="country" id="country" class="form-control" items="${countryList}">
 					</select>
 				</div>
-			</div>
-			<div class="form-group">
-				<label class="sr-only" for="state">State/ province</label> <input
-					type="text" class="form-control" id="state" name="state"
-					placeholder="State/ province">
-			</div>
-			<div class="form-group">
-				<label class="sr-only" for="postcode">Postcode/ ZIP</label> <input
-					type="text" class="form-control" id="postcode" name="postcode"
-					placeholder="Postcode/ ZIP">
-			</div>
+			</div>			
 			<input type="submit" class="btn btn-primary btn-sm btn-block"
-				name="update-totals" value="Update totals">
+				name="update-totals" value="Update totals" onclick="addShipping();">
 		</div>
 	</form>
 </div>

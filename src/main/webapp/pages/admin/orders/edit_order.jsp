@@ -38,78 +38,113 @@
 						</div>
 					</core:forEach>
 				</core:if>
-				<div class="row">
-					<div class="col-lg-6 " id="updateForm">
-
-						<%@include file="_edit_order_form.jsp"%>
-
-					</div>
-
-					<div class="col-lg-6 ">
-						
-<div class="form-group col-xs-12">
-		<%@include file="products.jsp"%>
-	</div>
-
-
-					</div>
+				<div id="order">
+					<%@include file="_order.jsp"%>
 				</div>
-
-
 			</div>
 		</div>
 
 	</div>
 	<%@include file="../_footer.jsp"%>
-		
+
 	<script>
-	
-	function addProduct()
-	{
-		console.log("addProductOption");
-		$.ajax ({ 
-			url: '${pageContext.request.contextPath}/ajax/addProductToOrder', 
-			type: "POST", 						
-			data : $('#productForm').serialize(),
-			complete: function(response){
-				$('#updateForm').html(response.responseText);
-				$("html, body").animate({ scrollTop: $(document).height() }, 1000);
-			}
-		}); 
-	}	
-	
-	</script>
-	
-	<!-- function addQuantity(sku) {
-			console.log("removeQuantity");
+		function addProduct(id, orderid) {
+			console.log("addProduct");
+			$
+					.ajax({
+						url : '${pageContext.request.contextPath}/ajax/addProductToOrder',
+						type : "POST",
+						data : {
+							id : id, orderid:orderid
+						},
+						complete : function(response) {
+							$('#order').html(response.responseText);
+							$("html, body").animate({
+								scrollTop : $(document).height()
+							}, 1000);
+						}
+					});
+		}
+		
+		function addQuantity(sku, orderid) {
+			console.log("addQuantity");
 			$.ajax({
-				url : '${pageContext.request.contextPath}/addQuantity',
+				url : '${pageContext.request.contextPath}/ajax/addQuantity',
 				type : "POST",
 				dataType : "text",
 				data : {
-					sku : sku
+					sku : sku,
+					orderid:orderid
 				},
 				complete : function(response) {
-					$('#cart').html(response.responseText);
-					updateCartItemCount();
+					$('#order').html(response.responseText);
+					$("html, body").animate({
+						scrollTop : $(document).height()
+					}, 1000);
 				}
 			});
 		}
 
-		function removeQuantity(sku) {
+		function removeQuantity(sku,orderid) {
 			console.log("removeQuantity");
 			$.ajax({
-				url : '${pageContext.request.contextPath}/removeQuantity',
+				url : '${pageContext.request.contextPath}/ajax/removeQuantity',
 				type : "POST",
 				dataType : "text",
 				data : {
-					sku : sku
+					sku : sku,
+					orderid:orderid
 				},
 				complete : function(response) {
-					$('#cart').html(response.responseText);
-					updateCartItemCount();
+					$('#order').html(response.responseText);
+					$("html, body").animate({
+						scrollTop : $(document).height()
+					}, 1000);
 				}
 			});
-		} -->
+		}
+		
+		function addCoupon() {
+			console.log("addCoupon");
+			var code = $("#coupon-code").val();
+			$.ajax({
+				url : '${pageContext.request.contextPath}/ajax/addCoupon',
+				type : "POST",
+				dataType : "text",
+				data : {
+					code : code,
+					orderid:orderid
+				},
+				complete : function(response) {
+					$('#order').html(response.responseText);
+					$("html, body").animate({
+						scrollTop : $(document).height()
+					}, 1000);
+				}
+			});
+		}
+	</script>
+
+	<script>
+		function searchButtonClick() {
+			var sku = $('#searchSKU').val();
+			var name = $('#searchName').val();
+			console.log("updateProductOption");
+			$
+					.ajax({
+						url : '${pageContext.request.contextPath}/ajax/findProductsForOrder',
+						type : "POST",
+						data : {
+							name : name,
+							sku : sku
+						},
+						complete : function(response) {
+							$('#table').html(response.responseText);
+						}
+					});
+		}
+	</script>
+
+	
 </body>
 </html>

@@ -15,11 +15,12 @@ public class OrderProduct {
 	private BigDecimal price;
 	private String product_name;
 	private int product_quantity;
-	private BigDecimal subTotal;	
+	private BigDecimal subTotal;
+	private String size;
 	private String product_SKU;
 	private String cartDesc;
 	private String thumb;
-	
+
 	public OrderProduct() {
 		this.product_quantity = 1;
 	}
@@ -30,7 +31,7 @@ public class OrderProduct {
 		this.product_quantity = quantity;
 		this.product_SKU = product_SKU;
 	}
-	
+
 	public OrderProduct(Product product) {
 		this.productId = product.getId();
 		this.product_quantity = 1;
@@ -38,14 +39,15 @@ public class OrderProduct {
 		this.product_SKU = product.getSku();
 		this.product_name = product.getName();
 		this.cartDesc = product.getShortDesc();
-		this.thumb=product.getImage();
-		
+		this.thumb = product.getImage();
+		this.size = product.getSize().getName();
+
 	}
-	
-	
+
 	public Long getProductId() {
 		return productId;
 	}
+
 	public void setProductId(Long productId) {
 		this.productId = productId;
 	}
@@ -72,7 +74,7 @@ public class OrderProduct {
 
 	public void setProduct_quantity(int product_quantity) {
 		this.product_quantity = product_quantity;
-	}	
+	}
 
 	public String getProduct_SKU() {
 		return product_SKU;
@@ -82,7 +84,6 @@ public class OrderProduct {
 		this.product_SKU = product_SKU;
 	}
 
-	
 	public BigDecimal getSubTotal() {
 		return subTotal;
 	}
@@ -99,7 +100,7 @@ public class OrderProduct {
 		result = prime * result + ((productId == null) ? 0 : productId.hashCode());
 		result = prime * result + ((product_SKU == null) ? 0 : product_SKU.hashCode());
 		result = prime * result + ((product_name == null) ? 0 : product_name.hashCode());
-		
+
 		return result;
 	}
 
@@ -132,10 +133,9 @@ public class OrderProduct {
 				return false;
 		} else if (!product_name.equals(other.product_name))
 			return false;
-		
+
 		return true;
 	}
-
 
 	public String getCartDesc() {
 		return cartDesc;
@@ -158,6 +158,14 @@ public class OrderProduct {
 		return "OrderProduct [productId=" + productId + ", price=" + price + ", product_name=" + product_name
 				+ ", product_quantity=" + product_quantity + ", product_SKU=" + product_SKU + ", cartDesc=" + cartDesc
 				+ ", thumb=" + thumb + "]";
+	}
+
+	public String getSize() {
+		return size;
+	}
+
+	public void setSize(String size) {
+		this.size = size;
 	}
 
 }

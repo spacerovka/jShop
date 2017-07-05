@@ -19,15 +19,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import shop.main.data.entity.Discount;
 import shop.main.data.entity.Option;
 import shop.main.data.entity.OptionGroup;
 import shop.main.data.entity.Product;
 import shop.main.data.entity.ProductOption;
+import shop.main.data.mongo.Order;
 import shop.main.data.mongo.OrderRepository;
 import shop.main.data.service.CategoryService;
+import shop.main.data.service.DiscountService;
 import shop.main.data.service.OptionGroupService;
 import shop.main.data.service.OptionService;
 import shop.main.data.service.ProductService;
+import shop.main.utils.Constants;
 import shop.main.utils.URLUtils;
 
 @Controller
@@ -51,6 +55,9 @@ public class AjaxAdminController implements ResourceLoaderAware {
 
 	@Autowired
 	private OrderRepository orderRepository;
+
+	@Autowired
+	private DiscountService discountService;
 
 	public void setResourceLoader(ResourceLoader resourceLoader) {
 		this.resourceLoader = resourceLoader;
@@ -274,6 +281,63 @@ public class AjaxAdminController implements ResourceLoaderAware {
 		model.addAttribute("productList", productService.findByNameAndURL(name, url));
 		return "../admin/products/_table";
 
+	}
+
+	@RequestMapping(value = "/ajax/findProductsForOrder", method = RequestMethod.POST)
+	public String findProductsForOrder(@RequestParam String name, @RequestParam String sku, Model model) {
+		model.addAttribute("productList", productService.findByNameAndSKU(name, sku));
+		return "../admin/orders/_add_product_table";
+	}
+
+	@RequestMapping(value = "/ajax/addProductToOrder", method = RequestMethod.GET)
+	public String addProductToOrder(@RequestParam String id, @RequestParam String orderid, Model model) {
+		Order order = orderRepository.findOne(orderid);
+		Product product = productService.fingProductById(Long.parseLong(id));
+		order.addItem(product);
+		orderRepository.save(order);
+		model.addAttribute("order", order);
+		model.addAttribute("countryList", Constants.getCountryList());
+
+		return "../admin/orders/_order";
+	}
+
+	@RequestMapping(value = "/ajax/addQuantity", method = RequestMethod.POST)
+	public String addQuantity(@RequestParam String sku, @RequestParam String orderid, HttpServletRequest request,
+			Model model) {
+		Order order = orderRepository.findOne(orderid);
+		order.addQuantity(sku);
+		orderRepository.save(order);
+		model.addAttribute("order", order);
+		return "../admin/orders/_order";
+	}
+
+	@RequestMapping(value = "/ajax/removeQuantity", method = RequestMethod.POST)
+	public String removeQuantity(@RequestParam String sku, @RequestParam String orderid, HttpServletRequest request,
+			Model model) {
+		Order order = orderRepository.findOne(orderid);
+		order.removeQuantity(sku);
+		orderRepository.save(order);
+		model.addAttribute("order", order);
+		return "../admin/orders/_order";
+	}
+
+	@RequestMapping(value = "/ajax/addCoupon", method = RequestMethod.POST)
+	public String addCoupon(@RequestParam String code, @RequestParam String orderid, HttpServletRequest request,
+			Model model) {
+		Order order = orderRepository.findOne(orderid);
+		if (order.getDiscount() <= 0) {
+			Discount discount = discountService.findByCoupon(code);
+			if (discount != null) {
+				order.addCoupon(discount.getDiscount(), discount.getSalename());
+				orderRepository.save(order);
+			} else {
+				model.addAttribute("couponError", "Discount not found - " + order.getDiscountName());
+			}
+		} else {
+			model.addAttribute("couponError", "This order already has a discount - " + order.getDiscountName());
+		}
+		model.addAttribute("order", order);
+		return "../admin/orders/_order";
 	}
 
 	@RequestMapping(value = "/ajax/addToFeatured", method = RequestMethod.POST)

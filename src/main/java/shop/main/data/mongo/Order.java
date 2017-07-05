@@ -4,12 +4,15 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import shop.main.data.entity.Country;
 import shop.main.data.entity.OrderUserWrapper;
+import shop.main.data.entity.ParcelCost;
 import shop.main.data.entity.Product;
 
 @Document(collection = "orders")
@@ -47,6 +50,7 @@ public class Order {
 	public Order() {
 		product_list = new HashMap<String, OrderProduct>();
 		sum = new BigDecimal(0.00);
+		shippingCost = new BigDecimal(0.00);
 	}
 
 	public String getOrderId() {
@@ -152,6 +156,7 @@ public class Order {
 
 	public void setShippingCost(BigDecimal shippingCost) {
 		this.shippingCost = shippingCost;
+		updateSum();
 	}
 
 	public Date getDate() {
@@ -385,6 +390,7 @@ public class Order {
 			product.setSubTotal(product.getPrice().multiply(new BigDecimal(product.getProduct_quantity())));
 			sum = sum.add(product.getSubTotal());
 		}
+		sum = sum.add(shippingCost);
 		sum = sum.multiply(new BigDecimal((100 - this.discount) / 100));
 	}
 
@@ -436,6 +442,23 @@ public class Order {
 
 	public void setDiscountName(String discountName) {
 		this.discountName = discountName;
+	}
+
+	public void calculateShipping(Country country) {
+		BigDecimal shippingCost = new BigDecimal(0);
+		if (country != null) {
+			shippingCost = country.getBasetarif();
+
+			for (Entry<String, OrderProduct> entry : getProduct_list().entrySet()) {
+				String productSize = entry.getValue().getSize();
+				for (ParcelCost cost : country.getCostList()) {
+					if (cost.getSize().getName().equals(productSize)) {
+						shippingCost = shippingCost.add(cost.getCost());
+					}
+				}
+			}
+		}
+		setShippingCost(shippingCost);
 	}
 
 }

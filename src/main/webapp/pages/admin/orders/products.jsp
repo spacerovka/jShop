@@ -28,9 +28,9 @@
 							alt="${product.value.product_name}"></a></td>
 					<td class="name"><a href="shop-single-item-v1.html">${product.value.product_name}</a></td>
 					<td class="price">${product.value.price} $</td>
-					<td class="qnt-count"><a class="incr-btn" href="#" onclick="removeQuantity('${product.value.product_SKU}');">-</a> <input
+					<td class="qnt-count"><a class="incr-btn" href="#" onclick="removeQuantity('${product.value.product_SKU}', ${order.id});">-</a> <input
 						class="quantity form-control" type="text" value="${product.value.product_quantity}"> <a
-						class="incr-btn" href="#" onclick="addQuantity('${product.value.product_SKU}');">+</a></td>
+						class="incr-btn" href="#" onclick="addQuantity('${product.value.product_SKU}',${order.id});">+</a></td>
 					<td class="total">${product.value.subTotal} $</td>
 					<td class="delete"><i class="icon-delete"></i></td>
 				</tr>
@@ -63,16 +63,21 @@
 					</tbody>
 				</table>
 
-				<!-- <h3>Have a coupon?</h3>
+				<h3>Have a coupon?</h3>
 				<div class="coupon">
 					<div class="form-group">
+					<core:if test="${not empty couponError}">
+						<div class="alert alert-danger">
+							<strong>Oops!</strong> ${couponError}
+						</div>
+					</core:if>
 						<label class="sr-only" for="coupon-code">Enter coupon code</label>
 						<input type="text" class="form-control" id="coupon-code"
 							name="coupon-code" placeholder="Enter coupon code">
 					</div>
 					<input type="submit" class="btn btn-primary btn-sm btn-block"
-						name="apply-coupon" value="Apply coupon">
-				</div> -->
+					name="apply-coupon" value="Apply coupon" onclick="addCoupon(${order.id});">
+				</div>
 
 				
 			</div>

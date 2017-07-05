@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import shop.main.data.entity.Country;
 import shop.main.data.mongo.Order;
 import shop.main.data.mongo.OrderRepository;
+import shop.main.data.service.ShippingCostService;
 import shop.main.utils.Constants;
 
 @Controller
@@ -30,6 +32,9 @@ public class AdminOrderController extends AdminController {
 
 	@Autowired
 	ServletContext context;
+
+	@Autowired
+	private ShippingCostService shippingCostService;
 
 	@RequestMapping(value = "/orders")
 	public String ordersList(Model model) {
@@ -56,7 +61,7 @@ public class AdminOrderController extends AdminController {
 	}
 
 	@RequestMapping(value = "/order", method = RequestMethod.POST)
-	public String saveProduct(@ModelAttribute("order") @Valid Order order, Model model, BindingResult result,
+	public String saveOrder(@ModelAttribute("order") @Valid Order order, Model model, BindingResult result,
 			final RedirectAttributes redirectAttributes, HttpServletRequest request) {
 
 		if (result.hasErrors()) {
@@ -64,13 +69,15 @@ public class AdminOrderController extends AdminController {
 					.map(e -> e.getField() + " error - " + e.getDefaultMessage() + " ").collect(Collectors.toList()));
 			return "../admin/orders/edit_order";
 		} else {
-			redirectAttributes.addFlashAttribute("flashMessage", "Product updated successfully!");
+			redirectAttributes.addFlashAttribute("flashMessage", "Order updated successfully!");
 			Order prevOrder = orderRepository.findOne(order.getOrderId());
 			order.setDate(prevOrder.getDate());
 			if (order.getDate() == null) {
 				order.setDate(new Date());
 			}
 			order.setProduct_list(prevOrder.getProduct_list());
+			Country country = shippingCostService.getCountryByName(order.getCountry());
+			order.calculateShipping(country);
 			orderRepository.save(order);
 
 			return "redirect:" + getUrlPrefix(request) + "orders";

@@ -42,6 +42,8 @@ import shop.main.data.service.ProductService;
 import shop.main.data.service.ProductServiceImpl;
 import shop.main.data.service.ReviewService;
 import shop.main.data.service.ReviewServiceImpl;
+import shop.main.data.service.ShippingCostService;
+import shop.main.data.service.ShippingCostServiceImpl;
 import shop.main.data.service.SitePropertyService;
 import shop.main.data.service.SitePropertyServiceImpl;
 import shop.main.data.service.StaticPageService;
@@ -200,6 +202,11 @@ public class DataConfig<DatabasePopulator> {
 	@Bean
 	public ReCaptchaService reCaptchaService() {
 		return new ReCaptchaServiceImpl();
+	}
+
+	@Bean
+	public ShippingCostService shippingCostService() {
+		return new ShippingCostServiceImpl();
 	}
 
 	@Bean

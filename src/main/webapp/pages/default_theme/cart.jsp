@@ -57,6 +57,22 @@
 				}
 			});
 		}
+		
+		function addShipping(){
+			var country = $('#country').val();
+			$.ajax({
+				url : '${pageContext.request.contextPath}/addShipping',
+				type : "POST",
+				dataType : "text",
+				data : {
+					country : country
+				},
+				complete : function(response) {
+					$('#cart').html(response.responseText);
+					updateCartItemCount();
+				}
+			});
+		}
 
 		function removeQuantity(sku) {
 			console.log("removeQuantity");

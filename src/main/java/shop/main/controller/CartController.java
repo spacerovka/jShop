@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import shop.main.data.entity.Country;
 import shop.main.data.entity.Discount;
 import shop.main.data.entity.OrderUserWrapper;
 import shop.main.data.entity.Product;
@@ -31,6 +32,7 @@ import shop.main.data.mongo.Order;
 import shop.main.data.mongo.OrderRepository;
 import shop.main.data.service.DiscountService;
 import shop.main.data.service.ProductService;
+import shop.main.data.service.ShippingCostService;
 import shop.main.utils.Constants;
 import shop.main.utils.URLUtils;
 import shop.main.validation.EmailExistsException;
@@ -41,6 +43,9 @@ public class CartController extends FrontController implements ResourceLoaderAwa
 
 	@Autowired
 	ServletContext context;
+
+	@Autowired
+	private ShippingCostService shippingCostService;
 
 	public void setResourceLoader(ResourceLoader resourceLoader) {
 		this.resourceLoader = resourceLoader;
@@ -64,6 +69,8 @@ public class CartController extends FrontController implements ResourceLoaderAwa
 		Order currentOrder = getOrCreateOrder(request);
 		if (currentOrder.getSum().intValue() != 0) {
 			model.addAttribute("order", getOrCreateOrder(request));
+			model.addAttribute("countryList",
+					(String[]) shippingCostService.listAllCountries().stream().map(c -> c.getName()).toArray());
 		}
 		return "cart";
 	}
@@ -82,7 +89,8 @@ public class CartController extends FrontController implements ResourceLoaderAwa
 				}
 			}
 			model.addAttribute("orderUserWrapper", wrapper);
-			model.addAttribute("countryList", Constants.getCountryList());
+			model.addAttribute("countryList",
+					(String[]) shippingCostService.listAllCountries().stream().map(c -> c.getName()).toArray());
 			return "checkout";
 		} else {
 			return "redirect:/cart";
@@ -156,6 +164,15 @@ public class CartController extends FrontController implements ResourceLoaderAwa
 		return "template_parts/cart";
 	}
 
+	@RequestMapping(value = "/addShipping", method = RequestMethod.POST)
+	public String addShippingCost(@RequestParam String country, HttpServletRequest request, Model model) {
+		Order order = getOrCreateOrder(request);
+		order.setCountry(country);
+		calculateShipping(order);
+		model.addAttribute("order", order);
+		return "template_parts/cart";
+	}
+
 	protected Order getOrCreateOrder(HttpServletRequest request) {
 		System.out.println("* * * getOrCreateOrder");
 		Order order = null;
@@ -214,6 +231,7 @@ public class CartController extends FrontController implements ResourceLoaderAwa
 			currentOrder.setNumber(
 					Calendar.getInstance().get(Calendar.YEAR) + orderCount + currentOrder.getSum().intValue());
 			currentOrder.setDate(new Date());
+			calculateShipping(currentOrder);
 			orderRepository.save(currentOrder);
 			request.getSession().setAttribute("CURRENT_ORDER", null);
 			model.addAttribute("order", currentOrder);
@@ -222,6 +240,11 @@ public class CartController extends FrontController implements ResourceLoaderAwa
 		} else {
 			return "redirect:/cart";
 		}
+	}
+
+	private void calculateShipping(Order currentOrder) {
+		Country country = shippingCostService.getCountryByName(currentOrder.getCountry());
+		currentOrder.calculateShipping(country);
 	}
 
 	private User createUserAccount(User accountDto) {
