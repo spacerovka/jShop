@@ -21,7 +21,7 @@ public class ParcelCost {
 	private Long id;
 
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
-	@JoinColumn(columnDefinition = "country", name = "category", nullable = true)
+	@JoinColumn(name = "country", nullable = false)
 	private Country country;
 
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)

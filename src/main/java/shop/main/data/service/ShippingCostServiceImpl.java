@@ -17,6 +17,7 @@ import shop.main.data.DAO.CountryDAO;
 import shop.main.data.DAO.ParcelCostDAO;
 import shop.main.data.DAO.ParcelSizeDAO;
 import shop.main.data.entity.Country;
+import shop.main.data.entity.Option;
 import shop.main.data.entity.ParcelCost;
 import shop.main.data.entity.ParcelSize;
 
@@ -127,9 +128,26 @@ public class ShippingCostServiceImpl implements ShippingCostService {
 		return sizeDAO.findOne(id);
 	}
 
+	@Transactional
 	@Override
 	public ParcelCost findOneByCountryAndSize(Country country, ParcelSize size) {
-		return costDAO.findOneByCountryAndSize(country, size);
+		Session session =(Session)entityManager.getDelegate();		
+		String hql = "from ParcelCost cost where cost.country.id ="+country.getId()
+		+" and cost.size="+size.getId();
+
+		Query query = session.createQuery(hql);
+		System.out.println("*");
+		System.out.println("*");
+		System.out.println("query is "+query.getQueryString());
+		System.out.println("*");
+		System.out.println("*");
+		
+		List<ParcelCost> list = (List<ParcelCost>) query.list();
+		if( list!=null){
+			return list.get(0);
+		}else{
+			return null;
+		}
 	}
 
 }

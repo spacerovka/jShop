@@ -121,7 +121,7 @@ public class AdminShippingController extends AdminController {
 	@RequestMapping(value = "/country/{id}/update", method = RequestMethod.GET)
 	public String editCountry(@PathVariable("id") long id, Model model) {
 		Country country = service.findCountryById(id);
-		List<ParcelSize> sizeList = new ArrayList<>();
+		List<ParcelSize> sizeList = service.listAllSizez();
 		List<ParcelCost> costList = new ArrayList<>();
 		for (ParcelSize s : sizeList) {
 			ParcelCost cost = service.findOneByCountryAndSize(country, s);
