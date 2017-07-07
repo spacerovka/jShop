@@ -1,5 +1,8 @@
 package shop.main.config;
 
+import static shop.main.controller.admin.AdminController.ADMIN_PREFIX;
+import static shop.main.controller.admin.AdminController.MANAGER_PREFIX;
+
 import java.io.IOException;
 import java.util.Collection;
 
@@ -70,9 +73,9 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
 		if (isUser) {
 			return "/user/cabinet";
 		} else if (isAdmin) {
-			return "/admin/welcome";
+			return ADMIN_PREFIX + "welcome";
 		} else if (isManager) {
-			return "/manager/welcome";
+			return MANAGER_PREFIX + "welcome";
 		} else {
 			return "/login";
 		}

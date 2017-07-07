@@ -6,6 +6,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name = "block")
@@ -22,6 +25,7 @@ public class Block {
 	@Column(name = "content", nullable = true, columnDefinition = "TEXT")
 	private String content;
 
+	@NotBlank
 	@Column(name = "position", nullable = false, length = 50)
 	private String position;
 
@@ -32,6 +36,7 @@ public class Block {
 	@Column(name = "blockURL", nullable = true, length = 200)
 	private String blockURL;
 
+	@NotNull
 	@Column(name = "status", nullable = false)
 	private boolean status;
 

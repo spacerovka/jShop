@@ -7,25 +7,31 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 @Entity
 @Table(name = "menu")
 public class MenuItem {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", unique = true, nullable = false)
 	private Long id;
-	
-	@Column(name = "text", nullable = false, length=50)
+
+	@NotBlank
+	@Column(name = "text", nullable = false, length = 50)
 	private String text;
-	
-	@Column(name = "URL", nullable = false, length=200)
+
+	@NotBlank
+	@Column(name = "URL", nullable = false, length = 200)
 	private String URL;
-	
+
+	@NotBlank
 	@Column(name = "status", nullable = false)
 	private boolean status;
-	
-	@Column(name = "menu_type", nullable = false, length=200)
+
+	@NotBlank
+	@Column(name = "menu_type", nullable = false, length = 200)
 	private String type;
 
 	public Long getId() {
@@ -59,8 +65,7 @@ public class MenuItem {
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
-	
-	
+
 	public String getType() {
 		return type;
 	}
@@ -68,8 +73,6 @@ public class MenuItem {
 	public void setType(String type) {
 		this.type = type;
 	}
-
-	
 
 	@Override
 	public int hashCode() {
@@ -125,6 +128,5 @@ public class MenuItem {
 	public boolean isNew() {
 		return (this.id == null);
 	}
-	
-	
+
 }

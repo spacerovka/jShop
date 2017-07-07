@@ -11,9 +11,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import shop.main.data.entity.Country;
-import shop.main.data.entity.OrderUserWrapper;
 import shop.main.data.entity.ParcelCost;
 import shop.main.data.entity.Product;
+import shop.main.data.wrapper.OrderUserWrapper;
 
 @Document(collection = "orders")
 public class Order {

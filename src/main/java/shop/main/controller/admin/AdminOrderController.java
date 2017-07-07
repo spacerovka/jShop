@@ -1,5 +1,8 @@
 package shop.main.controller.admin;
 
+import static shop.main.controller.admin.AdminController.ADMIN_PREFIX;
+import static shop.main.controller.admin.AdminController.MANAGER_PREFIX;
+
 import java.util.Date;
 import java.util.stream.Collectors;
 
@@ -24,7 +27,7 @@ import shop.main.data.service.ShippingCostService;
 import shop.main.utils.Constants;
 
 @Controller
-@RequestMapping(value = { "/a", "/manager" })
+@RequestMapping(value = { ADMIN_PREFIX, MANAGER_PREFIX })
 public class AdminOrderController extends AdminController {
 
 	@Autowired

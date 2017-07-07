@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 @Entity
 @Table(name = "parcel_cost")
 public class ParcelCost {
@@ -21,13 +23,14 @@ public class ParcelCost {
 	private Long id;
 
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
-	@JoinColumn(columnDefinition = "country", name = "category", nullable = true)
+	@JoinColumn(name = "country", nullable = false)
 	private Country country;
 
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "size", nullable = false)
 	private ParcelSize size;
 
+	@NotBlank
 	@Column(name = "cost", nullable = false, precision = 12, scale = 2)
 	private BigDecimal cost;
 

@@ -40,7 +40,41 @@
                    
                         <h2>List of properties</h2>
                         <div class="table-responsive">
-                            //TODO create form for properties
+                            <form:form action="${pageContext.request.contextPath}/a/mainproperties"
+							method="post" modelAttribute="propertyWrapper">
+									<table class="table table-hover">
+										<thead>
+											<tr>
+												<th>ID</th>
+												<th>Name</th>
+												<th>Value</th>
+											</tr>
+										</thead>
+										<tbody>
+											<core:choose>
+												<core:when test="${not empty propertyWrapper.propertyList}">
+													<core:forEach var="prop" items="${propertyWrapper.propertyList}" varStatus="statusPO">
+														<tr>
+															<td>${prop.id} <form:hidden path="propertyList[${statusPO.index}].id" /></td>
+															<td>${prop.name}<form:hidden path="propertyList[${statusPO.index}].name" /></td>
+															<td><form:input class="form-control" placeholder="Property value"
+																	
+																	path="propertyList[${statusPO.index}].content" /></td><!-- value="${prop.content}" -->
+															
+														</tr>
+													</core:forEach>
+												</core:when>
+												<core:otherwise>
+													<td colspan="5" style="text-align: center">No data
+														found</td>
+												</core:otherwise>
+											</core:choose>
+
+										</tbody>
+									</table>
+									<button type="submit" class="btn btn-default">Submit
+								Button</button>
+								</form:form>
                         </div>
                     </div>
                     

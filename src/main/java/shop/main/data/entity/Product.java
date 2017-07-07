@@ -17,6 +17,8 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 @Entity
 @Table(name = "product")
 public class Product {
@@ -26,18 +28,22 @@ public class Product {
 	@Column(name = "id", unique = true, nullable = false)
 	private Long id;
 
+	@NotBlank
 	@Column(name = "sku", unique = true, nullable = false, length = 50)
 	private String sku;
 
+	@NotBlank
 	@Column(name = "name", nullable = false, length = 100)
 	private String name;
 
+	@NotBlank
 	@Column(name = "url", nullable = true, length = 100, unique = true)
 	private String url;
 
 	@Column(name = "instock", nullable = true)
 	private int instock;
 
+	@NotBlank
 	@Column(name = "price", nullable = false, precision = 12, scale = 2)
 	private BigDecimal price;
 
@@ -62,9 +68,11 @@ public class Product {
 	@Column(name = "meta_description", nullable = true)
 	private String metaDescription;
 
+	@NotBlank
 	@Column(name = "status", nullable = false)
 	private boolean status;
 
+	@NotBlank
 	@Column(name = "featured", nullable = false)
 	private boolean featured;
 

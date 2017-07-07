@@ -7,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 @Entity
 @Table(name = "parcel_size")
 public class ParcelSize {
@@ -18,6 +20,7 @@ public class ParcelSize {
 	@Column(name = "description", nullable = true, length = 250)
 	private String description;
 
+	@NotBlank
 	@Column(name = "name", nullable = false, length = 250, unique = true)
 	private String name;
 

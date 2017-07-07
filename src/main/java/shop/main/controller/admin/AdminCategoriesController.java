@@ -1,5 +1,8 @@
 package shop.main.controller.admin;
 
+import static shop.main.controller.admin.AdminController.ADMIN_PREFIX;
+import static shop.main.controller.admin.AdminController.MANAGER_PREFIX;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -23,7 +26,7 @@ import shop.main.data.service.CategoryService;
 import shop.main.utils.URLUtils;
 
 @Controller
-@RequestMapping(value = { "/a", "/manager" })
+@RequestMapping(value = { ADMIN_PREFIX, MANAGER_PREFIX })
 public class AdminCategoriesController extends AdminController {
 
 	@Autowired

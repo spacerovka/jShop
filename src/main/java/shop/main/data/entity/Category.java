@@ -2,7 +2,6 @@ package shop.main.data.entity;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,48 +9,51 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 @Entity
 @Table(name = "category")
 public class Category {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", unique = true, nullable = false)
 	private Long id;
-	
-	@Column(name = "categoryName", nullable = false, length=50)
+
+	@NotBlank
+	@Column(name = "categoryName", nullable = false, length = 50)
 	private String categoryName;
-	
-	@Column(name = "categoryURL", nullable = false, length=100, unique=true)
+
+	@NotBlank
+	@Column(name = "categoryURL", nullable = false, length = 100, unique = true)
 	private String categoryURL;
-	
+
 	@Column(name = "description", nullable = true)
 	private String description;
-	
+
 	@Column(name = "meta_title", nullable = true)
 	private String metaTitle;
-	
+
 	@Column(name = "meta_description", nullable = true)
 	private String metaDescription;
-	
+
 	@Column(name = "status", nullable = false)
 	private boolean status;
-	
-	@OneToMany(mappedBy="category", fetch=FetchType.LAZY)
-	private List<Product> products;	
-		
-	@ManyToOne(optional = true, fetch = FetchType.LAZY)	
-	@JoinColumn(columnDefinition="integer", name="parent_id", nullable=true)
-    private Category parentCategory;
-	
-	@OneToMany(mappedBy="parentCategory", fetch=FetchType.EAGER)
-    private List<Category> children;
-	
+
+	@OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
+	private List<Product> products;
+
+	@ManyToOne(optional = true, fetch = FetchType.LAZY)
+	@JoinColumn(columnDefinition = "integer", name = "parent_id", nullable = true)
+	private Category parentCategory;
+
+	@OneToMany(mappedBy = "parentCategory", fetch = FetchType.EAGER)
+	private List<Category> children;
+
 	public Long getId() {
 		return id;
 	}
@@ -82,8 +84,7 @@ public class Category {
 
 	public void setProducts(List<Product> products) {
 		this.products = products;
-	}	
-	
+	}
 
 	public List<Category> getChildren() {
 		return children;
@@ -131,9 +132,7 @@ public class Category {
 
 	public void setParentCategory(Category parentCategory) {
 		this.parentCategory = parentCategory;
-	}	
-	
-
+	}
 
 	@Override
 	public int hashCode() {
@@ -149,8 +148,6 @@ public class Category {
 		result = prime * result + (status ? 1231 : 1237);
 		return result;
 	}
-	
-	
 
 	@Override
 	public boolean equals(Object obj) {
@@ -205,12 +202,12 @@ public class Category {
 	public String toString() {
 		return "Category [id=" + id + ", categoryName=" + categoryName + ", categoryURL=" + categoryURL
 				+ ", description=" + description + ", metaTitle=" + metaTitle + ", metaDescription=" + metaDescription
-				+ ", status=" + status + ", parentCategory=" + (parentCategory!=null?parentCategory.getId():null) + ", children="
-				+ (children!=null?children.size():null) + "]";
+				+ ", status=" + status + ", parentCategory=" + (parentCategory != null ? parentCategory.getId() : null)
+				+ ", children=" + (children != null ? children.size() : null) + "]";
 	}
-	
+
 	public boolean isNew() {
 		return (this.id == null);
-		}
-	
+	}
+
 }

@@ -10,35 +10,31 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name = "option_entity")
 public class Option {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", unique = true, nullable = false)
 	private Long id;
-	
-	@Column(name = "optionName", nullable = false, length=50)
-	private String optionName;		
-	
+
+	@NotBlank
+	@Column(name = "optionName", nullable = false, length = 50)
+	private String optionName;
+
 	@ManyToOne
-	@JoinColumn(name="optionGroup", nullable=false)	
+	@JoinColumn(name = "optionGroup", nullable = false)
 	private OptionGroup optionGroup;
-	
-	@OneToMany(mappedBy="option", fetch=FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
+
+	@OneToMany(mappedBy = "option", fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
 	private List<ProductOption> productOptions;
-	
-//	@OneToMany(mappedBy="option", fetch=FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
-//	private List<CategoryOption> categoryOptions;
 
 	public Long getId() {
 		return id;
@@ -63,7 +59,6 @@ public class Option {
 	public void setOptionGroup(OptionGroup optionGroup) {
 		this.optionGroup = optionGroup;
 	}
-		
 
 	public List<ProductOption> getProductOptions() {
 		return productOptions;
@@ -72,8 +67,7 @@ public class Option {
 	public void setProductOptions(List<ProductOption> productOptions) {
 		this.productOptions = productOptions;
 	}
-	
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -109,10 +103,9 @@ public class Option {
 	public String toString() {
 		return "Option [id=" + id + ", optionName=" + optionName + "]";
 	}
-	
+
 	public boolean isNew() {
 		return (this.id == null);
-		}
-	
-	
+	}
+
 }

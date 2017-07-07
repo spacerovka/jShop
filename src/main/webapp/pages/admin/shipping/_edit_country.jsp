@@ -41,7 +41,8 @@
 				<div class="row">
 					<div class="col-lg-6 ">
 
-						<form:form action="${pageContext.request.contextPath}${URL_PREFIX}country"
+						<form:form
+							action="${pageContext.request.contextPath}${URL_PREFIX}country"
 							method="post" modelAttribute="country">
 							<div class="form-group">
 								<label>ID</label>
@@ -51,22 +52,30 @@
 
 							<div class="form-group">
 								<label>Name</label>
-								<form:input class="form-control"
-									path="name" id="nameinput" />
+								<form:input class="form-control" path="name" id="nameinput" />
 							</div>
-							
-							
-							
+
+
+
 							<div class="form-group">
-								<label>Base tarif (sum cost is calculated of base tariff + cost per each product based on size)</label>
-								<form:input class="form-control"
-									path="basetarif" id="basetarif" />
+								<label>Base tarif (sum cost is calculated of base tariff
+									+ cost per each product based on size)</label>
+								<form:input class="form-control" path="basetarif" id="basetarif" />
 							</div>
-							
-							<core:forEach var="cost" items="${country.costList}">
-							//hidden id
-							// hidden size.id
-							//field for cost							
+
+							<core:forEach var="cost" items="${country.costList}"
+								varStatus="status">
+								<form:hidden path="costList[${status.index}].id" />
+								<form:hidden path="costList[${status.index}].size.id" />
+								<form:hidden path="costList[${status.index}].size.name" />
+								<form:hidden path="costList[${status.index}].size.description" />
+								<form:hidden path="costList[${status.index}].country.id" />
+								<form:hidden path="costList[${status.index}].country.name" />
+								<label>${cost.size.name} cost $</label>
+								<div class="form-group">
+									<form:input class="form-control"
+										path="costList[${status.index}].cost" />
+								</div>
 							</core:forEach>
 
 
@@ -79,7 +88,7 @@
 
 					</div>
 
-					
+
 				</div>
 
 
@@ -89,6 +98,6 @@
 	</div>
 
 	<%@include file="../_footer.jsp"%>
-	
+
 </body>
 </html>

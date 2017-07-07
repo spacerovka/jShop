@@ -1,5 +1,8 @@
 package shop.main.controller.admin;
 
+import static shop.main.controller.admin.AdminController.ADMIN_PREFIX;
+import static shop.main.controller.admin.AdminController.MANAGER_PREFIX;
+
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +23,7 @@ import shop.main.data.entity.Discount;
 import shop.main.data.service.DiscountService;
 
 @Controller
-@RequestMapping(value = { "/a", "/manager" })
+@RequestMapping(value = { ADMIN_PREFIX, MANAGER_PREFIX })
 public class DiscountController extends AdminController {
 	@Autowired
 	DiscountService discountService;

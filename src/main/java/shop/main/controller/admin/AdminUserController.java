@@ -1,5 +1,7 @@
 package shop.main.controller.admin;
 
+import static shop.main.controller.admin.AdminController.ADMIN_PREFIX;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -27,6 +29,7 @@ import shop.main.utils.Constants;
 import shop.main.validation.FormValidationGroup;
 
 @Controller
+@RequestMapping(value = { ADMIN_PREFIX })
 public class AdminUserController {
 
 	@Autowired
@@ -41,14 +44,14 @@ public class AdminUserController {
 	@Autowired
 	private UserRoleService userRoleService;
 
-	@RequestMapping(value = "/a/users")
+	@RequestMapping(value = "users")
 	public String usersList(Model model) {
 
 		model.addAttribute("userList", userService.listAll());
 		return "../admin/users/users";
 	}
 
-	@RequestMapping(value = "/a/user", method = RequestMethod.POST)
+	@RequestMapping(value = "user", method = RequestMethod.POST)
 	public String saveUser(@ModelAttribute("user") @Validated(FormValidationGroup.class) User user, Model model,
 			BindingResult result, final RedirectAttributes redirectAttributes) {
 
@@ -81,12 +84,12 @@ public class AdminUserController {
 				userService.save(user);
 			}
 
-			return "redirect:/a/users";
+			return "redirect:" + ADMIN_PREFIX + "users";
 		}
 
 	}
 
-	@RequestMapping(value = "/a/user/add", method = RequestMethod.GET)
+	@RequestMapping(value = "user/add", method = RequestMethod.GET)
 	public String addUser(Model model) {
 
 		model.addAttribute("user", new User());
@@ -95,7 +98,7 @@ public class AdminUserController {
 		return "../admin/users/edit_user";
 	}
 
-	@RequestMapping(value = "/a/user/{id}/update", method = RequestMethod.GET)
+	@RequestMapping(value = "user/{id}/update", method = RequestMethod.GET)
 	public String editUser(@PathVariable("id") long id, Model model) {
 		User user = userService.fingUserById(id);
 		model.addAttribute("user", user);
@@ -105,12 +108,12 @@ public class AdminUserController {
 		return "../admin/users/edit_user";
 	}
 
-	@RequestMapping(value = "/a/user/{id}/delete", method = RequestMethod.GET)
+	@RequestMapping(value = "user/{id}/delete", method = RequestMethod.GET)
 	public String deleteUser(@PathVariable("id") long id, Model model, final RedirectAttributes redirectAttributes) {
 		userService.deleteById(id);
 		redirectAttributes.addFlashAttribute("flashMessage", "Category deleted successfully!");
 		// TODO delete images
-		return "redirect:/a/users";
+		return "redirect:" + ADMIN_PREFIX + "users";
 	}
 
 	private UserRole[] getRoleTypes() {

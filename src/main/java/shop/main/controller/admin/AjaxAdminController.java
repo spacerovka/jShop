@@ -35,7 +35,7 @@ import shop.main.utils.Constants;
 import shop.main.utils.URLUtils;
 
 @Controller
-public class AjaxAdminController implements ResourceLoaderAware {
+public class AjaxAdminController extends AdminController implements ResourceLoaderAware {
 	private ResourceLoader resourceLoader;
 
 	@Autowired
@@ -67,7 +67,7 @@ public class AjaxAdminController implements ResourceLoaderAware {
 		return resourceLoader.getResource(location);
 	}
 
-	@RequestMapping(value = "ajax/translit")
+	@RequestMapping(value = "/ajax/translit")
 	public @ResponseBody String getTranslitURL(@RequestBody String name) {
 		System.out.println("request is " + name);
 		String result = URLUtils.transliterate(name.substring(6));
@@ -76,31 +76,35 @@ public class AjaxAdminController implements ResourceLoaderAware {
 	}
 
 	@RequestMapping(value = "/uploadCategoryFiles", method = RequestMethod.POST)
-	public String handleFileUpload(@RequestParam String prefix, @RequestParam("files") MultipartFile files[]) {
+	public String handleFileUpload(@RequestParam String prefix, @RequestParam("files") MultipartFile files[],
+			HttpServletRequest request) {
 		String result = uploadFiles(prefix, files, false);
 		System.out.println(result);
-		return "redirect:/a/category/" + prefix.substring(prefix.indexOf("/") + 1, prefix.length() - 1) + "/update";
+		return "redirect:" + getUrlPrefix(request) + "category/"
+				+ prefix.substring(prefix.indexOf("/") + 1, prefix.length() - 1) + "/update";
 
 	}
 
 	@RequestMapping(value = "/uploadProductFiles", method = RequestMethod.POST)
-	public String handleProductFileUpload(@RequestParam String prefix, @RequestParam("files") MultipartFile files[]) {
+	public String handleProductFileUpload(@RequestParam String prefix, @RequestParam("files") MultipartFile files[],
+			HttpServletRequest request) {
 		String result = uploadFiles(prefix, files, false);
 		System.out.println(result);
-		return "redirect:/a/product/" + prefix.substring(prefix.indexOf("/") + 1, prefix.length() - 1) + "/update";
+		return "redirect:" + getUrlPrefix(request) + "product/"
+				+ prefix.substring(prefix.indexOf("/") + 1, prefix.length() - 1) + "/update";
 	}
 
 	@RequestMapping(value = "/uploadMainPageImages", method = RequestMethod.POST)
 	public String handleMainPageImagesFileUpload(@RequestParam String prefix,
-			@RequestParam("files") MultipartFile files[]) {
+			@RequestParam("files") MultipartFile files[], HttpServletRequest request) {
 		String result = uploadFiles(prefix, files, false);
 		System.out.println(result);
-		return "redirect:/a/mainpage";
+		return "redirect:" + getUrlPrefix(request) + "mainpage";
 	}
 
 	@RequestMapping(value = "/uploadProductMainImage", method = RequestMethod.POST)
 	public String handleProductMainImageUpload(@RequestParam String prefix,
-			@RequestParam("files") MultipartFile files[]) {
+			@RequestParam("files") MultipartFile files[], HttpServletRequest request) {
 		String folder = context.getRealPath("/") + "/resources/uploads/" + prefix;
 		try {
 			File theDir = new File(folder);
@@ -109,7 +113,8 @@ public class AjaxAdminController implements ResourceLoaderAware {
 		}
 		String result = uploadFiles(prefix + "main/", files, true);
 		System.out.println(result);
-		return "redirect:/a/product/" + prefix.substring(prefix.indexOf("/") + 1, prefix.length() - 1) + "/update";
+		return "redirect:" + getUrlPrefix(request) + "product/"
+				+ prefix.substring(prefix.indexOf("/") + 1, prefix.length() - 1) + "/update";
 	}
 
 	@RequestMapping(value = "/ajax/images", method = RequestMethod.POST)

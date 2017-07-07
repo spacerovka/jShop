@@ -7,22 +7,33 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 @Entity
 @Table(name = "siteproperty")
 public class SiteProperty {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", unique = true, nullable = false)
 	private Long id;
-	
-	@Column(name = "name", nullable = false, unique = true, length=50)
+
+	@NotBlank
+	@Column(name = "name", nullable = false, unique = true, length = 50)
 	private String name;
-	
+
+	@NotBlank
 	@Column(name = "content", nullable = false)
 	private String content;
-	
-	
+
+	public SiteProperty() {
+	}
+
+	public SiteProperty(String name) {
+		super();
+		this.name = name;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -89,7 +100,4 @@ public class SiteProperty {
 		return "SiteProperty [id=" + id + ", name=" + name + ", content=" + content + "]";
 	}
 
-	
-	
-	
 }

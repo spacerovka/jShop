@@ -12,6 +12,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name = "country")
@@ -21,12 +24,15 @@ public class Country {
 	@Column(name = "id", unique = true, nullable = false)
 	private Long id;
 
+	@NotBlank
 	@Column(name = "name", nullable = false, length = 100)
 	private String name;
 
+	@NotBlank
 	@Column(name = "basetarif", nullable = false, precision = 12, scale = 2)
 	private BigDecimal basetarif;
 
+	@NotNull
 	@OneToMany(mappedBy = "country", fetch = FetchType.LAZY)
 	private List<ParcelCost> costList;
 

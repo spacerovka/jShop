@@ -7,14 +7,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class AdminWelcomeController extends AdminController {
 
-	@RequestMapping(value = "/admin/welcome")
-	public String welcome(Model model) {
+	@RequestMapping(value = ADMIN_PREFIX + "welcome")
+	public String welcomeAdmin(Model model) {
 
 		return "../admin/welcome";
 	}
 
-	@RequestMapping(value = "/manager/welcome")
-	public String welcomemanager(Model model) {
+	@RequestMapping(value = MANAGER_PREFIX + "welcome")
+	public String welcomeManager(Model model) {
 
 		return "../admin/welcome_manager";
 	}

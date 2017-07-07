@@ -11,6 +11,8 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 @Entity
 @Table(name = "staticPage")
 public class StaticPage {
@@ -20,6 +22,7 @@ public class StaticPage {
 	@Column(name = "id", unique = true, nullable = false)
 	private Long id;
 
+	@NotBlank
 	@Column(name = "name", nullable = false, length = 100)
 	private String name;
 
@@ -35,6 +38,7 @@ public class StaticPage {
 	@Column(name = "meta_description", nullable = true)
 	private String metaDescription;
 
+	@NotBlank
 	@Column(name = "status", nullable = false)
 	private boolean status;
 

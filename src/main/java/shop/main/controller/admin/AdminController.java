@@ -16,6 +16,9 @@ import shop.main.utils.Constants;
 @Controller
 public class AdminController {
 
+	public static final String MANAGER_PREFIX = "/manager/";
+	public static final String ADMIN_PREFIX = "/a/";
+
 	@Autowired
 	protected SitePropertyService sitePropertyService;
 

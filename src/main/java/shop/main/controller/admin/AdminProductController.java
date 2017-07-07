@@ -1,5 +1,8 @@
 package shop.main.controller.admin;
 
+import static shop.main.controller.admin.AdminController.ADMIN_PREFIX;
+import static shop.main.controller.admin.AdminController.MANAGER_PREFIX;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -30,7 +33,7 @@ import shop.main.data.service.ProductService;
 import shop.main.utils.URLUtils;
 
 @Controller
-@RequestMapping(value = { "/a", "/manager" })
+@RequestMapping(value = { ADMIN_PREFIX, MANAGER_PREFIX })
 public class AdminProductController extends AdminController {
 	@Autowired
 	private ProductService productService;
@@ -79,6 +82,17 @@ public class AdminProductController extends AdminController {
 
 			model.addAttribute("errorSummary", result.getFieldErrors().stream()
 					.map(e -> e.getField() + " error - " + e.getDefaultMessage() + " ").collect(Collectors.toList()));
+
+			if (product.isNew() && !productService.checkUniqueURL(product)) {
+				model.addAttribute("urlError", "has-error");
+			}
+			if (product.getPrice() == null) {
+				model.addAttribute("priceError", "has-error");
+			}
+			if (product.getSku() == null || product.getSku().isEmpty()) {
+				model.addAttribute("skuError", "has-error");
+			}
+
 			return "../admin/products/edit_product";
 		} else if (product.isNew() && !productService.checkUniqueURL(product)) {
 			model.addAttribute("errorSummary", new ArrayList<String>(Arrays.asList("URL is not unique!")));

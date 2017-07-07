@@ -1,5 +1,8 @@
 package shop.main.controller.admin;
 
+import static shop.main.controller.admin.AdminController.ADMIN_PREFIX;
+import static shop.main.controller.admin.AdminController.MANAGER_PREFIX;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,7 +26,7 @@ import shop.main.data.entity.ParcelSize;
 import shop.main.data.service.ShippingCostService;
 
 @Controller
-@RequestMapping(value = { "/a", "/manager" })
+@RequestMapping(value = { ADMIN_PREFIX, MANAGER_PREFIX })
 public class AdminShippingController extends AdminController {
 	@Autowired
 	ShippingCostService service;
@@ -80,7 +83,7 @@ public class AdminShippingController extends AdminController {
 	/*** Countries */
 
 	@RequestMapping(value = "/countries")
-	public String categoriesList(Model model) {
+	public String countriesList(Model model) {
 
 		model.addAttribute("list", service.listAllCountries());
 		return "../admin/shipping/country_list";
@@ -121,7 +124,7 @@ public class AdminShippingController extends AdminController {
 	@RequestMapping(value = "/country/{id}/update", method = RequestMethod.GET)
 	public String editCountry(@PathVariable("id") long id, Model model) {
 		Country country = service.findCountryById(id);
-		List<ParcelSize> sizeList = new ArrayList<>();
+		List<ParcelSize> sizeList = service.listAllSizez();
 		List<ParcelCost> costList = new ArrayList<>();
 		for (ParcelSize s : sizeList) {
 			ParcelCost cost = service.findOneByCountryAndSize(country, s);
