@@ -4,7 +4,7 @@
 <%@ taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,7 +21,7 @@
 
 		<div class="row">
 			<div class="col-md-3">
-			<%@include file="template_parts/left-menu.jsp"%>
+				<%@include file="template_parts/left-menu.jsp"%>
 			</div>
 			<div class="col-md-9">
 
@@ -38,8 +38,8 @@
 							<core:forEach var="breadCrumb" items="${breadCrumbs}">
 								<li class="breadcrumb-item" itemprop="itemListElement" itemscope
 									itemtype="http://schema.org/ListItem"><a
-									href="${pageContext.request.contextPath}/${breadCrumb.categoryURL}" itemscope
-									itemtype="http://schema.org/Thing" itemprop="item"><span
+									href="${pageContext.request.contextPath}/${breadCrumb.categoryURL}"
+									itemscope itemtype="http://schema.org/Thing" itemprop="item"><span
 										itemprop="name">${breadCrumb.categoryName}</span>
 										<meta itemprop="url"
 											content="${pageContext.request.contextPath}/${breadCrumb.categoryURL}" /></a>
@@ -120,26 +120,46 @@
 						</h4>
 						${product.longDesc}
 					</div>
+					<div class="well">
+						<div class="text-right">
+							<a style="display: inline-block;" href="#reviews-anchor"
+								id="open-review-box" class="btn btn-info">Leave
+								a Review</a> 
+							<a style="display: inline-block;" rel="nofollow"
+								href="#" onclick="addItemToCart('${product.sku}');"
+								class="btn btn-success btn-green">Add to cart</a>
+							<core:if test="${pageContext.request.userPrincipal.name != null}">	
+								<core:choose>
+									<core:when test="${savedToWishList==false}">
+										<a style="display: inline-block; color: rosybrown;" rel="nofollow"
+											href="#" onclick="addtowishlist(${product.sku});" class="btn"><i
+											class="fa fa-heart"></i></a>
+									</core:when>
+									<core:otherwise>
+										<div style="display: inline-block; color: rgba(186, 50, 195, 0.84);" class="btn"><i
+										class="fa fa-heart"></i></div>
+									</core:otherwise>
+								</core:choose>	
+							</core:if>
+						</div>
+					</div>
 					<div class="ratings">
-						<p class="pull-right">${fn:length(product.reviews)} reviews</p>
+						<p class="pull-right">${fn:length(product.reviews)}reviews</p>
 						<p>
 							<c:forEach begin="1" end="${product.rating}" varStatus="loop">
-						    <span class="glyphicon glyphicon-star"></span>
-						</c:forEach>
-						<c:forEach begin="${product.rating}" end="4" varStatus="loop">
-						    <span class="glyphicon glyphicon-star-empty"></span>
-						</c:forEach> ${product.rating}.0 stars
+								<span class="glyphicon glyphicon-star"></span>
+							</c:forEach>
+							<c:forEach begin="${product.rating}" end="4" varStatus="loop">
+								<span class="glyphicon glyphicon-star-empty"></span>
+							</c:forEach>
+							${product.rating}.0 stars
 						</p>
 					</div>
 				</div>
 
+
 				<div class="well">
 
-					<div class="text-right">
-						<a style="display: inline-block;" href="#reviews-anchor"
-							id="open-review-box" class="btn btn-success btn-green">Leave
-							a Review</a>
-					</div>
 
 					<div class="row" id="post-review-box" style="display: none;">
 						<div class="col-md-12">
@@ -178,47 +198,48 @@
 
 
 					<core:forEach items="${product.reviews}" var="productReview">
-					<div class="row">
-						<div class="col-md-12">
-						<c:forEach begin="1" end="${productReview.rating}" varStatus="loop">
-						    <span class="glyphicon glyphicon-star"></span>
-						</c:forEach>
-						<c:forEach begin="${productReview.rating}" end="4" varStatus="loop">
-						    <span class="glyphicon glyphicon-star-empty"></span>
-						</c:forEach>
-							 ${productReview.userName} 
-							 <span class="pull-right">${productReview.created}</span>
-							<p>${productReview.comment}</p>
+						<div class="row">
+							<div class="col-md-12">
+								<c:forEach begin="1" end="${productReview.rating}"
+									varStatus="loop">
+									<span class="glyphicon glyphicon-star"></span>
+								</c:forEach>
+								<c:forEach begin="${productReview.rating}" end="4"
+									varStatus="loop">
+									<span class="glyphicon glyphicon-star-empty"></span>
+								</c:forEach>
+								${productReview.userName} <span class="pull-right">${productReview.created}</span>
+								<p>${productReview.comment}</p>
+							</div>
 						</div>
-					</div>
 
-					<hr>
-					</core:forEach>				
+						<hr>
+					</core:forEach>
 				</div>
 
 			</div>
 		</div>
 	</div>
-	<div id="popup" class="popup-wrapper" style="display:none;">
+	<div id="popup" class="popup-wrapper" style="display: none;">
 		<div class="popup-content">
 			<div class="popup-title">
 				<button type="button" class="popup-close">&times;</button>
 				<h3></h3>
 			</div>
 			<div class="popup-body">
-				<p id="reviewPostMessage" style="text-align: center;
-font-size: 20px;">Popup body</p>
+				<p id="reviewPostMessage"
+					style="text-align: center; font-size: 20px;">Popup body</p>
 			</div>
 		</div>
 	</div>
-
+	<%@include file="template_parts/popup_add_to_cart.jsp"%>
 	<%@include file="template_parts/footer.jsp"%>
 
 	<spring:url value="/resources/default_theme/js/starsrating.js"
 		var="starsrating" />
 	<script type="text/javascript" src="${starsrating}"></script>
-	
-	
+
+
 
 	<script type="text/javascript">
     $(function(){
@@ -316,6 +337,20 @@ font-size: 20px;">Popup body</p>
 							});
 							</script>
 
-
+	<script>
+function addtowishlist(sku){
+		
+	$.ajax ({ 
+		url: '${pageContext.request.contextPath}/addtowishlist', 
+		type: "POST", 						
+		data : {sku:sku},
+		complete: function(response){
+			console.log(response.responseText);
+			//replace button
+		}
+	}); 
+}
+</script>
+	<%@include file="template_parts/add_to_cart_ajax.jsp"%>
 </body>
 </html>

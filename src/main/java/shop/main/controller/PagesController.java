@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -100,6 +101,17 @@ public class PagesController extends FrontController {
 		}
 		model.addAttribute("images", URLUtils.getProductImages(context, product.getId()));
 		model.addAttribute("mainImage", URLUtils.getProductImage(context, product.getId()));
+
+		org.springframework.security.core.userdetails.User authorizeduser = (org.springframework.security.core.userdetails.User) SecurityContextHolder
+				.getContext().getAuthentication().getPrincipal();
+		boolean savedToWishList = false;
+		if (authorizeduser != null) {
+			String username = authorizeduser.getUsername();
+			if (wishListService.findByProductSKUAndUsername(product.getSku(), username) != null) {
+				savedToWishList = true;
+			}
+		}
+		model.addAttribute("savedToWishList", savedToWishList);
 		return "product";
 	}
 

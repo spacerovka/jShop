@@ -26,6 +26,7 @@ import shop.main.data.service.ProductService;
 import shop.main.data.service.SitePropertyService;
 import shop.main.data.service.StaticPageService;
 import shop.main.data.service.UserService;
+import shop.main.data.service.WishListService;
 import shop.main.utils.Constants;
 
 @Controller
@@ -71,6 +72,9 @@ public class FrontController {
 
 	@Autowired
 	protected ReCaptchaService reCaptchaService;
+
+	@Autowired
+	protected WishListService wishListService;
 
 	@ModelAttribute("SITE_NAME")
 	public String getSiteName() {

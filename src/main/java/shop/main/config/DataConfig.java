@@ -52,6 +52,8 @@ import shop.main.data.service.UserRoleService;
 import shop.main.data.service.UserRoleServiceImpl;
 import shop.main.data.service.UserService;
 import shop.main.data.service.UserServiceImpl;
+import shop.main.data.service.WishListService;
+import shop.main.data.service.WishListServiceImpl;
 
 @EnableJpaRepositories(basePackages = { "shop.main.data.DAO" })
 @EnableTransactionManagement
@@ -217,6 +219,11 @@ public class DataConfig<DatabasePopulator> {
 	@Bean
 	public DiscountService discountService() {
 		return new DiscountServiceImpl();
+	}
+
+	@Bean
+	public WishListService wishListService() {
+		return new WishListServiceImpl();
 	}
 
 }

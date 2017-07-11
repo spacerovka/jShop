@@ -91,7 +91,7 @@
 
 
 	</div>
-
+	<%@include file="../template_parts/popup_add_to_cart.jsp"%>
 	<%@include file="../template_parts/footer.jsp"%>
 	<%@include file="../template_parts/add_to_cart_ajax.jsp"%>
 	<script>

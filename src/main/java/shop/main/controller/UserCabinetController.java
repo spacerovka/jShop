@@ -1,6 +1,7 @@
 package shop.main.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,8 +20,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import shop.main.data.entity.Product;
 import shop.main.data.entity.User;
+import shop.main.data.entity.WishList;
 import shop.main.data.mongo.OrderRepository;
+import shop.main.data.service.WishListService;
+import shop.main.utils.URLUtils;
 import shop.main.validation.CabinetValidationGroup;
 
 @Controller
@@ -32,6 +37,9 @@ public class UserCabinetController extends FrontController {
 	@Autowired
 	PasswordEncoder passwordEncoder;
 
+	@Autowired
+	protected WishListService wishListService;
+
 	@RequestMapping(value = "/user/cabinet")
 	public String cabinet(Model model) {
 		org.springframework.security.core.userdetails.User authorizeduser = (org.springframework.security.core.userdetails.User) SecurityContextHolder
@@ -41,6 +49,12 @@ public class UserCabinetController extends FrontController {
 		user.setPassword(null);
 		model.addAttribute("user", user);
 		model.addAttribute("orders", orderRepository.findByUsername(username));
+		List<WishList> wishlist = wishListService.findByUsername(username);
+		if (wishlist != null) {
+			List<Product> products = wishlist.stream().map(WishList::getProduct).collect(Collectors.toList());
+			products.stream().forEach(p -> p.setImage(URLUtils.getProductImage(context, p.getId())));
+			model.addAttribute("products", products);
+		}
 		return "user/cabinet";
 	}
 
