@@ -107,7 +107,7 @@ public class PagesController extends FrontController {
 		boolean savedToWishList = false;
 		if (authorizeduser != null) {
 			String username = authorizeduser.getUsername();
-			if (wishListService.findByProductSKUAndUsername(product.getSku(), username) != null) {
+			if (!wishListService.findByProductSKUAndUsername(product.getSku(), username).isEmpty()) {
 				savedToWishList = true;
 			}
 		}

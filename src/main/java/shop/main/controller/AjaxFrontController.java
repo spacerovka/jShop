@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import shop.main.data.entity.Product;
 import shop.main.data.entity.Review;
-import shop.main.data.entity.User;
 import shop.main.data.entity.WishList;
 import shop.main.data.service.ProductService;
 import shop.main.data.service.ReviewService;
@@ -101,12 +100,13 @@ public class AjaxFrontController implements ResourceLoaderAware {
 	@RequestMapping(value = "/addtowishlist", method = RequestMethod.POST)
 	public @ResponseBody String addToWishList(@RequestParam String sku, HttpServletRequest request, Model model) {
 
-		User authorizeduser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		org.springframework.security.core.userdetails.User authorizeduser = (org.springframework.security.core.userdetails.User) SecurityContextHolder
+				.getContext().getAuthentication().getPrincipal();
 		if (authorizeduser != null) {
 			String username = authorizeduser.getUsername();
 			shop.main.data.entity.User savedUser = userService.findByUsername(username);
 			if (savedUser != null) {
-				if (wishListService.findByProductSKUAndUsername(sku, username) == null) {
+				if (wishListService.findByProductSKUAndUsername(sku, username).isEmpty()) {
 					Product product = productService.findProductBySKU(sku);
 					wishListService.save(new WishList(product, savedUser));
 				} else {

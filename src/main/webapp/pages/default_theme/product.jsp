@@ -129,10 +129,11 @@
 								href="#" onclick="addItemToCart('${product.sku}');"
 								class="btn btn-success btn-green">Add to cart</a>
 							<core:if test="${pageContext.request.userPrincipal.name != null}">	
+							
 								<core:choose>
-									<core:when test="${savedToWishList==false}">
-										<a style="display: inline-block; color: rosybrown;" rel="nofollow"
-											href="#" onclick="addtowishlist(${product.sku});" class="btn"><i
+									<core:when test="${not savedToWishList}">
+										<a style="display: inline-block; color: rosybrown;" rel="nofollow" id="addtowishlist"
+											href="#" onclick="addtowishlist('${product.sku}');" class="btn"><i
 											class="fa fa-heart"></i></a>
 									</core:when>
 									<core:otherwise>
@@ -232,7 +233,6 @@
 			</div>
 		</div>
 	</div>
-	<%@include file="template_parts/popup_add_to_cart.jsp"%>
 	<%@include file="template_parts/footer.jsp"%>
 
 	<spring:url value="/resources/default_theme/js/starsrating.js"
@@ -345,8 +345,8 @@ function addtowishlist(sku){
 		type: "POST", 						
 		data : {sku:sku},
 		complete: function(response){
-			console.log(response.responseText);
-			//replace button
+			console.log(response.responseText);			
+			$( "#addtowishlist" ).replaceWith( '<div style="display: inline-block; color: rgba(186, 50, 195, 0.84);" class="btn"><i class="fa fa-heart"></i></div>' );
 		}
 	}); 
 }

@@ -80,7 +80,8 @@ public class CartController extends FrontController implements ResourceLoaderAwa
 		Order currentOrder = getOrCreateOrder(request);
 		if (currentOrder.getSum().intValue() != 0) {
 			OrderUserWrapper wrapper = new OrderUserWrapper(currentOrder, new User());
-			User authorizeduser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			org.springframework.security.core.userdetails.User authorizeduser = (org.springframework.security.core.userdetails.User) SecurityContextHolder
+					.getContext().getAuthentication().getPrincipal();
 			if (authorizeduser != null) {
 				String username = authorizeduser.getUsername();
 				shop.main.data.entity.User savedUser = userService.findByUsername(username);
@@ -215,7 +216,8 @@ public class CartController extends FrontController implements ResourceLoaderAwa
 			// includes a confirmation link with the VerificationToken’s value
 
 		} else {
-			User authorizeduser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			org.springframework.security.core.userdetails.User authorizeduser = (org.springframework.security.core.userdetails.User) SecurityContextHolder
+					.getContext().getAuthentication().getPrincipal();
 			if (authorizeduser != null) {
 				orderUserWrapper.setUsername(authorizeduser.getUsername());
 			}
