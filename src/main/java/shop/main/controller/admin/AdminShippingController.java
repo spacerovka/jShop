@@ -39,7 +39,7 @@ public class AdminShippingController extends AdminController {
 	}
 
 	@RequestMapping(value = "/size", method = RequestMethod.POST)
-	public String saveSize(@ModelAttribute("category") @Valid ParcelSize size, Model model, BindingResult result,
+	public String saveSize(@ModelAttribute("category") @Valid ParcelSize size, BindingResult result, Model model,
 			final RedirectAttributes redirectAttributes, HttpServletRequest request) {
 
 		if (result.hasErrors()) {
@@ -90,7 +90,7 @@ public class AdminShippingController extends AdminController {
 	}
 
 	@RequestMapping(value = "/country", method = RequestMethod.POST)
-	public String saveCountry(@ModelAttribute("category") @Valid Country country, Model model, BindingResult result,
+	public String saveCountry(@ModelAttribute("category") @Valid Country country, BindingResult result, Model model,
 			final RedirectAttributes redirectAttributes, HttpServletRequest request) {
 
 		if (result.hasErrors()) {

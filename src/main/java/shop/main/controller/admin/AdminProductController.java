@@ -56,7 +56,7 @@ public class AdminProductController extends AdminController {
 	/******** Product pages ***/
 
 	@RequestMapping(value = "/product", method = RequestMethod.POST)
-	public String saveProduct(@ModelAttribute("product") @Valid Product product, Model model, BindingResult result,
+	public String saveProduct(@ModelAttribute("product") @Valid Product product, BindingResult result, Model model,
 			final RedirectAttributes redirectAttributes, HttpServletRequest request) {
 
 		// String errorSummary = "";
@@ -176,7 +176,7 @@ public class AdminProductController extends AdminController {
 	}
 
 	@RequestMapping(value = "/option", method = RequestMethod.POST)
-	public String saveOption(@ModelAttribute("option") @Valid Option option, Model model, BindingResult result,
+	public String saveOption(@ModelAttribute("option") @Valid Option option, BindingResult result, Model model,
 			final RedirectAttributes redirectAttributes, HttpServletRequest request) {
 
 		if (result.hasErrors()) {
@@ -199,8 +199,8 @@ public class AdminProductController extends AdminController {
 	}
 
 	@RequestMapping(value = "/optiongroup", method = RequestMethod.POST)
-	public String saveOptionGroup(@ModelAttribute("optiongroup") @Valid OptionGroup optiongroup, Model model,
-			BindingResult result, final RedirectAttributes redirectAttributes, HttpServletRequest request) {
+	public String saveOptionGroup(@ModelAttribute("optiongroup") @Valid OptionGroup optiongroup, BindingResult result,
+			Model model, final RedirectAttributes redirectAttributes, HttpServletRequest request) {
 
 		if (result.hasErrors()) {
 			model.addAttribute("errorSummary", result.getFieldErrors().stream()

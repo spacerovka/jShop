@@ -64,7 +64,7 @@ public class AdminOrderController extends AdminController {
 	}
 
 	@RequestMapping(value = "/order", method = RequestMethod.POST)
-	public String saveOrder(@ModelAttribute("order") @Valid Order order, Model model, BindingResult result,
+	public String saveOrder(@ModelAttribute("order") @Valid Order order, BindingResult result, Model model,
 			final RedirectAttributes redirectAttributes, HttpServletRequest request) {
 
 		if (result.hasErrors()) {

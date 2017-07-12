@@ -84,6 +84,7 @@ INSERT INTO menu (text, URL, status, menu_type) VALUES ("Home", "/", true, "LEFT
 INSERT INTO menu (text, URL, status, menu_type) VALUES ("About", "about", true, "LEFT");
 INSERT INTO menu (text, URL, status, menu_type) VALUES ("Contacts", "contacts", true, "LEFT");
 INSERT INTO menu (text, URL, status, menu_type) VALUES ("Delivery", "delivery", true, "RIGHT");
+INSERT INTO menu (text, URL, status, menu_type) VALUES ("Contact Us", "contact", true, "RIGHT");
 
 INSERT INTO staticPage (name, url, status, content) VALUES ("Delivery", "delivery", true, "<b>content of the page</b>");
 INSERT INTO staticPage (name, url, status, content) VALUES ("About", "about", true, "<b>content of the page</b>");

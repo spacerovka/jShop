@@ -49,10 +49,10 @@
 				</core:if>
 
 
-
-
 				<core:choose>
 					<core:when test="${pageContext.request.userPrincipal.name != null}">
+						<li ${currentPage == '/user/cabinet' ? ' class="active"' : ''}><a
+							href="${pageContext.request.contextPath}//user/cabinet">My Account</a></li>
 						<li><core:url value="/logout" var="logoutUrl" />
 							<form id="logout" action="${logoutUrl}" method="post">
 								<input type="hidden" name="${_csrf.parameterName}"

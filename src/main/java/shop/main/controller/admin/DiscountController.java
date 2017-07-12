@@ -36,7 +36,7 @@ public class DiscountController extends AdminController {
 	}
 
 	@RequestMapping(value = "/discount", method = RequestMethod.POST)
-	public String saveDiscount(@ModelAttribute("discount") @Valid Discount discount, Model model, BindingResult result,
+	public String saveDiscount(@ModelAttribute("discount") @Valid Discount discount, BindingResult result, Model model,
 			final RedirectAttributes redirectAttributes, HttpServletRequest request) {
 
 		if (result.hasErrors()) {
@@ -60,8 +60,6 @@ public class DiscountController extends AdminController {
 	public String addDiscount(Model model) {
 
 		model.addAttribute("discount", new Discount());
-		model.addAttribute("urlError", "");
-		model.addAttribute("parentDiscountList", discountService.listAll());
 		return "../admin/discounts/edit_discount";
 	}
 
@@ -84,8 +82,8 @@ public class DiscountController extends AdminController {
 	@RequestMapping(value = "/findDiscounts", method = RequestMethod.POST)
 	public String findDiscounts(@RequestParam String name, @RequestParam String status, Model model) {
 
-		model.addAttribute("categoryList", discountService.findByNameAndStatus(name, status));
-		return "../admin/categories/_table";
+		model.addAttribute("discountList", discountService.findByNameAndStatus(name, status));
+		return "../admin/discounts/_table";
 
 	}
 

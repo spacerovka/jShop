@@ -17,7 +17,10 @@
                     </li>
                     <li>
                         <a href="${pageContext.request.contextPath}/a/orders"><i class="fa fa-fw fa-edit"></i> Orders</a>
-                    </li>                 
+                    </li>              
+                    <li>
+                        <a href="${pageContext.request.contextPath}/a/contactmessages "><i class="fa fa-fw fa-edit"></i> Messages</a>
+                    </li>                
                     
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#shipping"><i class="fa fa-fw fa-arrows-v"></i> Shipping <i class="fa fa-fw fa-caret-down"></i></a>
@@ -69,7 +72,7 @@
               <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
                     <li class="active">
-                        <a href="${pageContext.request.contextPath}/manager/welcome"><i class="fa fa-fw fa-dashboard"></i> Home </a>
+                        <a href="${pageContext.request.contextPath}${URL_PREFIX}welcome"><i class="fa fa-fw fa-dashboard"></i> Home </a>
                     </li>
                     <li>
                         <a href="${pageContext.request.contextPath}${URL_PREFIX}categories"><i class="fa fa-fw fa-bar-chart-o"></i> Categories</a>
@@ -82,7 +85,10 @@
                     </li>
                     <li>
                         <a href="${pageContext.request.contextPath}${URL_PREFIX}orders"><i class="fa fa-fw fa-edit"></i> Orders</a>
-                    </li>                 
+                    </li>   
+                    <li>
+                        <a href="${pageContext.request.contextPath}${URL_PREFIX}contactmessages "><i class="fa fa-fw fa-edit"></i> Messages</a>
+                    </li>               
                     
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#shipping"><i class="fa fa-fw fa-arrows-v"></i> Shipping <i class="fa fa-fw fa-caret-down"></i></a>

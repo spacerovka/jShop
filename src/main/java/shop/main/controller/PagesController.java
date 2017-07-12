@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,11 +18,16 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import shop.main.data.entity.Category;
+import shop.main.data.entity.ContactUsMessage;
 import shop.main.data.entity.Product;
 import shop.main.data.entity.ProductOption;
 import shop.main.data.entity.Review;
@@ -30,6 +38,19 @@ import shop.main.utils.URLUtils;
 public class PagesController extends FrontController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(PagesController.class);
+
+	@RequestMapping(value = "/")
+	public String mainPage(Model model) {
+		System.out.println("***************************main page");
+		List<Product> products = productService.findAllFeatured();
+		for (Product p : products) {
+			p.setImage(URLUtils.getProductImage(context, p.getId()));
+		}
+		model.addAttribute("products", products);
+		model.addAttribute("images", URLUtils.getMinPageImages(context));
+		System.out.println("end***************************main page" + LocalDateTime.now());
+		return "index";
+	}
 
 	@RequestMapping(value = "/displayusersmysql")
 	public ModelAndView displayUsers(Principal principal) {
@@ -46,17 +67,30 @@ public class PagesController extends FrontController {
 		return new ModelAndView("db_test/embeded_db_test", "users", data);
 	}
 
-	@RequestMapping(value = "/")
-	public String mainPage(Model model) {
-		System.out.println("***************************main page");
-		List<Product> products = productService.findAllFeatured();
-		for (Product p : products) {
-			p.setImage(URLUtils.getProductImage(context, p.getId()));
+	@RequestMapping(value = "/contact", method = RequestMethod.POST)
+	public String saveContactMessage(@ModelAttribute("item") @Valid ContactUsMessage item, BindingResult result,
+			Model model, final RedirectAttributes redirectAttributes, HttpServletRequest request) {
+
+		if (result.hasErrors()) {
+			model.addAttribute("errorSummary", result.getFieldErrors().stream()
+					.map(e -> e.getField() + " error - " + e.getDefaultMessage() + " ").collect(Collectors.toList()));
+			model.addAttribute("item", item);
+		} else {
+			redirectAttributes.addFlashAttribute("flashMessage", "contactMessage updated successfully!");
+			contactService.saveContactUsMessage(item);
+			model.addAttribute("item", null);
+
 		}
-		model.addAttribute("products", products);
-		model.addAttribute("images", URLUtils.getMinPageImages(context));
-		System.out.println("end***************************main page" + LocalDateTime.now());
-		return "index";
+		return "contactUs";
+
+	}
+
+	@RequestMapping(value = "/contact", method = RequestMethod.GET)
+	public String editDiscount(Model model) {
+
+		model.addAttribute("item", new ContactUsMessage());
+
+		return "contactUs";
 	}
 
 	@RequestMapping(value = "/product")

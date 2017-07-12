@@ -20,6 +20,7 @@ import shop.main.data.entity.Block;
 import shop.main.data.entity.MenuItem;
 import shop.main.data.service.BlockService;
 import shop.main.data.service.CategoryService;
+import shop.main.data.service.ContactUsMessageService;
 import shop.main.data.service.MenuItemService;
 import shop.main.data.service.ProductOptionService;
 import shop.main.data.service.ProductService;
@@ -75,6 +76,9 @@ public class FrontController {
 
 	@Autowired
 	protected WishListService wishListService;
+
+	@Autowired
+	protected ContactUsMessageService contactService;
 
 	@ModelAttribute("SITE_NAME")
 	public String getSiteName() {

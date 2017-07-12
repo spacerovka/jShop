@@ -43,7 +43,7 @@ public class AdminCategoriesController extends AdminController {
 	}
 
 	@RequestMapping(value = "/category", method = RequestMethod.POST)
-	public String saveCategory(@ModelAttribute("category") @Valid Category category, Model model, BindingResult result,
+	public String saveCategory(@ModelAttribute("category") @Valid Category category, BindingResult result, Model model,
 			final RedirectAttributes redirectAttributes, HttpServletRequest request) {
 
 		if (result.hasErrors()) {

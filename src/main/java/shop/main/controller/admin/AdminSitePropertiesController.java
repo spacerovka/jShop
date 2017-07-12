@@ -63,7 +63,7 @@ public class AdminSitePropertiesController {
 	}
 
 	@RequestMapping(value = "menu", method = RequestMethod.POST)
-	public String saveMenuItem(@ModelAttribute("menuItem") @Valid MenuItem item, Model model, BindingResult result,
+	public String saveMenuItem(@ModelAttribute("menuItem") @Valid MenuItem item, BindingResult result, Model model,
 			final RedirectAttributes redirectAttributes) {
 
 		if (result.hasErrors()) {
@@ -123,7 +123,7 @@ public class AdminSitePropertiesController {
 	}
 
 	@RequestMapping(value = "block", method = RequestMethod.POST)
-	public String saveBlock(@ModelAttribute("block") @Valid Block block, Model model, BindingResult result,
+	public String saveBlock(@ModelAttribute("block") @Valid Block block, BindingResult result, Model model,
 			final RedirectAttributes redirectAttributes) {
 
 		if (result.hasErrors()) {
@@ -232,7 +232,7 @@ public class AdminSitePropertiesController {
 
 	@RequestMapping(value = "mainproperties", method = RequestMethod.POST)
 	public String mainPropertiesSave(@ModelAttribute("propertyWrapper") SitePropertiesWrapper propertyWrapper,
-			Model model, BindingResult result, final RedirectAttributes redirectAttributes) {
+			BindingResult result, Model model, final RedirectAttributes redirectAttributes) {
 
 		if (result.hasErrors()) {
 			model.addAttribute("errorSummary", result.getFieldErrors().stream()
@@ -257,7 +257,7 @@ public class AdminSitePropertiesController {
 	}
 
 	@RequestMapping(value = "page", method = RequestMethod.POST)
-	public String savePage(@ModelAttribute("page") @Valid StaticPage page, Model model, BindingResult result,
+	public String savePage(@ModelAttribute("page") @Valid StaticPage page, BindingResult result, Model model,
 			final RedirectAttributes redirectAttributes) {
 
 		if (result.hasErrors()) {

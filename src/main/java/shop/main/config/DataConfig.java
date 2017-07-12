@@ -30,6 +30,8 @@ import shop.main.captcha.ReCaptchaService;
 import shop.main.captcha.ReCaptchaServiceImpl;
 import shop.main.data.service.CategoryService;
 import shop.main.data.service.CategoryServiceImpl;
+import shop.main.data.service.ContactUsMessageService;
+import shop.main.data.service.ContactUsMessageServiceImpl;
 import shop.main.data.service.DiscountService;
 import shop.main.data.service.DiscountServiceImpl;
 import shop.main.data.service.OptionGroupService;
@@ -224,6 +226,11 @@ public class DataConfig<DatabasePopulator> {
 	@Bean
 	public WishListService wishListService() {
 		return new WishListServiceImpl();
+	}
+
+	@Bean
+	public ContactUsMessageService contactUsMessageService() {
+		return new ContactUsMessageServiceImpl();
 	}
 
 }
