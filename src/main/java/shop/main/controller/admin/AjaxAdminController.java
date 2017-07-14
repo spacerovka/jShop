@@ -281,13 +281,6 @@ public class AjaxAdminController extends AdminController implements ResourceLoad
 		return "../admin/_edit_product_form";
 	}
 
-	@RequestMapping(value = "/ajax/findProducts", method = RequestMethod.POST)
-	public String findProducts(@RequestParam String name, @RequestParam String url, Model model) {
-		model.addAttribute("productList", productService.findByNameAndURL(name, url));
-		return "../admin/products/_table";
-
-	}
-
 	@RequestMapping(value = "/ajax/findProductsForOrder", method = RequestMethod.POST)
 	public String findProductsForOrder(@RequestParam String name, @RequestParam String sku, Model model) {
 		model.addAttribute("productList", productService.findByNameAndSKU(name, sku));
@@ -343,28 +336,6 @@ public class AjaxAdminController extends AdminController implements ResourceLoad
 		}
 		model.addAttribute("order", order);
 		return "../admin/orders/_order";
-	}
-
-	@RequestMapping(value = "/ajax/addToFeatured", method = RequestMethod.POST)
-	public String addToFeatured(@RequestParam long id, @RequestParam String name, @RequestParam String url,
-			Model model) {
-		Product product = productService.fingProductById(id);
-		product.setFeatured(true);
-		productService.saveProduct(product);
-		model.addAttribute("productList", productService.findByNameAndURL(name, url));
-		return "../admin/products/_table";
-
-	}
-
-	@RequestMapping(value = "/ajax/removeFromFeatured", method = RequestMethod.POST)
-	public String removeFromFeatured(@RequestParam long id, @RequestParam String name, @RequestParam String url,
-			Model model) {
-		Product product = productService.fingProductById(id);
-		product.setFeatured(false);
-		productService.saveProduct(product);
-		model.addAttribute("productList", productService.findByNameAndURL(name, url));
-		return "../admin/products/_table";
-
 	}
 
 	@RequestMapping(value = "/ajax/findCategories", method = RequestMethod.POST)

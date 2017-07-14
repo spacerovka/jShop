@@ -99,5 +99,10 @@ INSERT INTO block(position, content, blockURL, status) VALUES("FOOTER_COL_LEFT",
 INSERT INTO block(position, content, blockURL, status) VALUES("FOOTER_COL_CENTER",  '<div style="color: white; background: pink none repeat scroll 0% 0%; padding: 2rem;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>',"", false);
 INSERT INTO block(position, content, blockURL, status) VALUES("FOOTER_COL_RIGHT",  '<div style="color: white; background: pink none repeat scroll 0% 0%; padding: 2rem;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>',"", false);
 
-INSERT INTO discount(id, status, salename, discount, coupon ) VALUES (1, true, "Spring 20% Sale", 20, "getMySpring");
+#discount
+INSERT INTO discount(id, status, salename, discount, coupon ) VALUES (1, true, "Spring 10% Sale", 10, "getMySpring10");
+INSERT INTO discount(id, status, salename, discount, coupon ) VALUES (2, true, "Spring 20% Sale", 20, "getMySpring20");
+INSERT INTO discount(id, status, salename, discount, coupon ) VALUES (3, true, "Spring 30% Sale", 30, "getMySpring30");
+INSERT INTO discount(id, status, salename, discount, coupon ) VALUES (4, true, "Spring 40% Sale", 40, "getMySpring40");
+INSERT INTO discount(id, status, salename, discount, coupon ) VALUES (5, true, "Spring 50% Sale", 50, "getMySpring50");
 

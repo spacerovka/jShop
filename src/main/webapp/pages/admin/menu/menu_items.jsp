@@ -52,5 +52,21 @@
 
 	</div>
 	<%@include file="../_footer.jsp"%>
+	<script>
+	function pageButtonClick(targetPage)
+	{
+		var pageSize = ${pageSize};
+		var current = targetPage;	
+		
+		$.ajax ({ 
+			url: '${pageContext.request.contextPath}${URL_PREFIX}ajax/menu', 
+			type: "POST", 						
+			data : {current:current, pageSize:pageSize},
+			complete: function(response){
+				$('#table').html(response.responseText);				
+			}
+		}); 
+	}
+	</script>
 </body>
 </html>

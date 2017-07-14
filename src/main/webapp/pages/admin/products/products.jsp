@@ -42,15 +42,19 @@
 									product</button>
 							</a>
 						</div>
-						<div class="form-group col-xs-4">
+						<div class="form-group col-xs-3">
 							<label>Product name</label> <input class="form-control"
 								type="text" id="searchName" />
 						</div>
-						<div class="form-group col-xs-4">
+						<div class="form-group col-xs-3">
 							<label>Product url</label> <input class="form-control"
 								type="text" id="searchUrl" />
 						</div>
-						<div class="form-group col-xs-4">
+						<div class="form-group col-xs-3">
+							<label>Product sku</label> <input class="form-control"
+								type="text" id="searchSKU" />
+						</div>
+						<div class="form-group col-xs-3">
 							<a class="btn btn-default" href="#" style="display: block;margin-top: 2.4rem;"
 								onclick="searchButtonClick();">Search</a>
 						</div>
@@ -79,11 +83,12 @@
 	{
 		var url = $('#searchUrl').val();
 		var name = $('#searchName').val();
-		console.log("updateProductOption");
+		var name searchSKU = $().val('searchSKU');
+		console.log("searchButtonClick");
 		$.ajax ({ 
-			url: '${pageContext.request.contextPath}/ajax/findProducts', 
+			url: '${pageContext.request.contextPath}${URL_PREFIX}ajax/findProducts', 
 			type: "POST", 						
-			data : {name:name, url:url},
+			data : {name:name, url:url, searchSKU:searchSKU},
 			complete: function(response){
 				$('#table').html(response.responseText);
 			}
@@ -94,11 +99,12 @@
 	{
 		var url = $('#searchUrl').val();
 		var name = $('#searchName').val();
-		console.log("updateProductOption");
+		var name searchSKU = $().val('searchSKU');
+		console.log("addToFeatured");
 		$.ajax ({ 
-			url: '${pageContext.request.contextPath}/ajax/addToFeatured', 
+			url: '${pageContext.request.contextPath}${URL_PREFIX}ajax/addToFeatured', 
 			type: "POST", 						
-			data : {id:id, name:name, url:url},
+			data : {id:id, name:name, url:url, searchSKU:searchSKU},
 			complete: function(response){
 				$('#table').html(response.responseText);
 			}
@@ -109,11 +115,12 @@
 	{
 		var url = $('#searchUrl').val();
 		var name = $('#searchName').val();
-		console.log("updateProductOption");
+		var name searchSKU = $().val('searchSKU');
+		console.log("removeFromFeatured");
 		$.ajax ({ 
-			url: '${pageContext.request.contextPath}/ajax/removeFromFeatured', 
+			url: '${pageContext.request.contextPath}${URL_PREFIX}ajax/removeFromFeatured', 
 			type: "POST", 						
-			data : {id:id, name:name, url:url},
+			data : {id:id, name:name, url:url, searchSKU:searchSKU},
 			complete: function(response){
 				$('#table').html(response.responseText);
 			}

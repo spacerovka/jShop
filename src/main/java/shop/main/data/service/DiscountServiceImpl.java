@@ -5,9 +5,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.hibernate.Query;
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import shop.main.data.DAO.DiscountDAO;
@@ -50,28 +49,41 @@ public class DiscountServiceImpl implements DiscountService {
 		return discount;
 	}
 
-	@Transactional
 	@Override
-	public List<Discount> findByNameAndStatus(String name, String status) {
-		Session session = (Session) entityManager.getDelegate();
-
-		String hql = "from Discount item where item.salename like '%" + name + "%'";
-		if (status != null && !status.isEmpty()) {
-			hql += " and item.status = " + status + "";
-		}
-		Query query = session.createQuery(hql);
-		System.out.println("*");
-		System.out.println("*");
-		System.out.println("query is " + query.getQueryString());
-		System.out.println("*");
-		System.out.println("*");
-		return query.list();
+	public List<Discount> findByNameAndStatus(String name, String status, Pageable pageable) {
+		if (name != null)
+			name = "%" + name + "%";
+		return discountDAO.findByNameAndStatus(name, status, pageable).getContent();
 	}
 
 	@Override
 	public Discount findById(long id) {
 
 		return discountDAO.findOne(id);
+	}
+
+	@Override
+	public long getAllCount() {
+		return discountDAO.count();
+	}
+
+	@Override
+	public List<Discount> listAll(Pageable pageable) {
+		return discountDAO.findAll(pageable).getContent();
+	}
+
+	@Transactional
+	@Override
+	public long countByNameAndStatus(String name, String status) {
+		if (name != null)
+			name = "%" + name + "%";
+		return discountDAO.countByNameAndStatus(name, status);
+	}
+
+	@Override
+	public boolean notUniqueCoupon(String coupon) {
+
+		return discountDAO.findOneByCoupon(coupon) != null;
 	}
 
 }

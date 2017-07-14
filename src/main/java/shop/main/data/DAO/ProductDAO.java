@@ -2,6 +2,8 @@ package shop.main.data.DAO;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import shop.main.data.entity.Category;
@@ -19,4 +21,8 @@ public interface ProductDAO extends JpaRepository<Product, Long> {
 	Product findOneByUrl(String url);
 
 	Product findOneBySku(String sku);
+
+	Page<Product> findAll(Pageable pageable);
+
+	long count();
 }

@@ -57,7 +57,7 @@
 							
 							<div class="form-group">
 								<label>Discount percents*</label>
-								<form:input class="form-control" placeholder="20"
+								<form:input class="form-control" placeholder="20" type="number" min="0" max="100"
 									path="discount" id="nameinput" />
 							</div>
 							

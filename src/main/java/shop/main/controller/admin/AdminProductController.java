@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import shop.main.data.entity.Option;
@@ -59,40 +60,25 @@ public class AdminProductController extends AdminController {
 	public String saveProduct(@ModelAttribute("product") @Valid Product product, BindingResult result, Model model,
 			final RedirectAttributes redirectAttributes, HttpServletRequest request) {
 
-		// String errorSummary = "";
-		// if (product.isNew() && !productService.checkUniqueURL(product)) {
-		// errorSummary += "URL is not unique! ";
-		// model.addAttribute("urlError", "has-error");
-		// }
-		// if (product.getPrice() == null) {
-		// errorSummary += "Price can not be empty! ";
-		// model.addAttribute("priceError", "has-error");
-		// }
-		// if (product.getSku() == null || product.getSku().isEmpty()) {
-		// errorSummary += "SKU can not be empty! ";
-		// model.addAttribute("skuError", "has-error");
-		// }
-		// if (!errorSummary.isEmpty()) {
-		// model.addAttribute("errorSummary", errorSummary);
-		// return "../admin/products/edit_product";
-		// }
-
 		if (result.hasErrors()) {
 			redirectAttributes.addFlashAttribute("errorMessage", "URL is not unique!");
-
-			model.addAttribute("errorSummary", result.getFieldErrors().stream()
-					.map(e -> e.getField() + " error - " + e.getDefaultMessage() + " ").collect(Collectors.toList()));
+			ArrayList<String> errors = (ArrayList<String>) result.getFieldErrors().stream()
+					.map(e -> e.getField() + " error - " + e.getDefaultMessage() + " ").collect(Collectors.toList());
 
 			if (product.isNew() && !productService.checkUniqueURL(product)) {
 				model.addAttribute("urlError", "has-error");
+				errors.add("URL is not unique!");
 			}
 			if (product.getPrice() == null) {
 				model.addAttribute("priceError", "has-error");
 			}
 			if (product.getSku() == null || product.getSku().isEmpty()) {
 				model.addAttribute("skuError", "has-error");
+			} else if (productService.notUniqueSKU(product)) {
+				model.addAttribute("skuError", "has-error");
+				errors.add("SKU must be unique!");
 			}
-
+			model.addAttribute("errorSummary", errors);
 			return "../admin/products/edit_product";
 		} else if (product.isNew() && !productService.checkUniqueURL(product)) {
 			model.addAttribute("errorSummary", new ArrayList<String>(Arrays.asList("URL is not unique!")));
@@ -134,6 +120,36 @@ public class AdminProductController extends AdminController {
 
 		model.addAttribute("productList", productService.listAll());
 		return "../admin/products/products";
+	}
+
+	@RequestMapping(value = "/ajax/findProducts", method = RequestMethod.POST)
+	public String findProducts(@RequestParam String name, @RequestParam String url, @RequestParam String searchSKU,
+			Model model) {
+		model.addAttribute("productList", productService.findByNameAndURLAndSKU(name, url, searchSKU));
+		return "../admin/products/_table";
+
+	}
+
+	@RequestMapping(value = "/ajax/addToFeatured", method = RequestMethod.POST)
+	public String addToFeatured(@RequestParam long id, @RequestParam String name, @RequestParam String url,
+			@RequestParam String searchSKU, Model model) {
+		Product product = productService.fingProductById(id);
+		product.setFeatured(true);
+		productService.saveProduct(product);
+		model.addAttribute("productList", productService.findByNameAndURLAndSKU(name, url, searchSKU));
+		return "../admin/products/_table";
+
+	}
+
+	@RequestMapping(value = "/ajax/removeFromFeatured", method = RequestMethod.POST)
+	public String removeFromFeatured(@RequestParam long id, @RequestParam String name, @RequestParam String url,
+			@RequestParam String searchSKU, Model model) {
+		Product product = productService.fingProductById(id);
+		product.setFeatured(false);
+		productService.saveProduct(product);
+		model.addAttribute("productList", productService.findByNameAndURLAndSKU(name, url, searchSKU));
+		return "../admin/products/_table";
+
 	}
 
 	@RequestMapping(value = "/product/add", method = RequestMethod.GET)

@@ -40,6 +40,7 @@
                         <h2>List of blocks</h2>
                         <div class="table-responsive" id="table">
                             <%@include file="_table.jsp"%>
+                                                          
                         </div>
                     </div>
                     
@@ -51,5 +52,21 @@
 
 	</div>
 	<%@include file="../_footer.jsp"%>
+	<script>
+	function pageButtonClick(targetPage)
+	{
+		var pageSize = ${pageSize};
+		var current = targetPage;	
+		
+		$.ajax ({ 
+			url: '${pageContext.request.contextPath}${URL_PREFIX}ajax/blocks', 
+			type: "POST", 						
+			data : {current:current, pageSize:pageSize},
+			complete: function(response){
+				$('#table').html(response.responseText);				
+			}
+		}); 
+	}
+	</script>
 </body>
 </html>

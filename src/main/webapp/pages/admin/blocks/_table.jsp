@@ -45,10 +45,10 @@
 								  			</core:choose>
 								  		</td>
 								  		<td>
-								  		<a href="${pageContext.request.contextPath}/a/block/${block.id}/update">
+								  		<a href="${pageContext.request.contextPath}${URL_PREFIX}block/${block.id}/update">
 								  		<button type="button" class="btn btn-sm btn-info">Edit</button></a>
 								  		
-								  		<a href="${pageContext.request.contextPath}/a/block/${block.id}/delete">
+								  		<a href="${pageContext.request.contextPath}${URL_PREFIX}block/${block.id}/delete">
 								  		<button type="button" class="btn btn-sm btn-danger">Delete</button></a>
 								  		</td>
                                     </tr>
@@ -62,3 +62,4 @@
                                     
                                 </tbody>
                             </table>
+<%@include file="../_paginator.jsp"%>

@@ -57,7 +57,7 @@
 								onclick="searchButtonClick();">Search</a>
 						</div>
 						<div class="form-group col-xs-12">
-							<h2>List of categories</h2>
+							<h2>List of Discounts</h2>
 						</div>
 						<div class="form-group col-xs-12">
 							<div class="table-responsive" id="table">
@@ -78,12 +78,21 @@
 	<script>
 	function searchButtonClick()
 	{
+		pageButtonClick('1');
+	}
+	</script>
+	
+	<script>
+	function pageButtonClick(targetPage)
+	{
+		var pageSize = ${pageSize};
+		var current = targetPage;
 		var status = $('#searchStatus').val();
 		var name = $('#searchName').val();		
 		$.ajax ({ 
 			url: '${pageContext.request.contextPath}${URL_PREFIX}findDiscounts', 
 			type: "POST", 						
-			data : {name:name, status:status},
+			data : {name:name, status:status, current:current, pageSize:pageSize},
 			complete: function(response){
 				$('#table').html(response.responseText);
 			}

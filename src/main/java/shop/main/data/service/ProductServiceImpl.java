@@ -206,11 +206,11 @@ public class ProductServiceImpl implements ProductService {
 
 	@Transactional
 	@Override
-	public List<Product> findByNameAndURL(String name, String url) {
+	public List<Product> findByNameAndURLAndSKU(String name, String url, String sku) {
 		Session session = (Session) entityManager.getDelegate();
 
 		String hql = "from Product product where product.name like '%" + name + "%'" + " and product.url like '%" + url
-				+ "%'";
+				+ "%' and product.sku like '%" + sku + "%'";
 		Query query = session.createQuery(hql);
 		System.out.println("*");
 		System.out.println("*");
@@ -234,6 +234,17 @@ public class ProductServiceImpl implements ProductService {
 		System.out.println("*");
 		System.out.println("*");
 		return query.list();
+	}
+
+	@Override
+	public boolean notUniqueSKU(Product product) {
+		Product result = productDAO.findOneBySku(product.getSku());
+		if (result == null) {
+			return true;
+		} else if (result.getId().equals(product.getId())) {
+			return true;
+		}
+		return false;
 	}
 
 }

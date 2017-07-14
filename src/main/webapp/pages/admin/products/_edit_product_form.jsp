@@ -34,12 +34,12 @@
 
 	<div class="form-group">
 		<label>Instock amount</label>
-		<form:input class="form-control" placeholder="0" path="instock" />
+		<form:input class="form-control" placeholder="0" path="instock" type="number" min="0" />
 	</div>
 
 	<div class="form-group ${priceError}">
 		<label>Price*</label>
-		<form:input class="form-control" placeholder="1.00" path="price" />
+		<form:input class="form-control" placeholder="1.00" path="price" type="number" step="0.01" min="0" />
 	</div>
 
 	<div class="form-group">

@@ -11,6 +11,8 @@ import javax.servlet.ServletContext;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import shop.main.data.entity.Block;
@@ -36,7 +39,7 @@ import shop.main.utils.URLUtils;
 
 @Controller
 @RequestMapping(value = { ADMIN_PREFIX })
-public class AdminSitePropertiesController {
+public class AdminSitePropertiesController extends AdminController {
 
 	@Autowired
 	private MenuItemService menuService;
@@ -58,8 +61,24 @@ public class AdminSitePropertiesController {
 	@RequestMapping(value = "menu")
 	public String menuList(Model model) {
 
-		model.addAttribute("menuItemList", menuService.listAll());
+		loadMenuTableData(1, PAGE_SIZE, model);
 		return "../admin/menu/menu_items";
+	}
+
+	@RequestMapping(value = "ajax/menu", method = RequestMethod.POST)
+	public String menuListPageable(@RequestParam(value = "current", required = false) Integer current,
+			@RequestParam(value = "pageSize", required = false) Integer pageSize, Model model) {
+
+		loadMenuTableData(current, pageSize, model);
+		return "../admin/menu/_table";
+	}
+
+	private void loadMenuTableData(Integer current, Integer pageSize, Model model) {
+		Pageable pageable = new PageRequest(current - 1, pageSize);
+		model.addAttribute("menuItemList", menuService.listAll(pageable));
+		model.addAttribute("current", current);
+		model.addAttribute("pageSize", pageSize);
+		addPaginator(model, current, pageSize, menuService.getAllCount());
 	}
 
 	@RequestMapping(value = "menu", method = RequestMethod.POST)
@@ -117,9 +136,26 @@ public class AdminSitePropertiesController {
 	/************* Blocks ***/
 	@RequestMapping(value = "blocks")
 	public String blockList(Model model) {
+		int current = 1;
+		loadBlockTableData(current, PAGE_SIZE, model);
 
-		model.addAttribute("blockList", blockService.listAll());
 		return "../admin/blocks/blocks";
+	}
+
+	@RequestMapping(value = "ajax/blocks", method = RequestMethod.POST)
+	public String blockListPageable(@RequestParam(value = "current", required = false) Integer current,
+			@RequestParam(value = "pageSize", required = false) Integer pageSize, Model model) {
+
+		loadBlockTableData(current, pageSize, model);
+		return "../admin/blocks/_table";
+	}
+
+	private void loadBlockTableData(Integer current, Integer pageSize, Model model) {
+		Pageable pageable = new PageRequest(current - 1, pageSize);
+		model.addAttribute("blockList", blockService.listAll(pageable));
+		model.addAttribute("current", current);
+		model.addAttribute("pageSize", pageSize);
+		addPaginator(model, current, pageSize, blockService.getAllCount());
 	}
 
 	@RequestMapping(value = "block", method = RequestMethod.POST)

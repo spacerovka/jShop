@@ -14,7 +14,6 @@ public interface ProductService {
 
 	List<Product> findAllProductByCategory(Category category);
 
-	// List<Product> listAllProductsByPrice (BigInteger price);
 	Product fingProductById(long id);
 
 	Product fingProductByUrl(String url);
@@ -22,6 +21,8 @@ public interface ProductService {
 	Product findProductBySKU(String sku);
 
 	boolean checkUniqueURL(Product product);
+
+	boolean notUniqueSKU(Product product);
 
 	void deleteProductById(long id);
 
@@ -39,7 +40,7 @@ public interface ProductService {
 
 	List<Product> findProductsInCategory(List<Long> listOfCategories);
 
-	List<Product> findByNameAndURL(String name, String url);
+	List<Product> findByNameAndURLAndSKU(String name, String url, String searchSKU);
 
 	List<Product> findByNameAndSKU(String name, String sku);
 }

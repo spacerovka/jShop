@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.Range;
 
 @Entity
 @Table(name = "discount")
@@ -22,7 +23,6 @@ public class Discount {
 	private Long id;
 
 	@NotNull
-	@NotEmpty
 	@Column(name = "status", nullable = false)
 	private boolean status;
 
@@ -32,13 +32,13 @@ public class Discount {
 	private String salename;
 
 	@NotNull
-	@NotEmpty
+	@Range(min = 0, max = 100)
 	@Column(name = "discount", nullable = false)
 	private byte discount;
 
 	@NotNull
 	@NotEmpty
-	@Column(name = "coupon", nullable = false, length = 250)
+	@Column(name = "coupon", nullable = false, length = 250, unique = true)
 	private String coupon;
 
 	@Column(name = "start", nullable = true)

@@ -3,12 +3,16 @@ package shop.main.controller.admin;
 import static shop.main.controller.admin.AdminController.ADMIN_PREFIX;
 import static shop.main.controller.admin.AdminController.MANAGER_PREFIX;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,15 +28,31 @@ import shop.main.data.service.DiscountService;
 
 @Controller
 @RequestMapping(value = { ADMIN_PREFIX, MANAGER_PREFIX })
-public class DiscountController extends AdminController {
+public class AdminDiscountController extends AdminController {
 	@Autowired
 	DiscountService discountService;
 
 	@RequestMapping(value = "/discounts")
 	public String discountsList(Model model) {
-
-		model.addAttribute("discountList", discountService.listAll());
+		loadTableData("", null, 1, PAGE_SIZE, model);
 		return "../admin/discounts/discounts";
+	}
+
+	@RequestMapping(value = "/findDiscounts", method = RequestMethod.POST)
+	public String findDiscounts(@RequestParam String name, @RequestParam String status,
+			@RequestParam(value = "current", required = false) Integer current,
+			@RequestParam(value = "pageSize", required = false) Integer pageSize, Model model) {
+		loadTableData(name, status, current, pageSize, model);
+		return "../admin/discounts/_table";
+
+	}
+
+	private void loadTableData(String name, String status, Integer current, Integer pageSize, Model model) {
+		Pageable pageable = new PageRequest(current - 1, pageSize);
+		model.addAttribute("discountList", discountService.findByNameAndStatus(name, status, pageable));
+		model.addAttribute("current", current);
+		model.addAttribute("pageSize", pageSize);
+		addPaginator(model, current, pageSize, discountService.countByNameAndStatus(name, status));
 	}
 
 	@RequestMapping(value = "/discount", method = RequestMethod.POST)
@@ -46,6 +66,11 @@ public class DiscountController extends AdminController {
 		} else {
 			if (discount.isNew()) {
 				redirectAttributes.addFlashAttribute("flashMessage", "Discount added successfully!");
+				if (discountService.notUniqueCoupon(discount.getCoupon())) {
+					model.addAttribute("errorSummary",
+							(new ArrayList<String>(Arrays.asList("Coupon code must be unique!"))));
+					return "../admin/discounts/edit_discount";
+				}
 			} else {
 				redirectAttributes.addFlashAttribute("flashMessage", "Discount updated successfully!");
 			}
@@ -77,14 +102,6 @@ public class DiscountController extends AdminController {
 		discountService.deleteById(id);
 		redirectAttributes.addFlashAttribute("flashMessage", "Discount deleted successfully!");
 		return "redirect:" + getUrlPrefix(request) + "discounts";
-	}
-
-	@RequestMapping(value = "/findDiscounts", method = RequestMethod.POST)
-	public String findDiscounts(@RequestParam String name, @RequestParam String status, Model model) {
-
-		model.addAttribute("discountList", discountService.findByNameAndStatus(name, status));
-		return "../admin/discounts/_table";
-
 	}
 
 }
