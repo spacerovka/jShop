@@ -14,38 +14,32 @@ import shop.main.data.entity.Discount;
 
 public class DiscountServiceImpl implements DiscountService {
 	@Autowired
-	DiscountDAO discountDAO;
+	DiscountDAO dao;
 
 	@PersistenceContext
 	protected EntityManager entityManager;
 
 	@Override
 	public void save(Discount discount) {
-		discountDAO.save(discount);
+		dao.save(discount);
 
 	}
 
 	@Override
 	public void delete(Discount discount) {
-		discountDAO.delete(discount);
+		dao.delete(discount);
 
 	}
 
 	@Override
 	public void deleteById(long id) {
-		discountDAO.delete(id);
+		dao.delete(id);
 
-	}
-
-	@Override
-	public List<Discount> listAll() {
-
-		return discountDAO.findAll();
 	}
 
 	@Override
 	public Discount findByCoupon(String coupon) {
-		Discount discount = discountDAO.findOneByCouponAndStatus(coupon, true);
+		Discount discount = dao.findOneByCouponAndStatus(coupon, true);
 		return discount;
 	}
 
@@ -53,23 +47,18 @@ public class DiscountServiceImpl implements DiscountService {
 	public List<Discount> findByNameAndStatus(String name, String status, Pageable pageable) {
 		if (name != null)
 			name = "%" + name + "%";
-		return discountDAO.findByNameAndStatus(name, status, pageable).getContent();
+		return dao.findByNameAndStatus(name, status, pageable).getContent();
 	}
 
 	@Override
 	public Discount findById(long id) {
 
-		return discountDAO.findOne(id);
+		return dao.findOne(id);
 	}
 
 	@Override
 	public long getAllCount() {
-		return discountDAO.count();
-	}
-
-	@Override
-	public List<Discount> listAll(Pageable pageable) {
-		return discountDAO.findAll(pageable).getContent();
+		return dao.count();
 	}
 
 	@Transactional
@@ -77,13 +66,13 @@ public class DiscountServiceImpl implements DiscountService {
 	public long countByNameAndStatus(String name, String status) {
 		if (name != null)
 			name = "%" + name + "%";
-		return discountDAO.countByNameAndStatus(name, status);
+		return dao.countByNameAndStatus(name, status);
 	}
 
 	@Override
 	public boolean notUniqueCoupon(String coupon) {
 
-		return discountDAO.findOneByCoupon(coupon) != null;
+		return dao.findOneByCoupon(coupon) != null;
 	}
 
 }

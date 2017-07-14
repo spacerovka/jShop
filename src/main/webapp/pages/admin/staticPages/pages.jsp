@@ -34,10 +34,31 @@
                 </div>
                 </core:if>
 				<div class="row">
-				
+					
                     <div class="col-sm-12">
                     <a href="${pageContext.request.contextPath}/a/page/add"><button type="button" class="btn btn-primary">Add new page</button></a>
-                        <h2>List of Static pages</h2>
+                    </div>
+						<div class="form-group col-xs-4">
+							<label>Name</label> <input class="form-control"
+								type="text" id="searchName" />
+						</div>
+						<div class="form-group col-xs-4">
+							<label>Discount status</label>
+								<select class="form-control" id="searchStatus">
+									<option value="">All</option>
+									<option value="true">Active</option>
+									<option value="false">Hidden</option>
+								</select>
+						</div>
+						<div class="form-group col-xs-4">
+							<a class="btn btn-default" href="#" style="display: block;margin-top: 2.4rem;"
+								onclick="searchButtonClick();">Search</a>
+						</div>
+						<div class="form-group col-xs-12">
+							<h2>List of Static pages</h2>
+						</div>
+						<div class="form-group col-xs-12">
+                        
                         <div class="table-responsive" id="table">
                             <%@include file="_table.jsp"%>
                         </div>
@@ -51,5 +72,29 @@
 
 	</div>
 	<%@include file="../_footer.jsp"%>
+	<script>
+	function searchButtonClick()
+	{
+		pageButtonClick('1');
+	}
+	</script>
+	
+	<script>
+	function pageButtonClick(targetPage)
+	{
+		var pageSize = ${pageSize};
+		var current = targetPage;
+		var status = $('#searchStatus').val();
+		var name = $('#searchName').val();		
+		$.ajax ({ 
+			url: '${pageContext.request.contextPath}${URL_PREFIX}findStaticPages', 
+			type: "POST", 						
+			data : {name:name, status:status, current:current, pageSize:pageSize},
+			complete: function(response){
+				$('#table').html(response.responseText);
+			}
+		}); 
+	}
+	</script>
 </body>
 </html>

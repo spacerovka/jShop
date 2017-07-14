@@ -86,10 +86,13 @@ INSERT INTO menu (text, URL, status, menu_type) VALUES ("Contacts", "contacts", 
 INSERT INTO menu (text, URL, status, menu_type) VALUES ("Delivery", "delivery", true, "RIGHT");
 INSERT INTO menu (text, URL, status, menu_type) VALUES ("Contact Us", "contact", true, "RIGHT");
 
+#static pages
 INSERT INTO staticPage (name, url, status, content) VALUES ("Delivery", "delivery", true, "<b>content of the page</b>");
 INSERT INTO staticPage (name, url, status, content) VALUES ("About", "about", true, "<b>content of the page</b>");
 INSERT INTO staticPage (name, url, status, content) VALUES ("Contacts", "contacts", true, "<b>content of the page</b>");
-
+INSERT INTO staticPage (name, url, status, content) VALUES ("Page 1", "page1", true, "<b>content of the page</b>");
+INSERT INTO staticPage (name, url, status, content) VALUES ("Page 2", "page_2", true, "<b>content of the page</b>");
+INSERT INTO staticPage (name, url, status, content) VALUES ("Page 3", "page_3", true, "<b>content of the page</b>");
 
 INSERT INTO block(position, content, blockURL, status) VALUES("TOP", '<div style="color: white; background: pink none repeat scroll 0% 0%; padding: 2rem;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>', null, false);
 INSERT INTO block(position, content, blockURL, status) VALUES("LEFT_TOP",  '<div style="color: white; background: pink none repeat scroll 0% 0%; padding: 2rem;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>',"", false);

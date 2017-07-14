@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -38,7 +39,7 @@ public class StaticPage {
 	@Column(name = "meta_description", nullable = true)
 	private String metaDescription;
 
-	@NotBlank
+	@NotNull
 	@Column(name = "status", nullable = false)
 	private boolean status;
 

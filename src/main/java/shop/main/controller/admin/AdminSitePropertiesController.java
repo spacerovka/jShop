@@ -2,10 +2,7 @@ package shop.main.controller.admin;
 
 import static shop.main.controller.admin.AdminController.ADMIN_PREFIX;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javax.servlet.ServletContext;
 import javax.validation.Valid;
@@ -23,14 +20,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import shop.main.data.entity.Block;
 import shop.main.data.entity.MenuItem;
 import shop.main.data.entity.SiteProperty;
-import shop.main.data.entity.StaticPage;
-import shop.main.data.service.BlockService;
 import shop.main.data.service.MenuItemService;
 import shop.main.data.service.SitePropertyService;
-import shop.main.data.service.StaticPageService;
 import shop.main.data.wrapper.SitePropertiesWrapper;
 import shop.main.utils.Constants;
 import shop.main.utils.Constants.GeneralProperties;
@@ -45,13 +38,7 @@ public class AdminSitePropertiesController extends AdminController {
 	private MenuItemService menuService;
 
 	@Autowired
-	private BlockService blockService;
-
-	@Autowired
 	private SitePropertyService sitePropertyService;
-
-	@Autowired
-	private StaticPageService staticPageService;
 
 	@Autowired
 	ServletContext context;
@@ -133,84 +120,6 @@ public class AdminSitePropertiesController extends AdminController {
 		return Constants.menuTypes;
 	}
 
-	/************* Blocks ***/
-	@RequestMapping(value = "blocks")
-	public String blockList(Model model) {
-		int current = 1;
-		loadBlockTableData(current, PAGE_SIZE, model);
-
-		return "../admin/blocks/blocks";
-	}
-
-	@RequestMapping(value = "ajax/blocks", method = RequestMethod.POST)
-	public String blockListPageable(@RequestParam(value = "current", required = false) Integer current,
-			@RequestParam(value = "pageSize", required = false) Integer pageSize, Model model) {
-
-		loadBlockTableData(current, pageSize, model);
-		return "../admin/blocks/_table";
-	}
-
-	private void loadBlockTableData(Integer current, Integer pageSize, Model model) {
-		Pageable pageable = new PageRequest(current - 1, pageSize);
-		model.addAttribute("blockList", blockService.listAll(pageable));
-		model.addAttribute("current", current);
-		model.addAttribute("pageSize", pageSize);
-		addPaginator(model, current, pageSize, blockService.getAllCount());
-	}
-
-	@RequestMapping(value = "block", method = RequestMethod.POST)
-	public String saveBlock(@ModelAttribute("block") @Valid Block block, BindingResult result, Model model,
-			final RedirectAttributes redirectAttributes) {
-
-		if (result.hasErrors()) {
-			model.addAttribute("errorSummary", result.getFieldErrors().stream()
-					.map(e -> e.getField() + " error - " + e.getDefaultMessage() + " ").collect(Collectors.toList()));
-			return "../admin/blocks/edit_block";
-		} else {
-			if (block.isNew()) {
-				redirectAttributes.addFlashAttribute("flashMessage", "Item added successfully!");
-			} else {
-				redirectAttributes.addFlashAttribute("flashMessage", "Item updated successfully!");
-			}
-
-			blockService.save(block);
-			return "redirect:" + ADMIN_PREFIX + "blocks";
-		}
-
-	}
-
-	@RequestMapping(value = "block/add", method = RequestMethod.GET)
-	public String addBlock(Model model) {
-		// TODO add menuTypeList
-		model.addAttribute("block", new Block());
-		model.addAttribute("blockTypeList", getBlockTypes());
-		return "../admin/blocks/edit_block";
-	}
-
-	@RequestMapping(value = "block/{id}/update", method = RequestMethod.GET)
-	public String editBlock(@PathVariable("id") long id, Model model) {
-
-		model.addAttribute("block", blockService.findById(id));
-		model.addAttribute("blockTypeList", getBlockTypes());
-
-		return "../admin/blocks/edit_block";
-	}
-
-	@RequestMapping(value = "block/{id}/delete", method = RequestMethod.GET)
-	public String deleteBlock(@PathVariable("id") long id, Model model, final RedirectAttributes redirectAttributes) {
-		blockService.deleteById(id);
-		redirectAttributes.addFlashAttribute("flashMessage", "Item deleted successfully!");
-
-		return "redirect:" + ADMIN_PREFIX + "blocks";
-	}
-
-	private String[] getBlockTypes() {
-
-		// return Constants.blockTypes;
-		return Stream.of(Constants.BlockType.values()).map(Constants.BlockType::name).toArray(String[]::new);
-
-	}
-
 	/** Properties **/
 	@RequestMapping(value = "mainpage", method = RequestMethod.GET)
 	public String editMainPage(Model model) {
@@ -282,65 +191,6 @@ public class AdminSitePropertiesController extends AdminController {
 			});
 			return "redirect:" + ADMIN_PREFIX + "mainpage";
 		}
-	}
-
-	/* **********************Static pages ****** */
-	@RequestMapping(value = "pages")
-	public String pagesList(Model model) {
-
-		model.addAttribute("pagesList", staticPageService.listAll());
-		return "../admin/staticPages/pages";
-	}
-
-	@RequestMapping(value = "page", method = RequestMethod.POST)
-	public String savePage(@ModelAttribute("page") @Valid StaticPage page, BindingResult result, Model model,
-			final RedirectAttributes redirectAttributes) {
-
-		if (result.hasErrors()) {
-			model.addAttribute("errorSummary", result.getFieldErrors().stream()
-					.map(e -> e.getField() + " error - " + e.getDefaultMessage() + " ").collect(Collectors.toList()));
-			redirectAttributes.addFlashAttribute("errorMessage", "URL is not unique!");
-
-			return "../admin/staticPages/edit_page";
-		} else if (page.isNew() && !staticPageService.checkUniqueURL(page)) {
-			model.addAttribute("errorSummary", new ArrayList<String>(Arrays.asList("URL is not unique!")));
-			model.addAttribute("urlError", "has-error");
-			return "../admin/staticPages/edit_page";
-		} else {
-			if (page.isNew()) {
-				redirectAttributes.addFlashAttribute("flashMessage", "Category added successfully!");
-			} else {
-				redirectAttributes.addFlashAttribute("flashMessage", "Category updated successfully!");
-			}
-
-			staticPageService.save(page);
-			return "redirect:" + ADMIN_PREFIX + "pages";
-		}
-
-	}
-
-	@RequestMapping(value = "page/add", method = RequestMethod.GET)
-	public String addPage(Model model) {
-
-		model.addAttribute("page", new StaticPage());
-		model.addAttribute("urlError", "");
-		return "../admin/staticPages/edit_page";
-	}
-
-	@RequestMapping(value = "page/{id}/update", method = RequestMethod.GET)
-	public String editPage(@PathVariable("id") long id, Model model) {
-
-		model.addAttribute("page", staticPageService.findById(id));
-		model.addAttribute("urlError", "");
-
-		return "../admin/staticPages/edit_page";
-	}
-
-	@RequestMapping(value = "page/{id}/delete", method = RequestMethod.GET)
-	public String deletePage(@PathVariable("id") long id, Model model, final RedirectAttributes redirectAttributes) {
-		staticPageService.deleteById(id);
-		redirectAttributes.addFlashAttribute("flashMessage", "Category deleted successfully!");
-		return "redirect:" + ADMIN_PREFIX + "pages";
 	}
 
 }

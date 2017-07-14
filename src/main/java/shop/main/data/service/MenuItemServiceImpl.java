@@ -20,36 +20,31 @@ import shop.main.utils.Constants;
 public class MenuItemServiceImpl implements MenuItemService {
 
 	@Autowired
-	private MenuItemDAO menuDAO;
+	private MenuItemDAO dao;
 
 	@PersistenceContext
 	protected EntityManager entityManager;
 
 	@Override
 	public void save(MenuItem item) {
-		menuDAO.save(item);
+		dao.save(item);
 
 	}
 
 	@Override
 	public void delete(MenuItem item) {
-		menuDAO.delete(item);
+		dao.delete(item);
 
-	}
-
-	@Override
-	public List<MenuItem> listAll() {
-		return menuDAO.findAll();
 	}
 
 	@Override
 	public MenuItem findById(long id) {
-		return menuDAO.findOne(id);
+		return dao.findOne(id);
 	}
 
 	@Override
 	public void deleteById(long id) {
-		menuDAO.delete(id);
+		dao.delete(id);
 
 	}
 
@@ -73,12 +68,12 @@ public class MenuItemServiceImpl implements MenuItemService {
 
 	@Override
 	public List<MenuItem> listAll(Pageable pageable) {
-		return menuDAO.findAll(pageable).getContent();
+		return dao.findAll(pageable).getContent();
 	}
 
 	@Override
 	public long getAllCount() {
-		return menuDAO.count();
+		return dao.count();
 	}
 
 }

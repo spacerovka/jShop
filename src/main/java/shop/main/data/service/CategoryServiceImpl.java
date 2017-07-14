@@ -18,7 +18,7 @@ import shop.main.data.entity.Category;
 public class CategoryServiceImpl implements CategoryService {
 
 	@Autowired
-	private CategoryDAO categoryDAO;
+	private CategoryDAO dao;
 
 	@PersistenceContext
 	protected EntityManager entityManager;
@@ -26,36 +26,36 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public void saveCategory(Category category) {
 
-		categoryDAO.save(category);
+		dao.save(category);
 	}
 
 	@Override
 	public void deleteCategory(Category category) {
 
-		categoryDAO.delete(category);
+		dao.delete(category);
 	}
 
 	@Override
 	public List<Category> listAll() {
 
-		return categoryDAO.findAll();
+		return dao.findAll();
 	}
 
 	@Override
 	public Category findCategoryById(long id) {
 
-		return categoryDAO.findOne(id);
+		return dao.findOne(id);
 	}
 
 	@Override
 	public List<Category> findAllParentCategories() {
 
-		return categoryDAO.findAllCategoryByParentCategory(null);
+		return dao.findAllCategoryByParentCategory(null);
 	}
 
 	@Override
 	public boolean checkUniqueURL(Category category) {
-		Category result = categoryDAO.findOneByCategoryURL(category.getCategoryURL());
+		Category result = dao.findOneByCategoryURL(category.getCategoryURL());
 		if (result == null) {
 			return true;
 		} else if (result.getId().equals(category.getId())) {
@@ -67,12 +67,12 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public void deleteCategoryById(long id) {
 
-		List<Category> list = categoryDAO.findAllCategoryByParentCategory(categoryDAO.findOne(id));
+		List<Category> list = dao.findAllCategoryByParentCategory(dao.findOne(id));
 		for (Category child : list) {
 			child.setParentCategory(null);
-			categoryDAO.save(child);
+			dao.save(child);
 		}
-		categoryDAO.delete(id);
+		dao.delete(id);
 
 	}
 

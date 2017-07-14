@@ -12,8 +12,6 @@ public interface BlockService {
 
 	void delete(Block block);
 
-	List<Block> listAll();
-
 	long getAllCount();
 
 	List<Block> listAll(Pageable pageable);

@@ -13,17 +13,13 @@ public interface DiscountService {
 
 	void deleteById(long id);
 
-	List<Discount> listAll();
-
 	Discount findByCoupon(String cupon);
-
-	List<Discount> findByNameAndStatus(String name, String status, Pageable pageable);
 
 	Discount findById(long id);
 
 	long getAllCount();
 
-	List<Discount> listAll(Pageable pageable);
+	List<Discount> findByNameAndStatus(String name, String status, Pageable pageable);
 
 	long countByNameAndStatus(String name, String status);
 

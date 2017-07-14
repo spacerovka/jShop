@@ -20,43 +20,37 @@ import shop.main.data.entity.Block;
 public class BlockServiceImpl implements BlockService {
 
 	@Autowired
-	private BlockDAO blockDAO;
+	private BlockDAO dao;
 
 	@PersistenceContext
 	protected EntityManager entityManager;
 
 	@Override
 	public void save(Block block) {
-		blockDAO.save(block);
+		dao.save(block);
 
 	}
 
 	@Override
 	public void delete(Block block) {
-		blockDAO.delete(block);
+		dao.delete(block);
 
-	}
-
-	@Override
-	public List<Block> listAll() {
-
-		return blockDAO.findAll();
 	}
 
 	@Override
 	public List<Block> findAllByURL(String URL) {
-		return blockDAO.findAllByBlockURL(URL);
+		return dao.findAllByBlockURL(URL);
 	}
 
 	@Override
 	public Block findById(long id) {
 
-		return blockDAO.findOne(id);
+		return dao.findOne(id);
 	}
 
 	@Override
 	public void deleteById(long id) {
-		blockDAO.delete(id);
+		dao.delete(id);
 
 	}
 
@@ -81,12 +75,12 @@ public class BlockServiceImpl implements BlockService {
 	@Override
 	public List<Block> listAll(Pageable pageable) {
 
-		return blockDAO.findAll(pageable).getContent();
+		return dao.findAll(pageable).getContent();
 	}
 
 	@Override
 	public long getAllCount() {
-		return blockDAO.count();
+		return dao.count();
 	}
 
 }

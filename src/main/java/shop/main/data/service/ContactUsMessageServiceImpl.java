@@ -10,30 +10,30 @@ import shop.main.data.entity.ContactUsMessage;
 public class ContactUsMessageServiceImpl implements ContactUsMessageService {
 
 	@Autowired
-	private ContactUsMessageDAO itemDAO;
+	private ContactUsMessageDAO dao;
 
 	@Override
 	public void saveContactUsMessage(ContactUsMessage item) {
-		itemDAO.save(item);
+		dao.save(item);
 
 	}
 
 	@Override
 	public void deleteContactUsMessageById(long id) {
-		itemDAO.delete(id);
+		dao.delete(id);
 
 	}
 
 	@Override
 	public List<ContactUsMessage> listAll() {
 
-		return itemDAO.findAll();
+		return dao.findAll();
 	}
 
 	@Override
 	public ContactUsMessage findContactUsMessageById(long id) {
 
-		return itemDAO.findOne(id);
+		return dao.findOne(id);
 	}
 
 }
