@@ -37,22 +37,19 @@
 
 					<div class="col-lg-12">
 						
-						<!-- <div class="form-group col-xs-4">
-							<label>Discount name</label> <input class="form-control"
-								type="text" id="searchName" />
-						</div>
+						
 						<div class="form-group col-xs-4">
-							<label>Discount status</label>
+							<label>Message status</label>
 								<select class="form-control" id="searchStatus">
 									<option value="">All</option>
-									<option value="true">Active</option>
-									<option value="false">Hidden</option>
+									<option value="true">Watched</option>
+									<option value="false">New</option>
 								</select>
 						</div>
-						<div class="form-group col-xs-4">
+						<div class="form-group col-xs-8">
 							<a class="btn btn-default" href="#" style="display: block;margin-top: 2.4rem;"
 								onclick="searchButtonClick();">Search</a>
-						</div> -->
+						</div>
 						<div class="form-group col-xs-12">
 							<h2>List of messages</h2>
 						</div>
@@ -75,12 +72,21 @@
 	<script>
 	function searchButtonClick()
 	{
+		
+		pageButtonClick('1');
+		
+	}
+	
+	function pageButtonClick(targetPage)
+	{
+		var pageSize = ${pageSize};
+		var current = targetPage;
 		var status = $('#searchStatus').val();
-		var name = $('#searchName').val();		
+				
 		$.ajax ({ 
-			url: '${pageContext.request.contextPath}${URL_PREFIX}findDiscounts', 
+			url: '${pageContext.request.contextPath}${URL_PREFIX}findMessages', 
 			type: "POST", 						
-			data : {name:name, status:status},
+			data : {status:status, current:current, pageSize:pageSize},
 			complete: function(response){
 				$('#table').html(response.responseText);
 			}

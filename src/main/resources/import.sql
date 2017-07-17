@@ -109,3 +109,5 @@ INSERT INTO discount(id, status, salename, discount, coupon ) VALUES (3, true, "
 INSERT INTO discount(id, status, salename, discount, coupon ) VALUES (4, true, "Spring 40% Sale", 40, "getMySpring40");
 INSERT INTO discount(id, status, salename, discount, coupon ) VALUES (5, true, "Spring 50% Sale", 50, "getMySpring50");
 
+#messages
+INSERT INTO contact_us_message(id,username,useremail,theme,comment,watched,created) VALUES (1, "Lily", "l@l.com", "My message", "comment", false, NOW());
