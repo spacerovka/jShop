@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import shop.main.data.entity.Category;
@@ -37,9 +40,27 @@ public class AdminCategoriesController extends AdminController {
 
 	@RequestMapping(value = "/categories")
 	public String categoriesList(Model model) {
+		loadTableData("", null, 1, PAGE_SIZE, model);
 
-		model.addAttribute("categoryList", categoryService.listAll());
 		return "../admin/categories/categories";
+	}
+
+	@RequestMapping(value = "/findCategories", method = RequestMethod.POST)
+	public String findCategories(@RequestParam String name, @RequestParam String url,
+			@RequestParam(value = "current", required = false) Integer current,
+			@RequestParam(value = "pageSize", required = false) Integer pageSize, Model model) {
+
+		loadTableData(name, url, current, pageSize, model);
+		return "../admin/categories/_table";
+
+	}
+
+	private void loadTableData(String name, String url, Integer current, Integer pageSize, Model model) {
+		Pageable pageable = new PageRequest(current - 1, pageSize);
+		model.addAttribute("categoryList", categoryService.findByNameAndURL(name, url, pageable));
+		model.addAttribute("current", current);
+		model.addAttribute("pageSize", pageSize);
+		addPaginator(model, current, pageSize, categoryService.countByNameAndURL(name, url));
 	}
 
 	@RequestMapping(value = "/category", method = RequestMethod.POST)

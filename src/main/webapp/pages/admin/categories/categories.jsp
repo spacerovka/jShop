@@ -74,12 +74,20 @@
 	<script>
 	function searchButtonClick()
 	{
+		
+		pageButtonClick('1');
+	}
+	
+	function pageButtonClick(targetPage)
+	{
+		var pageSize = ${pageSize};
+		var current = targetPage;
 		var url = $('#searchUrl').val();
 		var name = $('#searchName').val();		
 		$.ajax ({ 
-			url: '${pageContext.request.contextPath}/ajax/findCategories', 
+			url: '${pageContext.request.contextPath}${URL_PREFIX}findCategories', 
 			type: "POST", 						
-			data : {name:name, url:url},
+			data : {name:name, url:url, current:current, pageSize:pageSize},
 			complete: function(response){
 				$('#table').html(response.responseText);
 			}

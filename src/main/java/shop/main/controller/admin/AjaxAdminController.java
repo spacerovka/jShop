@@ -338,13 +338,6 @@ public class AjaxAdminController extends AdminController implements ResourceLoad
 		return "../admin/orders/_order";
 	}
 
-	@RequestMapping(value = "/ajax/findCategories", method = RequestMethod.POST)
-	public String findCategories(@RequestParam String name, @RequestParam String url, Model model) {
-		model.addAttribute("categoryList", categoryService.findByNameAndURL(name, url));
-		return "../admin/categories/_table";
-
-	}
-
 	@RequestMapping(value = "/ajax/findOption", method = RequestMethod.POST)
 	public String findOption(@RequestParam String name, Model model) {
 		model.addAttribute("optionList", optionService.findAllByName(name));
