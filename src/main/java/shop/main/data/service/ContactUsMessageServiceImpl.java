@@ -39,13 +39,20 @@ public class ContactUsMessageServiceImpl implements ContactUsMessageService {
 
 	@Override
 	public List<ContactUsMessage> findByStatus(String status, Pageable pageable) {
-
-		return dao.findByStatus(status, pageable).getContent();
+		Boolean bStatus = null;
+		if (status != null && !status.isEmpty()) {
+			bStatus = Boolean.valueOf(status);
+		}
+		return dao.findByStatus(bStatus, pageable).getContent();
 	}
 
 	@Override
 	public long countByStatus(String status) {
-		return dao.countByStatus(status);
+		Boolean bStatus = null;
+		if (status != null && !status.isEmpty()) {
+			bStatus = Boolean.valueOf(status);
+		}
+		return dao.countByStatus(bStatus);
 	}
 
 }

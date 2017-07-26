@@ -10,6 +10,8 @@ import java.util.stream.Stream;
 import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import shop.main.data.entity.User;
@@ -30,7 +33,7 @@ import shop.main.validation.FormValidationGroup;
 
 @Controller
 @RequestMapping(value = { ADMIN_PREFIX })
-public class AdminUserController {
+public class AdminUserController extends AdminController {
 
 	@Autowired
 	ServletContext context;
@@ -46,9 +49,27 @@ public class AdminUserController {
 
 	@RequestMapping(value = "users")
 	public String usersList(Model model) {
-
-		model.addAttribute("userList", userService.listAll());
+		loadTableData("", null, null, null, 1, PAGE_SIZE, model);
+		model.addAttribute("roleList", getRoleTypes());
 		return "../admin/users/users";
+	}
+
+	@RequestMapping(value = "/findUsers", method = RequestMethod.POST)
+	public String findUsers(@RequestParam String name, @RequestParam String status, @RequestParam String email,
+			@RequestParam String role, @RequestParam(value = "current", required = false) Integer current,
+			@RequestParam(value = "pageSize", required = false) Integer pageSize, Model model) {
+		loadTableData(name, status, email, role, current, pageSize, model);
+		return "../admin/users/_table";
+
+	}
+
+	private void loadTableData(String name, String status, String email, String role, Integer current, Integer pageSize,
+			Model model) {
+		Pageable pageable = new PageRequest(current - 1, pageSize);
+		model.addAttribute("userList", userService.findAll(name, status, email, role, pageable));
+		model.addAttribute("current", current);
+		model.addAttribute("pageSize", pageSize);
+		addPaginator(model, current, pageSize, userService.countAll(name, status, email, role));
 	}
 
 	@RequestMapping(value = "user", method = RequestMethod.POST)

@@ -46,7 +46,7 @@
 									<option value="false">New</option>
 								</select>
 						</div>
-						<div class="form-group col-xs-8">
+						<div class="form-group col-xs-4">
 							<a class="btn btn-default" href="#" style="display: block;margin-top: 2.4rem;"
 								onclick="searchButtonClick();">Search</a>
 						</div>

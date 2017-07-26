@@ -15,6 +15,7 @@ import javax.persistence.PersistenceContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -224,6 +225,35 @@ public class UserServiceImpl implements UserService {
 				Arrays.asList(new SimpleGrantedAuthority("CHANGE_PASSWORD_PRIVILEGE")));
 		SecurityContextHolder.getContext().setAuthentication(auth);
 		return null;
+	}
+
+	@Override
+	public List<User> findAll(String name, String status, String email, String role, Pageable pageable) {
+		if (name != null)
+			name = "%" + name + "%";
+		if (email != null)
+			email = "%" + email + "%";
+
+		Boolean bStatus = null;
+		if (status != null && !status.isEmpty()) {
+			bStatus = Boolean.valueOf(status);
+		}
+		return userDAO.findAll(name, bStatus, email, role, pageable).getContent();
+	}
+
+	@Override
+	public long countAll(String name, String status, String email, String role) {
+		if (name != null)
+			name = "%" + name + "%";
+		if (email != null)
+			email = "%" + email + "%";
+
+		Boolean bStatus = null;
+		if (status != null && !status.isEmpty()) {
+			bStatus = Boolean.valueOf(status);
+		}
+
+		return userDAO.countAll(name, bStatus, email, role);
 	}
 
 }

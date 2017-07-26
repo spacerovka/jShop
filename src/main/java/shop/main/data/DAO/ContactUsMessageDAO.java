@@ -13,9 +13,9 @@ public interface ContactUsMessageDAO extends JpaRepository<ContactUsMessage, Lon
 
 	long count();
 
-	@Query("SELECT item FROM ContactUsMessage item where (:status is NULL OR :status ='' OR item.watched = :status) ORDER BY item.id")
-	Page<ContactUsMessage> findByStatus(@Param("status") String status, Pageable pageable);
+	@Query("SELECT item FROM ContactUsMessage item where (:status is NULL OR item.watched = :status) ORDER BY item.id")
+	Page<ContactUsMessage> findByStatus(@Param("status") Boolean status, Pageable pageable);
 
-	@Query("SELECT count(*) FROM ContactUsMessage item where (:status is NULL OR :status ='' OR item.watched = :status) ORDER BY item.id")
-	long countByStatus(@Param("status") String status);
+	@Query("SELECT count(*) FROM ContactUsMessage item where (:status is NULL OR item.watched = :status) ORDER BY item.id")
+	long countByStatus(@Param("status") Boolean status);
 }

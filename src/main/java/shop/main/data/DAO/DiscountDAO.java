@@ -11,11 +11,11 @@ import shop.main.data.entity.Discount;
 public interface DiscountDAO extends JpaRepository<Discount, Long> {
 	Discount findOneByCouponAndStatus(String coupon, boolean status);
 
-	@Query("SELECT item FROM Discount item where (:name is NULL OR item.salename LIKE :name) AND (:status is NULL OR :status ='' OR item.status = :status) ORDER BY item.id")
-	Page<Discount> findByNameAndStatus(@Param("name") String name, @Param("status") String status, Pageable pageable);
+	@Query("SELECT item FROM Discount item where (:name is NULL OR item.salename LIKE :name) AND (:status is NULL OR item.status = :status) ORDER BY item.id")
+	Page<Discount> findByNameAndStatus(@Param("name") String name, @Param("status") Boolean status, Pageable pageable);
 
-	@Query("SELECT count(*) FROM Discount item where (:name is NULL OR item.salename LIKE :name) AND (:status is NULL OR :status ='' OR item.status = :status) ORDER BY item.id")
-	long countByNameAndStatus(@Param("name") String name, @Param("status") String status);
+	@Query("SELECT count(*) FROM Discount item where (:name is NULL OR item.salename LIKE :name) AND (:status is NULL OR item.status = :status) ORDER BY item.id")
+	long countByNameAndStatus(@Param("name") String name, @Param("status") Boolean status);
 
 	Page<Discount> findAll(Pageable pageable);
 
