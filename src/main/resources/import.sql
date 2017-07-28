@@ -22,8 +22,9 @@ INSERT INTO category (categoryName, categoryURL, status) VALUES ('InActiveCatego
 INSERT INTO country(id, name, basetarif) VALUES (1, "USA", 30.00);
 INSERT INTO parcel_size(id, name, description) VALUES (1, "Regular parcel 30x30 cm", "Regular");
 INSERT INTO parcel_cost(id, country, size, cost) VALUES (1, 1,1, 10.00);
-INSERT INTO parcel_size(id, name, description) VALUES (2, "Regular parcel 60x80 cm", "Medium");
+INSERT INTO parcel_size(id, name, description) VALUES (2, "Medium parcel 60x80 cm", "Medium");
 INSERT INTO parcel_cost(id, country, size, cost) VALUES (2, 1,2, 20.00);
+INSERT INTO parcel_size(id, name, description) VALUES (1, "Large parcel 110x110 cm", "Large");
 
 #PRODUCTS
 INSERT INTO product (NAME, PRICE, instock, SKU, url, category,status, featured, longDesc, shortDesc, meta_title, meta_description, size) VALUES ('FRANKIE STEIN', '59.99', '6', 'PI90800', 'frankie_stein', 5,1,1, "<p>See more snippets like these online store reviews at <a target='_blank' href='http://bootsnipp.com'>Bootsnipp - http://bootsnipp.com</a>.</p><p>Want to make these reviews work? Check out <strong><a href='http://maxoffsky.com/code-blog/laravel-shop-tutorial-1-building-a-review-system/'>this building a review system tutorial</a></strong>over at maxoffsky.com!</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>", "Frankie Stein is a wholehearted girl, and pretty-in-personality kind of girl. She is optimistic, positive, kindhearted and always gets along with others. Frankie is aware of her flaws and embraces them.", "JShop Draculaura Doll", "She is optimistic, positive, kindhearted and always gets along with others.",1);

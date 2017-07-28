@@ -338,26 +338,4 @@ public class AjaxAdminController extends AdminController implements ResourceLoad
 		return "../admin/orders/_order";
 	}
 
-	@RequestMapping(value = "/ajax/findOption", method = RequestMethod.POST)
-	public String findOption(@RequestParam String name, Model model) {
-		model.addAttribute("optionList", optionService.findAllByName(name));
-		return "../admin/options/_options_table";
-
-	}
-
-	@RequestMapping(value = "/ajax/findGroup", method = RequestMethod.POST)
-	public String findGroup(@RequestParam String name, Model model) {
-		model.addAttribute("optiongroupList", optionGroupService.findOptionGroupByName(name));
-		return "../admin/options/_groups_table";
-
-	}
-
-	@RequestMapping(value = "/ajax/findOrder", method = RequestMethod.POST)
-	public String findOrder(@RequestParam String fullname, @RequestParam String phone, @RequestParam String email,
-			Model model) {
-		model.addAttribute("orders",
-				orderRepository.findByFullNameLikeAndPhoneLikeAndEmailLike(fullname, phone, email));
-		return "../admin/orders/_table";
-
-	}
 }

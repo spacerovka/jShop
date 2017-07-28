@@ -2,6 +2,8 @@ package shop.main.data.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
+
 import shop.main.data.entity.Category;
 import shop.main.data.entity.Product;
 
@@ -43,4 +45,8 @@ public interface ProductService {
 	List<Product> findByNameAndURLAndSKU(String name, String url, String searchSKU);
 
 	List<Product> findByNameAndSKU(String name, String sku);
+
+	List<Product> findPageable(String name, String url, String searchSKU, Pageable pageable);
+
+	long countPageable(String name, String url, String searchSKU);
 }

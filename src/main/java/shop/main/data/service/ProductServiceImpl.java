@@ -13,6 +13,7 @@ import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -245,6 +246,28 @@ public class ProductServiceImpl implements ProductService {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public List<Product> findPageable(String name, String url, String searchSKU, Pageable pageable) {
+		if (name != null)
+			name = "%" + name + "%";
+		if (url != null)
+			url = "%" + url + "%";
+		if (searchSKU != null)
+			searchSKU = "%" + searchSKU + "%";
+		return productDAO.findPageable(name, url, searchSKU, pageable).getContent();
+	}
+
+	@Override
+	public long countPageable(String name, String url, String searchSKU) {
+		if (name != null)
+			name = "%" + name + "%";
+		if (url != null)
+			url = "%" + url + "%";
+		if (searchSKU != null)
+			searchSKU = "%" + searchSKU + "%";
+		return productDAO.countPageable(name, url, searchSKU);
 	}
 
 }

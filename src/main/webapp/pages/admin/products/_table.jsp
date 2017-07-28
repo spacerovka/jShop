@@ -48,12 +48,12 @@
                                         	<core:choose>
 	        									<core:when test="${product.featured==true}">	        										
 	        										<a style="display: inline-block;" href="#"
-													onclick="removeFromFeatured(${product.id});" 
+													onclick="removeFromFeatured(${product.id},${current});" 
 													class="btn btn-warning">Remove from Featured</a>
 	        									</core:when>
 								  				<core:otherwise>
 								  					<a style="display: inline-block;" href="#"
-													onclick="addToFeatured(${product.id});" 
+													onclick="addToFeatured(${product.id},${current});" 
 													class="btn btn-success">Add to Featured</a>
 								  				</core:otherwise>
 								  			</core:choose>
@@ -76,3 +76,4 @@
                                     
                                 </tbody>
                             </table>
+                            <%@include file="../_paginator.jsp"%>

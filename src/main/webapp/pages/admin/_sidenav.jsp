@@ -13,6 +13,9 @@
                         <a href="${pageContext.request.contextPath}/a/products"><i class="fa fa-fw fa-table"></i> Products</a>
                     </li>
                     <li>
+                        <a href="${pageContext.request.contextPath}/a/optiongroups"><i class="fa fa-fw fa-table"></i> Product's option groups</a>
+                    </li>
+                    <li>
                         <a href="${pageContext.request.contextPath}/a/options"><i class="fa fa-fw fa-file"></i> Product's options</a>
                     </li>
                     <li>
@@ -79,6 +82,9 @@
                     </li>
                     <li>
                         <a href="${pageContext.request.contextPath}${URL_PREFIX}products"><i class="fa fa-fw fa-table"></i> Products</a>
+                    </li>
+                    <li>
+                        <a href="${pageContext.request.contextPath}${URL_PREFIX}optiongroups"><i class="fa fa-fw fa-table"></i> Product's option groups</a>
                     </li>
                     <li>
                         <a href="${pageContext.request.contextPath}${URL_PREFIX}options"><i class="fa fa-fw fa-file"></i> Product's options</a>

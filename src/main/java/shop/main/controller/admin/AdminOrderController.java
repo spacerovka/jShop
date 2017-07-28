@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import shop.main.data.entity.Country;
@@ -42,8 +45,31 @@ public class AdminOrderController extends AdminController {
 	@RequestMapping(value = "/orders")
 	public String ordersList(Model model) {
 
-		model.addAttribute("orders", orderRepository.findAll());
+		loadTableData("", "", "", 1, PAGE_SIZE, model);
 		return "../admin/orders/orders";
+	}
+
+	@RequestMapping(value = "/findOrder", method = RequestMethod.POST)
+	public String findOrder(@RequestParam String fullname, @RequestParam String phone, @RequestParam String email,
+			Integer current, Integer pageSize, Model model) {
+		loadTableData(fullname, phone, email, current, pageSize, model);
+		return "../admin/orders/_table";
+
+	}
+
+	private void loadTableData(String fullname, String phone, String email, Integer current, Integer pageSize,
+			Model model) {
+		Pageable pageable = new PageRequest(current - 1, pageSize);
+		// if (fullname != null && !fullname.isEmpty())
+		// fullname = "%" + fullname + "%";
+		// if (phone != null && !phone.isEmpty())
+		// phone = "%" + phone + "%";
+		// if (email != null && !email.isEmpty())
+		// email = "%" + email + "%";
+		model.addAttribute("orders", orderRepository.filter(fullname, phone, email, pageable).getContent());
+		model.addAttribute("current", current);
+		model.addAttribute("pageSize", pageSize);
+		addPaginator(model, current, pageSize, orderRepository.count(fullname, phone, email));
 	}
 
 	@RequestMapping(value = "/order/{id}/update", method = RequestMethod.GET)
