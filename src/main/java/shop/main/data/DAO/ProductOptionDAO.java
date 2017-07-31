@@ -8,4 +8,5 @@ import shop.main.data.entity.ProductOption;
 
 public interface ProductOptionDAO extends JpaRepository<ProductOption, Long> {
 	List<ProductOption> findAll();
+
 }

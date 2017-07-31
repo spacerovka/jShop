@@ -60,12 +60,7 @@ public class AdminOrderController extends AdminController {
 	private void loadTableData(String fullname, String phone, String email, Integer current, Integer pageSize,
 			Model model) {
 		Pageable pageable = new PageRequest(current - 1, pageSize);
-		// if (fullname != null && !fullname.isEmpty())
-		// fullname = "%" + fullname + "%";
-		// if (phone != null && !phone.isEmpty())
-		// phone = "%" + phone + "%";
-		// if (email != null && !email.isEmpty())
-		// email = "%" + email + "%";
+
 		model.addAttribute("orders", orderRepository.filter(fullname, phone, email, pageable).getContent());
 		model.addAttribute("current", current);
 		model.addAttribute("pageSize", pageSize);

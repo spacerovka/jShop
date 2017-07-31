@@ -13,7 +13,9 @@ public interface OrderRepository extends MongoRepository<Order, String> {
 
 	List<Order> findByFullNameLikeAndPhoneLikeAndEmailLike(String fullName, String phone, String email);
 
-	List<Order> findByUsername(String username);
+	Page<Order> findByUsername(String username, Pageable pageable);
+
+	long countByUsername(String username);
 
 	@Query(value = "{ $and: [ { 'fullName' : {$regex:?0,$options:'i'} }, { 'phone' : {$regex:?1,$options:'i'}}, { 'email' : {$regex:?2,$options:'i'}}  ] }")
 	Page<Order> filter(String fullName, String phone, String email, Pageable pageable);

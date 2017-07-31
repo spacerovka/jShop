@@ -6,6 +6,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -20,6 +22,8 @@ import shop.main.data.service.ProductService;
 public class TestProductService {
 	private final String PRODUCT_NAME = "";
 	private final String PRODUCT_URL = "ra";
+	private final Integer CURRENT = 1;
+	private final Integer PAGE_SIZE = 2;
 
 	@Autowired
 	@Qualifier("productService")
@@ -27,8 +31,8 @@ public class TestProductService {
 
 	@Test
 	public void findByNameAndURL() {
-
-		List<Product> products = productService.findByNameAndURLAndSKU(PRODUCT_NAME, PRODUCT_URL, "");
+		Pageable pageable = new PageRequest(CURRENT, PAGE_SIZE);
+		List<Product> products = productService.findPageable(PRODUCT_NAME, PRODUCT_URL, "", pageable);
 		// Assert.assertEquals(products.get(0).getName(), PRODUCT_NAME);
 
 		products.stream().forEach(p -> System.out.println(p.getName() + " " + p.getUrl()));

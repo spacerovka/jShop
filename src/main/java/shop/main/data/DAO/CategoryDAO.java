@@ -27,4 +27,6 @@ public interface CategoryDAO extends JpaRepository<Category, Long> {
 
 	@Query("SELECT count(*) FROM Category item where (:name is NULL OR item.categoryName LIKE :name) AND (:url is NULL OR item.categoryURL LIKE :url) ORDER BY item.id")
 	long countByNameAndURL(@Param("name") String name, @Param("url") String url);
+
+	List<Category> findAllCategoryByParentCategoryAndStatus(Category parentCategory, boolean status);
 }

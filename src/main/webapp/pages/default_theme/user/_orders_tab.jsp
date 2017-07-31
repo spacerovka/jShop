@@ -5,30 +5,34 @@
 <%@ taglib prefix="core" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>	
-<div >
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<h3>My orders</h3>
+<div>
 	<core:if test="${not empty orders}">
 		<core:forEach var="order" items="${orders}">
 			<div class="row box">
 				<hr class="underline">
 				<h2 class="intro-text text-center">
-				
-					<strong>Order № ${order.number} placed <fmt:formatDate value="${order.date}" pattern="yyyy-MM-dd HH:mm" /></strong>
+
+					<strong>Order № ${order.number} placed <fmt:formatDate
+							value="${order.date}" pattern="yyyy-MM-dd HH:mm" /></strong>
 				</h2>
 				<hr class="underline">
 				<div class="col-md-3 col-xs-12">
-					<h2 class="title">Sum: <b><core:out value="${order.sum}" />$</b></h2>
-					
+					<h2 class="title">
+						Sum: <b><core:out value="${order.sum}" />$</b>
+					</h2>
+
 					<p>
-						Date: <b><fmt:formatDate value="${order.date}" pattern="yyyy-MM-dd HH:mm" /></b>
+						Date: <b><fmt:formatDate value="${order.date}"
+								pattern="yyyy-MM-dd HH:mm" /></b>
 					</p>
-					
+
 					<p>
-						Delivery address : <b>${order.country}, 
-						<core:if test="${not empty order.state}">${order.state},</core:if>
-						${order.city},
-						${order.shipAddress},
-						${order.zip}</b>
+						Delivery address : <b>${order.country}, <core:if
+								test="${not empty order.state}">${order.state},</core:if>
+							${order.city}, ${order.shipAddress}, ${order.zip}
+						</b>
 					</p>
 
 					<p>
@@ -44,20 +48,20 @@
 								<b>Processing by manager</b>
 							</core:otherwise>
 						</core:choose>
-						
+
 					</p>
 
 					<p>
 						Tracking Number: <b><core:out value="${order.trackNumber}" /></b>
 					</p>
-					
+
 					<hr class="visible-xs">
 				</div>
 
 
 
 				<div class="col-md-9 col-xs-12">
-					
+
 					<table class="items-list" style="width: 100%;">
 						<tbody>
 							<tr>
@@ -89,7 +93,9 @@
 			</div>
 		</core:forEach>
 	</core:if>
-
+	<div class="row box">
+		<%@include file="orders_paginator.jsp"%>
+	</div>
 	<hr>
 
 </div>

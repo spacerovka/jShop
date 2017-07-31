@@ -49,7 +49,7 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public List<Category> findAllParentCategories() {
 
-		return dao.findAllCategoryByParentCategory(null);
+		return dao.findAllCategoryByParentCategoryAndStatus(null, true);
 	}
 
 	@Override

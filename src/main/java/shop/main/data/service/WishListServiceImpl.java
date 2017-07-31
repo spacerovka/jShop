@@ -9,6 +9,7 @@ import javax.persistence.PersistenceContext;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -69,20 +70,33 @@ public class WishListServiceImpl implements WishListService {
 		return (ArrayList<WishList>) query.list();
 	}
 
-	@Transactional
+	// @Transactional
+	// @Override
+	// public ArrayList<WishList> findByUsername(String username) {
+	//
+	// Session session = (Session) entityManager.getDelegate();
+	//
+	// String hql = "from WishList w where w.user.username = '" + username +
+	// "'";
+	// Query query = session.createQuery(hql);
+	// System.out.println("*");
+	// System.out.println("*");
+	// System.out.println("query is " + query.getQueryString());
+	// System.out.println("*");
+	// System.out.println("*");
+	// return (ArrayList<WishList>) query.list();
+	// }
+
 	@Override
-	public ArrayList<WishList> findByUsername(String username) {
+	public List<WishList> findByUsername(String username, Pageable pageable) {
 
-		Session session = (Session) entityManager.getDelegate();
+		return wishListDAO.findByUsername(username, pageable).getContent();
+	}
 
-		String hql = "from WishList w where w.user.username = '" + username + "'";
-		Query query = session.createQuery(hql);
-		System.out.println("*");
-		System.out.println("*");
-		System.out.println("query is " + query.getQueryString());
-		System.out.println("*");
-		System.out.println("*");
-		return (ArrayList<WishList>) query.list();
+	@Override
+	public long countByUsername(String username) {
+
+		return wishListDAO.countByUsername(username);
 	}
 
 }

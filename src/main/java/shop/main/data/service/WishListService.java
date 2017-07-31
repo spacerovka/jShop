@@ -3,6 +3,8 @@ package shop.main.data.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
+
 import shop.main.data.entity.WishList;
 
 public interface WishListService {
@@ -18,5 +20,7 @@ public interface WishListService {
 
 	ArrayList<WishList> findByProductSKUAndUsername(String productSKU, String username);
 
-	ArrayList<WishList> findByUsername(String username);
+	List<WishList> findByUsername(String username, Pageable pageable);
+
+	long countByUsername(String username);
 }

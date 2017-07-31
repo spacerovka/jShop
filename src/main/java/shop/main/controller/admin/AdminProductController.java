@@ -127,6 +127,13 @@ public class AdminProductController extends AdminController {
 
 	}
 
+	@RequestMapping(value = "/findProductsForOrder", method = RequestMethod.POST)
+	public String findProductsForOrder(@RequestParam String name, @RequestParam String sku, Integer current,
+			Integer pageSize, Model model) {
+		loadTableData(name, null, sku, current, pageSize, model);
+		return "../admin/orders/_add_product_table";
+	}
+
 	private void loadTableData(String name, String url, String searchSKU, Integer current, Integer pageSize,
 			Model model) {
 		Pageable pageable = new PageRequest(current - 1, pageSize);

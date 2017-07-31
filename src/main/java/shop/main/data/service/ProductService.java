@@ -38,15 +38,22 @@ public interface ProductService {
 
 	List<Product> findFilteredProducts(List<Long> filterIds);
 
-	List<Product> findFilteredProductsInCategory(List<Long> filterIds, List<Long> listOfCategories);
+	// List<Product> findFilteredProductsInCategory(List<Long> filterIds,
+	// List<Long> listOfCategories);
 
-	List<Product> findProductsInCategory(List<Long> listOfCategories);
+	// List<Product> findProductsInCategory(List<Long> listOfCategories,
+	// Pageable pageable);
 
-	List<Product> findByNameAndURLAndSKU(String name, String url, String searchSKU);
-
-	List<Product> findByNameAndSKU(String name, String sku);
+	// long countProductsInCategory(List<Long> listOfCategories);
 
 	List<Product> findPageable(String name, String url, String searchSKU, Pageable pageable);
 
 	long countPageable(String name, String url, String searchSKU);
+
+	List<Product> findFilteredProductsInCategory(List<Long> filterIds, List<Long> listOfCategories, Pageable pageable);
+
+	long countFilteredProductsInCategory(List<Long> filterIds, List<Long> listOfCategories);
+
+	List<Product> findByNameAndSKU(String name, String sku);
+
 }

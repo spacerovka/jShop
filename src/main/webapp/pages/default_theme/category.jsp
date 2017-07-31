@@ -60,7 +60,7 @@
 
 				</ol>
 
-				<div class="row" id="products">
+				<div id="products">
 					<%@include file="products.jsp"%>
 				</div>
 
@@ -72,10 +72,12 @@
 	
 	<%@include file="template_parts/popup_add_to_cart.jsp"%>
 	<%@include file="template_parts/footer.jsp"%>
-
-
-	<script>
-	function searchAjax() {
+<script>
+	function pageButtonClick_product(targetPage)
+	{
+		var pageSize = ${pageSize_product};
+		var current = targetPage;
+		
 		console.log("Search clicked!");
 		var filters = [];
 	     $('#filters :checked').each(function() {
@@ -87,23 +89,35 @@
 		a[0] = filters.toString();
 		a[1] = '${childCategories}';
 		console.log(a);
+		
+		var newURL = '${pageContext.request.contextPath}/${categoryURL}';
+		if(filters.length>0){newURL = newURL+'/'+filters.toString()}
 		$.ajax({		    
 		    type: 'POST',		    	
             dataType:'text',		
             data : {
-                myArray: a 
+                myArray: a,
+                pageSize:pageSize,
+                current:current
             },
 		    url:"${pageContext.request.contextPath}/chooseFilter",		    
 		    success : function(response) {   
 
 		    	$('#products').html(response);
-		    	window.history.pushState(filters.toString(), '${title}', '${pageContext.request.contextPath}/${categoryURL}/filters='+filters.toString());
+		    	window.history.pushState(filters.toString(), '${title}', newURL);
 
 		    },      
 		    error : function(){
 		        alert("error");
 		    }
-		});
+		});		
+		
+	}
+	</script>
+
+	<script>
+	function searchAjax() {
+		pageButtonClick_product(1);
 	}	
 	</script>
 	

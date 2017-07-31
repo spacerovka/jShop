@@ -281,12 +281,6 @@ public class AjaxAdminController extends AdminController implements ResourceLoad
 		return "../admin/_edit_product_form";
 	}
 
-	@RequestMapping(value = "/ajax/findProductsForOrder", method = RequestMethod.POST)
-	public String findProductsForOrder(@RequestParam String name, @RequestParam String sku, Model model) {
-		model.addAttribute("productList", productService.findByNameAndSKU(name, sku));
-		return "../admin/orders/_add_product_table";
-	}
-
 	@RequestMapping(value = "/ajax/addProductToOrder", method = RequestMethod.GET)
 	public String addProductToOrder(@RequestParam String id, @RequestParam String orderid, Model model) {
 		Order order = orderRepository.findOne(orderid);

@@ -77,11 +77,11 @@
 						<%@include file="_account_tab.jsp"%>
 					</div>
 					<div class="tab-pane fade in" id="tab2">
-						<h3>My orders</h3>
+						
 						<%@include file="_orders_tab.jsp"%>
 					</div>
 					<div class="tab-pane fade in" id="tab3">
-						<h3>Wish list</h3>
+						
 						<%@include file="_wishlist_tab.jsp"%>
 					</div>
 				</div>
@@ -140,6 +140,40 @@
 								}
 							});
 						}
+	</script>
+	
+	<script>
+	function pageButtonClick_order(targetPage)
+	{
+		var pageSize = ${pageSize_order};
+		var current = targetPage;
+				
+		$.ajax ({ 
+			url: '${pageContext.request.contextPath}/findOrder', 
+			type: "POST", 						
+			data : {current:current, pageSize:pageSize},
+			complete: function(response){
+				$('#tab2').html(response.responseText);
+			}
+		}); 
+	}
+	</script>
+	
+	<script>
+	function pageButtonClick_product(targetPage)
+	{
+		var pageSize = ${pageSize_product};
+		var current = targetPage;
+				
+		$.ajax ({ 
+			url: '${pageContext.request.contextPath}/findProduct', 
+			type: "POST", 						
+			data : {current:current, pageSize:pageSize},
+			complete: function(response){
+				$('#tab3').html(response.responseText);
+			}
+		}); 
+	}
 	</script>
 </body>
 </html>

@@ -48,3 +48,4 @@
                                     
                                 </tbody>
                             </table>
+                            <%@include file="../_paginator.jsp"%>

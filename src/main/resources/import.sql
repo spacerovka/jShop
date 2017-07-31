@@ -80,8 +80,9 @@ INSERT INTO categoryOption (option_entity, category) VALUES (6,5);
 
 INSERT INTO siteproperty (name, content) VALUES ("SITE_NAME", "JShop");
 INSERT INTO siteproperty (name, content) VALUES ("THEME", "default_theme");
+INSERT INTO siteproperty (name, content) VALUES ("SUPPORT_EMAIL","website@admin.mail");
 
-INSERT INTO menu (text, URL, status, menu_type) VALUES ("Home", "/", true, "LEFT");
+INSERT INTO menu (text, URL, status, menu_type) VALUES ("Home", "", true, "LEFT");
 INSERT INTO menu (text, URL, status, menu_type) VALUES ("About", "about", true, "LEFT");
 INSERT INTO menu (text, URL, status, menu_type) VALUES ("Contacts", "contacts", true, "LEFT");
 INSERT INTO menu (text, URL, status, menu_type) VALUES ("Delivery", "delivery", true, "RIGHT");

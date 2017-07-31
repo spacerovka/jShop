@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -14,7 +15,10 @@ import javax.validation.Valid;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,12 +36,16 @@ import shop.main.data.entity.Product;
 import shop.main.data.entity.ProductOption;
 import shop.main.data.entity.Review;
 import shop.main.data.entity.StaticPage;
+import shop.main.utils.Constants;
 import shop.main.utils.URLUtils;
 
 @Controller
 public class PagesController extends FrontController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(PagesController.class);
+
+	@Autowired
+	private JavaMailSender mailSender;
 
 	@RequestMapping(value = "/")
 	public String mainPage(Model model) {
@@ -79,10 +87,25 @@ public class PagesController extends FrontController {
 			redirectAttributes.addFlashAttribute("flashMessage", "contactMessage updated successfully!");
 			contactService.saveContactUsMessage(item);
 			model.addAttribute("item", null);
+			String appUrl = "http://" + request.getServerName() + ":" + request.getServerPort()
+					+ request.getContextPath();
+			SimpleMailMessage email = constructContactEmail(appUrl, request.getLocale());
+			mailSender.send(email);
 
 		}
 		return "contactUs";
 
+	}
+
+	private SimpleMailMessage constructContactEmail(final String contextPath, final Locale locale) {
+
+		final String message = "Contact request has been send. Please proceed to admin page to read the message.";
+		final SimpleMailMessage email = new SimpleMailMessage();
+		email.setSubject("Resend Registration Token");
+		email.setText(message + " \r\n" + contextPath);
+		email.setTo(sitePropertyService.findOneByName(Constants.SUPPORT_EMAIL).getContent());
+		email.setFrom("JShop@email.support");
+		return email;
 	}
 
 	@RequestMapping(value = "/contact", method = RequestMethod.GET)
@@ -135,26 +158,29 @@ public class PagesController extends FrontController {
 		}
 		model.addAttribute("images", URLUtils.getProductImages(context, product.getId()));
 		model.addAttribute("mainImage", URLUtils.getProductImage(context, product.getId()));
-
-		org.springframework.security.core.userdetails.User authorizeduser = (org.springframework.security.core.userdetails.User) SecurityContextHolder
-				.getContext().getAuthentication().getPrincipal();
 		boolean savedToWishList = false;
-		if (authorizeduser != null) {
-			String username = authorizeduser.getUsername();
-			if (!wishListService.findByProductSKUAndUsername(product.getSku(), username).isEmpty()) {
-				savedToWishList = true;
+		try {
+			org.springframework.security.core.userdetails.User authorizeduser = (org.springframework.security.core.userdetails.User) SecurityContextHolder
+					.getContext().getAuthentication().getPrincipal();
+			if (authorizeduser != null) {
+				String username = authorizeduser.getUsername();
+				if (!wishListService.findByProductSKUAndUsername(product.getSku(), username).isEmpty()) {
+					savedToWishList = true;
+				}
 			}
+		} catch (ClassCastException e) {
+			e.printStackTrace();
 		}
 		model.addAttribute("savedToWishList", savedToWishList);
 		return "product";
 	}
 
-	@RequestMapping(value = "/category")
+	@RequestMapping(value = "/all")
 	public String categoriesList(Model model) {
-		List<Product> products = productService.findAllActiveWithinActiveCategory();
-		products.stream().forEach(p -> p.setImage(URLUtils.getProductImage(context, p.getId())));
-		model.addAttribute("products", products);
+
+		loadFilterProductTableData(null, null, 1, PAGE_SIZE, model);
 		model.addAttribute("menu", categoryService.findAllParentCategories());
+		model.addAttribute("categoryURL", "all");
 		return "category";
 	}
 
@@ -179,9 +205,6 @@ public class PagesController extends FrontController {
 
 	public void displayCategoryByUrl(Category category, Model model) {
 
-		// Category category = categoryService.fingCategoryByUrl(url);
-		// if(category!=null){
-
 		List<Category> breadCrumbs = new ArrayList<Category>();
 		addBreadCrumb(category, breadCrumbs);
 		model.addAttribute("breadCrumbs", breadCrumbs);
@@ -192,10 +215,8 @@ public class PagesController extends FrontController {
 		System.out.println("childCategories " + childCategories.toString());
 		model.addAttribute("childCategories", StringUtils.join(childCategories, ","));
 
-		List<Product> products = productService.findProductsInCategory(childCategories);
-		products.stream().forEach(p -> p.setImage(URLUtils.getProductImage(context, p.getId())));
-		model.addAttribute("products", products);
-
+		// loadCategoryProductTableData(childCategories, 1, PAGE_SIZE, model);
+		loadFilterProductTableData(null, childCategories, 1, PAGE_SIZE, model);
 		model.addAttribute("menu", categoryService.findAllParentCategories());
 
 		List<ProductOption> categoryOptions = productOptionService.findOptionsByCategoryList(childCategories);
@@ -206,13 +227,11 @@ public class PagesController extends FrontController {
 			model.addAttribute("categoryOptions", categoryOptionsMap);
 		}
 
-		// }
-
 	}
 
 	@RequestMapping(value = "/{url}/filters={filters:.+}")
 	public String displayCategoryByUrlWithFilters(@PathVariable("url") String url,
-			@PathVariable("filters") String filters, Model model) {
+			@PathVariable("filters") String filters, Integer current, Integer pageSize, Model model) {
 		System.out.println("url is " + url + ", filters are " + filters);
 		// check if category exists
 		Category category = categoryService.fingCategoryByUrl(url);
@@ -227,13 +246,11 @@ public class PagesController extends FrontController {
 			createChildrenList(category, childCategories);
 			System.out.println("childCategories " + childCategories.toString());
 			model.addAttribute("childCategories", StringUtils.join(childCategories, ","));
-
-			List<Long> filterList = Arrays.asList(filters.split(",")).stream().map(Long::valueOf)
-					.collect(Collectors.toList());
-
-			List<Product> products = productService.findFilteredProductsInCategory(filterList, childCategories);
-			products.stream().forEach(p -> p.setImage(URLUtils.getProductImage(context, p.getId())));
-			model.addAttribute("products", products);
+			List<Long> filterList = null;
+			if (filters.equals("")) {
+				filterList = Arrays.asList(filters.split(",")).stream().map(Long::valueOf).collect(Collectors.toList());
+			}
+			loadFilterProductTableData(filterList, childCategories, current, pageSize, model);
 
 			model.addAttribute("menu", categoryService.findAllParentCategories());
 
@@ -252,24 +269,4 @@ public class PagesController extends FrontController {
 
 	}
 
-	private void addMenuItems(Model model) {
-		List<Category> data = categoryService.findAllParentCategories();
-		model.addAttribute("menu", data);
-	}
-
-	private void addBreadCrumb(Category category, List<Category> breadcrumbList) {
-		breadcrumbList.add(0, category);
-		System.out.println("added category " + category.getCategoryName());
-		if (category.getParentCategory() != null) {
-			addBreadCrumb(category.getParentCategory(), breadcrumbList);
-		}
-	}
-
-	private void createChildrenList(Category category, List<Long> childrenList) {
-		childrenList.add(category.getId());
-		System.out.println("added category " + category.getCategoryName());
-		if (!category.getChildren().isEmpty()) {
-			category.getChildren().stream().forEach(c -> createChildrenList(c, childrenList));
-		}
-	}
 }

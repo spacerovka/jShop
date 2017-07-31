@@ -126,10 +126,10 @@
 	</script>
 
 	<script>
-		function searchButtonClick() {
+		/* function searchButtonClick() {
 			var sku = $('#searchSKU').val();
 			var name = $('#searchName').val();
-			console.log("updateProductOption");
+			console.log("findProductsForOrder");
 			$
 					.ajax({
 						url : '${pageContext.request.contextPath}/ajax/findProductsForOrder',
@@ -142,6 +142,28 @@
 							$('#table').html(response.responseText);
 						}
 					});
+		} */
+		
+		function searchButtonClick()
+		{
+			pageButtonClick('1');
+		}
+		
+		function pageButtonClick(targetPage)
+		{
+			var pageSize = ${pageSize};
+			var current = targetPage;
+			var name = $('#searchName').val();
+			var sku = $('#searchSKU').val();		
+			console.log("findProductsForOrder");
+			$.ajax ({ 
+				url: '${pageContext.request.contextPath}${URL_PREFIX}findProductsForOrder', 
+				type: "POST", 						
+				data : {name:name, sku : sku, current:current, pageSize:pageSize},
+				complete: function(response){
+					$('#table').html(response.responseText);
+				}
+			}); 
 		}
 	</script>
 

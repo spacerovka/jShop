@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.slf4j.Logger;
@@ -18,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import shop.main.data.DAO.ProductDAO;
+import shop.main.data.DAO.ProductOptionDAO;
 import shop.main.data.entity.Category;
 import shop.main.data.entity.Product;
 import shop.main.data.entity.ProductOption;
@@ -30,6 +30,9 @@ public class ProductServiceImpl implements ProductService {
 
 	@Autowired
 	private ProductDAO productDAO;
+
+	@Autowired
+	private ProductOptionDAO productOptionDAO;
 
 	@PersistenceContext
 	protected EntityManager entityManager;
@@ -46,7 +49,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public void deleteProduct(Product product) {
-		// TODO Auto-generated method stub
+
 		LOGGER.info("ProductServiceImpl: delete product is called");
 		productDAO.delete(product);
 
@@ -54,19 +57,19 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Product fingProductById(long id) {
-		// TODO Auto-generated method stub
+
 		return productDAO.findOne(id);
 	}
 
 	@Override
 	public List<Product> listAll() {
-		// TODO Auto-generated method stub
+
 		return productDAO.findAll();
 	}
 
 	@Override
 	public List<Product> findAllProductByCategory(Category category) {
-		// TODO Auto-generated method stub
+
 		return productDAO.findAllProductByCategory(category);
 	}
 
@@ -160,81 +163,44 @@ public class ProductServiceImpl implements ProductService {
 
 	@Transactional
 	@Override
-	public List<Product> findFilteredProductsInCategory(List<Long> filterIds, List<Long> listOfCategories) {
+	public List<Product> findFilteredProductsInCategory(List<Long> filterIds, List<Long> listOfCategories,
+			Pageable pageable) {
 
-		Session session = (Session) entityManager.getDelegate();
-		String idListString = "(" + StringUtils.join(filterIds, ",") + ")";
-		String categoryListString = "(" + StringUtils.join(listOfCategories, ",") + ")";
+		if (filterIds != null && filterIds.isEmpty())
+			filterIds = null;
+		if (listOfCategories != null && listOfCategories.isEmpty())
+			listOfCategories = null;
 
-		String hql = "from ProductOption o where o.option.id in " + idListString
-				+ " and (o.product.status = true and o.product.category.status = true"
-				+ " and o.product.category.id in " + categoryListString + ")" + " group by o.product";
-
-		Query query = session.createQuery(hql);
-		System.out.println("*");
-		System.out.println("*");
-		System.out.println("query is " + query.getQueryString());
-		System.out.println("*");
-		System.out.println("*");
-		List<ProductOption> options = (List<ProductOption>) query.list();
-		List<Product> products = options.stream().map(ProductOption::getProduct).collect(Collectors.toList());
-		return products;
+		if (filterIds == null || filterIds.isEmpty()) {
+			if (listOfCategories == null || listOfCategories.isEmpty()) {
+				return productDAO.findFilteredProductsInCategory(pageable).getContent();
+			} else {
+				return productDAO.findFilteredProductsInCategory(listOfCategories, pageable).getContent();
+			}
+		} else {
+			return productDAO.findFilteredProductsInCategory(filterIds, listOfCategories, pageable).getContent();
+		}
 
 	}
 
-	@Transactional
 	@Override
-	public List<Product> findProductsInCategory(List<Long> listOfCategories) {
-		Session session = (Session) entityManager.getDelegate();
-		String categoryListString = "(" + StringUtils.join(listOfCategories, ",") + ")";
+	public long countFilteredProductsInCategory(List<Long> filterIds, List<Long> listOfCategories) {
+		if (filterIds == null || filterIds.isEmpty()) {
+			if (listOfCategories == null || listOfCategories.isEmpty()) {
+				return productDAO.countFilteredProductsInCategory();
+			} else {
+				return productDAO.countFilteredProductsInCategory(listOfCategories);
+			}
+		} else {
+			return productDAO.countFilteredProductsInCategory(filterIds, listOfCategories);
+		}
 
-		String hql = "from Product product where product.status = true and product.category.status = true"
-				+ " and product.category.id in " + categoryListString + ")";
-		Query query = session.createQuery(hql);
-		System.out.println("*");
-		System.out.println("*");
-		System.out.println("query is " + query.getQueryString());
-		System.out.println("*");
-		System.out.println("*");
-		return query.list();
 	}
 
 	@Override
 	public Product findProductBySKU(String sku) {
 
 		return productDAO.findOneBySku(sku);
-	}
-
-	@Transactional
-	@Override
-	public List<Product> findByNameAndURLAndSKU(String name, String url, String sku) {
-		Session session = (Session) entityManager.getDelegate();
-
-		String hql = "from Product product where product.name like '%" + name + "%'" + " and product.url like '%" + url
-				+ "%' and product.sku like '%" + sku + "%'";
-		Query query = session.createQuery(hql);
-		System.out.println("*");
-		System.out.println("*");
-		System.out.println("query is " + query.getQueryString());
-		System.out.println("*");
-		System.out.println("*");
-		return query.list();
-	}
-
-	@Transactional
-	@Override
-	public List<Product> findByNameAndSKU(String name, String sku) {
-		Session session = (Session) entityManager.getDelegate();
-
-		String hql = "from Product product where product.status = true and product.name like '%" + name + "%'"
-				+ " and product.sku like '%" + sku + "%'";
-		Query query = session.createQuery(hql);
-		System.out.println("*");
-		System.out.println("*");
-		System.out.println("query is " + query.getQueryString());
-		System.out.println("*");
-		System.out.println("*");
-		return query.list();
 	}
 
 	@Override
@@ -268,6 +234,22 @@ public class ProductServiceImpl implements ProductService {
 		if (searchSKU != null)
 			searchSKU = "%" + searchSKU + "%";
 		return productDAO.countPageable(name, url, searchSKU);
+	}
+
+	@Transactional
+	@Override
+	public List<Product> findByNameAndSKU(String name, String sku) {
+		Session session = (Session) entityManager.getDelegate();
+
+		String hql = "from Product product where product.status = true and product.name like '%" + name + "%'"
+				+ " and product.sku like '%" + sku + "%'";
+		Query query = session.createQuery(hql);
+		System.out.println("*");
+		System.out.println("*");
+		System.out.println("query is " + query.getQueryString());
+		System.out.println("*");
+		System.out.println("*");
+		return query.list();
 	}
 
 }
