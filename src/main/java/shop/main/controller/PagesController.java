@@ -13,8 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.mail.SimpleMailMessage;
@@ -42,21 +41,20 @@ import shop.main.utils.URLUtils;
 @Controller
 public class PagesController extends FrontController {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(PagesController.class);
-
+	private static final Logger LOGGER = Logger.getLogger(PagesController.class);
 	@Autowired
 	private JavaMailSender mailSender;
 
 	@RequestMapping(value = "/")
 	public String mainPage(Model model) {
-		System.out.println("***************************main page");
+		LOGGER.debug("***************************main page");
 		List<Product> products = productService.findAllFeatured();
 		for (Product p : products) {
 			p.setImage(URLUtils.getProductImage(context, p.getId()));
 		}
 		model.addAttribute("products", products);
 		model.addAttribute("images", URLUtils.getMinPageImages(context));
-		System.out.println("end***************************main page" + LocalDateTime.now());
+		LOGGER.debug("end***************************main page" + LocalDateTime.now());
 		return "index";
 	}
 
@@ -119,7 +117,7 @@ public class PagesController extends FrontController {
 	@RequestMapping(value = "/product")
 	public String displayProduct(Model model) {
 		Product product = productService.fingProductById(0L);
-		// System.out.println(data.toString());
+		// LOGGER.debug(data.toString());
 
 		addMenuItems(model);
 		model.addAttribute("product", product);
@@ -128,12 +126,12 @@ public class PagesController extends FrontController {
 
 	@RequestMapping(value = "/products/{url}")
 	public String displayProductByUrl(@PathVariable("url") String url, Model model) {
-		System.out.println("url is " + url);
+		LOGGER.debug("url is " + url);
 
 		Product product = productService.fingProductByUrl(url);
-		// System.out.println(data.toString());
+		// LOGGER.debug(data.toString());
 		if (product.getCategory() != null) {
-			System.out.println("add breadcrumbs");
+			LOGGER.debug("add breadcrumbs");
 			List<Category> breadCrumbs = new ArrayList<Category>();
 			addBreadCrumb(product.getCategory(), breadCrumbs);
 			model.addAttribute("breadCrumbs", breadCrumbs);
@@ -187,7 +185,7 @@ public class PagesController extends FrontController {
 	@RequestMapping(value = "/{url}")
 	public String displayPageByUrl(@PathVariable("url") String url, Model model) throws Exception {
 
-		System.out.println("url is " + url);
+		LOGGER.debug("url is " + url);
 		Category category = categoryService.fingCategoryByUrl(url);
 		StaticPage page = staticPageService.findOneByURL(url);
 		if (category != null) {
@@ -212,7 +210,7 @@ public class PagesController extends FrontController {
 
 		List<Long> childCategories = new ArrayList<Long>();
 		createChildrenList(category, childCategories);
-		System.out.println("childCategories " + childCategories.toString());
+		LOGGER.debug("childCategories " + childCategories.toString());
 		model.addAttribute("childCategories", StringUtils.join(childCategories, ","));
 
 		// loadCategoryProductTableData(childCategories, 1, PAGE_SIZE, model);
@@ -221,7 +219,7 @@ public class PagesController extends FrontController {
 
 		List<ProductOption> categoryOptions = productOptionService.findOptionsByCategoryList(childCategories);
 		if (!categoryOptions.isEmpty()) {
-			System.out.println("*** categoryOptions " + categoryOptions.size());
+			LOGGER.debug("*** categoryOptions " + categoryOptions.size());
 			Map<String, List<ProductOption>> categoryOptionsMap = categoryOptions.stream()
 					.collect(Collectors.groupingBy(c -> c.getOption().getOptionGroup().getOptionGroupName()));
 			model.addAttribute("categoryOptions", categoryOptionsMap);
@@ -232,7 +230,7 @@ public class PagesController extends FrontController {
 	@RequestMapping(value = "/{url}/filters={filters:.+}")
 	public String displayCategoryByUrlWithFilters(@PathVariable("url") String url,
 			@PathVariable("filters") String filters, Integer current, Integer pageSize, Model model) {
-		System.out.println("url is " + url + ", filters are " + filters);
+		LOGGER.debug("url is " + url + ", filters are " + filters);
 		// check if category exists
 		Category category = categoryService.fingCategoryByUrl(url);
 		if (category != null) {
@@ -244,7 +242,7 @@ public class PagesController extends FrontController {
 
 			List<Long> childCategories = new ArrayList<Long>();
 			createChildrenList(category, childCategories);
-			System.out.println("childCategories " + childCategories.toString());
+			LOGGER.debug("childCategories " + childCategories.toString());
 			model.addAttribute("childCategories", StringUtils.join(childCategories, ","));
 			List<Long> filterList = null;
 			if (filters.equals("")) {
@@ -256,7 +254,7 @@ public class PagesController extends FrontController {
 
 			List<ProductOption> categoryOptions = productOptionService.findOptionsByCategoryList(childCategories);
 			if (!categoryOptions.isEmpty()) {
-				System.out.println("*** categoryOptions " + categoryOptions.size());
+				LOGGER.debug("*** categoryOptions " + categoryOptions.size());
 				Map<String, List<ProductOption>> categoryOptionsMap = categoryOptions.stream()
 						.collect(Collectors.groupingBy(c -> c.getOption().getOptionGroup().getOptionGroupName()));
 				model.addAttribute("categoryOptions", categoryOptionsMap);

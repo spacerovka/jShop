@@ -214,6 +214,7 @@ public class ProductServiceImpl implements ProductService {
 		return false;
 	}
 
+	@Transactional
 	@Override
 	public List<Product> findPageable(String name, String url, String searchSKU, Pageable pageable) {
 		if (name != null)
@@ -222,9 +223,24 @@ public class ProductServiceImpl implements ProductService {
 			url = "%" + url + "%";
 		if (searchSKU != null)
 			searchSKU = "%" + searchSKU + "%";
-		return productDAO.findPageable(name, url, searchSKU, pageable).getContent();
+		// DAO query jenerated 2 queries to DB
+		// return productDAO.findPageable(name, url, searchSKU,
+		// pageable).getContent();
+		Session session = (Session) entityManager.getDelegate();
+
+		String hql = "FROM Product item " + "WHERE (:name is NULL OR item.name LIKE :name) "
+				+ "AND (:url is NULL OR item.url LIKE :url) " + "AND (:searchSKU is NULL OR item.sku LIKE :searchSKU) "
+				+ "GROUP BY item.id ORDER BY item.id";
+		Query query = session.createQuery(hql);
+		query.setParameter("name", name);
+		query.setParameter("searchSKU", searchSKU);
+		query.setParameter("url", url);
+		query.setFirstResult(pageable.getOffset());
+		query.setMaxResults(pageable.getPageSize());
+		return query.list();
 	}
 
+	@Transactional
 	@Override
 	public long countPageable(String name, String url, String searchSKU) {
 		if (name != null)
@@ -233,7 +249,18 @@ public class ProductServiceImpl implements ProductService {
 			url = "%" + url + "%";
 		if (searchSKU != null)
 			searchSKU = "%" + searchSKU + "%";
-		return productDAO.countPageable(name, url, searchSKU);
+		// productDAO.countPageable(name, url, searchSKU);
+
+		Session session = (Session) entityManager.getDelegate();
+		String hql = "SELECT count(*) FROM Product item " + "WHERE (:name is NULL OR item.name LIKE :name) "
+				+ "AND (:url is NULL OR item.url LIKE :url) " + "AND (:searchSKU is NULL OR item.sku LIKE :searchSKU) "
+				+ "GROUP BY item.id ORDER BY item.id";
+		Query query = session.createQuery(hql);
+		query.setParameter("name", name);
+		query.setParameter("searchSKU", searchSKU);
+		query.setParameter("url", url);
+		Long count = ((Long) query.uniqueResult());
+		return count == null ? 0 : count;
 	}
 
 	@Transactional

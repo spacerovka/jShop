@@ -15,8 +15,11 @@ import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import lombok.Data;
+
 @Entity
 @Table(name = "category")
+@Data
 public class Category {
 
 	@Id
@@ -53,14 +56,6 @@ public class Category {
 
 	@OneToMany(mappedBy = "parentCategory", fetch = FetchType.EAGER)
 	private List<Category> children;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public String getCategoryName() {
 		return categoryName;

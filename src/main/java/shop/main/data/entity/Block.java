@@ -10,8 +10,11 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import lombok.Data;
+
 @Entity
 @Table(name = "block")
+@Data
 public class Block {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,46 +42,6 @@ public class Block {
 	@NotNull
 	@Column(name = "status", nullable = false)
 	private boolean status;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
-	}
-
-	public String getPosition() {
-		return position;
-	}
-
-	public void setPosition(String position) {
-		this.position = position;
-	}
-
-	public String getBlockURL() {
-		return blockURL;
-	}
-
-	public void setBlockURL(String URL) {
-		blockURL = URL;
-	}
-
-	public boolean isStatus() {
-		return status;
-	}
-
-	public void setStatus(boolean status) {
-		this.status = status;
-	}
 
 	@Override
 	public int hashCode() {

@@ -9,14 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
-import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
-import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -62,23 +56,6 @@ import shop.main.data.service.WishListServiceImpl;
 @Configuration
 public class DataConfig<DatabasePopulator> {
 
-	/*
-	 * Embeded DB
-	 */
-
-	@Bean
-	public DataSource dataSourceEmbedded() {
-		System.out.println("database");
-		EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
-		EmbeddedDatabase embeddedDatabase = builder.setType(EmbeddedDatabaseType.HSQL).addScript("dbschema.sql")
-				.addScript("test-data.sql").build();
-		return embeddedDatabase;
-	}
-
-	/*
-	 * MYSQL database
-	 */
-
 	@Autowired
 	private Environment environment;
 
@@ -102,8 +79,8 @@ public class DataConfig<DatabasePopulator> {
 
 		jpaTransactionManager.setEntityManagerFactory(entityManagerFactory);
 
-		// databasepopulator
-		DatabasePopulatorUtils.execute(databasePopulator(), dataSourceMysql());
+		// DatabasePopulatorUtils.execute(databasePopulator(),
+		// dataSourceMysql());
 
 		return jpaTransactionManager;
 	}
@@ -127,8 +104,14 @@ public class DataConfig<DatabasePopulator> {
 		entityManagerFactory.setPackagesToScan("shop.main.data.entity");
 
 		Properties jpaProperties = new Properties();
-		jpaProperties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
+		// jpaProperties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
 		jpaProperties.setProperty("hibernate.enable_lazy_load_no_trans", "true");
+		jpaProperties.setProperty("hibernate.session_factory.statement_inspector",
+				"shop.main.utils.sqltracker.StatementInspectorImpl");
+		jpaProperties.setProperty("hibernate.format_sql", "true");
+		jpaProperties.setProperty("hibernate.show_sql", "false");
+		jpaProperties.setProperty("hibernate.dialect", environment.getProperty("hibernate.dialect"));
+		jpaProperties.setProperty("hibernate.hbm2ddl.auto", environment.getProperty("hibernate.hbm2ddl.auto"));
 		entityManagerFactory.setJpaProperties(jpaProperties);
 		return entityManagerFactory;
 	}
@@ -143,15 +126,17 @@ public class DataConfig<DatabasePopulator> {
 
 	// database populator
 
-	private ResourceDatabasePopulator databasePopulator() {
-
-		ResourceDatabasePopulator databasePopulator = new ResourceDatabasePopulator();
-		databasePopulator.setContinueOnError(true);
-		databasePopulator.addScript(new ClassPathResource("test-data-populator.sql"));
-		System.out.println("Populated database");
-		return databasePopulator;
-
-	}
+	// private ResourceDatabasePopulator databasePopulator() {
+	//
+	// ResourceDatabasePopulator databasePopulator = new
+	// ResourceDatabasePopulator();
+	// databasePopulator.setContinueOnError(true);
+	// databasePopulator.addScript(new
+	// ClassPathResource("test-data-populator.sql"));
+	// System.out.println("Populated database");
+	// return databasePopulator;
+	//
+	// }
 
 	@Bean
 	public ProductService productService() {

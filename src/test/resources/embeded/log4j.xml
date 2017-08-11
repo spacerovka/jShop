@@ -4,26 +4,35 @@
 
 	<property name="LOG_HOME" value="file:/home/work/JavaProjects/logs/JShop" />
 
-	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+	<appender name="console" class="org.apache.log4j.ConsoleAppender">
 		<encoder>
 			<pattern>%-5level %logger{0} - %msg%n</pattern>
 		</encoder>
-	</appender>
-	
-	<appender name="file"
-		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<encoder>
-			<pattern>%-5level %logger{0} - %msg%n</pattern>
-		</encoder>
-		<file>${LOG_HOME}/error.log</file>
-		
 	</appender>
 
-	<logger name="org.springframework" level="TRACE" />
-	<logger name="org.springframework.web" level="TRACE" />		
-	 
+	<appender name="file"
+		class="org.apache.log4j.RollingFileAppender">
+		<encoder>
+			<pattern>%-5level %logger{0} - %msg%n</pattern>
+		</encoder>
+		<file>./error.log</file>
+
+	</appender>
+
+	<logger name="org.springframework" level="DEBUG" />
+	<logger name="org.springframework.web" level="DEBUG" />
+
 	<root level="trace">
+		<appender-ref ref="file" />
+	</root>
+
+	<root>
+		<priority value="debug" />
 		<appender-ref ref="console" />
 	</root>
+
+	<category name="p6spy">
+		<priority value="DEBUG" />
+	</category>
 
 </configuration>

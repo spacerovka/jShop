@@ -11,7 +11,6 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
@@ -28,29 +27,11 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 public class AppContextConfig extends WebMvcConfigurerAdapter {
 
 	@Override
-	public void addViewControllers(ViewControllerRegistry registry) {
-
-		// registry.addViewController("/").setViewName("index");
-		// registry.addViewController("/user/cabinet").setViewName("user/cabinet");
-		// registry.addViewController("/accessDenied").setViewName("accessDenied");
-		// registry.addViewController("/admin/welcome").setViewName("admin/welcome");
-	}
-
-	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
 		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
 
 	}
-
-	// @Bean
-	// public InternalResourceViewResolver internalResourceViewResolver() {
-	// InternalResourceViewResolver resolver = new
-	// InternalResourceViewResolver();
-	// resolver.setPrefix("/pages/" + Properties.THEME_NAME + "/");
-	// resolver.setSuffix(".jsp");
-	// return resolver;
-	// }
 
 	@Bean
 	public ThemedResourceViewResolver internalResourceViewResolver() {
@@ -103,10 +84,6 @@ public class AppContextConfig extends WebMvcConfigurerAdapter {
 	/*
 	 * for files upload
 	 */
-	// @Bean
-	// public MultipartResolver multipartResolver() throws IOException {
-	// return new StandardServletMultipartResolver();
-	// }
 
 	@Bean
 	public CommonsMultipartResolver multipartResolver() {

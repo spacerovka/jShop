@@ -28,11 +28,11 @@ public interface ProductDAO extends JpaRepository<Product, Long> {
 
 	long count();
 
-	@Query("SELECT item FROM Product item where (:name is NULL OR item.name LIKE :name) AND (:url is NULL OR item.url LIKE :url) AND (:searchSKU is NULL OR item.sku LIKE :searchSKU) ORDER BY item.id")
+	@Query("SELECT item FROM Product item where (:name is NULL OR item.name LIKE :name) AND (:url is NULL OR item.url LIKE :url) AND (:searchSKU is NULL OR item.sku LIKE :searchSKU) GROUP BY item.id ORDER BY item.id")
 	Page<Product> findPageable(@Param("name") String name, @Param("url") String url,
 			@Param("searchSKU") String searchSKU, Pageable pageable);
 
-	@Query("SELECT count(*) FROM Product item where (:name is NULL OR item.name LIKE :name) AND (:url is NULL OR item.url LIKE :url) AND (:searchSKU is NULL OR item.sku LIKE :searchSKU) ORDER BY item.id")
+	@Query("SELECT count(*) FROM Product item where (:name is NULL OR item.name LIKE :name) AND (:url is NULL OR item.url LIKE :url) AND (:searchSKU is NULL OR item.sku LIKE :searchSKU) GROUP BY item.id ORDER BY item.id")
 	long countPageable(@Param("name") String name, @Param("url") String url, @Param("searchSKU") String searchSKU);
 
 	@Query("SELECT p FROM Product p,ProductOption o, Category c " + "where p.id=o.product AND p.category=c.id "
