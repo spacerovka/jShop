@@ -116,7 +116,11 @@ public class PagesController extends FrontController {
 
 	@RequestMapping(value = "/product")
 	public String displayProduct(Model model) {
+<<<<<<< HEAD
 		Product product = productService.findProductById(0L);
+=======
+		Product product = productService.fingProductById(0L);
+>>>>>>> 12276d7bc8b642f086e2de391c41dcf043a3153f
 		// LOGGER.debug(data.toString());
 
 		addMenuItems(model);
@@ -128,7 +132,11 @@ public class PagesController extends FrontController {
 	public String displayProductByUrl(@PathVariable("url") String url, Model model) {
 		LOGGER.debug("url is " + url);
 
+<<<<<<< HEAD
 		Product product = productService.findProductByUrl(url);
+=======
+		Product product = productService.fingProductByUrl(url);
+>>>>>>> 12276d7bc8b642f086e2de391c41dcf043a3153f
 		// LOGGER.debug(data.toString());
 		if (product.getCategory() != null) {
 			LOGGER.debug("add breadcrumbs");
@@ -186,7 +194,11 @@ public class PagesController extends FrontController {
 	public String displayPageByUrl(@PathVariable("url") String url, Model model) throws Exception {
 
 		LOGGER.debug("url is " + url);
+<<<<<<< HEAD
 		Category category = categoryService.findCategoryByUrl(url);
+=======
+		Category category = categoryService.fingCategoryByUrl(url);
+>>>>>>> 12276d7bc8b642f086e2de391c41dcf043a3153f
 		StaticPage page = staticPageService.findOneByURL(url);
 		if (category != null) {
 			displayCategoryByUrl(category, model);
