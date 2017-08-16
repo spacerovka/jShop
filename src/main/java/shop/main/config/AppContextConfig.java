@@ -1,17 +1,24 @@
 package shop.main.config;
 
+import java.util.Locale;
+
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.i18n.CookieLocaleResolver;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 /*
@@ -51,35 +58,33 @@ public class AppContextConfig extends WebMvcConfigurerAdapter {
 	/*
 	 * language selection
 	 */
-	// @Bean
-	// public MessageSource messageSource() {
-	// ResourceBundleMessageSource messageSource = new
-	// ResourceBundleMessageSource();
-	// messageSource.setBasename("lang");
-	// messageSource.setDefaultEncoding("UTF-8");
-	// return messageSource;
-	// }
-	//
-	// @Bean
-	// public LocaleChangeInterceptor localeChangeInterceptor() {
-	// LocaleChangeInterceptor localeChangeInterceptor = new
-	// LocaleChangeInterceptor();
-	// localeChangeInterceptor.setParamName("language");
-	// return localeChangeInterceptor;
-	// }
-	//
-	// @Bean
-	// public CookieLocaleResolver localeResolver() {
-	// CookieLocaleResolver localResolver = new CookieLocaleResolver();
-	// localResolver.setDefaultLocale(Locale.ENGLISH);
-	// return localResolver;
-	// }
-	//
-	// @Override
-	// public void addInterceptors(InterceptorRegistry registry) {
-	//
-	// registry.addInterceptor(localeChangeInterceptor());
-	// }
+	@Bean
+	public MessageSource messageSource() {
+		ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+		messageSource.setBasename("lang");
+		messageSource.setDefaultEncoding("UTF-8");
+		return messageSource;
+	}
+
+	@Bean
+	public LocaleChangeInterceptor localeChangeInterceptor() {
+		LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
+		localeChangeInterceptor.setParamName("language");
+		return localeChangeInterceptor;
+	}
+
+	@Bean
+	public CookieLocaleResolver localeResolver() {
+		CookieLocaleResolver localResolver = new CookieLocaleResolver();
+		localResolver.setDefaultLocale(Locale.ENGLISH);
+		return localResolver;
+	}
+
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+
+		registry.addInterceptor(localeChangeInterceptor());
+	}
 
 	/*
 	 * for files upload

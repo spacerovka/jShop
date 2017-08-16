@@ -32,17 +32,6 @@ public class BlockServiceImpl implements BlockService {
 	}
 
 	@Override
-	public void delete(Block block) {
-		dao.delete(block);
-
-	}
-
-	@Override
-	public List<Block> findAllByURL(String URL) {
-		return dao.findAllByBlockURL(URL);
-	}
-
-	@Override
 	public Block findById(long id) {
 
 		return dao.findOne(id);
@@ -72,10 +61,17 @@ public class BlockServiceImpl implements BlockService {
 
 	}
 
+	@Transactional
 	@Override
 	public List<Block> listAll(Pageable pageable) {
 
-		return dao.findAll(pageable).getContent();
+		Session session = (Session) entityManager.getDelegate();
+
+		String hql = "FROM Block item ";
+		Query query = session.createQuery(hql);
+		query.setFirstResult(pageable.getOffset());
+		query.setMaxResults(pageable.getPageSize());
+		return query.list();
 	}
 
 	@Override

@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -35,7 +37,8 @@ public class Review {
 	@Column(name = "comment", nullable = false, length = 1000)
 	private String comment;
 
-	@NotBlank
+	@NotNull
+	@Min(value = 0, message = "Price can not be less then 0")
 	@Column(name = "rating", nullable = true)
 	private int rating;
 

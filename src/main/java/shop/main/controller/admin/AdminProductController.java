@@ -70,7 +70,7 @@ public class AdminProductController extends AdminController {
 			}
 			if (product.getSku() == null || product.getSku().isEmpty()) {
 				model.addAttribute("skuError", "has-error");
-			} else if (productService.notUniqueSKU(product)) {
+			} else if (productService.checkUniqueSKU(product) == false) {
 				model.addAttribute("skuError", "has-error");
 				errors.add("SKU must be unique!");
 			}
@@ -100,7 +100,7 @@ public class AdminProductController extends AdminController {
 				if (po.getOptionGroup().getId() == -1) {
 					po.setOptionGroup(null);
 				} else {
-					po.setOptionGroup(optionGroupService.fingOptionById(po.getOption().getId()));
+					po.setOptionGroup(optionGroupService.findOptionById(po.getOption().getId()));
 				}
 				if (po.getOptionGroup() != null && po.getOption() != null) {
 					productOptionService.save(po);
@@ -146,7 +146,7 @@ public class AdminProductController extends AdminController {
 	@RequestMapping(value = "/addToFeatured", method = RequestMethod.POST)
 	public String addToFeatured(@RequestParam long id, @RequestParam String name, @RequestParam String url,
 			@RequestParam String searchSKU, Integer current, Integer pageSize, Model model) {
-		Product product = productService.fingProductById(id);
+		Product product = productService.findProductById(id);
 		product.setFeatured(true);
 		productService.saveProduct(product);
 		loadTableData(name, url, searchSKU, current, pageSize, model);
@@ -157,7 +157,7 @@ public class AdminProductController extends AdminController {
 	@RequestMapping(value = "/removeFromFeatured", method = RequestMethod.POST)
 	public String removeFromFeatured(@RequestParam long id, @RequestParam String name, @RequestParam String url,
 			@RequestParam String searchSKU, Integer current, Integer pageSize, Model model) {
-		Product product = productService.fingProductById(id);
+		Product product = productService.findProductById(id);
 		product.setFeatured(false);
 		productService.saveProduct(product);
 		loadTableData(name, url, searchSKU, current, pageSize, model);
@@ -178,7 +178,7 @@ public class AdminProductController extends AdminController {
 	@RequestMapping(value = "/product/{id}/update", method = RequestMethod.GET)
 	public String editProduct(@PathVariable("id") long id, Model model) {
 
-		model.addAttribute("product", productService.fingProductById(id));
+		model.addAttribute("product", productService.findProductById(id));
 		model.addAttribute("urlError", "");
 		model.addAttribute("parentCategoryList", categoryService.listAll());
 		model.addAttribute("images", URLUtils.getProductImages(context, id));

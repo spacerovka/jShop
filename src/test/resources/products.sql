@@ -9,14 +9,14 @@ INSERT INTO product (id,NAME, PRICE, instock, SKU, url, category,status, feature
 INSERT INTO product (id,NAME, PRICE, instock, SKU, url, category,status, featured) VALUES (6,'Lego Star 2', '9.99', '20', 'PI90893','lego_star2', 4,1,0);
 
 
-INSERT INTO productOption (option_entity, optiongroup, product) VALUES (2,1, 1);
-INSERT INTO productOption (option_entity, optiongroup, product) VALUES (3,1, 2);
-INSERT INTO productOption (option_entity, optiongroup, product) VALUES (1,1, 3);
-INSERT INTO productOption (option_entity, optiongroup, product) VALUES (2,1, 6);
+INSERT INTO productOption (id,option_entity, optiongroup, product) VALUES (1, 2,1, 1);
+INSERT INTO productOption (id,option_entity, optiongroup, product) VALUES (2, 3,1, 2);
+INSERT INTO productOption (id,option_entity, optiongroup, product) VALUES (3, 1,1, 3);
+INSERT INTO productOption (id,option_entity, optiongroup, product) VALUES (4, 2,1, 6);
 
-INSERT INTO productOption (option_entity, optiongroup, product) VALUES (5,2, 1);
-INSERT INTO productOption (option_entity, optiongroup, product) VALUES (5,2, 2);
-INSERT INTO productOption (option_entity, optiongroup, product) VALUES (6,2, 3);
+INSERT INTO productOption (id,option_entity, optiongroup, product) VALUES (5, 5,2, 1);
+INSERT INTO productOption (id,option_entity, optiongroup, product) VALUES (6, 5,2, 2);
+INSERT INTO productOption (id,option_entity, optiongroup, product) VALUES (7, 6,2, 3);
 
-INSERT INTO productOption (option_entity, optiongroup, product) VALUES (1,1, 4);
-INSERT INTO productOption (option_entity, optiongroup, product) VALUES (1,1, 5);
+INSERT INTO productOption (id,option_entity, optiongroup, product) VALUES (8, 1,1, 4);
+INSERT INTO productOption (id,option_entity, optiongroup, product) VALUES (9, 1,1, 5);

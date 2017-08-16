@@ -2,7 +2,6 @@ package shop.main.data.service;
 
 import java.util.List;
 import java.util.OptionalDouble;
-import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -18,9 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import shop.main.data.DAO.ProductDAO;
 import shop.main.data.DAO.ProductOptionDAO;
-import shop.main.data.entity.Category;
 import shop.main.data.entity.Product;
-import shop.main.data.entity.ProductOption;
 import shop.main.data.entity.Review;
 
 @Service("productService")
@@ -56,21 +53,9 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Product fingProductById(long id) {
+	public Product findProductById(long id) {
 
 		return productDAO.findOne(id);
-	}
-
-	@Override
-	public List<Product> listAll() {
-
-		return productDAO.findAll();
-	}
-
-	@Override
-	public List<Product> findAllProductByCategory(Category category) {
-
-		return productDAO.findAllProductByCategory(category);
 	}
 
 	@Override
@@ -92,32 +77,33 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Product fingProductByUrl(String url) {
+	public Product findProductByUrl(String url) {
 
 		return productDAO.findOneByUrl(url);
 	}
 
-	@Override
-	public List<Product> findAllActive() {
-
-		return productDAO.findAllProductByStatus(true);
-	}
-
-	@Transactional
-	@Override
-	public List<Product> findAllActiveWithinActiveCategory() {
-
-		Session session = (Session) entityManager.getDelegate();
-
-		String hql = "from Product product where product.status = true and product.category.status = true";
-		Query query = session.createQuery(hql);
-		System.out.println("*");
-		System.out.println("*");
-		System.out.println("query is " + query.getQueryString());
-		System.out.println("*");
-		System.out.println("*");
-		return query.list();
-	}
+	// @Override
+	// public List<Product> findAllActive() {
+	//
+	// return productDAO.findAllProductByStatus(true);
+	// }
+	//
+	// @Transactional
+	// @Override
+	// public List<Product> findAllActiveWithinActiveCategory() {
+	//
+	// Session session = (Session) entityManager.getDelegate();
+	//
+	// String hql = "from Product product where product.status = true and
+	// product.category.status = true";
+	// Query query = session.createQuery(hql);
+	// System.out.println("*");
+	// System.out.println("*");
+	// System.out.println("query is " + query.getQueryString());
+	// System.out.println("*");
+	// System.out.println("*");
+	// return query.list();
+	// }
 
 	@Transactional
 	@Override
@@ -152,13 +138,6 @@ public class ProductServiceImpl implements ProductService {
 		System.out.println("*");
 		query.executeUpdate();
 		// return query.list();
-	}
-
-	@Override
-	public List<Product> findFilteredProducts(List<Long> filterIds) {
-		List<ProductOption> options = productOptionService.findProductOptionByOption(filterIds);
-		List<Product> products = options.stream().map(ProductOption::getProduct).collect(Collectors.toList());
-		return products;
 	}
 
 	@Transactional
@@ -204,7 +183,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public boolean notUniqueSKU(Product product) {
+	public boolean checkUniqueSKU(Product product) {
 		Product result = productDAO.findOneBySku(product.getSku());
 		if (result == null) {
 			return true;
@@ -261,22 +240,6 @@ public class ProductServiceImpl implements ProductService {
 		query.setParameter("url", url);
 		Long count = ((Long) query.uniqueResult());
 		return count == null ? 0 : count;
-	}
-
-	@Transactional
-	@Override
-	public List<Product> findByNameAndSKU(String name, String sku) {
-		Session session = (Session) entityManager.getDelegate();
-
-		String hql = "from Product product where product.status = true and product.name like '%" + name + "%'"
-				+ " and product.sku like '%" + sku + "%'";
-		Query query = session.createQuery(hql);
-		System.out.println("*");
-		System.out.println("*");
-		System.out.println("query is " + query.getQueryString());
-		System.out.println("*");
-		System.out.println("*");
-		return query.list();
 	}
 
 }

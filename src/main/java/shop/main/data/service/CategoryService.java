@@ -9,13 +9,11 @@ import shop.main.data.entity.Category;
 public interface CategoryService {
 	void saveCategory(Category category);
 
-	void deleteCategory(Category category);
-
 	List<Category> listAll();
 
 	List<Category> findAllParentCategories();
 
-	Category fingCategoryByUrl(String url);
+	Category findCategoryByUrl(String url);
 
 	Category findCategoryById(long id);
 

@@ -249,7 +249,7 @@ public class AjaxAdminController extends AdminController implements ResourceLoad
 			if (po.getOptionGroup().getId() == -1) {
 				po.setOptionGroup(null);
 			} else {
-				po.setOptionGroup(optionGroupService.fingOptionById(po.getOptionGroup().getId()));
+				po.setOptionGroup(optionGroupService.findOptionById(po.getOptionGroup().getId()));
 			}
 		}
 		ProductOption pOption = new ProductOption();
@@ -272,7 +272,7 @@ public class AjaxAdminController extends AdminController implements ResourceLoad
 			if (po.getOptionGroup().getId() == -1) {
 				po.setOptionGroup(null);
 			} else {
-				po.setOptionGroup(optionGroupService.fingOptionById(po.getOptionGroup().getId()));
+				po.setOptionGroup(optionGroupService.findOptionById(po.getOptionGroup().getId()));
 			}
 		}
 		model.addAttribute("product", product);
@@ -284,7 +284,7 @@ public class AjaxAdminController extends AdminController implements ResourceLoad
 	@RequestMapping(value = "/ajax/addProductToOrder", method = RequestMethod.GET)
 	public String addProductToOrder(@RequestParam String id, @RequestParam String orderid, Model model) {
 		Order order = orderRepository.findOne(orderid);
-		Product product = productService.fingProductById(Long.parseLong(id));
+		Product product = productService.findProductById(Long.parseLong(id));
 		order.addItem(product);
 		orderRepository.save(order);
 		model.addAttribute("order", order);

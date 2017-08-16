@@ -16,7 +16,7 @@ public interface CategoryDAO extends JpaRepository<Category, Long> {
 	List<Category> findAllCategoryByParentCategory(Category parentCategory);
 
 	@Query("SELECT item FROM Category item where item.status = true and item.categoryURL =:url ORDER BY item.id")
-	List<Category> fingCategoryByUrl(@Param("url") String url);
+	List<Category> findCategoryByUrl(@Param("url") String url);
 
 	Page<Category> findAll(Pageable pageable);
 
@@ -25,7 +25,7 @@ public interface CategoryDAO extends JpaRepository<Category, Long> {
 	@Query("SELECT item FROM Category item where (:name is NULL OR item.categoryName LIKE :name) AND (:url is NULL OR item.categoryURL LIKE :url) ORDER BY item.id")
 	Page<Category> findByNameAndURL(@Param("name") String name, @Param("url") String url, Pageable pageable);
 
-	@Query("SELECT count(*) FROM Category item where (:name is NULL OR item.categoryName LIKE :name) AND (:url is NULL OR item.categoryURL LIKE :url) ORDER BY item.id")
+	@Query("SELECT count(distinct item.id) FROM Category item where (:name is NULL OR item.categoryName LIKE :name) AND (:url is NULL OR item.categoryURL LIKE :url) ORDER BY item.id")
 	long countByNameAndURL(@Param("name") String name, @Param("url") String url);
 
 	List<Category> findAllCategoryByParentCategoryAndStatus(Category parentCategory, boolean status);

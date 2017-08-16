@@ -36,7 +36,7 @@ public class OptionGroupServiceImpl implements OptionGroupService {
 	}
 
 	@Override
-	public OptionGroup fingOptionById(long id) {
+	public OptionGroup findOptionById(long id) {
 		return optionGroupDAO.findOne(id);
 	}
 

@@ -1,39 +1,56 @@
 package ServiceTests;
 
-import java.util.List;
+import java.math.BigDecimal;
 
 import org.junit.Before;
-import org.junit.Test;
+import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.env.Environment;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import shop.main.config.AppContextConfig;
-import shop.main.data.mongo.Order;
-import shop.main.data.mongo.OrderRepository;
+import shop.main.data.service.ProductService;
+import shop.main.data.service.ReviewService;
 import shop.main.utils.sqltracker.AssertSqlCount;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { AppContextConfig.class })
 @WebAppConfiguration
-public class MongoDBTest {
+@Sql({ "classpath:delete_test_data.sql", "classpath:categories.sql", "classpath:options.sql",
+		"classpath:products.sql" })
+public class TestReviewService {
 
-	private final String NAME = "ni";
-	private final String EMAIL = "so";
-	private final String PHONE = "33";
-
+	private static final Logger LOGGER = LoggerFactory.getLogger(TestProductService.class);
+	private Pageable pageable;
 	private final Integer CURRENT = 0;
 	private final Integer PAGE_SIZE = 10;
 	private final String DUMMY_STRING = "DUMMY_STRING";
-	private Pageable pageable;
-	private static final Logger LOGGER = LoggerFactory.getLogger(TestBlockService.class);
+	private final BigDecimal DUMMY_NUMBER = new BigDecimal(99.99);
+
+	@Autowired
+	private Environment environment;
+
+	@BeforeClass
+	public static void beforeClass() {
+		LOGGER.info("***");
+	}
+
+	@Autowired
+	@Qualifier("productService")
+	private ProductService productService;
+
+	@Autowired
+	@Qualifier("reviewService")
+	private ReviewService reviewService;
 
 	@Before
 	public void before() {
@@ -41,19 +58,4 @@ public class MongoDBTest {
 		pageable = new PageRequest(CURRENT, PAGE_SIZE);
 	}
 
-	@Autowired
-	@Qualifier("orderRepository")
-	private OrderRepository orderRepository;
-
-	@Test
-	public void findByQuery() {
-
-		List<Order> results = orderRepository.findByFullNameLikeAndPhoneLikeAndEmailLike(NAME, PHONE, EMAIL);
-		// Assert.assertEquals(products.get(0).getName(), PRODUCT_NAME);
-
-		results.stream().forEach(r -> System.out.println(r.getUsername() + " " + r.getPhone() + " " + r.getEmail()));
-		System.out.println("*");
-		System.out.println("*****************found results " + results.size());
-		System.out.println("*");
-	}
 }

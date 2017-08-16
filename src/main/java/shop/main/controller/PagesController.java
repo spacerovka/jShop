@@ -116,7 +116,7 @@ public class PagesController extends FrontController {
 
 	@RequestMapping(value = "/product")
 	public String displayProduct(Model model) {
-		Product product = productService.fingProductById(0L);
+		Product product = productService.findProductById(0L);
 		// LOGGER.debug(data.toString());
 
 		addMenuItems(model);
@@ -128,7 +128,7 @@ public class PagesController extends FrontController {
 	public String displayProductByUrl(@PathVariable("url") String url, Model model) {
 		LOGGER.debug("url is " + url);
 
-		Product product = productService.fingProductByUrl(url);
+		Product product = productService.findProductByUrl(url);
 		// LOGGER.debug(data.toString());
 		if (product.getCategory() != null) {
 			LOGGER.debug("add breadcrumbs");
@@ -186,7 +186,7 @@ public class PagesController extends FrontController {
 	public String displayPageByUrl(@PathVariable("url") String url, Model model) throws Exception {
 
 		LOGGER.debug("url is " + url);
-		Category category = categoryService.fingCategoryByUrl(url);
+		Category category = categoryService.findCategoryByUrl(url);
 		StaticPage page = staticPageService.findOneByURL(url);
 		if (category != null) {
 			displayCategoryByUrl(category, model);
@@ -232,7 +232,7 @@ public class PagesController extends FrontController {
 			@PathVariable("filters") String filters, Integer current, Integer pageSize, Model model) {
 		LOGGER.debug("url is " + url + ", filters are " + filters);
 		// check if category exists
-		Category category = categoryService.fingCategoryByUrl(url);
+		Category category = categoryService.findCategoryByUrl(url);
 		if (category != null) {
 
 			List<Category> breadCrumbs = new ArrayList<Category>();

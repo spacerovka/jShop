@@ -13,7 +13,7 @@ public interface OptionService {
 
 	List<Option> listAll();
 
-	Option fingOptionById(long id);
+	Option findOptionById(long id);
 
 	List<Option> findOptionByOptionGroup(long id);
 

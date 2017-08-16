@@ -15,7 +15,7 @@ public interface OptionGroupService {
 
 	void deleteById(Long id);
 
-	OptionGroup fingOptionById(long id);
+	OptionGroup findOptionById(long id);
 
 	List<OptionGroup> findByName(String name, Pageable pageable);
 

@@ -147,7 +147,7 @@ public class AdminProductOptionsController extends AdminController {
 	@RequestMapping(value = "/option/{id}/update", method = RequestMethod.GET)
 	public String editOption(@PathVariable("id") long id, Model model) {
 
-		model.addAttribute("option", optionService.fingOptionById(id));
+		model.addAttribute("option", optionService.findOptionById(id));
 		model.addAttribute("optiongroupList", optionGroupService.listAll());
 
 		return "../admin/options/edit_option";
@@ -156,7 +156,7 @@ public class AdminProductOptionsController extends AdminController {
 	@RequestMapping(value = "/optiongroup/{id}/update", method = RequestMethod.GET)
 	public String editOptionGroup(@PathVariable("id") long id, Model model) {
 
-		model.addAttribute("optiongroup", optionGroupService.fingOptionById(id));
+		model.addAttribute("optiongroup", optionGroupService.findOptionById(id));
 
 		return "../admin/options/edit_optionGroup";
 	}

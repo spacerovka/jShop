@@ -45,7 +45,7 @@ public class OptionServiceImpl implements OptionService {
 	}
 
 	@Override
-	public Option fingOptionById(long id) {
+	public Option findOptionById(long id) {
 		return optionDAO.findOne(id);
 	}
 

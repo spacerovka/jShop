@@ -1,3 +1,4 @@
+DELETE FROM  review;
 DELETE FROM  productOption;
 DELETE FROM  product;
 DELETE FROM  category;
