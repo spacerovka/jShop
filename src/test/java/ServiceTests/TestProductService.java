@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -49,11 +48,6 @@ public class TestProductService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(TestProductService.class);
 	@Autowired
 	private Environment environment;
-
-	@BeforeClass
-	public static void beforeClass() {
-		LOGGER.info("***");
-	}
 
 	@Autowired
 	@Qualifier("productService")
@@ -188,7 +182,7 @@ public class TestProductService {
 	public void findFilteredProductsInCategoryQueryCount() {
 		List<Product> products = productService.findFilteredProductsInCategory(filterIds, listOfCategories, pageable);
 		// query count, and if not null query data
-		AssertSqlCount.assertSelectCount(2);
+		AssertSqlCount.assertSelectCount(1);
 	}
 
 	@Test
@@ -205,7 +199,7 @@ public class TestProductService {
 		Review r = new Review(DUMMY_STRING, DUMMY_STRING, DUMMY_STRING, 5, product);
 		reviewService.save(r);
 		productService.updateRating(productId);
-		int rating = productService.findProductById(productId).getRating();
+		long rating = productService.findProductById(productId).getRating();
 		Assert.assertEquals(5, rating);
 
 	}

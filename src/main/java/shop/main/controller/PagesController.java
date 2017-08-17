@@ -83,7 +83,7 @@ public class PagesController extends FrontController {
 			model.addAttribute("item", item);
 		} else {
 			redirectAttributes.addFlashAttribute("flashMessage", "contactMessage updated successfully!");
-			contactService.saveContactUsMessage(item);
+			contactService.save(item);
 			model.addAttribute("item", null);
 			String appUrl = "http://" + request.getServerName() + ":" + request.getServerPort()
 					+ request.getContextPath();

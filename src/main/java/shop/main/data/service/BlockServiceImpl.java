@@ -49,14 +49,12 @@ public class BlockServiceImpl implements BlockService {
 
 		Session session = (Session) entityManager.getDelegate();
 
-		String hql = "from Block block where block.status = true and " + "( block.blockURL = '" + url
-				+ "' or block.blockURL is null or block.blockURL='' )" + " and block.position = '" + position + "'";
+		String hql = "from Block block where block.status = true and "
+				+ "( block.blockURL = :url or block.blockURL is null or block.blockURL='' )"
+				+ " and block.position = :position";
 		Query query = session.createQuery(hql);
-		System.out.println("*");
-		System.out.println("*");
-		System.out.println("query is " + query.getQueryString());
-		System.out.println("*");
-		System.out.println("*");
+		query.setParameter("url", url);
+		query.setParameter("position", position);
 		return (ArrayList<Block>) query.list();
 
 	}

@@ -22,8 +22,13 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
 @Table(name = "product")
+@Getter
+@Setter
 public class Product {
 
 	@Id
@@ -98,7 +103,7 @@ public class Product {
 	private List<Review> reviews;
 
 	@Column(name = "rating", columnDefinition = "int default 0")
-	private int rating;
+	private long rating;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "size", nullable = true)
@@ -117,210 +122,15 @@ public class Product {
 
 	public Product(String sku, String name, BigDecimal price, String url) {
 		super();
-		sku = sku;
+		this.sku = sku;
 		this.name = name;
 		this.price = price;
 		this.url = url;
+		this.rating = 0;
 	}
 
 	public Product() {
 
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getSku() {
-		return sku;
-	}
-
-	public void setSku(String sku) {
-		this.sku = sku;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public int getinstock() {
-		return instock;
-	}
-
-	public void setinstock(int instock) {
-		this.instock = instock;
-	}
-
-	public BigDecimal getPrice() {
-		return price;
-	}
-
-	public void setPrice(BigDecimal price) {
-		this.price = price;
-	}
-
-	public String getCartDesc() {
-		return cartDesc;
-	}
-
-	public void setCartDesc(String cartDesc) {
-		this.cartDesc = cartDesc;
-	}
-
-	public String getShortDesc() {
-		return shortDesc;
-	}
-
-	public void setShortDesc(String shortDesc) {
-		this.shortDesc = shortDesc;
-	}
-
-	public String getLongDesc() {
-		return longDesc;
-	}
-
-	public void setLongDesc(String longDesc) {
-		this.longDesc = longDesc;
-	}
-
-	public String getThumb() {
-		return thumb;
-	}
-
-	public void setThumb(String thumb) {
-		this.thumb = thumb;
-	}
-
-	public String getImage() {
-		return image;
-	}
-
-	public void setImage(String image) {
-		this.image = image;
-	}
-
-	public String getLocation() {
-		return location;
-	}
-
-	public void setLocation(String location) {
-		this.location = location;
-	}
-
-	public Category getCategory() {
-		return category;
-	}
-
-	public void setCategory(Category category) {
-		this.category = category;
-	}
-
-	public List<ProductOption> getProductOptions() {
-		return productOptions;
-	}
-
-	public void setProductOptions(List<ProductOption> productOptions) {
-		this.productOptions = productOptions;
-	}
-
-	public Date getCreated() {
-		return created;
-	}
-
-	public void setCreated(Date created) {
-		this.created = created;
-	}
-
-	public Date getEdited() {
-		return edited;
-	}
-
-	public void setEdited(Date edited) {
-		this.edited = edited;
-	}
-
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
-	public boolean isNew() {
-		return (this.id == null);
-	}
-
-	public String getMetaTitle() {
-		return metaTitle;
-	}
-
-	public void setMetaTitle(String metaTitle) {
-		this.metaTitle = metaTitle;
-	}
-
-	public String getMetaDescription() {
-		return metaDescription;
-	}
-
-	public void setMetaDescription(String metaDescription) {
-		this.metaDescription = metaDescription;
-	}
-
-	public boolean isStatus() {
-		return status;
-	}
-
-	public void setStatus(boolean status) {
-		this.status = status;
-	}
-
-	public boolean isFeatured() {
-		return featured;
-	}
-
-	public void setFeatured(boolean featured) {
-		this.featured = featured;
-	}
-
-	public int getInstock() {
-		return instock;
-	}
-
-	public void setInstock(int instock) {
-		this.instock = instock;
-	}
-
-	public List<Review> getReviews() {
-		return reviews;
-	}
-
-	public void setReviews(List<Review> reviews) {
-		this.reviews = reviews;
-	}
-
-	public int getRating() {
-		return rating;
-	}
-
-	public void setRating(int rating) {
-		this.rating = rating;
-	}
-
-	public ParcelSize getSize() {
-		return size;
-	}
-
-	public void setSize(ParcelSize size) {
-		this.size = size;
 	}
 
 }

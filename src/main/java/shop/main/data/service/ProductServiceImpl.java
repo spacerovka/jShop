@@ -82,41 +82,13 @@ public class ProductServiceImpl implements ProductService {
 		return productDAO.findOneByUrl(url);
 	}
 
-	// @Override
-	// public List<Product> findAllActive() {
-	//
-	// return productDAO.findAllProductByStatus(true);
-	// }
-	//
-	// @Transactional
-	// @Override
-	// public List<Product> findAllActiveWithinActiveCategory() {
-	//
-	// Session session = (Session) entityManager.getDelegate();
-	//
-	// String hql = "from Product product where product.status = true and
-	// product.category.status = true";
-	// Query query = session.createQuery(hql);
-	// System.out.println("*");
-	// System.out.println("*");
-	// System.out.println("query is " + query.getQueryString());
-	// System.out.println("*");
-	// System.out.println("*");
-	// return query.list();
-	// }
-
 	@Transactional
 	@Override
 	public List<Product> findAllFeatured() {
 		Session session = (Session) entityManager.getDelegate();
 
-		String hql = "from Product product where product.status = true and product.featured=true and product.category.status = true";
+		String hql = "from Product product where product.status = true AND product.featured=true AND product.category.status = true";
 		Query query = session.createQuery(hql);
-		System.out.println("*");
-		System.out.println("*");
-		System.out.println("query is " + query.getQueryString());
-		System.out.println("*");
-		System.out.println("*");
 		return query.list();
 	}
 
@@ -127,15 +99,10 @@ public class ProductServiceImpl implements ProductService {
 
 		List<Review> reviews = productDAO.findOne(productId).getReviews();
 		OptionalDouble rating = reviews.stream().mapToInt(a -> a.getRating()).average();
-		String hql = "update Product set rating = '" + Math.round(rating.getAsDouble()) + "' where id = '" + productId
-				+ "'";
-		// UPDATE `test_spring`.`product` SET `rating`='2' WHERE `id`='2';
+		String hql = "update Product set rating = :rating where id = :productId";
 		Query query = session.createQuery(hql);
-		System.out.println("*");
-		System.out.println("*");
-		System.out.println("query is " + query.getQueryString());
-		System.out.println("*");
-		System.out.println("*");
+		query.setParameter("rating", (Math.round(rating.getAsDouble())));
+		query.setParameter("productId", productId);
 		query.executeUpdate();
 		// return query.list();
 	}
@@ -144,21 +111,27 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public List<Product> findFilteredProductsInCategory(List<Long> filterIds, List<Long> listOfCategories,
 			Pageable pageable) {
-
-		if (filterIds != null && filterIds.isEmpty())
-			filterIds = null;
-		if (listOfCategories != null && listOfCategories.isEmpty())
-			listOfCategories = null;
-
+		Session session = (Session) entityManager.getDelegate();
+		String hql = "SELECT p FROM Product p,ProductOption o, Category c "
+				+ "where p.id=o.product AND p.category=c.id " + "AND p.status = true AND c.status = true ";
 		if (filterIds == null || filterIds.isEmpty()) {
 			if (listOfCategories == null || listOfCategories.isEmpty()) {
-				return productDAO.findFilteredProductsInCategory(pageable).getContent();
+				hql += "ORDER by p.id";
 			} else {
-				return productDAO.findFilteredProductsInCategory(listOfCategories, pageable).getContent();
+				hql += "AND c.id in :listOfCategories  ORDER by p.id";
 			}
 		} else {
-			return productDAO.findFilteredProductsInCategory(filterIds, listOfCategories, pageable).getContent();
+			hql += "AND (o.id in :filterIds)" + " AND (c.id in :listOfCategories)" + " ORDER by p.id";
 		}
+
+		Query query = session.createQuery(hql);
+		if (filterIds != null && !filterIds.isEmpty())
+			query.setParameterList("filterIds", filterIds);
+		if (listOfCategories != null && !listOfCategories.isEmpty())
+			query.setParameterList("listOfCategories", listOfCategories);
+		query.setFirstResult(pageable.getOffset());
+		query.setMaxResults(pageable.getPageSize());
+		return query.list();
 
 	}
 

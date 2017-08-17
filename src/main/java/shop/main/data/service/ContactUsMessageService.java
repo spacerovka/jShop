@@ -7,13 +7,11 @@ import org.springframework.data.domain.Pageable;
 import shop.main.data.entity.ContactUsMessage;
 
 public interface ContactUsMessageService {
-	void saveContactUsMessage(ContactUsMessage item);
+	void save(ContactUsMessage item);
 
-	void deleteContactUsMessageById(long id);
+	void deleteById(long id);
 
-	List<ContactUsMessage> listAll();
-
-	ContactUsMessage findContactUsMessageById(long id);
+	ContactUsMessage findById(long id);
 
 	List<ContactUsMessage> findByStatus(String status, Pageable pageable);
 

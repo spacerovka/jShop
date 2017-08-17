@@ -52,7 +52,7 @@ public class AdminContactUsController extends AdminController {
 	@RequestMapping(value = "/contactmessage/{id}/update", method = RequestMethod.GET)
 	public String editMessage(@PathVariable("id") long id, Model model) {
 
-		model.addAttribute("item", service.findContactUsMessageById(id));
+		model.addAttribute("item", service.findById(id));
 
 		return "../admin/contactMessages/edit";
 	}
@@ -60,7 +60,7 @@ public class AdminContactUsController extends AdminController {
 	@RequestMapping(value = "/contactmessage/{id}/delete", method = RequestMethod.GET)
 	public String deleteMessage(@PathVariable("id") long id, Model model, final RedirectAttributes redirectAttributes,
 			HttpServletRequest request) {
-		service.deleteContactUsMessageById(id);
+		service.deleteById(id);
 		redirectAttributes.addFlashAttribute("flashMessage", "Item deleted successfully!");
 		return "redirect:/contactmessages";
 	}
