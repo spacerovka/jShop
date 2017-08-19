@@ -9,15 +9,11 @@ import shop.main.data.entity.Discount;
 public interface DiscountService {
 	void save(Discount discount);
 
-	void delete(Discount discount);
-
 	void deleteById(long id);
 
 	Discount findByCoupon(String cupon);
 
 	Discount findById(long id);
-
-	long getAllCount();
 
 	List<Discount> findByNameAndStatus(String name, String status, Pageable pageable);
 

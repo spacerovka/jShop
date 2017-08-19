@@ -26,7 +26,6 @@ public class MenuItem {
 	@Column(name = "URL", nullable = false, length = 200)
 	private String URL;
 
-	@NotBlank
 	@Column(name = "status", nullable = false)
 	private boolean status;
 
