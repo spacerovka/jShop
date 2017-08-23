@@ -9,8 +9,6 @@ import shop.main.data.entity.OptionGroup;
 public interface OptionGroupService {
 	void save(OptionGroup optionGroup);
 
-	void delete(OptionGroup optionGroup);
-
 	List<OptionGroup> listAll();
 
 	void deleteById(Long id);

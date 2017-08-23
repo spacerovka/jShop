@@ -3,7 +3,6 @@ package ServiceTests;
 import java.math.BigDecimal;
 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,8 +24,7 @@ import shop.main.utils.sqltracker.AssertSqlCount;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { AppContextConfig.class })
 @WebAppConfiguration
-@Sql({ "classpath:delete_test_data.sql", "classpath:categories.sql", "classpath:options.sql",
-		"classpath:products.sql" })
+@Sql({ "classpath:delete_test_data.sql", "classpath:products_wishlist.sql" })
 public class TestReviewService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(TestProductService.class);
@@ -38,11 +36,6 @@ public class TestReviewService {
 
 	@Autowired
 	private Environment environment;
-
-	@BeforeClass
-	public static void beforeClass() {
-		LOGGER.info("***");
-	}
 
 	@Autowired
 	@Qualifier("productService")

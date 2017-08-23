@@ -12,10 +12,6 @@ import shop.main.validation.EmailExistsException;
 public interface UserService {
 	void save(User user);
 
-	void delete(User user);
-
-	List<User> listAll();
-
 	List<User> findAll(String name, String status, String email, String role, Pageable pageable);
 
 	long countAll(String name, String status, String email, String role);

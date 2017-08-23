@@ -65,21 +65,10 @@ public class UserServiceImpl implements UserService {
 			user.setId(userDAO.count() + 1);
 			entityManager.persist(user);
 		} else {
-			User oldUser = fingUserById(user.getId());
-			delete(oldUser);
+			deleteById(user.getId());
 			entityManager.merge(user);
 		}
 
-	}
-
-	@Override
-	public void delete(User user) {
-		userDAO.delete(user);
-	}
-
-	@Override
-	public List<User> listAll() {
-		return userDAO.findAll();
 	}
 
 	@Override
@@ -97,7 +86,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void deleteById(long id) {
-		delete(userDAO.findUserById(id));
+		userDAO.delete(id);
 
 	}
 

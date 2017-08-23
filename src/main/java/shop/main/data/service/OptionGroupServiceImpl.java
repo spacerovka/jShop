@@ -26,11 +26,6 @@ public class OptionGroupServiceImpl implements OptionGroupService {
 	}
 
 	@Override
-	public void delete(OptionGroup optionGroup) {
-		optionGroupDAO.delete(optionGroup);
-	}
-
-	@Override
 	public List<OptionGroup> listAll() {
 		return optionGroupDAO.findAll();
 	}

@@ -25,7 +25,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import shop.main.data.entity.Country;
 import shop.main.data.mongo.Order;
-import shop.main.data.mongo.OrderRepository;
+import shop.main.data.service.OrderService;
 import shop.main.data.service.ShippingCostService;
 import shop.main.utils.Constants;
 
@@ -34,7 +34,7 @@ import shop.main.utils.Constants;
 public class AdminOrderController extends AdminController {
 
 	@Autowired
-	private OrderRepository orderRepository;
+	public OrderService orderService;
 
 	@Autowired
 	ServletContext context;
@@ -61,15 +61,15 @@ public class AdminOrderController extends AdminController {
 			Model model) {
 		Pageable pageable = new PageRequest(current - 1, pageSize);
 
-		model.addAttribute("orders", orderRepository.filter(fullname, phone, email, pageable).getContent());
+		model.addAttribute("orders", orderService.filter(fullname, phone, email, pageable));
 		model.addAttribute("current", current);
 		model.addAttribute("pageSize", pageSize);
-		addPaginator(model, current, pageSize, orderRepository.count(fullname, phone, email));
+		addPaginator(model, current, pageSize, orderService.count(fullname, phone, email));
 	}
 
 	@RequestMapping(value = "/order/{id}/update", method = RequestMethod.GET)
 	public String editOrder(@PathVariable("id") String id, Model model) {
-		Order order = orderRepository.findOne(id);
+		Order order = orderService.findOne(id);
 		model.addAttribute("order", order);
 		model.addAttribute("countryList", Constants.getCountryList());
 
@@ -79,7 +79,7 @@ public class AdminOrderController extends AdminController {
 	@RequestMapping(value = "/order/{id}/delete", method = RequestMethod.GET)
 	public String deleteOrder(@PathVariable("id") String id, Model model, final RedirectAttributes redirectAttributes,
 			HttpServletRequest request) {
-		orderRepository.delete(id);
+		orderService.delete(id);
 		redirectAttributes.addFlashAttribute("flashMessage", "Order deleted successfully!");
 		return "redirect:" + getUrlPrefix(request) + "orders";
 	}
@@ -94,7 +94,7 @@ public class AdminOrderController extends AdminController {
 			return "../admin/orders/edit_order";
 		} else {
 			redirectAttributes.addFlashAttribute("flashMessage", "Order updated successfully!");
-			Order prevOrder = orderRepository.findOne(order.getOrderId());
+			Order prevOrder = orderService.findOne(order.getOrderId());
 			order.setDate(prevOrder.getDate());
 			if (order.getDate() == null) {
 				order.setDate(new Date());
@@ -102,7 +102,7 @@ public class AdminOrderController extends AdminController {
 			order.setProduct_list(prevOrder.getProduct_list());
 			Country country = shippingCostService.getCountryByName(order.getCountry());
 			order.calculateShipping(country);
-			orderRepository.save(order);
+			orderService.save(order);
 
 			return "redirect:" + getUrlPrefix(request) + "orders";
 		}

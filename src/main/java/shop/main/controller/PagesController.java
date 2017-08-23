@@ -163,7 +163,7 @@ public class PagesController extends FrontController {
 					.getContext().getAuthentication().getPrincipal();
 			if (authorizeduser != null) {
 				String username = authorizeduser.getUsername();
-				if (!wishListService.findByProductSKUAndUsername(product.getSku(), username).isEmpty()) {
+				if (wishListService.isInWishlist(product.getSku(), username)) {
 					savedToWishList = true;
 				}
 			}

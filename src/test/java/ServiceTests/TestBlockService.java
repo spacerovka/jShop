@@ -45,7 +45,7 @@ public class TestBlockService {
 
 	@Autowired
 	@Qualifier("blockService")
-	private BlockService blockService;
+	private BlockService service;
 
 	@Test
 	public void save() {
@@ -53,8 +53,8 @@ public class TestBlockService {
 		Block toSave = new Block();
 		toSave.setBlockURL(DUMMY_STRING);
 		toSave.setPosition(Constants.BlockType.BOTTOM.name());
-		blockService.save(toSave);
-		Block found = blockService.findById(toSave.getId());
+		service.save(toSave);
+		Block found = service.findById(toSave.getId());
 		AssertSqlCount.assertSelectCount(1);
 		Assert.assertNotNull(found);
 	}
@@ -62,7 +62,7 @@ public class TestBlockService {
 	@Test
 	public void getAllCount() {
 		LOGGER.info("getAllCount");
-		long result = blockService.getAllCount();
+		long result = service.getAllCount();
 		AssertSqlCount.assertSelectCount(1);
 		Assert.assertEquals(7, result);
 	}
@@ -70,7 +70,7 @@ public class TestBlockService {
 	@Test
 	public void listAll() {
 		LOGGER.info("listAll");
-		List<Block> result = blockService.listAll(pageable);
+		List<Block> result = service.listAll(pageable);
 		AssertSqlCount.assertSelectCount(1);
 		Assert.assertEquals(7, result.size());
 	}
@@ -78,7 +78,7 @@ public class TestBlockService {
 	@Test
 	public void findById() {
 		LOGGER.info("findById");
-		Block result = blockService.findById(1);
+		Block result = service.findById(1);
 		AssertSqlCount.assertSelectCount(1);
 		Assert.assertNotNull(result);
 	}
@@ -86,8 +86,8 @@ public class TestBlockService {
 	@Test
 	public void deleteById() {
 		LOGGER.info("deleteById");
-		blockService.deleteById(1);
-		Block result = blockService.findById(1);
+		service.deleteById(1);
+		Block result = service.findById(1);
 		AssertSqlCount.assertSelectCount(2);
 		Assert.assertNull(result);
 	}
@@ -99,9 +99,8 @@ public class TestBlockService {
 		toSave.setBlockURL(DUMMY_STRING);
 		toSave.setStatus(true);
 		toSave.setPosition(Constants.BlockType.BOTTOM.name());
-		blockService.save(toSave);
-		ArrayList<Block> result = blockService.findByPositionAndBlockURL(Constants.BlockType.BOTTOM.name(),
-				DUMMY_STRING);
+		service.save(toSave);
+		ArrayList<Block> result = service.findByPositionAndBlockURL(Constants.BlockType.BOTTOM.name(), DUMMY_STRING);
 		AssertSqlCount.assertSelectCount(1);
 		Assert.assertEquals(1, result.size());
 	}

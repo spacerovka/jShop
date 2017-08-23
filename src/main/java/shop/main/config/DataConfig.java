@@ -32,6 +32,8 @@ import shop.main.data.service.OptionGroupService;
 import shop.main.data.service.OptionGroupServiceImpl;
 import shop.main.data.service.OptionService;
 import shop.main.data.service.OptionServiceImpl;
+import shop.main.data.service.OrderService;
+import shop.main.data.service.OrderServiceImpl;
 import shop.main.data.service.ProductOptionService;
 import shop.main.data.service.ProductOptionServiceImpl;
 import shop.main.data.service.ProductService;
@@ -216,6 +218,11 @@ public class DataConfig<DatabasePopulator> {
 	@Bean
 	public ContactUsMessageService contactUsMessageService() {
 		return new ContactUsMessageServiceImpl();
+	}
+
+	@Bean
+	public OrderService orderService() {
+		return new OrderServiceImpl();
 	}
 
 }

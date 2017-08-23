@@ -108,11 +108,11 @@ public class AjaxFrontController extends FrontController implements ResourceLoad
 			String username = authorizeduser.getUsername();
 			shop.main.data.entity.User savedUser = userService.findByUsername(username);
 			if (savedUser != null) {
-				if (wishListService.findByProductSKUAndUsername(sku, username).isEmpty()) {
+				if (wishListService.isInWishlist(sku, username)) {
+					return "Product is already in your wishlist!";
+				} else {
 					Product product = productService.findProductBySKU(sku);
 					wishListService.save(new WishList(product, savedUser));
-				} else {
-					return "Product is already in your wishlist!";
 				}
 			}
 		}
