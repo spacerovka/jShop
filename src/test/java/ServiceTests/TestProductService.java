@@ -31,12 +31,12 @@ public class TestProductService {
 	@Test
 	public void findByNameAndURL() {
 	
-	List<Product> products = productService.findByNameAndURL(PRODUCT_NAME, PRODUCT_URL);
+	//List<Product> products = productService.findByNameAndURL(PRODUCT_NAME, PRODUCT_URL);
 //	Assert.assertEquals(products.get(0).getName(), PRODUCT_NAME);
 	
-	products.stream().forEach(p -> System.out.println(p.getName()+" "+p.getUrl()));
+	//products.stream().forEach(p -> System.out.println(p.getName()+" "+p.getUrl()));
 	System.out.println("*");
-	System.out.println("*****************found products "+products.size());
+	//System.out.println("*****************found products "+products.size());
 	System.out.println("*");
 	}
 }
