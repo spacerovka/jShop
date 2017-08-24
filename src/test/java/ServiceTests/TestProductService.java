@@ -150,6 +150,7 @@ public class TestProductService {
 		Assert.assertEquals(DUMMY_STRING, saved.getUrl());
 	}
 
+	@Test
 	public void checkUniqueURL() {
 		Product p = new Product();
 		p.setUrl(PRODUCT_URL);
@@ -157,6 +158,7 @@ public class TestProductService {
 		Assert.assertFalse(unique);
 	}
 
+	@Test
 	public void checkUniqueSKU() {
 		Product p = new Product();
 		p.setSku(PRODUCT_SKU);

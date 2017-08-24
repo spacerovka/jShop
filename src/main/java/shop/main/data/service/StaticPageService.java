@@ -7,17 +7,9 @@ import org.springframework.data.domain.Pageable;
 import shop.main.data.entity.StaticPage;
 
 public interface StaticPageService {
-	void save(StaticPage block);
-
-	void delete(StaticPage block);
-
-	List<StaticPage> listAll();
+	void save(StaticPage page);
 
 	StaticPage findOneByURL(String url);
-
-	List<StaticPage> findAllByURL(String url);
-
-	List<StaticPage> findAllByName(String name);
 
 	StaticPage findById(long id);
 

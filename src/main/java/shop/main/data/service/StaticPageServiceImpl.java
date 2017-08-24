@@ -1,7 +1,10 @@
 package shop.main.data.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -9,6 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import shop.main.data.DAO.StaticPageDAO;
 import shop.main.data.entity.StaticPage;
+import shop.main.data.entity.WishList;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 @Service("staticPageService")
 public class StaticPageServiceImpl implements StaticPageService {
@@ -16,27 +23,13 @@ public class StaticPageServiceImpl implements StaticPageService {
 	@Autowired
 	private StaticPageDAO dao;
 
+	@PersistenceContext
+	protected EntityManager entityManager;
+
 	@Override
 	public void save(StaticPage staticPage) {
 		dao.save(staticPage);
 
-	}
-
-	@Override
-	public void delete(StaticPage staticPage) {
-		dao.delete(staticPage);
-
-	}
-
-	@Override
-	public List<StaticPage> listAll() {
-
-		return dao.findAll();
-	}
-
-	@Override
-	public List<StaticPage> findAllByURL(String url) {
-		return dao.findAllByUrlContaining(url);
 	}
 
 	@Override
@@ -56,10 +49,6 @@ public class StaticPageServiceImpl implements StaticPageService {
 		return dao.findOneByUrl(url);
 	}
 
-	@Override
-	public List<StaticPage> findAllByName(String name) {
-		return dao.findAllByNameContaining(name);
-	}
 
 	@Override
 	public boolean checkUniqueURL(StaticPage page) {
@@ -72,6 +61,7 @@ public class StaticPageServiceImpl implements StaticPageService {
 		return false;
 	}
 
+	@Transactional
 	@Override
 	public List<StaticPage> findByNameAndStatus(String name, String status, Pageable pageable) {
 		if (name != null)
@@ -80,7 +70,17 @@ public class StaticPageServiceImpl implements StaticPageService {
 		if (status != null && !status.isEmpty()) {
 			bStatus = Boolean.valueOf(status);
 		}
-		return dao.findByNameAndStatus(name, bStatus, pageable).getContent();
+//		return dao.findByNameAndStatus(name, bStatus, pageable).getContent();
+
+		Session session = (Session) entityManager.getDelegate();
+
+		String hql = "FROM StaticPage item where (:name is NULL OR item.name LIKE :name) AND (:status is NULL OR item.status = :status)";
+		Query query = session.createQuery(hql);
+		query.setParameter("name", name);
+		query.setParameter("status", bStatus);
+		query.setFirstResult(pageable.getOffset());
+		query.setMaxResults(pageable.getPageSize());
+		return (ArrayList<StaticPage>) query.list();
 	}
 
 	@Transactional
