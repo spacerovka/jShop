@@ -75,22 +75,31 @@
 
 	</div>
 	<%@include file="../_footer.jsp"%>
-
-	<script>
+<script>
 	function searchButtonClick()
 	{
+		pageButtonClick('1');
+	}
+	</script>
+	
+	<script>
+	function pageButtonClick(targetPage)
+	{
+		var pageSize = ${pageSize};
+		var current = targetPage;
 		var fullname = $('#searchUsername').val();
 		var phone = $('#searchPhone').val();	
-		var email = $('#searchEmail').val();
+		var email = $('#searchEmail').val();		
 		$.ajax ({ 
-			url: '${pageContext.request.contextPath}/ajax/findOrder', 
+			url: '${pageContext.request.contextPath}${URL_PREFIX}findOrder', 
 			type: "POST", 						
-			data : {fullname:fullname, phone:phone, email:email},
+			data : {fullname:fullname, phone:phone, email:email, current:current, pageSize:pageSize},
 			complete: function(response){
 				$('#table').html(response.responseText);
 			}
 		}); 
 	}
 	</script>
+	
 </body>
 </html>

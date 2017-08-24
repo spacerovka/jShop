@@ -7,6 +7,7 @@ public final class Constants {
 	public static final String[] blockTypes = { "FOOTER", "HEADER", "LEFTCOLUMN" };
 	public static final String SITE_NAME = "SITE_NAME";
 	public static final String THEME = "THEME";
+	public static final String SUPPORT_EMAIL = "SUPPORT_EMAIL";
 
 	public static enum BlockType {
 		TOP, LEFT_TOP, LEFT_BOTTOM, BOTTOM, FOOTER_COL_LEFT, FOOTER_COL_CENTER, FOOTER_COL_RIGHT

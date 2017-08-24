@@ -5,13 +5,14 @@
 <%@ taglib prefix="core" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
-
+<core:if test="${not empty LEFT_TOP_BLOCKS}">
 <nav class="navbar navbar-default sidebar">
 	<core:forEach var="block" items="${LEFT_TOP_BLOCKS}">
 		<br>
 		<div style="width: 100%">${block.content}</div>
 	</core:forEach>
 </nav>
+</core:if>
 <nav class="navbar navbar-default sidebar" role="navigation">
 	<div class="container-fluid">
 		<div class="navbar-header">
@@ -95,11 +96,12 @@
 		</div>
 	</div>
 </nav>
-
+<core:if test="${not empty LEFT_BOTTOM_BLOCKS}">
 <nav class="navbar navbar-default sidebar">
 	<core:forEach var="block" items="${LEFT_BOTTOM_BLOCKS}">
 		<br>
 		<div style="width: 100%">${block.content}</div>
 	</core:forEach>
 </nav>
+</core:if>
 

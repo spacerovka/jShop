@@ -5,6 +5,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,12 +28,6 @@ public class DiscountServiceImpl implements DiscountService {
 	}
 
 	@Override
-	public void delete(Discount discount) {
-		dao.delete(discount);
-
-	}
-
-	@Override
 	public void deleteById(long id) {
 		dao.delete(id);
 
@@ -43,11 +39,25 @@ public class DiscountServiceImpl implements DiscountService {
 		return discount;
 	}
 
+	@Transactional
 	@Override
 	public List<Discount> findByNameAndStatus(String name, String status, Pageable pageable) {
 		if (name != null)
 			name = "%" + name + "%";
-		return dao.findByNameAndStatus(name, status, pageable).getContent();
+		Boolean bStatus = null;
+		if (status != null && !status.isEmpty()) {
+			bStatus = Boolean.valueOf(status);
+		}
+		// return dao.findByNameAndStatus(name, bStatus, pageable).getContent();
+		Session session = (Session) entityManager.getDelegate();
+
+		String hql = "SELECT item FROM Discount item where (:name is NULL OR item.salename LIKE :name) AND (:status is NULL OR item.status = :status) ORDER BY item.id";
+		Query query = session.createQuery(hql);
+		query.setParameter("name", name);
+		query.setParameter("status", bStatus);
+		query.setFirstResult(pageable.getOffset());
+		query.setMaxResults(pageable.getPageSize());
+		return query.list();
 	}
 
 	@Override
@@ -56,17 +66,16 @@ public class DiscountServiceImpl implements DiscountService {
 		return dao.findOne(id);
 	}
 
-	@Override
-	public long getAllCount() {
-		return dao.count();
-	}
-
 	@Transactional
 	@Override
 	public long countByNameAndStatus(String name, String status) {
 		if (name != null)
 			name = "%" + name + "%";
-		return dao.countByNameAndStatus(name, status);
+		Boolean bStatus = null;
+		if (status != null && !status.isEmpty()) {
+			bStatus = Boolean.valueOf(status);
+		}
+		return dao.countByNameAndStatus(name, bStatus);
 	}
 
 	@Override

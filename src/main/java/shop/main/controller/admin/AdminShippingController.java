@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import shop.main.data.entity.Country;
@@ -33,9 +36,25 @@ public class AdminShippingController extends AdminController {
 
 	@RequestMapping(value = "/sizes")
 	public String sizeList(Model model) {
+		loadSizeTableData(1, PAGE_SIZE, model);
 
-		model.addAttribute("list", service.listAllSizez());
 		return "../admin/shipping/size_list";
+	}
+
+	@RequestMapping(value = "findSize", method = RequestMethod.POST)
+	public String findSize(@RequestParam(value = "current", required = false) Integer current,
+			@RequestParam(value = "pageSize", required = false) Integer pageSize, Model model) {
+
+		loadSizeTableData(current, pageSize, model);
+		return "../admin/shipping/_size_table";
+	}
+
+	private void loadSizeTableData(Integer current, Integer pageSize, Model model) {
+		Pageable pageable = new PageRequest(current - 1, pageSize);
+		model.addAttribute("list", service.listAllSizez(pageable));
+		model.addAttribute("current", current);
+		model.addAttribute("pageSize", pageSize);
+		addPaginator(model, current, pageSize, service.countSizes());
 	}
 
 	@RequestMapping(value = "/size", method = RequestMethod.POST)
@@ -85,8 +104,24 @@ public class AdminShippingController extends AdminController {
 	@RequestMapping(value = "/countries")
 	public String countriesList(Model model) {
 
-		model.addAttribute("list", service.listAllCountries());
+		loadCountryTableData(1, PAGE_SIZE, model);
 		return "../admin/shipping/country_list";
+	}
+
+	@RequestMapping(value = "findCountry", method = RequestMethod.POST)
+	public String findCountry(@RequestParam(value = "current", required = false) Integer current,
+			@RequestParam(value = "pageSize", required = false) Integer pageSize, Model model) {
+
+		loadCountryTableData(current, pageSize, model);
+		return "../admin/shipping/_country_table";
+	}
+
+	private void loadCountryTableData(Integer current, Integer pageSize, Model model) {
+		Pageable pageable = new PageRequest(current - 1, pageSize);
+		model.addAttribute("list", service.listAllCountries(pageable));
+		model.addAttribute("current", current);
+		model.addAttribute("pageSize", pageSize);
+		addPaginator(model, current, pageSize, service.countSizes());
 	}
 
 	@RequestMapping(value = "/country", method = RequestMethod.POST)

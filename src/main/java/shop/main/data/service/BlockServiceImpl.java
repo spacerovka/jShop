@@ -32,17 +32,6 @@ public class BlockServiceImpl implements BlockService {
 	}
 
 	@Override
-	public void delete(Block block) {
-		dao.delete(block);
-
-	}
-
-	@Override
-	public List<Block> findAllByURL(String URL) {
-		return dao.findAllByBlockURL(URL);
-	}
-
-	@Override
 	public Block findById(long id) {
 
 		return dao.findOne(id);
@@ -60,22 +49,27 @@ public class BlockServiceImpl implements BlockService {
 
 		Session session = (Session) entityManager.getDelegate();
 
-		String hql = "from Block block where block.status = true and " + "( block.blockURL = '" + url
-				+ "' or block.blockURL is null or block.blockURL='' )" + " and block.position = '" + position + "'";
+		String hql = "from Block block where block.status = true and "
+				+ "( block.blockURL = :url or block.blockURL is null or block.blockURL='' )"
+				+ " and block.position = :position";
 		Query query = session.createQuery(hql);
-		System.out.println("*");
-		System.out.println("*");
-		System.out.println("query is " + query.getQueryString());
-		System.out.println("*");
-		System.out.println("*");
+		query.setParameter("url", url);
+		query.setParameter("position", position);
 		return (ArrayList<Block>) query.list();
 
 	}
 
+	@Transactional
 	@Override
 	public List<Block> listAll(Pageable pageable) {
 
-		return dao.findAll(pageable).getContent();
+		Session session = (Session) entityManager.getDelegate();
+
+		String hql = "FROM Block item ";
+		Query query = session.createQuery(hql);
+		query.setFirstResult(pageable.getOffset());
+		query.setMaxResults(pageable.getPageSize());
+		return query.list();
 	}
 
 	@Override

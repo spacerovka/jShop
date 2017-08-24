@@ -10,6 +10,7 @@ import javax.persistence.PersistenceContext;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +18,6 @@ import shop.main.data.DAO.CountryDAO;
 import shop.main.data.DAO.ParcelCostDAO;
 import shop.main.data.DAO.ParcelSizeDAO;
 import shop.main.data.entity.Country;
-import shop.main.data.entity.Option;
 import shop.main.data.entity.ParcelCost;
 import shop.main.data.entity.ParcelSize;
 
@@ -131,23 +131,43 @@ public class ShippingCostServiceImpl implements ShippingCostService {
 	@Transactional
 	@Override
 	public ParcelCost findOneByCountryAndSize(Country country, ParcelSize size) {
-		Session session =(Session)entityManager.getDelegate();		
-		String hql = "from ParcelCost cost where cost.country.id ="+country.getId()
-		+" and cost.size="+size.getId();
+		Session session = (Session) entityManager.getDelegate();
+		String hql = "from ParcelCost cost where cost.country.id =" + country.getId() + " and cost.size="
+				+ size.getId();
 
 		Query query = session.createQuery(hql);
 		System.out.println("*");
 		System.out.println("*");
-		System.out.println("query is "+query.getQueryString());
+		System.out.println("query is " + query.getQueryString());
 		System.out.println("*");
 		System.out.println("*");
-		
+
 		List<ParcelCost> list = (List<ParcelCost>) query.list();
-		if( list!=null){
+		if (list != null) {
 			return list.get(0);
-		}else{
+		} else {
 			return null;
 		}
+	}
+
+	@Override
+	public List<Country> listAllCountries(Pageable pageable) {
+		return countryDAO.findAll(pageable).getContent();
+	}
+
+	@Override
+	public List<ParcelSize> listAllSizez(Pageable pageable) {
+		return sizeDAO.findAll(pageable).getContent();
+	}
+
+	@Override
+	public long countCountries() {
+		return countryDAO.count();
+	}
+
+	@Override
+	public long countSizes() {
+		return sizeDAO.count();
 	}
 
 }

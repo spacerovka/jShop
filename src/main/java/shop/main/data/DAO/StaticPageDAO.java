@@ -24,9 +24,10 @@ public interface StaticPageDAO extends JpaRepository<StaticPage, Long> {
 	long count();
 
 	@Query("SELECT item FROM StaticPage item where (:name is NULL OR item.name LIKE :name) AND (:status is NULL OR :status ='' OR item.status = :status) ORDER BY item.id")
-	Page<StaticPage> findByNameAndStatus(@Param("name") String name, @Param("status") String status, Pageable pageable);
+	Page<StaticPage> findByNameAndStatus(@Param("name") String name, @Param("status") Boolean status,
+			Pageable pageable);
 
 	@Query("SELECT count(*) FROM StaticPage item where (:name is NULL OR item.name LIKE :name) AND (:status is NULL OR :status ='' OR item.status = :status) ORDER BY item.id")
-	long countByNameAndStatus(@Param("name") String name, @Param("status") String status);
+	long countByNameAndStatus(@Param("name") String name, @Param("status") Boolean status);
 
 }

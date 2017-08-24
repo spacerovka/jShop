@@ -9,8 +9,6 @@ import shop.main.data.entity.MenuItem;
 public interface MenuItemService {
 	void save(MenuItem item);
 
-	void delete(MenuItem item);
-
 	MenuItem findById(long id);
 
 	void deleteById(long id);

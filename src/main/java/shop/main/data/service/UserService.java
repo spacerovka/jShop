@@ -2,6 +2,8 @@ package shop.main.data.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
+
 import shop.main.data.entity.PasswordResetToken;
 import shop.main.data.entity.User;
 import shop.main.data.entity.VerificationToken;
@@ -10,9 +12,9 @@ import shop.main.validation.EmailExistsException;
 public interface UserService {
 	void save(User user);
 
-	void delete(User user);
+	List<User> findAll(String name, String status, String email, String role, Pageable pageable);
 
-	List<User> listAll();
+	long countAll(String name, String status, String email, String role);
 
 	void deleteById(long id);
 

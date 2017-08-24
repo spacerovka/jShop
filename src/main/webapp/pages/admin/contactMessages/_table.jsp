@@ -17,8 +17,8 @@
                                 </thead>
                                 <tbody>
                                 <core:choose>
-	        						<core:when test="${not empty list}">
-                                	<core:forEach var="item" items="${list}">
+	        						<core:when test="${not empty messageList}">
+                                	<core:forEach var="item" items="${messageList}">
                                 	<tr>
                                         <td>${item.id}</td>
                                         <td>${item.userName}</td>
@@ -52,3 +52,4 @@
                                     
                                 </tbody>
                             </table>
+                            <%@include file="../_paginator.jsp"%>

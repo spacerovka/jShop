@@ -45,25 +45,7 @@
 									option</button>
 							</a>
 						</div>
-						<div class="form-group col-xs-12">
-							<h2>List of option groups</h2>
-						</div>
-						<div class="form-group col-xs-6">
-							<label>Option group name</label> <input class="form-control"
-								type="text" id="searchName_group" />
-						</div>
-						<div class="form-group col-xs-6">
-							<a class="btn btn-default" href="#" onclick="searchGroup();"
-								style="display: block; margin-top: 2.4rem;">Search</a>
-						</div>
-
-						<div class="form-group col-xs-12">
-							<div class="table-responsive" id="groupstable">
-								<%@include file="_groups_table.jsp"%>
-
-							</div>
-						</div>
-						<hr />
+						
 						<div class="form-group col-xs-12">
 							<h2>List of options</h2>
 						</div>
@@ -72,7 +54,7 @@
 								type="text" id="searchName_option" />
 						</div>
 						<div class="form-group col-xs-6">
-							<a class="btn btn-default" href="#" onclick="searchOption();"
+							<a class="btn btn-default" href="#" onclick="searchButtonClick();"
 								style="display: block; margin-top: 2.4rem;">Search</a>
 						</div>
 
@@ -92,7 +74,29 @@
 
 	</div>
 	<%@include file="../_footer.jsp"%>
-
+<script>
+	function searchButtonClick()
+	{
+		pageButtonClick('1');
+	}
+	</script>
+	
+	<script>
+	function pageButtonClick(targetPage)
+	{
+		var pageSize = ${pageSize};
+		var current = targetPage;
+		var name = $('#searchName_option').val();		
+		$.ajax ({ 
+			url: '${pageContext.request.contextPath}${URL_PREFIX}findOption', 
+			type: "POST", 						
+			data : {name:name, current:current, pageSize:pageSize},
+			complete: function(response){
+				$('#optionstable').html(response.responseText);
+			}
+		}); 
+	}
+	</script>
 	<script>
 		function searchOption() {
 			var name = $('#searchName_option').val();
@@ -109,20 +113,6 @@
 		}
 	</script>
 
-	<script>
-		function searchGroup() {
-			var name = $('#searchName_group').val();
-			$.ajax({
-				url : '${pageContext.request.contextPath}/ajax/findGroup',
-				type : "POST",
-				data : {
-					name : name
-				},
-				complete : function(response) {
-					$('#groupstable').html(response.responseText);
-				}
-			});
-		}
-	</script>
+	
 </body>
 </html>

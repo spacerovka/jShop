@@ -26,10 +26,9 @@ import shop.main.data.service.ProductService;
 import shop.main.data.service.ReviewService;
 import shop.main.data.service.UserService;
 import shop.main.data.service.WishListService;
-import shop.main.utils.URLUtils;
 
 @Controller
-public class AjaxFrontController implements ResourceLoaderAware {
+public class AjaxFrontController extends FrontController implements ResourceLoaderAware {
 	private ResourceLoader resourceLoader;
 
 	@Autowired
@@ -83,16 +82,19 @@ public class AjaxFrontController implements ResourceLoaderAware {
 	}
 
 	@RequestMapping(value = "/chooseFilter", method = RequestMethod.POST)
-	public String chooseFilter(@RequestParam(value = "myArray[]") String[] filters, Model model) {
-		List<Long> filterList = Arrays.asList(filters[0].split(",")).stream().map(Long::valueOf)
-				.collect(Collectors.toList());
+	public String chooseFilter(@RequestParam(value = "myArray[]") String[] filters, Integer pageSize, Integer current,
+			Model model) {
+		List<Long> filterList = null;
+		List<Long> categoryList = null;
+		if (!filters[0].isEmpty()) {
+			filterList = Arrays.asList(filters[0].split(",")).stream().map(Long::valueOf).collect(Collectors.toList());
+		}
+		if (!filters[1].isEmpty()) {
+			categoryList = Arrays.asList(filters[1].split(",")).stream().map(Long::valueOf)
+					.collect(Collectors.toList());
+		}
 
-		List<Long> categoryList = Arrays.asList(filters[1].split(",")).stream().map(Long::valueOf)
-				.collect(Collectors.toList());
-
-		List<Product> products = productService.findFilteredProductsInCategory(filterList, categoryList);
-		products.stream().forEach(p -> p.setImage(URLUtils.getProductImage(context, p.getId())));
-		model.addAttribute("products", products);
+		loadFilterProductTableData(filterList, categoryList, current, pageSize, model);
 
 		return "products";
 	}
@@ -106,11 +108,11 @@ public class AjaxFrontController implements ResourceLoaderAware {
 			String username = authorizeduser.getUsername();
 			shop.main.data.entity.User savedUser = userService.findByUsername(username);
 			if (savedUser != null) {
-				if (wishListService.findByProductSKUAndUsername(sku, username).isEmpty()) {
+				if (wishListService.isInWishlist(sku, username)) {
+					return "Product is already in your wishlist!";
+				} else {
 					Product product = productService.findProductBySKU(sku);
 					wishListService.save(new WishList(product, savedUser));
-				} else {
-					return "Product is already in your wishlist!";
 				}
 			}
 		}

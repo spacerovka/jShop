@@ -56,6 +56,7 @@ public class AdminController {
 	}
 
 	protected void addPaginator(Model model, int current, int pageSize, long count) {
+		System.out.println("**************found: " + count);
 		List<Integer> pagination = new ArrayList<>(0);
 		long pagesCount = 0;
 		if (count % pageSize > 0) {

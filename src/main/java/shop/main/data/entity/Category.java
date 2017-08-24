@@ -15,8 +15,11 @@ import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import lombok.Data;
+
 @Entity
 @Table(name = "category")
+@Data
 public class Category {
 
 	@Id
@@ -51,88 +54,8 @@ public class Category {
 	@JoinColumn(columnDefinition = "integer", name = "parent_id", nullable = true)
 	private Category parentCategory;
 
-	@OneToMany(mappedBy = "parentCategory", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "parentCategory", fetch = FetchType.LAZY)
 	private List<Category> children;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getCategoryName() {
-		return categoryName;
-	}
-
-	public void setCategoryName(String categoryName) {
-		this.categoryName = categoryName;
-	}
-
-	public String getCategoryURL() {
-		return categoryURL;
-	}
-
-	public void setCategoryURL(String categoryURL) {
-		this.categoryURL = categoryURL;
-	}
-
-	public List<Product> getProducts() {
-		return products;
-	}
-
-	public void setProducts(List<Product> products) {
-		this.products = products;
-	}
-
-	public List<Category> getChildren() {
-		return children;
-	}
-
-	public void setChildren(List<Category> children) {
-		this.children = children;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public String getMetaTitle() {
-		return metaTitle;
-	}
-
-	public void setMetaTitle(String metaTitle) {
-		this.metaTitle = metaTitle;
-	}
-
-	public String getMetaDescription() {
-		return metaDescription;
-	}
-
-	public void setMetaDescription(String metaDescription) {
-		this.metaDescription = metaDescription;
-	}
-
-	public boolean isStatus() {
-		return status;
-	}
-
-	public void setStatus(boolean status) {
-		this.status = status;
-	}
-
-	public Category getParentCategory() {
-		return parentCategory;
-	}
-
-	public void setParentCategory(Category parentCategory) {
-		this.parentCategory = parentCategory;
-	}
 
 	@Override
 	public int hashCode() {

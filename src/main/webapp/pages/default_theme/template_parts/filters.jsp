@@ -5,7 +5,7 @@
 <%@ taglib prefix="core" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
-
+<core:if test="${not empty categoryOptions}">
 	<p class="lead hidden-sm">Filters</p>
 	
 	<nav class="navbar navbar-default sidebar" role="filters" id="filters">
@@ -34,3 +34,4 @@
 			</div>
 		</div>
 	</nav>
+</core:if>

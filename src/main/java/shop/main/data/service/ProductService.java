@@ -2,7 +2,8 @@ package shop.main.data.service;
 
 import java.util.List;
 
-import shop.main.data.entity.Category;
+import org.springframework.data.domain.Pageable;
+
 import shop.main.data.entity.Product;
 
 public interface ProductService {
@@ -10,37 +11,28 @@ public interface ProductService {
 
 	void deleteProduct(Product product);
 
-	List<Product> listAll();
+	Product findProductById(long id);
 
-	List<Product> findAllProductByCategory(Category category);
-
-	Product fingProductById(long id);
-
-	Product fingProductByUrl(String url);
+	Product findProductByUrl(String url);
 
 	Product findProductBySKU(String sku);
 
 	boolean checkUniqueURL(Product product);
 
-	boolean notUniqueSKU(Product product);
+	boolean checkUniqueSKU(Product product);
 
 	void deleteProductById(long id);
-
-	List<Product> findAllActive();
-
-	List<Product> findAllActiveWithinActiveCategory();
 
 	List<Product> findAllFeatured();
 
 	void updateRating(Long productId);
 
-	List<Product> findFilteredProducts(List<Long> filterIds);
+	List<Product> findPageable(String name, String url, String searchSKU, Pageable pageable);
 
-	List<Product> findFilteredProductsInCategory(List<Long> filterIds, List<Long> listOfCategories);
+	long countPageable(String name, String url, String searchSKU);
 
-	List<Product> findProductsInCategory(List<Long> listOfCategories);
+	List<Product> findFilteredProductsInCategory(List<Long> filterIds, List<Long> listOfCategories, Pageable pageable);
 
-	List<Product> findByNameAndURLAndSKU(String name, String url, String searchSKU);
+	long countFilteredProductsInCategory(List<Long> filterIds, List<Long> listOfCategories);
 
-	List<Product> findByNameAndSKU(String name, String sku);
 }

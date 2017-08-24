@@ -1,8 +1,6 @@
 package shop.main.controller;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Set;
 
 import javax.servlet.ServletContext;
@@ -28,8 +26,8 @@ import shop.main.data.entity.Discount;
 import shop.main.data.entity.Product;
 import shop.main.data.entity.User;
 import shop.main.data.mongo.Order;
-import shop.main.data.mongo.OrderRepository;
 import shop.main.data.service.DiscountService;
+import shop.main.data.service.OrderService;
 import shop.main.data.service.ProductService;
 import shop.main.data.service.ShippingCostService;
 import shop.main.data.wrapper.OrderUserWrapper;
@@ -59,7 +57,7 @@ public class CartController extends FrontController implements ResourceLoaderAwa
 	private ProductService productService;
 
 	@Autowired
-	private OrderRepository orderRepository;
+	public OrderService orderService;
 
 	@Autowired
 	private DiscountService discountService;
@@ -226,15 +224,9 @@ public class CartController extends FrontController implements ResourceLoaderAwa
 		Order currentOrder = getOrCreateOrder(request);
 		if (currentOrder.getSum().intValue() != 0) {
 			Order.getDataFromWrapper(currentOrder, orderUserWrapper);
-			String orderCount = String.valueOf(orderRepository.findAll().size());
-			if (orderCount.length() < 8) {
-				orderCount = "0" + orderCount;
-			}
-			currentOrder.setNumber(
-					Calendar.getInstance().get(Calendar.YEAR) + orderCount + currentOrder.getSum().intValue());
-			currentOrder.setDate(new Date());
+
 			calculateShipping(currentOrder);
-			orderRepository.save(currentOrder);
+			orderService.save(currentOrder);
 			request.getSession().setAttribute("CURRENT_ORDER", null);
 			model.addAttribute("order", currentOrder);
 

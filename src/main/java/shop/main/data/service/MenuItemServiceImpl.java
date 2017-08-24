@@ -32,12 +32,6 @@ public class MenuItemServiceImpl implements MenuItemService {
 	}
 
 	@Override
-	public void delete(MenuItem item) {
-		dao.delete(item);
-
-	}
-
-	@Override
 	public MenuItem findById(long id) {
 		return dao.findOne(id);
 	}
@@ -66,9 +60,15 @@ public class MenuItemServiceImpl implements MenuItemService {
 		return query.list();
 	}
 
+	@Transactional
 	@Override
 	public List<MenuItem> listAll(Pageable pageable) {
-		return dao.findAll(pageable).getContent();
+		Session session = (Session) entityManager.getDelegate();
+		String hql = "from MenuItem m ";
+		Query query = session.createQuery(hql);
+		query.setFirstResult(pageable.getOffset());
+		query.setMaxResults(pageable.getPageSize());
+		return query.list();
 	}
 
 	@Override

@@ -4,6 +4,7 @@
 <%@ taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
@@ -31,7 +32,7 @@
 						<li class="breadcrumb-item" itemprop="itemListElement" itemscope
 							itemtype="http://schema.org/ListItem"><a href="/" itemscope
 							itemtype="http://schema.org/Thing" itemprop="item"><span
-								itemprop="name">Home</span>
+								itemprop="name"><spring:message code="home"/></span>
 								<meta itemprop="url"
 									content="${pageContext.request.contextPath}/" /></a></li>
 						<core:if test="${not empty breadCrumbs}">
@@ -123,11 +124,12 @@
 					<div class="well">
 						<div class="text-right">
 							<a style="display: inline-block;" href="#reviews-anchor"
-								id="open-review-box" class="btn btn-info">Leave
-								a Review</a> 
+								id="open-review-box" class="btn btn-info">
+								<spring:message code="leave_a_review"/></a> 
 							<a style="display: inline-block;" rel="nofollow"
 								href="#" onclick="addItemToCart('${product.sku}');"
-								class="btn btn-success btn-green">Add to cart</a>
+								class="btn btn-success btn-green">
+								<spring:message code="add_to_cart"/></a>
 							<core:if test="${pageContext.request.userPrincipal.name != null}">	
 							
 								<core:choose>
@@ -169,27 +171,30 @@
 								<form:hidden id="ratings-hidden" path="rating" />
 								<form:hidden path="product.id" />
 								<div class="col-xs-12 col-md-6">
+									<spring:message code="name" var="name_placeholder"/>
 									<form:input path="userName" class="form-control animated"
-										placeholder="Name" />
+										placeholder="${name_placeholder}" />
 								</div>
 								<div class="col-xs-12 col-md-6">
 									<form:input path="userEmail" id="userEmail"
-										class="form-control animated" placeholder="Email" />
+										class="form-control animated" placeholder="e-mail" />
 								</div>
 								<div class="col-md-12" style="margin-top: 2rem;">
+								<spring:message code="comment_placeholder" var="comment_placeholder"/>
 									<form:textarea path="comment"
 										style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 54px;"
 										rows="5" id="new-review" class="form-control animated"
-										placeholder="Enter your review here..." name="comment"
+										placeholder="${comment_placeholder}" name="comment"
 										cols="50"></form:textarea>
 								</div>
 								<div class="text-right">
 									<div class="stars starrr" data-rating="0"></div>
 									<a href="#" class="btn btn-danger btn-sm" id="close-review-box"
 										style="margin-right: 10px; display: none;"> <span
-										class="glyphicon glyphicon-remove"></span>Cancel
+										class="glyphicon glyphicon-remove"></span>
+										<spring:message code="cancel"/>
 									</a>
-									<button class="btn btn-success btn-lg" type="submit">Save</button>
+									<button class="btn btn-success btn-lg" type="submit"><spring:message code="save"/></button>
 								</div>
 							</form:form>
 						</div>

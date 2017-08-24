@@ -15,7 +15,7 @@
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="#">${SITE_NAME}</a>
+			<a class="navbar-brand" href="${pageContext.request.contextPath}/all">${SITE_NAME}</a>
 		</div>
 		<core:set var="currentPage"
 			value="${fn:substring(pageContext.request.servletPath, 1, -1)}" />

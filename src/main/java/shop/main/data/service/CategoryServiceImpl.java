@@ -8,6 +8,7 @@ import javax.persistence.PersistenceContext;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,12 +31,6 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public void deleteCategory(Category category) {
-
-		dao.delete(category);
-	}
-
-	@Override
 	public List<Category> listAll() {
 
 		return dao.findAll();
@@ -50,66 +45,70 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public List<Category> findAllParentCategories() {
 
-		return dao.findAllCategoryByParentCategory(null);
+		return dao.findAllCategoryByParentCategoryAndStatus(null, true);
 	}
 
 	@Override
 	public boolean checkUniqueURL(Category category) {
-		Category result = dao.findOneByCategoryURL(category.getCategoryURL());
+		List<Category> result = dao.findCategoryByUrl(category.getCategoryURL());
 		if (result == null) {
 			return true;
-		} else if (result.getId().equals(category.getId())) {
+		} else if (result.get(0).getId().equals(category.getId())) {
 			return true;
 		}
 		return false;
 	}
 
+	@Transactional
 	@Override
 	public void deleteCategoryById(long id) {
 
-		List<Category> list = dao.findAllCategoryByParentCategory(dao.findOne(id));
-		for (Category child : list) {
-			child.setParentCategory(null);
-			dao.save(child);
-		}
+		Session session = (Session) entityManager.getDelegate();
+		String hql = "update Category set parentCategory = NULL where parentCategory='" + id + "'";
+		Query query = session.createQuery(hql);
+		query.executeUpdate();
 		dao.delete(id);
 
 	}
 
 	@Transactional
 	@Override
-	public Category fingCategoryByUrl(String url) {
-		Session session = (Session) entityManager.getDelegate();
+	public Category findCategoryByUrl(String url) {
 
-		String hql = "from Category c where c.status = true and c.categoryURL = '" + url + "'";
-		Query query = session.createQuery(hql);
-		System.out.println("*");
-		System.out.println("*");
-		System.out.println("query is " + query.getQueryString());
-		System.out.println("*");
-		System.out.println("*");
-		List<Category> found = (List<Category>) query.list();
-		if (found != null && !found.isEmpty()) {
-			return found.get(0);
-		} else {
-			return null;
+		List<Category> result = dao.findCategoryByUrl(url);
+		if (result != null) {
+			return result.get(0);
 		}
+		return null;
 	}
 
 	@Transactional
 	@Override
-	public List<Category> findByNameAndURL(String name, String url) {
+	public List<Category> findByNameAndURL(String name, String url, Pageable pageable) {
+		if (name != null)
+			name = "%" + name + "%";
+		if (url != null)
+			url = "%" + url + "%";
+		// return dao.findByNameAndURL(name, url, pageable).getContent();
+
 		Session session = (Session) entityManager.getDelegate();
 
-		String hql = "from Category c where c.categoryName like '%" + name + "%'" + " and c.categoryURL like '%" + url
-				+ "%'";
+		String hql = "SELECT item FROM Category item where (:name is NULL OR item.categoryName LIKE :name) AND (:url is NULL OR item.categoryURL LIKE :url) ORDER BY item.id";
 		Query query = session.createQuery(hql);
-		System.out.println("*");
-		System.out.println("*");
-		System.out.println("query is " + query.getQueryString());
-		System.out.println("*");
-		System.out.println("*");
+		query.setParameter("name", name);
+		query.setParameter("url", url);
+		query.setFirstResult(pageable.getOffset());
+		query.setMaxResults(pageable.getPageSize());
 		return query.list();
+	}
+
+	@Override
+	public long countByNameAndURL(String name, String url) {
+		if (name != null)
+			name = "%" + name + "%";
+		if (url != null)
+			url = "%" + url + "%";
+		return dao.countByNameAndURL(name, url);
 	}
 
 }

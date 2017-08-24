@@ -76,7 +76,11 @@ public class StaticPageServiceImpl implements StaticPageService {
 	public List<StaticPage> findByNameAndStatus(String name, String status, Pageable pageable) {
 		if (name != null)
 			name = "%" + name + "%";
-		return dao.findByNameAndStatus(name, status, pageable).getContent();
+		Boolean bStatus = null;
+		if (status != null && !status.isEmpty()) {
+			bStatus = Boolean.valueOf(status);
+		}
+		return dao.findByNameAndStatus(name, bStatus, pageable).getContent();
 	}
 
 	@Transactional
@@ -84,7 +88,11 @@ public class StaticPageServiceImpl implements StaticPageService {
 	public long countByNameAndStatus(String name, String status) {
 		if (name != null)
 			name = "%" + name + "%";
-		return dao.countByNameAndStatus(name, status);
+		Boolean bStatus = null;
+		if (status != null && !status.isEmpty()) {
+			bStatus = Boolean.valueOf(status);
+		}
+		return dao.countByNameAndStatus(name, bStatus);
 	}
 
 }

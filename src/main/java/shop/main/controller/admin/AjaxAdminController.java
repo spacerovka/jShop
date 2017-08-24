@@ -249,7 +249,7 @@ public class AjaxAdminController extends AdminController implements ResourceLoad
 			if (po.getOptionGroup().getId() == -1) {
 				po.setOptionGroup(null);
 			} else {
-				po.setOptionGroup(optionGroupService.fingOptionById(po.getOptionGroup().getId()));
+				po.setOptionGroup(optionGroupService.findOptionById(po.getOptionGroup().getId()));
 			}
 		}
 		ProductOption pOption = new ProductOption();
@@ -272,7 +272,7 @@ public class AjaxAdminController extends AdminController implements ResourceLoad
 			if (po.getOptionGroup().getId() == -1) {
 				po.setOptionGroup(null);
 			} else {
-				po.setOptionGroup(optionGroupService.fingOptionById(po.getOptionGroup().getId()));
+				po.setOptionGroup(optionGroupService.findOptionById(po.getOptionGroup().getId()));
 			}
 		}
 		model.addAttribute("product", product);
@@ -281,16 +281,10 @@ public class AjaxAdminController extends AdminController implements ResourceLoad
 		return "../admin/_edit_product_form";
 	}
 
-	@RequestMapping(value = "/ajax/findProductsForOrder", method = RequestMethod.POST)
-	public String findProductsForOrder(@RequestParam String name, @RequestParam String sku, Model model) {
-		model.addAttribute("productList", productService.findByNameAndSKU(name, sku));
-		return "../admin/orders/_add_product_table";
-	}
-
 	@RequestMapping(value = "/ajax/addProductToOrder", method = RequestMethod.GET)
 	public String addProductToOrder(@RequestParam String id, @RequestParam String orderid, Model model) {
 		Order order = orderRepository.findOne(orderid);
-		Product product = productService.fingProductById(Long.parseLong(id));
+		Product product = productService.findProductById(Long.parseLong(id));
 		order.addItem(product);
 		orderRepository.save(order);
 		model.addAttribute("order", order);
@@ -338,33 +332,4 @@ public class AjaxAdminController extends AdminController implements ResourceLoad
 		return "../admin/orders/_order";
 	}
 
-	@RequestMapping(value = "/ajax/findCategories", method = RequestMethod.POST)
-	public String findCategories(@RequestParam String name, @RequestParam String url, Model model) {
-		model.addAttribute("categoryList", categoryService.findByNameAndURL(name, url));
-		return "../admin/categories/_table";
-
-	}
-
-	@RequestMapping(value = "/ajax/findOption", method = RequestMethod.POST)
-	public String findOption(@RequestParam String name, Model model) {
-		model.addAttribute("optionList", optionService.findAllByName(name));
-		return "../admin/options/_options_table";
-
-	}
-
-	@RequestMapping(value = "/ajax/findGroup", method = RequestMethod.POST)
-	public String findGroup(@RequestParam String name, Model model) {
-		model.addAttribute("optiongroupList", optionGroupService.findOptionGroupByName(name));
-		return "../admin/options/_groups_table";
-
-	}
-
-	@RequestMapping(value = "/ajax/findOrder", method = RequestMethod.POST)
-	public String findOrder(@RequestParam String fullname, @RequestParam String phone, @RequestParam String email,
-			Model model) {
-		model.addAttribute("orders",
-				orderRepository.findByFullNameLikeAndPhoneLikeAndEmailLike(fullname, phone, email));
-		return "../admin/orders/_table";
-
-	}
 }

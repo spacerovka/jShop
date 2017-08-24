@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.DefaultRedirectStrategy;
@@ -24,7 +24,7 @@ import shop.main.utils.Constants;
 
 @Component
 public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
-	protected Log logger = LogFactory.getLog(this.getClass());
+	protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
