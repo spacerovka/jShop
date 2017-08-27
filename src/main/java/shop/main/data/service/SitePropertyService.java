@@ -7,7 +7,6 @@ import shop.main.data.entity.SiteProperty;
 
 public interface SitePropertyService {
 	void save(SiteProperty property);
-	void delete(SiteProperty property);
 	List<SiteProperty> listAll();
 	SiteProperty findOneByName(String name);	
 	SiteProperty findById(long id);	

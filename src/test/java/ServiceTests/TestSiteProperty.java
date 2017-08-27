@@ -18,6 +18,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import shop.main.config.AppContextConfig;
+import shop.main.data.entity.MenuItem;
 import shop.main.data.entity.SiteProperty;
 import shop.main.data.service.SitePropertyService;
 import shop.main.utils.sqltracker.AssertSqlCount;
@@ -28,7 +29,7 @@ import shop.main.utils.sqltracker.AssertSqlCount;
 @Sql({ "classpath:site-property.sql" })
 public class TestSiteProperty {
 
-	private final String NAME = "siteName";
+	private final String NAME = "SITE_NAME";
 	private final String VALUE = "JShop";
 	private final Integer CURRENT = 0;
 	private final Integer PAGE_SIZE = 10;
@@ -44,18 +45,51 @@ public class TestSiteProperty {
 
 	@Autowired
 	@Qualifier("sitePropertyService")
-	private SitePropertyService sitePropertyService;
+	private SitePropertyService service;
 
 	@Test
-	public void findByName() {
-		List<SiteProperty> results = sitePropertyService.listAll();
-		results.stream().forEach(c -> System.out.println(c.getName() + " " + c.getContent()));
-		System.out.println("*");
-		System.out.println("*****************found results " + results.size());
-		System.out.println("*");
+	public void findOneByName() {
 
-		SiteProperty result = sitePropertyService.findOneByName(NAME);
+		SiteProperty result =service.findOneByName(NAME);
+		AssertSqlCount.assertSelectCount(1);
 		Assert.assertEquals(result.getContent(), VALUE);
+	}
+
+	@Test
+	public void save() {
+		LOGGER.info("save");
+		SiteProperty toSave = new SiteProperty();
+		toSave.setName(DUMMY_STRING);
+		toSave.setContent(DUMMY_STRING);
+		service.save(toSave);
+		SiteProperty found = service.findById(toSave.getId());
+		AssertSqlCount.assertSelectCount(1);
+		Assert.assertNotNull(found);
+	}
+
+	@Test
+	public void listAll() {
+		LOGGER.info("listAll");
+		List<SiteProperty> results = service.listAll();
+		AssertSqlCount.assertSelectCount(1);
+		Assert.assertEquals(3, results.size());
+	}
+
+	@Test
+	public void deleteById() {
+		LOGGER.info("deleteById");
+		service.deleteById(1);
+		SiteProperty result = service.findById(1);
+		AssertSqlCount.assertSelectCount(2);
+		Assert.assertNull(result);
+	}
+
+	@Test
+	public void findById() {
+		LOGGER.info("findById");
+		SiteProperty result = service.findById(1);
+		AssertSqlCount.assertSelectCount(1);
+		Assert.assertNotNull(result);
 	}
 
 }

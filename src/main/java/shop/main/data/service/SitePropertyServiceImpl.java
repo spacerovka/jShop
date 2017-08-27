@@ -22,12 +22,6 @@ public class SitePropertyServiceImpl implements SitePropertyService {
 	}
 
 	@Override
-	public void delete(SiteProperty property) {
-		sitePropertyDAO.delete(property);
-
-	}
-
-	@Override
 	public List<SiteProperty> listAll() {
 		return sitePropertyDAO.findAll();
 	}

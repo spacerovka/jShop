@@ -11,6 +11,7 @@ import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +31,10 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ReviewServiceImpl.c
 	
 	@Autowired
 	private ReviewDAO reviewDAO;
+
+	@Autowired
+	@Qualifier("productService")
+	private ProductService productService;
 		
 	@PersistenceContext
     protected EntityManager entityManager;
@@ -41,23 +46,27 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ReviewServiceImpl.c
 	}
 
 	@Override
-	public void delete(Review review) {
-		reviewDAO.delete(review);		
-	}
-
-	@Override
 	public List<Review> listAll() {
 		return reviewDAO.findAll();
 	}
 
 	@Override
-	public Review fingById(long id) {		
+	public Review findById(long id) {
 		return reviewDAO.findOne(id);
 	}
 
+	@Transactional
 	@Override
 	public void deleteById(long id) {
-		reviewDAO.delete(id);		
+		long productId = findById(id).getProduct().getId();
+		Session session = (Session) entityManager.getDelegate();
+
+		String hql = "delete from Review item where item.id=:id";
+		Query query = session.createQuery(hql);
+		query.setParameter("id", id);
+		query.executeUpdate();
+
+		productService.updateRating(productId);
 		
 	}
 	

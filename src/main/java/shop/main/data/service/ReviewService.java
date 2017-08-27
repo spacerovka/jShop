@@ -8,9 +8,8 @@ import shop.main.data.entity.Review;
 
 public interface ReviewService {
 	void save(Review review);
-	void delete(Review review);
-	List<Review> listAll();	
-	Review fingById(long id);	
+	List<Review> listAll();
+	Review findById(long id);
 	void deleteById(long id);
 	
 }
