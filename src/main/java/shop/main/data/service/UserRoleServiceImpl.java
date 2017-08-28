@@ -31,30 +31,6 @@ public class UserRoleServiceImpl implements UserRoleService {
 
 	}
 
-	@Override
-	public void delete(UserRole role) {
-		userRoleDAO.delete(role);
-
-	}
-
-	@Override
-	public List<UserRole> listAll() {
-
-		return userRoleDAO.findAll();
-	}
-
-	@Override
-	public void deleteById(long id) {
-		userRoleDAO.delete(id);
-
-	}
-
-	@Override
-	public UserRole fingById(long id) {
-		// TODO Auto-generated method stub
-		return userRoleDAO.findOne(id);
-	}
-
 	@PersistenceContext
 	protected EntityManager entityManager;
 
@@ -63,20 +39,23 @@ public class UserRoleServiceImpl implements UserRoleService {
 	public List<UserRole> findByUserName(String username) {
 		Session session = (Session) entityManager.getDelegate();
 
-		String hql = "from UserRole role where role.username ='" + username + "'";
+		String hql = "from UserRole role where role.user.username =:username";
 		Query query = session.createQuery(hql);
-		System.out.println("*");
-		System.out.println("*");
-		System.out.println("query is " + query.getQueryString());
-		System.out.println("*");
-		System.out.println("*");
+		query.setParameter("username", username);
 		return query.list();
 	}
 
 	@Transactional
 	@Override
 	public UserRole findOneByUserAndRole(User user, String role) {
-		return userRoleDAO.findOneByUserAndRole(user, role);
+		Session session = (Session) entityManager.getDelegate();
+
+		String hql = "from UserRole role where role.user.username =:username and role.role=:role";
+		Query query = session.createQuery(hql);
+		query.setParameter("username", user.getUsername());
+		query.setParameter("role", role);
+		// return userRoleDAO.findOneByUserAndRole(user, role);
+		return (UserRole) query.uniqueResult();
 	}
 
 }

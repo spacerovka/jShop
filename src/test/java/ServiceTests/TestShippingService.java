@@ -39,4 +39,34 @@ public class TestShippingService {
 	@Qualifier("shippingCostService")
 	private ShippingCostService service;
 
+	// void saveSize(ParcelSize size);
+
+	// void saveCountry(Country country);
+	//
+	// void deleteSizeById(Long id);
+	//
+	// void deleteCountryById(Long id);
+	//
+	// Country findCountryById(Long id);
+	//
+	// ParcelSize findSizeById(Long id);
+	//
+	// List<Country> listAllCountries();
+	//
+	// List<ParcelSize> listAllSizez();
+	//
+	// BigDecimal getShippingCost(String countryName, String sizeName);
+	//
+	// Country getCountryByName(String name);
+	//
+	// ParcelCost findOneByCountryAndSize(Country country, ParcelSize size);
+	//
+	// List<Country> listAllCountries(Pageable pageable);
+	//
+	// List<ParcelSize> listAllSizez(Pageable pageable);
+	//
+	// long countCountries();
+	//
+	// long countSizes();
+
 }

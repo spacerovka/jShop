@@ -14,10 +14,6 @@ public interface ShippingCostService {
 
 	void saveCountry(Country country);
 
-	void deleteSize(ParcelSize size);
-
-	void deleteCountry(Country country);
-
 	void deleteSizeById(Long id);
 
 	void deleteCountryById(Long id);

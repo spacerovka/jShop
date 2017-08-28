@@ -51,20 +51,6 @@ public class ShippingCostServiceImpl implements ShippingCostService {
 	}
 
 	@Override
-	public void deleteSize(ParcelSize size) {
-		sizeDAO.delete(size);
-
-	}
-
-	@Override
-	public void deleteCountry(Country country) {
-		for (ParcelCost cost : country.getCostList()) {
-			costDAO.delete(cost);
-		}
-		countryDAO.delete(country);
-	}
-
-	@Override
 	public void deleteSizeById(Long id) {
 		sizeDAO.delete(id);
 
