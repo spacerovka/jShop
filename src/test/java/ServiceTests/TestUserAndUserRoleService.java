@@ -33,6 +33,8 @@ public class TestUserAndUserRoleService {
 
 	private final Long USERID = 1L;
 	private final String ROLE = "USER";
+	private final String EMAIL = "email@email.com";
+	private final String PASSWORD = "12trWW00";
 	private final String USERNAME = "default";
 	private final Integer PAGE_SIZE = 10;
 	private final Integer CURRENT = 0;
@@ -45,7 +47,7 @@ public class TestUserAndUserRoleService {
 	public void before() {
 
 		pageable = new PageRequest(CURRENT, PAGE_SIZE);
-		user = userService.fingUserById(1);
+		user = userService.findUserById(1);
 		AssertSqlCount.reset();
 	}
 
@@ -63,28 +65,73 @@ public class TestUserAndUserRoleService {
 		AssertSqlCount.assertSelectCount(1);
 		Assert.assertNotNull(found);
 	}
-	// UserService {
-	// void save(User user);
-	//
-	// List<User> findAll(String name, String status, String email, String role,
-	// Pageable pageable);
-	//
-	// long countAll(String name, String status, String email, String role);
-	//
-	// void deleteById(long id);
-	//
-	// User fingUserById(long id);
-	//
-	// User findByUsername(String username);
-	//
+
+	@Test
+	public void saveUser() {
+		LOGGER.info("saveUser");
+		User toSave = new User();
+		toSave.setUsername(DUMMY_STRING);
+		toSave.setEmail(EMAIL);
+		toSave.setPassword(PASSWORD);
+		userService.save(toSave);
+		User found = userService.findUserById(toSave.getId());
+		AssertSqlCount.assertSelectCount(2);
+		Assert.assertNotNull(found);
+	}
+
+	@Test
+	public void fingUserById() {
+		LOGGER.info("fingUserById");
+		User result = userService.findUserById(1);
+		AssertSqlCount.assertSelectCount(1);
+		Assert.assertNotNull(result);
+	}
+
+	@Test
+	public void findUserByUsername() {
+		LOGGER.info("findUserByUsername");
+		User result = userService.findByUsername(USERNAME);
+		AssertSqlCount.assertSelectCount(1);
+		Assert.assertNotNull(result);
+	}
+
+	@Test
+	public void findUserByEmail() {
+		LOGGER.info("findUserByEmail");
+		User result = userService.findUserByEmail(user.getEmail());
+		AssertSqlCount.assertSelectCount(1);
+		Assert.assertNotNull(result);
+	}
+
+	@Test
+	public void deleteById() {
+		LOGGER.info("deleteById");
+		userService.deleteById(1);
+		User result = userService.findUserById(1);
+		AssertSqlCount.assertSelectCount(2);
+		Assert.assertNull(result);
+	}
+
+	@Test
+	public void findAll() {
+		LOGGER.info("findAll");
+		List<User> result = userService.findAll(null, null, null, null, pageable);
+		AssertSqlCount.assertSelectCount(1);
+		Assert.assertEquals(1, result.size());
+
+	}
+
+	@Test
+	public void countAll() {
+		LOGGER.info("countAll");
+		long result = userService.countAll(null, null, null, null);
+		AssertSqlCount.assertSelectCount(1);
+		Assert.assertEquals(1, result);
+	}
+
 	// User registerNewUserAccount(User accountDto) throws EmailExistsException;
-	//
-	// /**
-	// * email validation
-	// *
-	// * @param user
-	// * @param token
-	// */
+	// //
+
 	// void createVerificationTokenForUser(User user, String token);
 	//
 	// VerificationToken getVerificationToken(String VerificationToken);
@@ -94,10 +141,6 @@ public class TestUserAndUserRoleService {
 	// String validateVerificationToken(String token);
 	//
 	// User getUserByToken(String verificationToken);
-	//
-	// // reset password
-	//
-	// User findUserByEmail(String email);
 	//
 	// void createPasswordResetTokenForUser(User user, String token);
 	//
@@ -110,8 +153,6 @@ public class TestUserAndUserRoleService {
 	// boolean checkIfValidOldPassword(User user, String password);
 	//
 	// String validatePasswordResetToken(long id, String token);
-	//
-	// }
 
 	@Test
 	public void save() {

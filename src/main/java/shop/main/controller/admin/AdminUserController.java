@@ -99,7 +99,7 @@ public class AdminUserController extends AdminController {
 					role.setUser(user);
 					System.out.println(role.getRole() + " is the role");
 				}
-				User originalUser = userService.fingUserById(user.getId());
+				User originalUser = userService.findUserById(user.getId());
 				user.setPassword(originalUser.getPassword());
 
 				userService.save(user);
@@ -121,7 +121,7 @@ public class AdminUserController extends AdminController {
 
 	@RequestMapping(value = "user/{id}/update", method = RequestMethod.GET)
 	public String editUser(@PathVariable("id") long id, Model model) {
-		User user = userService.fingUserById(id);
+		User user = userService.findUserById(id);
 		model.addAttribute("user", user);
 		model.addAttribute("urlError", "");
 		model.addAttribute("roleList", getRoleTypes(user));

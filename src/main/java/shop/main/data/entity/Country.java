@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -28,12 +30,13 @@ public class Country {
 	@Column(name = "name", nullable = false, length = 100)
 	private String name;
 
-	@NotBlank
+	@NotNull
+	@Min(value = 0, message = "Price can not be less then 0")
 	@Column(name = "basetarif", nullable = false, precision = 12, scale = 2)
 	private BigDecimal basetarif;
 
 	@NotNull
-	@OneToMany(mappedBy = "country", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "country", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<ParcelCost> costList;
 
 	public Country() {

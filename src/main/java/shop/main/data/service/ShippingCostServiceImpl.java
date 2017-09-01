@@ -50,16 +50,35 @@ public class ShippingCostServiceImpl implements ShippingCostService {
 
 	}
 
+	@Transactional
 	@Override
 	public void deleteSizeById(Long id) {
-		sizeDAO.delete(id);
+		Session session = (Session) entityManager.getDelegate();
+		String hql_costs = "delete from ParcelCost coat where cost.size.id=:id";
+		Query query = session.createQuery(hql_costs);
+		query.setParameter("id", id);
+		query.executeUpdate();
+
+		String hql = "delete from ParcelSize item where item.id=:id";
+		Query delete = session.createQuery(hql);
+		delete.setParameter("id", id);
+		delete.executeUpdate();
 
 	}
 
+	@Transactional
 	@Override
 	public void deleteCountryById(Long id) {
-		Country country = countryDAO.getOne(id);
-		countryDAO.delete(country);
+		Session session = (Session) entityManager.getDelegate();
+		String hql_costs = "delete from ParcelCost coat where cost.country.id=:id";
+		Query query = session.createQuery(hql_costs);
+		query.setParameter("id", id);
+		query.executeUpdate();
+
+		String hql = "delete from Country item where item.id=:id";
+		Query delete = session.createQuery(hql);
+		delete.setParameter("id", id);
+		delete.executeUpdate();
 
 	}
 
@@ -80,14 +99,10 @@ public class ShippingCostServiceImpl implements ShippingCostService {
 	public BigDecimal getShippingCost(String countryName, String sizeName) {
 		Session session = (Session) entityManager.getDelegate();
 
-		String hql = "from ParcelCost item where item.country.name ='" + countryName + "'" + " and item.size.name"
-				+ sizeName + ")" + " group by o.product";
+		String hql = "from ParcelCost item where item.country.name =:countryName  and item.size.name=:sizeName";
 		Query query = session.createQuery(hql);
-		System.out.println("*");
-		System.out.println("*");
-		System.out.println("query is " + query.getQueryString());
-		System.out.println("*");
-		System.out.println("*");
+		query.setParameter("countryName", countryName);
+		query.setParameter("sizeName", sizeName);
 		ArrayList<ParcelCost> list = (ArrayList<ParcelCost>) query.list();
 		if (!list.isEmpty()) {
 			return list.get(0).getCost();
@@ -136,14 +151,26 @@ public class ShippingCostServiceImpl implements ShippingCostService {
 		}
 	}
 
+	@Transactional
 	@Override
 	public List<Country> listAllCountries(Pageable pageable) {
-		return countryDAO.findAll(pageable).getContent();
+		Session session = (Session) entityManager.getDelegate();
+		String hql = "from Country";
+		Query query = session.createQuery(hql);
+		query.setFirstResult(pageable.getOffset());
+		query.setMaxResults(pageable.getPageSize());
+		return (List<Country>) query.list();
 	}
 
+	@Transactional
 	@Override
 	public List<ParcelSize> listAllSizez(Pageable pageable) {
-		return sizeDAO.findAll(pageable).getContent();
+		Session session = (Session) entityManager.getDelegate();
+		String hql = "from ParcelSize";
+		Query query = session.createQuery(hql);
+		query.setFirstResult(pageable.getOffset());
+		query.setMaxResults(pageable.getPageSize());
+		return (List<ParcelSize>) query.list();
 	}
 
 	@Override

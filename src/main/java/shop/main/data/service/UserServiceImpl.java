@@ -12,6 +12,8 @@ import java.util.UUID;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,7 +74,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User fingUserById(long id) {
+	public User findUserById(long id) {
 		return userDAO.findUserById(id);
 	}
 
@@ -84,9 +86,20 @@ public class UserServiceImpl implements UserService {
 
 	}
 
+	@Transactional
 	@Override
 	public void deleteById(long id) {
-		userDAO.delete(id);
+
+		Session session = (Session) entityManager.getDelegate();
+		String hql_roles = "delete from UserRole role where role.user.id=:id";
+		Query query = session.createQuery(hql_roles);
+		query.setParameter("id", id);
+		query.executeUpdate();
+
+		String hql = "delete from User item where item.id=:id";
+		Query deleteUser = session.createQuery(hql);
+		deleteUser.setParameter("id", id);
+		deleteUser.executeUpdate();
 
 	}
 
@@ -216,6 +229,7 @@ public class UserServiceImpl implements UserService {
 		return null;
 	}
 
+	@Transactional
 	@Override
 	public List<User> findAll(String name, String status, String email, String role, Pageable pageable) {
 		if (name != null)
@@ -227,7 +241,18 @@ public class UserServiceImpl implements UserService {
 		if (status != null && !status.isEmpty()) {
 			bStatus = Boolean.valueOf(status);
 		}
-		return userDAO.findAll(name, bStatus, email, role, pageable).getContent();
+		Session session = (Session) entityManager.getDelegate();
+		String hql = "SELECT item FROM User item,UserRole r where item.username = r.user AND (:role is NULL OR :role='' OR r.role = :role) AND (:name is NULL OR item.username LIKE :name) AND (:email is NULL OR :email='' or item.email LIKE :email) AND (:status is NULL OR item.enabled = :status) group by item.id ORDER BY item.id";
+		org.hibernate.Query query = session.createQuery(hql);
+		query.setParameter("name", name);
+		query.setParameter("status", bStatus);
+		query.setParameter("email", email);
+		query.setParameter("role", role);
+		query.setFirstResult(pageable.getOffset());
+		query.setMaxResults(pageable.getPageSize());
+		return query.list();
+		// return userDAO.findAll(name, bStatus, email, role,
+		// pageable).getContent();
 	}
 
 	@Override

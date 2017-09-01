@@ -44,7 +44,7 @@ public class TestWishlistService {
 	@Before
 	public void before() {
 		pageable = new PageRequest(CURRENT, PAGE_SIZE);
-		user = userService.fingUserById(1);
+		user = userService.findUserById(1);
 		product = productService.findProductById(1);
 		AssertSqlCount.reset();
 	}
