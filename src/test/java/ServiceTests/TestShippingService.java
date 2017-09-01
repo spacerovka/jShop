@@ -147,7 +147,7 @@ public class TestShippingService {
 		LOGGER.info("getShippingCost");
 		BigDecimal result = service.getShippingCost(NAME, SIZE);
 		AssertSqlCount.assertSelectCount(1);
-		Assert.assertEquals(result, new BigDecimal(10.00));
+		Assert.assertEquals(new BigDecimal(10.00), result);
 	}
 
 	@Test
